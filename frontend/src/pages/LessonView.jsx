@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import api from '../api'
 
 export default function LessonView() {
+  const { t } = useTranslation()
   const { id } = useParams()
   const [lesson, setLesson] = useState(null)
   const [error, setError] = useState(null)
@@ -11,7 +13,7 @@ export default function LessonView() {
   useEffect(() => {
     api.get(`/lessons/${id}/`)
       .then((res) => setLesson(res.data))
-      .catch(() => setError('Нет доступа к уроку — возможно, вы не записаны на курс.'))
+      .catch(() => setError('lesson.accessError'))
   }, [id])
 
   async function handleComplete() {
@@ -19,12 +21,12 @@ export default function LessonView() {
     setCompleted(true)
   }
 
-  if (error) return <p className="error">{error}</p>
-  if (!lesson) return <p>Загрузка…</p>
+  if (error) return <p className="error">{t(error)}</p>
+  if (!lesson) return <p>{t('common.loading')}</p>
 
   return (
     <div className="lesson">
-      <Link to={`/courses/${lesson.course_slug}`}>← к программе курса</Link>
+      <Link to={`/courses/${lesson.course_slug}`}>{t('lesson.back')}</Link>
       <h1>{lesson.title}</h1>
       <p className="lesson-text">{lesson.text_content}</p>
 
@@ -38,7 +40,7 @@ export default function LessonView() {
 
       {lesson.assignments.length > 0 && (
         <div className="assignments">
-          <h2>Задание</h2>
+          <h2>{t('lesson.assignment')}</h2>
           {lesson.assignments.map((a) => (
             <p key={a.id}>{a.description}</p>
           ))}
@@ -46,7 +48,7 @@ export default function LessonView() {
       )}
 
       <button className="btn-primary" onClick={handleComplete} disabled={completed}>
-        {completed ? 'Урок пройден ✓' : 'Отметить пройденным'}
+        {t(completed ? 'lesson.completed' : 'lesson.complete')}
       </button>
     </div>
   )

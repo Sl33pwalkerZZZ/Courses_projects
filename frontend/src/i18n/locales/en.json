@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "title": "AI Courses — a library of new knowledge",
+    "description": "Practical courses in artificial intelligence: LLMs, automation, knowledge management, and digital productivity."
+  },
+  "common": {
+    "loading": "Loading…",
+    "retry": "Try again",
+    "reset": "Reset filters"
+  },
+  "header": {
+    "skip": "Skip to content",
+    "home": "AI Courses — home",
+    "tagline": "A LIBRARY OF NEW KNOWLEDGE",
+    "navigation": "Main navigation",
+    "catalog": "Course catalog",
+    "login": "Sign in",
+    "register": "Register",
+    "logout": "Sign out",
+    "language": "Interface language"
+  },
+  "theme": {
+    "toggle": "Dark theme",
+    "light": "Switch to light theme",
+    "dark": "Switch to dark theme"
+  },
+  "levels": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
+  },
+  "catalog": {
+    "eyebrow": "KNOWLEDGE FOR THE AI ERA",
+    "title": "New intelligence.",
+    "subtitle": "Your possibilities.",
+    "description": "Artificial intelligence is becoming part of our work. Learn to use it thoughtfully — in your studies, business, and everyday tasks.",
+    "explore": "Explore courses",
+    "start": "Start learning",
+    "note": "Practical knowledge. At your own pace.",
+    "research": "FIELD OF RESEARCH",
+    "potential": "human potential",
+    "knowledge": "KNOWLEDGE",
+    "practice": "PRACTICE",
+    "possibilities": "POSSIBILITIES",
+    "caption": "Where people and technology meet",
+    "introLabel": "FROM THEORY TO PRACTICE",
+    "intro": "A digital library for those who want to understand and apply AI: from LLMs and automation to knowledge management and personal productivity.",
+    "libraryLabel": "CHOOSE YOUR DIRECTION",
+    "libraryTitle": "A catalog of knowledge",
+    "courseCount_one": "{{count}} course",
+    "courseCount_other": "{{count}} courses",
+    "found": "Found: {{courses}}",
+    "loading": "Loading the library…",
+    "unavailable": "The catalog is temporarily unavailable",
+    "prompt": "Explore a topic that interests you",
+    "errorTitle": "The library will be back soon",
+    "error": "The catalog could not be loaded. Check your connection and try again.",
+    "emptyTitle": "Explore another direction?",
+    "emptyDescription": "Change your search or reset the filters to see available courses.",
+    "noCoursesTitle": "The library is getting ready",
+    "noCoursesDescription": "New courses will appear here once published. Check back soon.",
+    "footer": "Curiosity is the beginning of every discovery."
+  },
+  "filters": {
+    "label": "Course search and filters",
+    "searchLabel": "Search course titles and descriptions",
+    "placeholder": "What would you like to learn?",
+    "direction": "Direction",
+    "allDirections": "All directions",
+    "level": "Difficulty",
+    "allLevels": "Any level",
+    "reset": "Reset search and filters"
+  },
+  "card": {
+    "artLabel": "LIBRARY / AI",
+    "open": "Open course"
+  },
+  "auth": {
+    "loginTitle": "Sign in",
+    "registerTitle": "Registration",
+    "username": "Username",
+    "password": "Password",
+    "email": "Email",
+    "login": "Sign in",
+    "register": "Register",
+    "noAccount": "No account yet?",
+    "loginError": "Incorrect username or password.",
+    "registerError": "Registration failed."
+  },
+  "course": {
+    "notFound": "Course not found.",
+    "enrollError": "Enrollment failed. Make sure you are signed in.",
+    "author": "Author: {{author}}",
+    "enrolled": "You are enrolled",
+    "enrolling": "Enrolling…",
+    "start": "Start course",
+    "signInToStart": "<signIn>Sign in</signIn> to start the course.",
+    "curriculum": "Course curriculum"
+  },
+  "lesson": {
+    "accessError": "You cannot access this lesson. You may need to enroll in the course.",
+    "back": "← back to the curriculum",
+    "assignment": "Assignment",
+    "completed": "Lesson completed ✓",
+    "complete": "Mark as completed"
+  }
+}

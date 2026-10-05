@@ -1,4 +1,4 @@
-.catalog-filters { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(170px, 220px) minmax(170px, 205px) 48px; align-items: center; gap: 12px; padding: 16px; background: #131b2ecc; border: 1px solid var(--line); border-radius: 10px; }
+.catalog-filters { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(170px, 220px) minmax(170px, 205px) 48px; align-items: center; gap: 12px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
 .catalog-search { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 0 15px; height: 54px; border: 1px solid var(--line); border-radius: 6px; background: var(--ink); color: var(--secondary); }
 .catalog-search:focus-within { border-color: var(--cyan); }
 .catalog-search input { width: 100%; min-width: 0; height: 100%; border: 0; background: transparent; color: var(--foreground); font-size: .87rem; }
