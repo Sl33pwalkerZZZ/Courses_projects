@@ -1,0 +1,5 @@
+.ambient-background { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.ambient-glow { position: absolute; width: 760px; height: 760px; border-radius: 50%; opacity: .7; animation: ambient-drift 24s ease-in-out infinite alternate; }
+.ambient-violet { top: -280px; right: -230px; background: radial-gradient(circle, var(--ambient-violet-center) 0%, var(--ambient-violet-edge) 40%, transparent 68%); }
+.ambient-cyan { top: 460px; left: -500px; background: radial-gradient(circle, var(--ambient-cyan-center) 0%, transparent 65%); animation-delay: -12s; }
+@keyframes ambient-drift { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-65px, 45px, 0); } }

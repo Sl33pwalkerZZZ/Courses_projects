@@ -2,20 +2,21 @@ from rest_framework import generics, permissions
 from rest_framework.exceptions import PermissionDenied
 
 from progress.models import Enrollment
+from reviews.summaries import with_review_summary
 
 from .models import Course, Lesson
-from .serializers import CourseDetailSerializer, CourseListSerializer, LessonDetailSerializer
+from .serializers import CourseDetailSerializer, RatedCourseListSerializer, LessonDetailSerializer
 
 
 class CourseListView(generics.ListAPIView):
-    queryset = Course.objects.filter(is_published=True).select_related("direction", "author")
-    serializer_class = CourseListSerializer
+    queryset = with_review_summary(Course.objects.filter(is_published=True).select_related("direction", "author"))
+    serializer_class = RatedCourseListSerializer
     permission_classes = [permissions.AllowAny]
 
 
 class CourseDetailView(generics.RetrieveAPIView):
-    queryset = Course.objects.filter(is_published=True).select_related("direction", "author").prefetch_related(
-        "modules__lessons"
+    queryset = with_review_summary(
+        Course.objects.filter(is_published=True).select_related("direction", "author").prefetch_related("modules__lessons")
     )
     serializer_class = CourseDetailSerializer
     permission_classes = [permissions.AllowAny]

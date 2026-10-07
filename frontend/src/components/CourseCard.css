@@ -1,0 +1,25 @@
+.course-card-reveal { min-width: 0; height: 100%; }
+.academic-course-card { position: relative; isolation: isolate; display: flex; flex-direction: column; height: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: var(--card-bg); cursor: pointer; transition: transform .25s, border-color .25s, box-shadow .25s; }
+.academic-course-card:hover, .academic-course-card:focus-visible { transform: translateY(-5px); border-color: var(--line-strong); box-shadow: var(--card-shadow); text-decoration: none; }
+.academic-course-card:focus-visible { outline-color: var(--gold); }
+.course-art { position: relative; display: grid; place-items: center; height: 168px; overflow: hidden; color: var(--gold); border-bottom: 1px solid var(--line); background-color: var(--art-default); background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px), radial-gradient(ellipse at 50% 50%, var(--art-glow), transparent 70%); background-size: 24px 24px, 24px 24px, 100% 100%; pointer-events: none; }
+.course-art-1 { color: var(--gold); background-color: var(--art-gold); }
+.course-art-2 { color: var(--secondary); background-color: var(--surface-raised); }
+.art-circle { position: absolute; width: 128px; height: 128px; border: 1px solid currentColor; opacity: .22; border-radius: 50%; transition: transform .6s; }
+.art-circle-one { transform: translateX(-22px); }
+.art-circle-two { transform: translateX(22px); }
+.academic-course-card:hover .art-circle-one { transform: translateX(-32px) rotate(15deg); }
+.academic-course-card:hover .art-circle-two { transform: translateX(32px) rotate(-15deg); }
+.art-crosshair { position: absolute; width: 210px; height: 1px; background: currentColor; opacity: .12; transform: rotate(-30deg); }
+.art-caption { position: absolute; left: 20px; bottom: 14px; color: var(--secondary); font-size: .55rem; letter-spacing: .16em; }
+.art-arrow { position: absolute; top: 16px; right: 16px; color: var(--secondary); }
+.academic-card-body { display: flex; flex-direction: column; flex: 1; padding: 24px; min-width: 0; }
+.academic-badge { align-self: flex-start; padding: 5px 9px; background: var(--badge-bg); color: var(--badge-text); border: 1px solid var(--badge-border); border-radius: 4px; font-size: .65rem; line-height: 1.4; overflow-wrap: anywhere; }
+.academic-card-body h3 { margin: 17px 0 12px; font-family: var(--font-heading); font-size: 1.5rem; font-weight: 400; line-height: 1.25; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.academic-card-description { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin: 0 0 23px; color: var(--secondary); font-size: .83rem; line-height: 1.8; overflow-wrap: anywhere; }
+.academic-card-meta { display: flex; align-items: center; gap: 8px; margin-top: auto; color: var(--secondary); font-size: .72rem; overflow-wrap: anywhere; }
+.academic-card-meta svg { flex-shrink: 0; }
+.academic-card-rating { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; margin-top: 15px; color: var(--secondary); font-size: .7rem; }
+.card-rating-value { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); font-weight: 600; font-variant-numeric: tabular-nums; }
+.academic-card-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 19px; font-size: .68rem; color: var(--secondary); }
+.card-open { display: inline-flex; align-items: center; gap: 5px; color: var(--gold); }
