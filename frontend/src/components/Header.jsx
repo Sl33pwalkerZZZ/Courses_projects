@@ -29,9 +29,12 @@ export default function Header() {
             <NavLink to="/" end className="catalog-nav-link">{t('header.catalog')}</NavLink>
             <span className="nav-divider" aria-hidden="true" />
             {authed ? (
-              <button className="header-login" onClick={handleLogout}>
-                {t('header.logout')} <LogOut size={16} aria-hidden="true" />
-              </button>
+              <>
+                <NavLink to="/profile" className="catalog-nav-link">{t('header.profile')}</NavLink>
+                <button className="header-login" onClick={handleLogout}>
+                  {t('header.logout')} <LogOut size={16} aria-hidden="true" />
+                </button>
+              </>
             ) : (
               <>
                 <Link to="/login" className="header-login">{t('header.login')}</Link>

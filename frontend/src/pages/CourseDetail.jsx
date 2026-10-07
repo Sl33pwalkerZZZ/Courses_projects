@@ -2,6 +2,7 @@ import { useTranslation, Trans } from 'react-i18next'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import api, { isAuthenticated } from '../api'
+import CourseReviews from '../components/CourseReviews'
 
 export default function CourseDetail() {
   const { t } = useTranslation()
@@ -60,6 +61,7 @@ export default function CourseDetail() {
           </ul>
         </div>
       ))}
+      <CourseReviews key={slug} slug={slug} enrolled={enrolled} />
     </div>
   )
 }

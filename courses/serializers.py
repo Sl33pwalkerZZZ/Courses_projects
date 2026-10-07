@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from reviews.summaries import display_average
+
 from .models import Assignment, Course, Direction, Lesson, LessonImage, Module
 
 
@@ -18,6 +20,17 @@ class CourseListSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "slug", "description", "direction", "level", "author"]
 
 
+class RatedCourseListSerializer(CourseListSerializer):
+    average_rating = serializers.SerializerMethodField()
+    review_count = serializers.IntegerField(read_only=True)
+
+    class Meta(CourseListSerializer.Meta):
+        fields = CourseListSerializer.Meta.fields + ["average_rating", "review_count"]
+
+    def get_average_rating(self, course):
+        return display_average(course.average_rating)
+
+
 class LessonSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
@@ -32,14 +45,11 @@ class ModuleSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "order", "lessons"]
 
 
-class CourseDetailSerializer(serializers.ModelSerializer):
-    direction = DirectionSerializer(read_only=True)
-    author = serializers.StringRelatedField()
+class CourseDetailSerializer(RatedCourseListSerializer):
     modules = ModuleSerializer(many=True, read_only=True)
 
-    class Meta:
-        model = Course
-        fields = ["id", "title", "slug", "description", "direction", "level", "author", "modules"]
+    class Meta(RatedCourseListSerializer.Meta):
+        fields = RatedCourseListSerializer.Meta.fields + ["modules"]
 
 
 class LessonImageSerializer(serializers.ModelSerializer):

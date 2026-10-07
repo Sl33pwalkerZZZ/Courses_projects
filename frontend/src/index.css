@@ -15,14 +15,13 @@
   --button-hover: #e6ce95;
   --button-text: #151b28;
   --heading-accent: #c9c0ed;
-  --badge-bg: #a99bf510;
-  --badge-border: #a99bf52b;
-  --badge-text: #c3b9f8;
+  --badge-bg: #d8bc7810;
+  --badge-border: #d8bc7833;
+  --badge-text: #d8bc78;
   --card-bg: linear-gradient(150deg, #192238b3, #131b2ef2);
   --card-shadow: 0 18px 40px #00000026;
   --art-default: #161f30;
-  --art-violet: #1c1d32;
-  --art-cyan: #14262d;
+  --art-gold: #242630;
   --grid-line: #ffffff04;
   --art-glow: #d8bc7810;
   --research-bg: linear-gradient(140deg, #19223880, #131b2e20);
@@ -37,16 +36,14 @@
   --ambient-violet-center: #a99bf512;
   --ambient-violet-edge: #a99bf507;
   --ambient-cyan-center: #67dde50d;
-  --selection-bg: #3d4268;
-  --legacy-link: #c3b9f8;
-  --legacy-button: #6740bd;
-  --legacy-button-hover: #7952ce;
+  --selection-bg: #665439;
+  --legacy-link: var(--gold);
+  --legacy-button: var(--button-bg);
+  --legacy-button-hover: var(--button-hover);
   --legacy-error: #ffadb5;
   --font-heading: Georgia, "Times New Roman", serif;
   --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   /* Existing page classes share the theme without changing their layouts. */
-  --purple: var(--legacy-link);
-  --purple-dark: var(--badge-text);
   --text: var(--foreground);
   --muted: var(--secondary);
   --border: var(--line);
@@ -71,14 +68,13 @@
   --button-hover: #d5b970;
   --button-text: #20251d;
   --heading-accent: #655582;
-  --badge-bg: #ede7f4;
-  --badge-border: #d3c8e4;
-  --badge-text: #5e478d;
+  --badge-bg: #8566230d;
+  --badge-border: #85662333;
+  --badge-text: #856623;
   --card-bg: linear-gradient(150deg, #ffffffdf, #fcfaf5fa);
   --card-shadow: 0 18px 40px #39312612;
   --art-default: #ebe6dc;
-  --art-violet: #e9e4f0;
-  --art-cyan: #e0eae9;
+  --art-gold: #ede5d5;
   --grid-line: #20293a06;
   --art-glow: #85662310;
   --research-bg: linear-gradient(140deg, #ffffffa6, #eae5dc40);
@@ -93,10 +89,10 @@
   --ambient-violet-center: #65539c12;
   --ambient-violet-edge: #65539c07;
   --ambient-cyan-center: #0c6b7610;
-  --selection-bg: #65539c;
-  --legacy-link: #5624d0;
-  --legacy-button: #5624d0;
-  --legacy-button-hover: #401b9c;
+  --selection-bg: #e0c98e;
+  --legacy-link: var(--gold);
+  --legacy-button: var(--button-bg);
+  --legacy-button-hover: var(--button-hover);
   --legacy-error: #b91c1c;
   color-scheme: light;
 }
@@ -104,6 +100,9 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 2rem; }
 body { margin: 0; background: var(--ink); color: var(--foreground); transition: background-color .22s, color .22s; }
+#root { display: flex; flex-direction: column; min-height: 100svh; }
+main { flex: 1; width: 100%; }
+main:focus { outline: none; }
 button, input, select { font: inherit; }
 button, a, input, select { -webkit-tap-highlight-color: transparent; }
 a { color: inherit; text-decoration: none; }
@@ -111,7 +110,7 @@ a:hover { text-decoration: underline; }
 button { cursor: pointer; }
 button:disabled { cursor: default; }
 :focus-visible { outline: 2px solid var(--cyan); outline-offset: 5px; }
-::selection { background: var(--selection-bg); color: #fff; }
+::selection { background: var(--selection-bg); color: var(--foreground); }
 
 .sr-only {
   position: absolute;
@@ -152,21 +151,22 @@ button:disabled { cursor: default; }
   transition: background .2s, transform .2s;
 }
 .academic-button:hover { background: var(--button-hover); transform: translateY(-2px); text-decoration: none; }
+.academic-button:disabled { opacity: .65; transform: none; }
 .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--gold); font-size: .68rem; font-weight: 650; letter-spacing: .15em; line-height: 1.7; }
 
-/* Existing detail, lesson and authentication layouts stay unchanged. */
+/* Detail and lesson pages keep their existing layouts. */
 .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
-.legacy-page { min-height: calc(100vh - 95px); background: var(--bg); color: var(--text); }
-.legacy-page a { color: var(--purple); }
-.legacy-page :focus-visible { outline-color: var(--purple); }
-.btn-primary { background: var(--legacy-button); color: #fff; border: none; border-radius: 4px; padding: .6rem 1.2rem; font-weight: 600; cursor: pointer; }
+.legacy-page { min-height: 60vh; background: var(--bg); color: var(--text); }
+.legacy-page a { color: var(--legacy-link); }
+.legacy-page :focus-visible { outline-color: var(--gold); }
+.btn-primary { background: var(--legacy-button); color: var(--button-text); border: none; border-radius: 4px; padding: .6rem 1.2rem; font-weight: 600; cursor: pointer; }
 .btn-primary:hover { background: var(--legacy-button-hover); }
-.btn-primary:disabled { background: #a996e0; cursor: default; }
+.btn-primary:disabled { opacity: .65; cursor: default; }
 
 .course-direction {
   display: inline-block;
   background: var(--badge-bg);
-  color: var(--purple-dark);
+  color: var(--badge-text);
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.15rem 0.5rem;
@@ -190,26 +190,6 @@ button:disabled { cursor: default; }
 .lesson-images img { max-width: 100%; border-radius: 4px; margin: 0.5rem 0; }
 .assignments { background: var(--bg); border-radius: 6px; padding: 1rem; margin: 1rem 0; }
 
-.auth-form {
-  max-width: 360px;
-  margin: 3rem auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 2rem;
-}
-.auth-form input {
-  padding: 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 1rem;
-  color: var(--foreground);
-  background: var(--surface);
-}
-
 .error { color: var(--legacy-error); }
 
 @media (max-width: 767px) {
@@ -217,6 +197,7 @@ button:disabled { cursor: default; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .scroll-progress { display: none; }
   *, *::before, *::after {
     animation: none !important;
     transition: none !important;

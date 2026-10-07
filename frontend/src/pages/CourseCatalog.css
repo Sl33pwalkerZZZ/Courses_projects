@@ -45,8 +45,6 @@
 .course-skeleton div { height: 168px; background: var(--surface-raised); }
 .course-skeleton span { display: block; height: 14px; margin: 26px 24px; border-radius: 4px; background: var(--skeleton-line); animation: skeleton-pulse 2s ease-in-out infinite alternate; }
 .course-skeleton span:last-child { width: 45%; }
-.catalog-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid var(--line); padding: 26px 0; color: var(--secondary); font-size: .71rem; }
-.catalog-footer > span:first-child { font-family: var(--font-heading); font-size: 1.05rem; color: var(--foreground); }
 @keyframes orbit-breathe { to { transform: rotate(-17deg) scaleY(.65); } }
 @keyframes skeleton-pulse { to { opacity: .4; } }
 @media (max-width: 1199px) {
@@ -72,6 +70,5 @@
   .course-library { padding: 40px 0; }
   .library-heading { align-items: flex-start; flex-direction: column; gap: 18px; }
   .academic-course-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .catalog-footer { flex-wrap: wrap; }
   .catalog-state { padding: 40px 20px; }
 }

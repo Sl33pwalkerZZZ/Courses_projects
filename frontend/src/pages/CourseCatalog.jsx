@@ -120,7 +120,6 @@ export default function CourseCatalog() {
           </div>
         )}
       </section>
-      <footer className="catalog-footer"><span>AI Courses</span><span>{t('catalog.footer')}</span></footer>
     </div>
   )
 }
