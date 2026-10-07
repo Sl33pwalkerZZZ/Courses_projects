@@ -2,7 +2,8 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { Star } from 'lucide-react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import api, { isAuthenticated } from '../api'
+import api from '../api'
+import useAuth from '../hooks/useAuth'
 import Reveal from './Reveal'
 import ReviewDeleteDialog from './ReviewDeleteDialog'
 import './CourseReviews.css'
@@ -67,7 +68,7 @@ export default function CourseReviews({ slug, enrolled = false }) {
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState('')
-  const authed = isAuthenticated()
+  const authed = useAuth()
   const endpoint = `/courses/${encodeURIComponent(slug)}/reviews/`
 
   useEffect(() => {
@@ -79,7 +80,7 @@ export default function CourseReviews({ slug, enrolled = false }) {
       if (active && version === fetchVersion.current) setLoadError(error.response?.status === 401 ? 'reviews.sessionExpired' : 'reviews.loadError')
     }).finally(() => { if (active && version === fetchVersion.current) setLoading(false) })
     return () => { active = false }
-  }, [endpoint, reload])
+  }, [endpoint, reload, authed])
 
   function reloadReviews() {
     // Invalidate an older fetch immediately, before the next effect runs.

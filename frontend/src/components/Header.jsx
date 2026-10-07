@@ -1,7 +1,8 @@
 import { ArrowUpRight, BookOpen, LogOut } from 'lucide-react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { isAuthenticated, logout } from '../api'
+import { logout } from '../api'
+import useAuth from '../hooks/useAuth'
 import ThemeToggle from './ThemeToggle'
 import LanguageSwitcher from './LanguageSwitcher'
 import './Header.css'
@@ -9,7 +10,7 @@ import './Header.css'
 export default function Header() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const authed = isAuthenticated()
+  const authed = useAuth()
 
   function handleLogout() {
     logout()

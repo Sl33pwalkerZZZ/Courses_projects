@@ -6,7 +6,7 @@ import Footer from './components/Footer'
 import CourseCatalog from './pages/CourseCatalog'
 import Reveal from './components/Reveal'
 import ScrollProgress from './components/ScrollProgress'
-import { isAuthenticated } from './api'
+import useAuth from './hooks/useAuth'
 
 const CourseDetail = lazy(() => import('./pages/CourseDetail'))
 const LessonView = lazy(() => import('./pages/LessonView'))
@@ -15,6 +15,7 @@ const Register = lazy(() => import('./pages/Register'))
 const Profile = lazy(() => import('./pages/Profile'))
 
 export default function App() {
+  const authed = useAuth()
   const { pathname } = useLocation()
   const { t } = useTranslation()
   const isAuthPage = pathname === '/login' || pathname === '/register'
@@ -40,7 +41,7 @@ export default function App() {
               <Route path="/" element={<CourseCatalog />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/profile" element={isAuthenticated() ? <Profile /> : <Navigate to="/login" replace />} />
+              <Route path="/profile" element={authed ? <Profile /> : <Navigate to="/login" replace />} />
               <Route path="/courses/:slug" element={<CourseDetail />} />
               <Route path="/lessons/:id" element={<LessonView />} />
             </Routes>

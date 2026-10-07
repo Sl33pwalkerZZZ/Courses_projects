@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from progress.models import LessonProgress
 from reviews.summaries import display_average
 
 from .models import Assignment, Course, Direction, Lesson, LessonImage, Module
@@ -68,7 +69,16 @@ class LessonDetailSerializer(serializers.ModelSerializer):
     images = LessonImageSerializer(many=True, read_only=True)
     assignments = AssignmentSerializer(many=True, read_only=True)
     course_slug = serializers.CharField(source="module.course.slug", read_only=True)
+    completed_at = serializers.SerializerMethodField()
+
+    def get_completed_at(self, lesson):
+        completed_at = LessonProgress.objects.filter(
+            lesson=lesson,
+            enrollment__student=self.context["request"].user,
+            enrollment__course_id=lesson.module.course_id,
+        ).values_list("completed_at", flat=True).first()
+        return serializers.DateTimeField().to_representation(completed_at) if completed_at else None
 
     class Meta:
         model = Lesson
-        fields = ["id", "title", "order", "text_content", "images", "assignments", "course_slug"]
+        fields = ["id", "title", "order", "text_content", "images", "assignments", "course_slug", "completed_at"]

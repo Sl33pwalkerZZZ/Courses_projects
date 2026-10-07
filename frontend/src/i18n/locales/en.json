@@ -107,6 +107,7 @@
   "course": {
     "notFound": "Course not found.",
     "enrollError": "Enrollment failed. Make sure you are signed in.",
+    "enrollmentStatusError": "Could not check your enrollment. Please try again before enrolling.",
     "author": "Author: {{author}}",
     "enrolled": "You are enrolled",
     "enrolling": "Enrolling…",
@@ -119,6 +120,8 @@
     "back": "← back to the curriculum",
     "assignment": "Assignment",
     "completed": "Lesson completed ✓",
+    "completing": "Saving completion…",
+    "completeError": "Could not save lesson completion. Please try again.",
     "complete": "Mark as completed"
   },
   "footer": {

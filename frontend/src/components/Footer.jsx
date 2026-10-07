@@ -1,13 +1,13 @@
 import { ArrowUpRight, BookOpen } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { isAuthenticated } from '../api'
+import useAuth from '../hooks/useAuth'
 import LanguageSwitcher from './LanguageSwitcher'
 import './Footer.css'
 
 export default function Footer() {
   const { t } = useTranslation()
-  const authed = isAuthenticated()
+  const authed = useAuth()
 
   return (
     <footer className="site-footer">
