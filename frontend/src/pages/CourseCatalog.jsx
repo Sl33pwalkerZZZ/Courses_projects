@@ -7,6 +7,7 @@ import AmbientBackground from '../components/AmbientBackground'
 import CatalogFilters from '../components/CatalogFilters'
 import CourseCard from '../components/CourseCard'
 import Reveal from '../components/Reveal'
+import KnowledgeJourney from '../components/KnowledgeJourney'
 import './CourseCatalog.css'
 
 export default function CourseCatalog() {
@@ -67,25 +68,43 @@ export default function CourseCatalog() {
           <div className="hero-note"><BookOpen size={16} aria-hidden="true" /> {t('catalog.note')}</div>
         </Reveal>
         <Reveal className="research-visual" delay={0.12}>
-          <div className="research-topline"><span>{t('catalog.research')}</span><span>AI / 01</span></div>
-          <div className="research-orbit" aria-hidden="true">
-            <div className="orbit-ring orbit-ring-one" />
-            <div className="orbit-ring orbit-ring-two" />
-            <div className="orbit-ring orbit-ring-three" />
-            <div className="orbit-axis" />
-            <div className="orbit-core"><span>AI</span><small>{t('catalog.potential')}</small></div>
-            <span className="orbit-node node-one" /><span className="orbit-node node-two" />
-            <span className="orbit-label label-one">{t('catalog.knowledge')}</span>
-            <span className="orbit-label label-two">{t('catalog.practice')}</span>
-            <span className="orbit-label label-three">{t('catalog.possibilities')}</span>
+          <div className="knowledge-index" aria-hidden="true">
+            <div className="research-topline"><span>{t('catalog.indexTitle')}</span><span>001–003</span></div>
+            <div className="index-diagram">
+              <svg className="index-connectors" viewBox="0 0 400 400" fill="none" preserveAspectRatio="none">
+                <path d="M24 138 H170 V182 H215" />
+                <path d="M284 215 V258 H320 V270" />
+                <path d="M214 208 H144 V292 H42" />
+                <rect x="168" y="136" width="4" height="4" />
+                <rect x="282" y="256" width="4" height="4" />
+              </svg>
+              <div className="index-document index-knowledge">
+                <span className="index-reference">[001]</span>
+                <span className="index-label">{t('catalog.knowledge')}</span>
+                <i /><i />
+              </div>
+              <div className="index-core">
+                <span>{t('journey.core')}</span><small>{t('catalog.potential')}</small>
+              </div>
+              <div className="index-document index-research">
+                <span className="index-reference">[002]</span>
+                <span className="index-label">{t('catalog.indexResearch')}</span>
+                <i /><i />
+              </div>
+              <div className="index-annotation">
+                <span className="index-reference">[003]</span>
+                <span className="index-label">{t('catalog.indexSystems')}</span>
+              </div>
+            </div>
+            <div className="research-caption"><span className="caption-line" /> {t('catalog.caption')}</div>
           </div>
-          <div className="research-caption"><span className="caption-line" /> {t('catalog.caption')}</div>
         </Reveal>
       </section>
       <Reveal className="platform-intro">
         <span className="eyebrow">{t('catalog.introLabel')}</span>
         <p>{t('catalog.intro')}</p>
       </Reveal>
+      <KnowledgeJourney />
       <section id="course-library" className="course-library" aria-labelledby="library-title" aria-busy={!courses && !error}>
         <Reveal className="library-heading">
           <div><p className="eyebrow">{t('catalog.libraryLabel')}</p><h2 id="library-title">{t('catalog.libraryTitle')}</h2></div>

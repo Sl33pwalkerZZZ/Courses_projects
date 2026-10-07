@@ -1,7 +1,13 @@
-.course-card-reveal { min-width: 0; height: 100%; }
-.academic-course-card { position: relative; isolation: isolate; display: flex; flex-direction: column; height: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: var(--card-bg); cursor: pointer; transition: transform .25s, border-color .25s, box-shadow .25s; }
-.academic-course-card:hover, .academic-course-card:focus-visible { transform: translateY(-5px); border-color: var(--line-strong); box-shadow: var(--card-shadow); text-decoration: none; }
-.academic-course-card:focus-visible { outline-color: var(--gold); }
+.course-card-reveal { min-width: 0; height: 100%; perspective: 1100px; }
+.academic-course-card { position: relative; isolation: isolate; display: flex; flex-direction: column; height: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: var(--card-bg); cursor: pointer; transform: perspective(1100px) translate3d(0, 0, 0); transition: transform .24s ease-out, border-color .24s, box-shadow .24s; }
+.academic-course-card::after { content: ''; position: absolute; z-index: 1; inset: 0; pointer-events: none; opacity: 0; background: radial-gradient(260px circle at var(--shine-x, 50%) var(--shine-y, 50%), var(--course-focus-shine), transparent 65%); transition: opacity .24s; }
+@media (hover: hover) and (pointer: fine) {
+  .academic-course-card:hover { transform: perspective(1100px) translate3d(var(--pointer-x, 0px), calc(var(--pointer-y, 0px) - 7px), 0) rotateX(var(--pointer-tilt-x, 0deg)) rotateY(var(--pointer-tilt-y, 0deg)); border-color: var(--line-strong); box-shadow: var(--card-shadow); text-decoration: none; }
+  .academic-course-card:hover::after { opacity: 1; }
+}
+/* Keyboard geometry is shared by both themes and takes priority over pointer values. */
+.academic-course-card:focus-visible { transform: perspective(1100px) translate3d(0, -7px, 0) rotateX(1deg) rotateY(-1deg); border-color: var(--course-focus-border); outline: 2px solid var(--course-focus-edge); outline-offset: 4px; box-shadow: inset 0 0 0 1px var(--course-focus-inner), 0 0 0 7px var(--course-focus-halo), 0 18px 35px var(--course-focus-shadow); text-decoration: none; }
+.academic-course-card:focus-visible::after { opacity: 1; background: linear-gradient(120deg, var(--course-focus-shine), transparent 55%); }
 .course-art { position: relative; display: grid; place-items: center; height: 168px; overflow: hidden; color: var(--gold); border-bottom: 1px solid var(--line); background-color: var(--art-default); background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px), radial-gradient(ellipse at 50% 50%, var(--art-glow), transparent 70%); background-size: 24px 24px, 24px 24px, 100% 100%; pointer-events: none; }
 .course-art-1 { color: var(--gold); background-color: var(--art-gold); }
 .course-art-2 { color: var(--secondary); background-color: var(--surface-raised); }
@@ -23,3 +29,8 @@
 .card-rating-value { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); font-weight: 600; font-variant-numeric: tabular-nums; }
 .academic-card-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 19px; font-size: .68rem; color: var(--secondary); }
 .card-open { display: inline-flex; align-items: center; gap: 5px; color: var(--gold); }
+@media (prefers-reduced-motion: reduce) {
+  .course-card-reveal { opacity: 1 !important; transform: none !important; }
+  .academic-course-card:hover, .academic-course-card:focus-visible { transform: none !important; }
+  .academic-course-card::after { display: none; }
+}

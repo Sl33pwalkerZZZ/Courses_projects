@@ -39,6 +39,9 @@
     "start": "Start learning",
     "note": "Practical knowledge. At your own pace.",
     "research": "FIELD OF RESEARCH",
+    "indexTitle": "ACADEMIC KNOWLEDGE INDEX",
+    "indexResearch": "RESEARCH",
+    "indexSystems": "SYSTEMS",
     "potential": "human potential",
     "knowledge": "KNOWLEDGE",
     "practice": "PRACTICE",
@@ -71,6 +74,19 @@
     "level": "Difficulty",
     "allLevels": "Any level",
     "reset": "Reset search and filters"
+  },
+  "journey": {
+    "label": "From artificial intelligence to learning",
+    "eyebrow": "FROM IDEA TO PRACTICE",
+    "skip": "Go to courses",
+    "scrollHint": "Scroll to explore how ideas become knowledge",
+    "core": "AI",
+    "ai": { "label": "ARTIFICIAL INTELLIGENCE", "title": "An idea opens a world.", "description": "Begin with curiosity. Artificial intelligence gives us new ways to ask, explore, and create." },
+    "knowledge": { "label": "KNOWLEDGE SYSTEMS", "title": "Give ideas a structure.", "description": "Connect research, documents, and experience. Turn scattered information into knowledge you can use." },
+    "automation": { "label": "AUTOMATION", "title": "Make the connections work.", "description": "Bring knowledge and tools together. Thoughtful workflows make room for work that matters." },
+    "learning": { "label": "LEARNING PROGRESS", "title": "Understanding grows with practice.", "description": "Move from one lesson to the next. Small steps become skills you can put to work.", "note": "Step by step" },
+    "catalog": { "label": "COURSE CATALOG", "title": "Your next chapter is here.", "description": "Take the next step with a real course. Choose a direction and learn at your own pace." },
+    "fragments": { "knowledge": "Knowledge", "research": "Research", "documents": "Documents", "workflows": "Workflows" }
   },
   "card": {
     "artLabel": "LIBRARY / AI",

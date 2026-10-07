@@ -1,18 +1,62 @@
 import { ArrowUpRight, BookOpen, Star, UserRound } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import Reveal from './Reveal'
+import { motion, useMotionValue, useReducedMotion } from 'motion/react'
 import './CourseCard.css'
+
+const MotionLink = motion.create(Link)
 
 export default function CourseCard({ course, index = 0 }) {
   const { t, i18n } = useTranslation()
+  const reducedMotion = useReducedMotion()
+  const pointerX = useMotionValue('0px')
+  const pointerY = useMotionValue('0px')
+  const tiltX = useMotionValue('0deg')
+  const tiltY = useMotionValue('0deg')
+  const shineX = useMotionValue('50%')
+  const shineY = useMotionValue('50%')
+
+  function resetPointer() {
+    pointerX.set('0px')
+    pointerY.set('0px')
+    tiltX.set('0deg')
+    tiltY.set('0deg')
+    shineX.set('50%')
+    shineY.set('50%')
+  }
+
+  function movePointer(event) {
+    if (reducedMotion || !window.matchMedia('(hover: hover) and (pointer: fine)').matches
+      || event.currentTarget.matches(':focus-visible')) {
+      resetPointer()
+      return
+    }
+    // Measure the landed wrapper, so the card's tilt does not change these bounds.
+    const bounds = event.currentTarget.parentElement.getBoundingClientRect()
+    const x = Math.max(-1, Math.min(1, (event.clientX - bounds.left) / bounds.width * 2 - 1))
+    const y = Math.max(-1, Math.min(1, (event.clientY - bounds.top) / bounds.height * 2 - 1))
+    pointerX.set(`${x * 4.5}px`)
+    pointerY.set(`${y * 3.5}px`)
+    tiltX.set(`${-y * 2.5}deg`)
+    tiltY.set(`${x * 3}deg`)
+    shineX.set(`${(x + 1) * 50}%`)
+    shineY.set(`${(y + 1) * 50}%`)
+  }
+
   const hasReviews = course.review_count > 0 && course.average_rating != null
   const rating = hasReviews ? new Intl.NumberFormat(i18n.resolvedLanguage, {
     minimumFractionDigits: 1, maximumFractionDigits: 1,
   }).format(course.average_rating) : null
   return (
-    <Reveal className="course-card-reveal" delay={Math.min(index, 3) * 0.06}>
-      <Link to={`/courses/${encodeURIComponent(course.slug)}`} className="academic-course-card" aria-labelledby={`course-title-${course.id}`}>
+    <motion.div className="course-card-reveal"
+      initial={reducedMotion ? false : { opacity: 0, y: 36, scale: 0.975, rotateX: 3 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+      viewport={{ once: true, amount: 0.12 }}
+      transition={{ duration: reducedMotion ? 0 : 0.6, delay: reducedMotion ? 0 : Math.min(index, 5) * 0.055, ease: [0.22, 1, 0.36, 1] }}>
+      <MotionLink to={`/courses/${encodeURIComponent(course.slug)}`} className="academic-course-card" aria-labelledby={`course-title-${course.id}`}
+        style={{ '--pointer-x': pointerX, '--pointer-y': pointerY, '--pointer-tilt-x': tiltX, '--pointer-tilt-y': tiltY, '--shine-x': shineX, '--shine-y': shineY }}
+        onPointerMove={movePointer} onPointerLeave={resetPointer} onBlur={resetPointer}
+        onFocus={(event) => { if (event.currentTarget.matches(':focus-visible')) resetPointer() }}>
         <div className={`course-art course-art-${index % 3}`} aria-hidden="true">
           <span className="art-circle art-circle-one" /><span className="art-circle art-circle-two" />
           <span className="art-crosshair" /><BookOpen size={32} strokeWidth={1} />
@@ -37,7 +81,7 @@ export default function CourseCard({ course, index = 0 }) {
             <span className="card-open">{t('card.open')} <ArrowUpRight size={15} aria-hidden="true" /></span>
           </div>
         </div>
-      </Link>
-    </Reveal>
+      </MotionLink>
+    </motion.div>
   )
 }
