@@ -5,6 +5,7 @@ from progress.models import Enrollment
 from reviews.summaries import with_review_summary
 
 from .models import Course, Lesson
+from .permissions import can_preview_lessons
 from .serializers import CourseDetailSerializer, RatedCourseListSerializer, LessonDetailSerializer
 
 
@@ -33,6 +34,6 @@ class LessonDetailView(generics.RetrieveAPIView):
         is_enrolled = Enrollment.objects.filter(
             student=self.request.user, course=lesson.module.course
         ).exists()
-        if not is_enrolled:
+        if not is_enrolled and not can_preview_lessons(self.request.user):
             raise PermissionDenied("Нет доступа к этому курсу — сначала запишитесь на курс.")
         return lesson

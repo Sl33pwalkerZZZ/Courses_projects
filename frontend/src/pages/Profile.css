@@ -39,3 +39,13 @@
 .profile-curriculum-link { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; color: var(--gold); font-size: .8rem; }
 .profile-page :focus-visible { outline-color: var(--gold); }
 @media (max-width: 767px) { .profile-page { padding: 32px 0 48px; } }
+.profile-applications { margin-top: 48px; padding-top: 36px; border-top: 1px solid var(--line); }
+.profile-application-list { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.profile-application { min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: 8px; background: var(--card-bg); }
+.profile-application-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.profile-application h3 { margin: 0; font-family: var(--font-heading); font-size: 1.4rem; font-weight: 400; overflow-wrap: anywhere; }
+.profile-application-status { padding: 5px 9px; border: 1px solid var(--gold-line); border-radius: 4px; color: var(--gold); font-size: .72rem; }
+.profile-application-date { color: var(--secondary); font-size: .75rem; }
+.profile-application-note { white-space: pre-wrap; overflow-wrap: anywhere; color: var(--secondary); font-size: .85rem; line-height: 1.8; }
+.profile-refresh { margin-left: auto; padding: 8px; border: 0; background: transparent; color: var(--gold); font: inherit; font-size: .75rem; cursor: pointer; }
+@media (max-width: 480px) { .profile-account { flex-wrap: wrap; } .profile-refresh { margin-left: 0; } }

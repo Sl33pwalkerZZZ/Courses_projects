@@ -1,0 +1,15 @@
+.course-enrollment { margin: 28px 0; padding: 24px; border: 1px solid var(--line); border-radius: 8px; background: var(--card-bg); }
+.course-enrollment > p:first-child { margin-top: 0; }
+.enrollment-status { font-weight: 600; }
+.enrollment-hint { color: var(--secondary); font-size: .82rem; line-height: 1.8; }
+.enrollment-continue { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
+.enrollment-form h2 { margin: 0 0 20px; font-family: var(--font-heading); font-size: 1.4rem; font-weight: 400; overflow-wrap: anywhere; }
+.enrollment-form label { display: block; margin-bottom: 10px; font-size: .85rem; }
+.enrollment-form textarea { display: block; width: 100%; min-height: 140px; padding: 14px; resize: vertical; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--ink); color: var(--foreground); font: inherit; line-height: 1.7; }
+.enrollment-form textarea:disabled { opacity: .65; }
+.enrollment-form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.enrollment-text-button { min-height: 44px; padding: 4px 0; border: 0; background: transparent; color: var(--gold); font: inherit; font-size: .8rem; cursor: pointer; }
+.enrollment-note { white-space: pre-wrap; overflow-wrap: anywhere; color: var(--secondary); line-height: 1.8; }
+.enrollment-success { color: var(--gold); font-size: .85rem; }
+.course-enrollment :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+@media (max-width: 767px) { .course-enrollment { padding: 18px; } }

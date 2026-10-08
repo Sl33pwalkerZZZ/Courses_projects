@@ -11,6 +11,10 @@ class Direction(models.Model):
 
 
 class Course(models.Model):
+    class EnrollmentMode(models.TextChoices):
+        APPROVAL = "approval", "Approval required"
+        OPEN = "open", "Open enrollment"
+
     class Level(models.TextChoices):
         BEGINNER = "beginner", "Начинающий"
         INTERMEDIATE = "intermediate", "Средний"
@@ -23,6 +27,9 @@ class Course(models.Model):
     level = models.CharField(max_length=20, choices=Level.choices, default=Level.BEGINNER)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="authored_courses")
     is_published = models.BooleanField(default=False)
+    enrollment_mode = models.CharField(
+        max_length=20, choices=EnrollmentMode.choices, default=EnrollmentMode.APPROVAL,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

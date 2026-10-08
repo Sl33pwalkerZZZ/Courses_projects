@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
 import Reveal from '../components/Reveal'
+import EnrollmentApplications from '../components/EnrollmentApplications'
 import './Profile.css'
 
 function EnrollmentCard({ enrollment, index }) {
@@ -95,6 +96,7 @@ export default function Profile() {
                 </span></dd></div>
               </dl>
             </div>
+            <button className="profile-refresh" type="button" onClick={retryLoading}>{t('enrollment.refreshStatus')}</button>
           </div>
         )}
       </Reveal>
@@ -105,7 +107,7 @@ export default function Profile() {
           <button className="academic-button" type="button" onClick={retryLoading}>{t('common.retry')}</button>
           <Link className="profile-sign-in" to="/login">{t('header.login')}</Link>
         </div>
-      ) : !account ? <p className="profile-loading" role="status">{t('common.loading')}</p> : (
+      ) : !account ? <p className="profile-loading" role="status">{t('common.loading')}</p> : <>
         <section aria-labelledby="profile-courses-title">
           <div className="profile-courses-heading">
             <h2 id="profile-courses-title">{t('profile.coursesTitle')}</h2>
@@ -123,7 +125,8 @@ export default function Profile() {
             </div>
           )}
         </section>
-      )}
+        <EnrollmentApplications />
+      </>}
     </section>
   )
 }

@@ -30,8 +30,8 @@ class DirectionAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ("title", "direction", "level", "author", "is_published")
-    list_filter = ("direction", "level", "is_published")
+    list_display = ("title", "direction", "level", "author", "is_published", "enrollment_mode")
+    list_filter = ("direction", "level", "is_published", "enrollment_mode")
     prepopulated_fields = {"slug": ("title",)}
     inlines = [ModuleInline]
 

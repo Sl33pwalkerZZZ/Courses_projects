@@ -1,8 +1,34 @@
+from collections.abc import Mapping
+
 from rest_framework import serializers
 
 from courses.serializers import CourseListSerializer
 
-from .models import Enrollment, LessonProgress
+from .models import Enrollment, EnrollmentRequest, LessonProgress
+
+
+class EnrollmentRequestCreateSerializer(serializers.Serializer):
+    message = serializers.CharField(min_length=20, max_length=1000, trim_whitespace=True)
+
+    def to_internal_value(self, data):
+        unexpected = set(data) - {"message"} if isinstance(data, Mapping) else set()
+        if unexpected:
+            raise serializers.ValidationError({field: "This field cannot be submitted." for field in sorted(unexpected)})
+        return super().to_internal_value(data)
+
+
+class EnrollmentRequestSerializer(serializers.ModelSerializer):
+    course = CourseListSerializer(read_only=True)
+    admin_note = serializers.SerializerMethodField()
+
+    def get_admin_note(self, application):
+        # A draft decision note must not appear while review is still pending.
+        return application.admin_note if application.status != EnrollmentRequest.Status.PENDING else ""
+
+    class Meta:
+        model = EnrollmentRequest
+        fields = ["id", "course", "message", "status", "admin_note", "created_at", "reviewed_at"]
+        read_only_fields = fields
 
 
 class EnrollmentSerializer(serializers.ModelSerializer):

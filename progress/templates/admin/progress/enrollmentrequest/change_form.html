@@ -1,0 +1,11 @@
+{% extends "admin/change_form.html" %}
+
+{% block submit_buttons_bottom %}
+  {{ block.super }}
+  {% if original.status == "pending" and has_change_permission %}
+    <div class="submit-row">
+      <input type="submit" name="_approve" value="Approve application">
+      <input type="submit" name="_reject" value="Reject application">
+    </div>
+  {% endif %}
+{% endblock %}

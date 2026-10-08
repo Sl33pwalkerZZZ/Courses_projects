@@ -1,3 +1,5 @@
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError, transaction
 from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -8,8 +10,49 @@ from rest_framework.views import APIView
 
 from courses.models import Course, Lesson, Module
 
-from .models import Enrollment, LessonProgress
-from .serializers import EnrollmentProgressSerializer, EnrollmentSerializer
+from .models import Enrollment, EnrollmentRequest, LessonProgress
+from .serializers import (
+    EnrollmentProgressSerializer, EnrollmentRequestCreateSerializer,
+    EnrollmentRequestSerializer, EnrollmentSerializer,
+)
+from .services import submit_enrollment_request
+
+
+class MyEnrollmentRequestsView(generics.ListAPIView):
+    serializer_class = EnrollmentRequestSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return EnrollmentRequest.objects.filter(student=self.request.user).select_related(
+            "course", "course__direction", "course__author",
+        )
+
+
+class CourseEnrollmentRequestsView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, slug):
+        course = get_object_or_404(Course, slug=slug, is_published=True)
+        serializer = EnrollmentRequestCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        try:
+            application = submit_enrollment_request(
+                student=request.user, course=course, message=serializer.validated_data["message"],
+            )
+        except ValidationError as error:
+            return Response(
+                {"code": getattr(error, "code", "invalid_request"), "detail": " ".join(error.messages)},
+                status=status.HTTP_409_CONFLICT,
+            )
+        except IntegrityError:
+            # The partial unique constraint also handles concurrent submissions.
+            if EnrollmentRequest.objects.filter(student=request.user, course=course, status="pending").exists():
+                return Response(
+                    {"code": "duplicate_pending", "detail": "You already have a pending application."},
+                    status=status.HTTP_409_CONFLICT,
+                )
+            raise
+        return Response(EnrollmentRequestSerializer(application).data, status=status.HTTP_201_CREATED)
 
 
 class MyEnrollmentsView(generics.ListAPIView):
@@ -39,8 +82,17 @@ class EnrollView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, slug):
-        course = get_object_or_404(Course, slug=slug, is_published=True)
-        enrollment, created = Enrollment.objects.get_or_create(student=request.user, course=course)
+        with transaction.atomic():
+            course = get_object_or_404(Course.objects.select_for_update(), slug=slug, is_published=True)
+            enrollment = Enrollment.objects.filter(student=request.user, course=course).first()
+            if enrollment is None and course.enrollment_mode == Course.EnrollmentMode.APPROVAL:
+                return Response(
+                    {"code": "approval_required", "detail": "Request enrollment and wait for approval."},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+            created = enrollment is None
+            if created:
+                enrollment, created = Enrollment.objects.get_or_create(student=request.user, course=course)
         serializer = EnrollmentSerializer(enrollment)
         return Response(serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
 
