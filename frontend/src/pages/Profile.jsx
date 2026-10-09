@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import api from '../api'
 import Reveal from '../components/Reveal'
 import EnrollmentApplications from '../components/EnrollmentApplications'
+import ProfileLearningActivity from '../components/ProfileLearningActivity'
 import './Profile.css'
 
 function EnrollmentCard({ enrollment, index }) {
@@ -57,6 +58,30 @@ function EnrollmentCard({ enrollment, index }) {
   )
 }
 
+export function ProfileLearningSections({ enrollments }) {
+  const { t } = useTranslation()
+  return <>
+    <section aria-labelledby="profile-courses-title">
+      <div className="profile-courses-heading">
+        <h2 id="profile-courses-title">{t('profile.coursesTitle')}</h2>
+        <p>{t('profile.coursesDescription')}</p>
+      </div>
+      {enrollments.length ? (
+        <div className="academic-course-grid">
+          {enrollments.map((enrollment, index) => <EnrollmentCard key={enrollment.id} enrollment={enrollment} index={index} />)}
+        </div>
+      ) : (
+        <div className="catalog-state">
+          <BookOpen size={30} aria-hidden="true" /><h3>{t('profile.emptyTitle')}</h3>
+          <p>{t('profile.emptyDescription')}</p>
+          <Link className="academic-button" to="/">{t('header.catalog')}</Link>
+        </div>
+      )}
+    </section>
+    <EnrollmentApplications />
+  </>
+}
+
 export default function Profile() {
   const { t } = useTranslation()
   const [account, setAccount] = useState(null)
@@ -100,6 +125,7 @@ export default function Profile() {
           </div>
         )}
       </Reveal>
+      <ProfileLearningActivity key={retry} />
       {error ? (
         <div className="catalog-state" role="alert">
           <UserRound size={30} aria-hidden="true" /><h2>{t('profile.errorTitle')}</h2>
@@ -108,24 +134,7 @@ export default function Profile() {
           <Link className="profile-sign-in" to="/login">{t('header.login')}</Link>
         </div>
       ) : !account ? <p className="profile-loading" role="status">{t('common.loading')}</p> : <>
-        <section aria-labelledby="profile-courses-title">
-          <div className="profile-courses-heading">
-            <h2 id="profile-courses-title">{t('profile.coursesTitle')}</h2>
-            <p>{t('profile.coursesDescription')}</p>
-          </div>
-          {account.enrollments.length ? (
-            <div className="academic-course-grid">
-              {account.enrollments.map((enrollment, index) => <EnrollmentCard key={enrollment.id} enrollment={enrollment} index={index} />)}
-            </div>
-          ) : (
-            <div className="catalog-state">
-              <BookOpen size={30} aria-hidden="true" /><h3>{t('profile.emptyTitle')}</h3>
-              <p>{t('profile.emptyDescription')}</p>
-              <Link className="academic-button" to="/">{t('header.catalog')}</Link>
-            </div>
-          )}
-        </section>
-        <EnrollmentApplications />
+        <ProfileLearningSections enrollments={account.enrollments} />
       </>}
     </section>
   )

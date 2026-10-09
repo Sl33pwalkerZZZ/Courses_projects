@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from courses.models import Course, Lesson, Module
 
 from .models import Enrollment, EnrollmentRequest, LessonProgress
+from .activity import student_activity
 from .serializers import (
     EnrollmentProgressSerializer, EnrollmentRequestCreateSerializer,
     EnrollmentRequestSerializer, EnrollmentSerializer,
@@ -26,6 +27,13 @@ class MyEnrollmentRequestsView(generics.ListAPIView):
         return EnrollmentRequest.objects.filter(student=self.request.user).select_related(
             "course", "course__direction", "course__author",
         )
+
+
+class MyActivityView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        return Response(student_activity(request.user))
 
 
 class CourseEnrollmentRequestsView(APIView):
@@ -108,6 +116,10 @@ class CompleteLessonView(APIView):
             raise PermissionDenied("Нет доступа к этому курсу — сначала запишитесь на курс.")
 
         progress, _ = LessonProgress.objects.get_or_create(enrollment=enrollment, lesson=lesson)
-        progress.completed_at = timezone.now()
-        progress.save(update_fields=["completed_at"])
+        if progress.completed_at is None:
+            # Preserve the first completion time, including concurrent retries.
+            LessonProgress.objects.filter(pk=progress.pk, completed_at__isnull=True).update(
+                completed_at=timezone.now(),
+            )
+            progress.refresh_from_db(fields=["completed_at"])
         return Response({"lesson_id": lesson.id, "completed_at": progress.completed_at})
