@@ -42,6 +42,7 @@ class EnrollmentSerializer(serializers.ModelSerializer):
 class EnrollmentProgressSerializer(EnrollmentSerializer):
     total_lessons = serializers.SerializerMethodField()
     completed_lessons = serializers.SerializerMethodField()
+    completed_lesson_ids = serializers.SerializerMethodField()
     progress_percent = serializers.SerializerMethodField()
     is_completed = serializers.SerializerMethodField()
     next_lesson_id = serializers.SerializerMethodField()
@@ -49,7 +50,7 @@ class EnrollmentProgressSerializer(EnrollmentSerializer):
 
     class Meta(EnrollmentSerializer.Meta):
         fields = EnrollmentSerializer.Meta.fields + [
-            "total_lessons", "completed_lessons", "progress_percent", "is_completed",
+            "total_lessons", "completed_lessons", "completed_lesson_ids", "progress_percent", "is_completed",
             "next_lesson_id", "next_lesson_title",
         ]
 
@@ -73,6 +74,7 @@ class EnrollmentProgressSerializer(EnrollmentSerializer):
         self._summary = {
             "total_lessons": total,
             "completed_lessons": completed,
+            "completed_lesson_ids": [lesson.id for lesson in lessons if lesson.id in completed_ids],
             "progress_percent": completed / total * 100 if total else 0.0,
             "is_completed": total > 0 and completed == total,
             "next_lesson_id": next_lesson.id if next_lesson else None,
@@ -85,6 +87,9 @@ class EnrollmentProgressSerializer(EnrollmentSerializer):
 
     def get_completed_lessons(self, enrollment):
         return self._summary["completed_lessons"]
+
+    def get_completed_lesson_ids(self, enrollment):
+        return self._summary["completed_lesson_ids"]
 
     def get_progress_percent(self, enrollment):
         return self._summary["progress_percent"]

@@ -70,13 +70,14 @@ class MyEnrollmentProgressTests(APITestCase):
         data = self.enrollment_data()
         self.assertEqual(set(data), {
             "id", "course", "granted_at", "total_lessons", "completed_lessons",
-            "progress_percent", "is_completed", "next_lesson_id", "next_lesson_title",
+            "completed_lesson_ids", "progress_percent", "is_completed", "next_lesson_id", "next_lesson_title",
         })
         self.assertEqual(data["course"]["slug"], self.course.slug)
         self.assertEqual(data["course"]["author"], self.author.username)
         self.assertIn("direction", data["course"])
         self.assertEqual(data["total_lessons"], 3)
         self.assertEqual(data["completed_lessons"], 0)
+        self.assertEqual(data["completed_lesson_ids"], [])
         self.assertEqual(data["progress_percent"], 0)
         self.assertFalse(data["is_completed"])
         self.assertEqual(data["next_lesson_id"], self.first_lesson.id)
@@ -93,6 +94,7 @@ class MyEnrollmentProgressTests(APITestCase):
         self.assertEqual(data["total_lessons"], 3)
         self.assertEqual(data["completed_lessons"], 1)
         self.assertAlmostEqual(data["progress_percent"], 100 / 3)
+        self.assertEqual(data["completed_lesson_ids"], [self.first_lesson.id])
         self.assertFalse(data["is_completed"])
         self.assertEqual(data["next_lesson_id"], self.second_lesson.id)
 
@@ -107,10 +109,22 @@ class MyEnrollmentProgressTests(APITestCase):
         data = self.enrollment_data(self.empty_enrollment)
         self.assertEqual(data["total_lessons"], 0)
         self.assertEqual(data["completed_lessons"], 0)
+        self.assertEqual(data["completed_lesson_ids"], [])
         self.assertEqual(data["progress_percent"], 0)
         self.assertFalse(data["is_completed"])
         self.assertIsNone(data["next_lesson_id"])
         self.assertIsNone(data["next_lesson_title"])
+
+    def test_completed_lesson_ids_follow_curriculum_order_and_are_private(self):
+        self.complete(self.last_lesson)
+        self.complete(self.first_lesson)
+        self.complete(self.second_lesson, self.other_enrollment)
+        self.assertEqual(self.enrollment_data()["completed_lesson_ids"], [
+            self.first_lesson.id, self.last_lesson.id,
+        ])
+        self.client.force_authenticate(self.other_student)
+        response = self.client.get(self.url)
+        self.assertEqual(response.data[0]["completed_lesson_ids"], [self.second_lesson.id])
 
     def test_existing_completion_endpoint_updates_the_summary_until_finished(self):
         for index, lesson in enumerate((self.first_lesson, self.second_lesson, self.last_lesson), start=1):
@@ -118,6 +132,9 @@ class MyEnrollmentProgressTests(APITestCase):
             self.assertEqual(response.status_code, 200)
             data = self.enrollment_data()
             self.assertEqual(data["completed_lessons"], index)
+            self.assertEqual(data["completed_lesson_ids"], [
+                item.id for item in (self.first_lesson, self.second_lesson, self.last_lesson)[:index]
+            ])
             self.assertAlmostEqual(data["progress_percent"], index / 3 * 100)
             self.assertEqual(data["is_completed"], index == 3)
         self.assertIsNone(data["next_lesson_id"])
