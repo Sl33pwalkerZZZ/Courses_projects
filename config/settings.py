@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'progress',
     'certificates',
     'reviews',
+    'quizzes',
 ]
 
 AUTH_USER_MODEL = 'users.User'

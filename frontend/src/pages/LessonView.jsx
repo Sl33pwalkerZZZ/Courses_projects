@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, BookOpen, CircleCheck, LockKeyhole } from 'lucid
 import api from '../api'
 import useAuth from '../hooks/useAuth'
 import LessonCourseSidebar from '../components/LessonCourseSidebar'
+import LessonQuiz from '../components/LessonQuiz'
 import { lessonErrorKey, lessonNavigation, loadCourseOutline, loadEnrollmentProgress, saveLessonCompletion } from '../utils/lessons'
 import './LessonView.css'
 
@@ -167,6 +168,7 @@ function LessonWorkspace({ id, courseSlug }) {
         </header>
 
         <LessonMaterial lesson={lesson} />
+        {outline?.enrollment && <LessonQuiz key={lesson.id} lessonId={lesson.id} />}
 
         <section className="lesson-completion" aria-label={t('lessonWorkspace.completion')} aria-busy={completing}>
           <div><h2>{t(completed ? 'lessonWorkspace.savedTitle' : 'lessonWorkspace.finishTitle')}</h2>
