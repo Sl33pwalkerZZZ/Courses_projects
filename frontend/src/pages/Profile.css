@@ -1,0 +1,41 @@
+.profile-page { padding: 48px 0 72px; }
+.profile-heading { margin-bottom: 40px; }
+.profile-heading h1 { margin: 16px 0 28px; font-family: var(--font-heading); font-size: clamp(2.3rem, 4vw, 3.3rem); font-weight: 400; letter-spacing: -.04em; }
+.profile-account { display: flex; align-items: center; gap: 16px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+.profile-avatar { display: grid; place-items: center; flex-shrink: 0; width: 54px; height: 54px; border-radius: 50%; color: var(--gold); border: 1px solid var(--gold-line); background: var(--badge-bg); }
+.profile-account > div { min-width: 0; }
+.profile-username { margin: 0; font-size: 1.1rem; font-weight: 550; overflow-wrap: anywhere; }
+.profile-account-details { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 12px 0 0; font-size: .77rem; line-height: 1.7; }
+.profile-account-details > div { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.profile-account-details dt { color: var(--secondary); }
+.profile-account-details dd { min-width: 0; margin: 0; overflow-wrap: anywhere; }
+.profile-role-badge { display: inline-block; padding: 2px 8px; border: 1px solid var(--gold-line); border-radius: 4px; color: var(--gold); background: var(--badge-bg); font-size: .68rem; }
+.profile-courses-heading { margin-bottom: 28px; }
+.profile-courses-heading h2 { margin: 0 0 12px; font-family: var(--font-heading); font-size: 2rem; font-weight: 400; letter-spacing: -.03em; }
+.profile-courses-heading p, .profile-loading { color: var(--secondary); font-size: .85rem; line-height: 1.8; }
+.profile-sign-in { margin-top: 18px; color: var(--gold); font-size: .8rem; }
+.profile-course-reveal { min-width: 0; height: 100%; }
+.profile-course-card { display: flex; flex-direction: column; height: 100%; min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: 10px; background: var(--card-bg); }
+.profile-course-topline { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.profile-course-direction { padding: 5px 9px; border: 1px solid var(--badge-border); border-radius: 4px; color: var(--badge-text); background: var(--badge-bg); font-size: .65rem; line-height: 1.4; overflow-wrap: anywhere; }
+.profile-completed { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); font-size: .7rem; }
+.profile-course-card h3 { margin: 22px 0 12px; font-family: var(--font-heading); font-size: 1.5rem; font-weight: 400; line-height: 1.3; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.profile-course-card h3 a:hover { color: var(--gold); }
+.profile-course-description { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0 0 22px; color: var(--secondary); font-size: .83rem; line-height: 1.8; overflow-wrap: anywhere; }
+.profile-course-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: auto; color: var(--secondary); font-size: .7rem; }
+.profile-course-meta > span:first-child { display: inline-flex; align-items: center; gap: 7px; overflow-wrap: anywhere; }
+.profile-course-meta svg { flex-shrink: 0; }
+.profile-course-progress { padding-top: 22px; margin-top: 22px; border-top: 1px solid var(--line); }
+.profile-progress-heading { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: var(--secondary); font-size: .75rem; }
+.profile-progress-heading strong { color: var(--gold); font-weight: 600; font-variant-numeric: tabular-nums; }
+.profile-progress-bar { display: block; width: 100%; height: 6px; overflow: hidden; appearance: none; border: 0; border-radius: 6px; background: var(--line); color: var(--gold); }
+.profile-progress-bar::-webkit-progress-bar { border-radius: 6px; background: var(--line); }
+.profile-progress-bar::-webkit-progress-value { border-radius: 6px; background: var(--gold); }
+.profile-progress-bar::-moz-progress-bar { border-radius: 6px; background: var(--gold); }
+.profile-lesson-count { margin: 12px 0 0; color: var(--secondary); font-size: .72rem; line-height: 1.7; }
+.profile-course-actions { margin-top: 24px; }
+.profile-next-lesson { margin: 0 0 14px; color: var(--secondary); font-size: .72rem; line-height: 1.7; overflow-wrap: anywhere; }
+.profile-continue { width: 100%; }
+.profile-curriculum-link { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; color: var(--gold); font-size: .8rem; }
+.profile-page :focus-visible { outline-color: var(--gold); }
+@media (max-width: 767px) { .profile-page { padding: 32px 0 48px; } }
