@@ -1,0 +1,12 @@
+# Project-scoped settings; keep user model, reasoning, MCP, and permission defaults.
+# Custom agents are discovered from .codex/agents/*.toml.
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 3
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest", "--browser=firefox"]
+
+[mcp_servers.playwright.env]
+PLAYWRIGHT_HOST_PLATFORM_OVERRIDE = "debian13-x64"
