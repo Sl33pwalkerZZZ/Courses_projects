@@ -6,7 +6,7 @@ import Footer from './components/Footer'
 import CourseCatalog from './pages/CourseCatalog'
 import Reveal from './components/Reveal'
 import ScrollProgress from './components/ScrollProgress'
-import useAuth from './hooks/useAuth'
+import { useAuthSession } from './hooks/useAuth'
 
 const CourseDetail = lazy(() => import('./pages/CourseDetail'))
 const LessonView = lazy(() => import('./pages/LessonView'))
@@ -15,7 +15,8 @@ const Register = lazy(() => import('./pages/Register'))
 const Profile = lazy(() => import('./pages/Profile'))
 
 export default function App() {
-  const authed = useAuth()
+  const session = useAuthSession()
+  const authed = session.authenticated
   const { pathname } = useLocation()
   const { t } = useTranslation()
   const isAuthPage = pathname === '/login' || pathname === '/register'
@@ -37,13 +38,14 @@ export default function App() {
       <main id="main-content" tabIndex={-1} className={pageClassName}>
         <Reveal key={pathname} immediate>
           <Suspense fallback={<p role="status">{t('common.loading')}</p>}>
+            {/* Private routes share a session key; refresh preserves it and public pages stay mounted. */}
             <Routes>
               <Route path="/" element={<CourseCatalog />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/profile" element={authed ? <Profile /> : <Navigate to="/login" replace />} />
-              <Route path="/courses/:slug" element={<CourseDetail />} />
-              <Route path="/lessons/:id" element={<LessonView />} />
+              <Route path="/profile" element={authed ? <Profile key={session.generation} /> : <Navigate to="/login" replace />} />
+              <Route path="/courses/:slug" element={<CourseDetail key={session.generation} />} />
+              <Route path="/lessons/:id" element={<LessonView key={session.generation} />} />
             </Routes>
           </Suspense>
         </Reveal>

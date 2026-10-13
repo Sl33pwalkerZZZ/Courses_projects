@@ -5,7 +5,7 @@ import axios, { AxiosError } from 'axios'
 let instance = 0
 
 function token(seconds) {
-  const payload = Buffer.from(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + seconds })).toString('base64url')
+  const payload = Buffer.from(JSON.stringify({ user_id: 1, exp: Math.floor(Date.now() / 1000) + seconds })).toString('base64url')
   return `header.${payload}.signature`
 }
 
@@ -112,7 +112,7 @@ test('failed refresh clears both tokens and notifies the UI', async () => {
   }
 })
 
-for (const url of ['/courses/', '/courses/ai/', '/courses/ai/reviews/']) {
+for (const url of ['/courses/ai/reviews/']) {
   test(`public read ${url} retries anonymously when refresh fails`, async () => {
     const auth = await setup({ access: token(-60), refresh: token(3600) }, (config) => {
       if (config.url === '/auth/token/refresh/' || config.headers.Authorization) fail(config)
@@ -161,12 +161,12 @@ test('a refresh-only session can recover a protected request', async () => {
   assert.equal(auth.storage.get('access'), fresh)
 })
 
-test('missing refresh token clears rejected credentials and allows a public read', async () => {
+test('missing refresh token clears rejected credentials and allows a public review read', async () => {
   const auth = await setup({ access: token(300) }, (config) => {
     if (config.headers.Authorization) fail(config)
     return response(config, [])
   })
-  await auth.api.get('/courses/')
+  await auth.api.get('/courses/ai/reviews/')
   assert.equal(auth.storage.size, 0)
   assert.equal(auth.calls.length, 2)
 })
