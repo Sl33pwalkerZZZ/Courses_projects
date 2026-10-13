@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.urls import reverse
 
 from progress.models import LessonProgress
 from reviews.summaries import display_average
@@ -54,6 +55,12 @@ class CourseDetailSerializer(RatedCourseListSerializer):
 
 
 class LessonImageSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, image):
+        # Never expose FileField/storage URLs in the student API.
+        return reverse("lesson-image", args=[image.pk])
+
     class Meta:
         model = LessonImage
         fields = ["id", "image", "order"]

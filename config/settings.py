@@ -141,8 +141,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_URL = 'media/'
+# Uploads are private. Keep their existing filesystem location and stored names.
+# This URL is an authenticated Django endpoint, not a web-server media alias.
+MEDIA_URL = '/api/private-media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Only intentionally public assets belong here (never lessons or submissions).
+PUBLIC_MEDIA_URL = '/media/'
+PUBLIC_MEDIA_ROOT = BASE_DIR / 'public-media'
 
 
 # Email

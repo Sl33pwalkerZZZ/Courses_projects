@@ -1,11 +1,18 @@
+from django.conf import settings
+from django.http import FileResponse, Http404
+from django.shortcuts import get_object_or_404
+from django.utils.cache import patch_vary_headers
 from rest_framework import generics, permissions
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from progress.models import Enrollment
 from reviews.summaries import with_review_summary
 
-from .models import Course, Lesson
-from .permissions import can_preview_lessons
+from .media import private_lesson_file
+from .models import Course, Lesson, LessonImage
+from .permissions import can_access_lesson
 from .serializers import CourseDetailSerializer, RatedCourseListSerializer, LessonDetailSerializer
 
 
@@ -31,9 +38,45 @@ class LessonDetailView(generics.RetrieveAPIView):
 
     def get_object(self):
         lesson = super().get_object()
-        is_enrolled = Enrollment.objects.filter(
-            student=self.request.user, course=lesson.module.course
-        ).exists()
-        if not is_enrolled and not can_preview_lessons(self.request.user):
+        if not can_access_lesson(self.request.user, lesson):
             raise PermissionDenied("Нет доступа к этому курсу — сначала запишитесь на курс.")
         return lesson
+
+
+class LessonImageView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    # JWT for React, and the existing Django session for authorized Admin previews.
+    authentication_classes = [JWTAuthentication, SessionAuthentication]
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        response = super().finalize_response(request, response, *args, **kwargs)
+        response["Cache-Control"] = "private, no-store"
+        response["X-Content-Type-Options"] = "nosniff"
+        patch_vary_headers(response, ["Authorization", "Cookie"])
+        return response
+
+    def get(self, request, pk=None, filename=None):
+        images = LessonImage.objects.select_related("lesson__module__course")
+        if filename is not None:
+            # Only registered lesson images are served; submissions/unknown files stay private.
+            private_lesson_file(settings.MEDIA_ROOT, filename)
+            matches = list(images.filter(image=filename))
+            if not matches:
+                raise Http404("Image not found.")
+            # Stored filenames are not unique: a shared file is accessible only
+            # if at least one of its registered lessons is accessible to this user.
+            image = matches[0]
+            for candidate in matches:
+                if can_access_lesson(request.user, candidate.lesson):
+                    image = candidate
+                    break
+        else:
+            image = get_object_or_404(images, pk=pk)
+        if not can_access_lesson(request.user, image.lesson):
+            raise PermissionDenied("Нет доступа к этому курсу — сначала запишитесь на курс.")
+        file_path = private_lesson_file(settings.MEDIA_ROOT, image.image.name)
+        try:
+            response = FileResponse(file_path.open("rb"))
+        except (FileNotFoundError, IsADirectoryError, PermissionError):
+            raise Http404("Image not found.")
+        return response

@@ -6,6 +6,7 @@ import api from '../api'
 import useAuth from '../hooks/useAuth'
 import LessonCourseSidebar from '../components/LessonCourseSidebar'
 import LessonQuiz from '../components/LessonQuiz'
+import ProtectedLessonImage from '../components/ProtectedLessonImage'
 import { lessonErrorKey, lessonNavigation, loadCourseOutline, loadEnrollmentProgress, saveLessonCompletion } from '../utils/lessons'
 import './LessonView.css'
 
@@ -43,7 +44,7 @@ export function LessonMaterial({ lesson }) {
       {lesson.text_content.split(/\n\s*\n/).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
     </div> : <div className="lesson-material-empty"><BookOpen size={24} aria-hidden="true" /><p>{t('lessonWorkspace.emptyMaterial')}</p></div>}
     {lesson.images?.length > 0 && <div className="lesson-material-images">
-      {lesson.images.map((image) => <img key={image.id} src={image.image} alt="" loading="lazy" />)}
+      {lesson.images.map((image) => <ProtectedLessonImage key={image.id} image={image} />)}
     </div>}
     {lesson.assignments?.length > 0 && <section className="lesson-material-assignments" aria-labelledby="lesson-assignments-title">
       <p className="eyebrow">{t('lessonWorkspace.practice')}</p>

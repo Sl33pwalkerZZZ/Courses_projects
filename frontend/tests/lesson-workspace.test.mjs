@@ -160,7 +160,8 @@ test('lesson material escapes HTML and preserves stored text, images, and assign
   assert.match(html, /First paragraph/)
   assert.match(html, /&lt;script&gt;/)
   assert.doesNotMatch(html, /<script|onerror="unsafe"/)
-  assert.match(html, /src="\/media\/lesson.png"/)
+  assert.doesNotMatch(html, /src="\/media\/lesson.png"|<img/)
+  assert.match(html, /role="status"/)
   assert.match(html, /Existing assignment &lt;img/)
 })
 
@@ -171,6 +172,13 @@ test('empty material is intentional and never filled with a placeholder lesson',
 })
 
 for (const language of ['en', 'ru', 'kk']) {
+  test(`private lesson images initially show translated loading without public or protected URLs in ${language}`, () => {
+    const html = render(Material, { lesson: { images: [{ id: 15, image: '/api/lesson-images/15/' }] } }, language)
+    assert.ok(html.includes(translations.get(language).t('common.loading')))
+    assert.match(html, /role="status"/)
+    assert.doesNotMatch(html, /<img|\/api\/lesson-images|\/media\/|Bearer/)
+  })
+
   test(`workspace outline and access errors are translated in ${language}`, () => {
     const instance = translations.get(language)
     const html = render(Sidebar, { course, lessonId: 21, completedIds: [11], enrollment }, language)
