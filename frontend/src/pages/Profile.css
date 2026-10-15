@@ -1,6 +1,6 @@
 .profile-page { padding: 48px 0 72px; }
 .profile-heading { margin-bottom: 40px; }
-.profile-heading h1 { margin: 16px 0 28px; font-family: var(--font-heading); font-size: clamp(2.3rem, 4vw, 3.3rem); font-weight: 400; letter-spacing: -.04em; }
+.profile-heading h1 { margin: 16px 0 28px; font-family: var(--font-heading); font-size: clamp(2.3rem, 4vw, 3.3rem); font-weight: 650; letter-spacing: -.04em; }
 .profile-account { display: flex; align-items: center; gap: 16px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
 .profile-avatar { display: grid; place-items: center; flex-shrink: 0; width: 54px; height: 54px; border-radius: 50%; color: var(--gold); border: 1px solid var(--gold-line); background: var(--badge-bg); }
 .profile-account > div { min-width: 0; }
@@ -9,17 +9,17 @@
 .profile-account-details > div { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-width: 0; }
 .profile-account-details dt { color: var(--secondary); }
 .profile-account-details dd { min-width: 0; margin: 0; overflow-wrap: anywhere; }
-.profile-role-badge { display: inline-block; padding: 2px 8px; border: 1px solid var(--gold-line); border-radius: 4px; color: var(--gold); background: var(--badge-bg); font-size: .68rem; }
+.profile-role-badge { display: inline-block; padding: 2px 8px; border: 1px solid var(--gold-line); border-radius: 10px; color: var(--gold); background: var(--badge-bg); font-size: .68rem; }
 .profile-courses-heading { margin-bottom: 28px; }
-.profile-courses-heading h2 { margin: 0 0 12px; font-family: var(--font-heading); font-size: 2rem; font-weight: 400; letter-spacing: -.03em; }
+.profile-courses-heading h2 { margin: 0 0 12px; font-family: var(--font-heading); font-size: 2rem; font-weight: 650; letter-spacing: -.03em; }
 .profile-courses-heading p, .profile-loading { color: var(--secondary); font-size: .85rem; line-height: 1.8; }
 .profile-sign-in { margin-top: 18px; color: var(--gold); font-size: .8rem; }
 .profile-course-reveal { min-width: 0; height: 100%; }
-.profile-course-card { display: flex; flex-direction: column; height: 100%; min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: 10px; background: var(--card-bg); }
+.profile-course-card { display: flex; flex-direction: column; height: 100%; min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: 20px; background: var(--card-bg); }
 .profile-course-topline { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-.profile-course-direction { padding: 5px 9px; border: 1px solid var(--badge-border); border-radius: 4px; color: var(--badge-text); background: var(--badge-bg); font-size: .65rem; line-height: 1.4; overflow-wrap: anywhere; }
+.profile-course-direction { padding: 5px 9px; border: 1px solid var(--badge-border); border-radius: 10px; color: var(--badge-text); background: var(--badge-bg); font-size: .65rem; line-height: 1.4; overflow-wrap: anywhere; }
 .profile-completed { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); font-size: .7rem; }
-.profile-course-card h3 { margin: 22px 0 12px; font-family: var(--font-heading); font-size: 1.5rem; font-weight: 400; line-height: 1.3; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.profile-course-card h3 { margin: 22px 0 12px; font-family: var(--font-heading); font-size: 1.5rem; font-weight: 650; line-height: 1.3; letter-spacing: -.02em; overflow-wrap: anywhere; }
 .profile-course-card h3 a:hover { color: var(--gold); }
 .profile-course-description { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0 0 22px; color: var(--secondary); font-size: .83rem; line-height: 1.8; overflow-wrap: anywhere; }
 .profile-course-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: auto; color: var(--secondary); font-size: .7rem; }
@@ -28,10 +28,10 @@
 .profile-course-progress { padding-top: 22px; margin-top: 22px; border-top: 1px solid var(--line); }
 .profile-progress-heading { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: var(--secondary); font-size: .75rem; }
 .profile-progress-heading strong { color: var(--gold); font-weight: 600; font-variant-numeric: tabular-nums; }
-.profile-progress-bar { display: block; width: 100%; height: 6px; overflow: hidden; appearance: none; border: 0; border-radius: 6px; background: var(--line); color: var(--gold); }
-.profile-progress-bar::-webkit-progress-bar { border-radius: 6px; background: var(--line); }
-.profile-progress-bar::-webkit-progress-value { border-radius: 6px; background: var(--gold); }
-.profile-progress-bar::-moz-progress-bar { border-radius: 6px; background: var(--gold); }
+.profile-progress-bar { display: block; width: 100%; height: 6px; overflow: hidden; appearance: none; border: 0; border-radius: 12px; background: var(--line); color: var(--gold); }
+.profile-progress-bar::-webkit-progress-bar { border-radius: 12px; background: var(--line); }
+.profile-progress-bar::-webkit-progress-value { border-radius: 12px; background: var(--gold); }
+.profile-progress-bar::-moz-progress-bar { border-radius: 12px; background: var(--gold); }
 .profile-lesson-count { margin: 12px 0 0; color: var(--secondary); font-size: .72rem; line-height: 1.7; }
 .profile-course-actions { margin-top: 24px; }
 .profile-next-lesson { margin: 0 0 14px; color: var(--secondary); font-size: .72rem; line-height: 1.7; overflow-wrap: anywhere; }
@@ -41,10 +41,10 @@
 @media (max-width: 767px) { .profile-page { padding: 32px 0 48px; } }
 .profile-applications { margin-top: 48px; padding-top: 36px; border-top: 1px solid var(--line); }
 .profile-application-list { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
-.profile-application { min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: 8px; background: var(--card-bg); }
+.profile-application { min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: 20px; background: var(--card-bg); }
 .profile-application-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.profile-application h3 { margin: 0; font-family: var(--font-heading); font-size: 1.4rem; font-weight: 400; overflow-wrap: anywhere; }
-.profile-application-status { padding: 5px 9px; border: 1px solid var(--gold-line); border-radius: 4px; color: var(--gold); font-size: .72rem; }
+.profile-application h3 { margin: 0; font-family: var(--font-heading); font-size: 1.4rem; font-weight: 650; overflow-wrap: anywhere; }
+.profile-application-status { padding: 5px 9px; border: 1px solid var(--gold-line); border-radius: 10px; color: var(--gold); font-size: .72rem; }
 .profile-application-date { color: var(--secondary); font-size: .75rem; }
 .profile-application-note { white-space: pre-wrap; overflow-wrap: anywhere; color: var(--secondary); font-size: .85rem; line-height: 1.8; }
 .profile-refresh { margin-left: auto; padding: 8px; border: 0; background: transparent; color: var(--gold); font: inherit; font-size: .75rem; cursor: pointer; }
@@ -53,21 +53,21 @@
 .profile-learning-activity { min-width: 0; margin-bottom: 48px; }
 .profile-activity-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 26px; }
 .profile-activity-heading .eyebrow { margin: 0 0 10px; }
-.profile-activity-heading h2 { margin: 0 0 12px; font-family: var(--font-heading); font-size: clamp(1.8rem, 3vw, 2.3rem); font-weight: 400; letter-spacing: -.03em; }
+.profile-activity-heading h2 { margin: 0 0 12px; font-family: var(--font-heading); font-size: clamp(1.8rem, 3vw, 2.3rem); font-weight: 650; letter-spacing: -.03em; }
 .profile-activity-heading > div > p:last-child { max-width: 70ch; margin: 0; color: var(--secondary); font-size: .82rem; line-height: 1.9; }
 .profile-activity-heading > svg { flex-shrink: 0; margin-top: 24px; color: var(--gold); }
 .activity-statistics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin: 0 0 20px; }
-.activity-statistics > div { min-width: 0; padding: 22px 24px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.activity-statistics > div { min-width: 0; padding: 22px 24px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
 .activity-statistics dt { color: var(--secondary); font-size: .78rem; line-height: 1.8; }
 .activity-statistics dd { margin: 12px 0 0; }
-.activity-statistics dd > strong { display: block; margin-bottom: 10px; font-family: var(--font-heading); font-size: 2.5rem; font-weight: 400; line-height: 1.1; color: var(--foreground); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.activity-statistics dd > strong { display: block; margin-bottom: 10px; font-family: var(--font-heading); font-size: 2.5rem; font-weight: 650; line-height: 1.1; color: var(--foreground); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .activity-statistics dd > span { color: var(--secondary); font-size: .68rem; line-height: 1.8; }
-.profile-activity-calendar-card { min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.profile-activity-calendar-card { min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
 .activity-empty-message { margin-bottom: 24px; }
-.activity-empty-message h3 { margin: 0 0 10px; font-family: var(--font-heading); font-size: 1.3rem; font-weight: 400; }
+.activity-empty-message h3 { margin: 0 0 10px; font-family: var(--font-heading); font-size: 1.3rem; font-weight: 650; }
 .activity-empty-message p, .activity-streak-note { margin: 0; color: var(--secondary); font-size: .74rem; line-height: 1.9; }
 .activity-streak-note { margin-top: 16px; }
-.activity-loading, .activity-load-error { margin: 0; padding: 26px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--secondary); font-size: .83rem; line-height: 1.9; }
+.activity-loading, .activity-load-error { margin: 0; padding: 26px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); color: var(--secondary); font-size: .83rem; line-height: 1.9; }
 .activity-load-error p { margin: 0 0 18px; color: var(--legacy-error); }
 .activity-load-error .academic-button { font-size: .78rem; }
 @media (max-width: 767px) {
@@ -85,3 +85,37 @@
   .activity-statistics dd > strong { margin-bottom: 5px; }
   .profile-activity-calendar-card { padding: 16px; }
 }
+
+/* Real account data anchors a personal learning dashboard, with no synthetic stats. */
+.profile-page { padding-top: 0; }
+.profile-heading { padding: 36px 40px; border-radius: 28px; background: var(--v2-hero-canvas); color: var(--v2-hero-text); }
+.profile-heading .eyebrow { color: var(--v2-hero-focus); margin-top: 0; }
+.profile-heading h1 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 750; margin: 12px 0 24px; }
+.profile-account { padding: 24px 0 0; border: 0; border-top: 1px solid var(--v2-hero-border); }
+.profile-avatar { width: 64px; height: 64px; border-radius: 20px; color: var(--v2-hero-focus); border-color: var(--v2-hero-border); background: var(--v2-hero-surface-raised); }
+.profile-account-details { font-size: .85rem; }
+.profile-account-details dt { color: var(--v2-hero-text-muted); }
+.profile-role-badge { color: var(--v2-hero-primary); border-color: var(--v2-hero-border); background: var(--v2-hero-surface-raised); }
+.profile-refresh { min-height: 44px; padding: 10px 16px; border: 1px solid var(--v2-hero-border); border-radius: 12px; color: var(--v2-hero-primary); font-size: .85rem; }
+.profile-courses-heading h2, .profile-activity-heading h2 { font-weight: 700; }
+.profile-course-card { padding: 28px; border-radius: 20px; }
+.profile-course-card h3 { font-size: 1.4rem; font-weight: 700; }
+.profile-course-direction, .profile-completed { font-size: .75rem; }
+.profile-course-meta { font-size: .8rem; }
+.profile-progress-layout { display: flex; align-items: center; gap: 20px; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); }
+.profile-course-progress { flex: 1; min-width: 0; padding: 0; margin: 0; border: 0; }
+.profile-progress-heading { font-size: .8rem; }
+.profile-next-lesson, .profile-lesson-count { font-size: .8rem; }
+.profile-application { border-left: 3px solid var(--v2-accent); }
+.profile-application-status { border-radius: 100px; color: var(--v2-warning); border-color: var(--line-strong); font-size: .8rem; }
+.profile-application h3 { font-size: 1.2rem; font-weight: 700; }
+.activity-statistics > div { position: relative; overflow: hidden; padding: 28px; border-radius: 20px; }
+.activity-statistics > div::before { content: ''; display: block; width: 28px; height: 4px; border-radius: 2px; margin-bottom: 20px; background: var(--v2-accent); }
+.activity-statistics > div:nth-child(2)::before { background: var(--v2-primary); }
+.activity-statistics > div:nth-child(3)::before { width: 44px; }
+.activity-statistics dd > strong { font-size: 3rem; font-weight: 750; letter-spacing: -.05em; }
+.activity-statistics dt { font-size: .85rem; }
+.profile-activity-calendar-card { padding: 28px; border-radius: 20px; }
+.profile-activity-heading > div > p:last-child { font-size: .9rem; }
+@media(max-width: 767px) { .profile-heading { padding: 28px 24px; } .profile-course-card { padding: 24px; } .activity-statistics > div { padding: 20px; } .profile-activity-calendar-card { padding: 20px; } }
+@media(max-width: 480px) { .profile-heading { padding: 28px 20px; border-radius: 20px; } .profile-account { align-items: flex-start; } .activity-statistics > div::before { display: none; } .activity-statistics dd > strong { font-size: 2.2rem; } .profile-progress-layout { gap: 14px; } .profile-activity-calendar-card { padding: 16px; } }

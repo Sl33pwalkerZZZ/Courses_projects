@@ -1,0 +1,61 @@
+/* Signature interactions and reusable visual surfaces. Never encode user state here. */
+.particle-field { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; color: var(--v2-hero-primary); opacity: .65; }
+.play-progress-ring { position: relative; display: inline-grid; place-items: center; flex-shrink: 0; }
+.play-progress-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.play-progress-ring circle { fill: none; stroke: var(--line); stroke-width: 6; }
+.play-progress-ring circle:last-child { stroke: var(--v2-accent); stroke-linecap: round; }
+.play-progress-ring strong { font-size: 16px; font-variant-numeric: tabular-nums; }
+.play-celebration { position: absolute; top: 50%; right: 60px; pointer-events: none; }
+.play-celebration i { position: absolute; width: 6px; height: 9px; border-radius: 2px; background: var(--v2-accent); }
+.play-celebration i:nth-child(2n) { background: var(--v2-primary); }
+.play-course-journey { padding: 28px; border: 1px solid var(--v2-hero-border); border-radius: 20px; background: var(--v2-hero-surface-raised); color: var(--v2-hero-text); min-width: 0; }
+.play-course-journey .eyebrow { color: var(--v2-hero-focus); }
+.play-course-journey ol { list-style: none; margin: 20px 0 0; padding: 0; max-height: 360px; overflow-y: auto; }
+.play-course-journey li + li { border-top: 1px solid var(--v2-hero-border); }
+.play-course-journey a { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 10px 0; font-size: 14px; }
+.play-course-journey a > span { color: var(--v2-hero-primary); font-variant-numeric: tabular-nums; }
+.play-course-journey strong { flex: 1; min-width: 0; overflow-wrap: anywhere; font-weight: 500; }
+.play-course-journey svg { flex-shrink: 0; }
+.play-subject-graphic { width: 100%; height: 92px; color: var(--v2-accent); margin-top: 16px; overflow: hidden; }
+.play-subject-graphic path { fill: none; stroke: currentColor; stroke-width: 1; }
+.play-subject-graphic circle { fill: currentColor; }
+.play-subject-graphic .play-subject-halo { fill: none; stroke: currentColor; opacity: .3; }
+.play-global-state { display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; padding: 80px 24px; min-height: 60vh; color: var(--v2-text-muted); }
+.play-global-state h1 { color: var(--v2-text); font-size: clamp(32px, 5vw, 56px); margin: 0; }
+.play-global-state p { max-width: 60ch; margin: 0; }
+.play-global-state > svg { color: var(--v2-accent); }
+@media(prefers-reduced-motion:reduce) { .play-celebration { display: none; } }
+
+/* Inverse canvas scenes keep readable content above the decorative field. */
+.signal-hero, .auth-intro { position: relative; isolation: isolate; overflow: hidden; }
+.signal-hero > :not(.particle-field), .auth-intro > :not(.particle-field) { position: relative; z-index: 1; }
+svg.particle-field { opacity: .12; }
+.signal-hero h1 span { display: inline-block; }
+.play-subject-graphic { padding: 10px; border-radius: 16px; background: var(--v2-surface-raised); }
+.academic-course-card h3 { margin-top: 8px; }
+.academic-course-card:hover .play-subject-graphic { color: var(--v2-accent); }
+.play-course-journey { min-width: 0; }
+.play-course-journey .eyebrow { color: var(--v2-hero-focus); }
+.play-course-journey a { overflow-wrap: anywhere; }
+.play-course-journey strong { min-width: 0; }
+.play-reading-position { height: 3px; position: sticky; top: var(--v2-header-height); z-index: 10; background: var(--line); }
+.play-reading-position span { display: block; height: 100%; transform-origin: left; background: var(--v2-accent); }
+.play-activity-pulse { display: grid; grid-template-columns: 1fr minmax(240px, .7fr); gap: 20px; align-items: center; margin: 0 0 20px; padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
+.play-activity-pulse figcaption strong { display: block; margin-top: 12px; font-size: 1.2rem; letter-spacing: -.025em; }
+.play-activity-pulse svg { width: 100%; max-height: 96px; overflow: visible; }
+.play-activity-pulse polyline { fill: none; stroke: var(--v2-accent); stroke-width: 2; stroke-linejoin: round; }
+.play-activity-pulse circle { fill: var(--v2-accent); }
+.play-activity-pulse .pulse-baseline { stroke: var(--line); fill: none; }
+.play-activity-pulse details { grid-column: 1 / -1; font-size: .8rem; }
+.play-activity-pulse summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--gold); }
+.play-activity-pulse dl { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 0; }
+.play-activity-pulse dl > div { padding: 8px; border-bottom: 1px solid var(--line); }
+.play-activity-pulse dd { margin: 0; font-variant-numeric: tabular-nums; }
+@media(max-width: 600px) { .play-activity-pulse { grid-template-columns: 1fr; padding: 20px; gap: 12px; } .play-activity-pulse dl { grid-template-columns: repeat(2, 1fr); } }
+.course-overview-hero :focus-visible, .profile-page .profile-heading :focus-visible { outline-color: var(--v2-hero-focus); }
+.play-course-journey a:focus-visible { outline-offset: -3px; }
+.play-page-loading { padding: 48px 24px; min-height: 50vh; }
+.play-page-loading > div { max-width: 640px; display: grid; gap: 16px; margin-top: 28px; }
+.play-page-loading i { display: block; height: 18px; background: var(--surface-raised); border-radius: 8px; }
+.play-page-loading i:first-child { height: 80px; }
+.play-page-loading i:last-child { width: 65%; }

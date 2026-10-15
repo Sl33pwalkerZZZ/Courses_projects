@@ -8,6 +8,7 @@ import CourseReviews from '../components/CourseReviews'
 import CourseEnrollment from '../components/CourseEnrollment'
 import CourseCurriculum from '../components/CourseCurriculum'
 import Reveal from '../components/Reveal'
+import CourseJourney from '../components/playground/CourseJourney'
 import { loadCourse } from '../utils/courseDetail'
 import './CourseDetail.css'
 
@@ -100,6 +101,7 @@ function CourseContent({ slug, authed }) {
           </ul>
           {course.author && <p className="course-overview-author"><UserRound size={15} aria-hidden="true" />{t('course.author', { author: course.author })}</p>}
         </header>
+        <CourseJourney modules={modules} />
       </Reveal>
 
       <nav className="course-overview-sections" aria-label={t('courseOverview.sectionNavigation')}>

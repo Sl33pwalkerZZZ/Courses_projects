@@ -5,11 +5,11 @@ export default function Reveal({ children, className, delay = 0, immediate = fal
 
   return (
     <motion.div className={className}
-      initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+      initial={reduceMotion ? false : immediate ? { y: 8 } : { opacity: 0, y: 12 }}
       animate={immediate || reduceMotion ? { opacity: 1, y: 0 } : undefined}
       whileInView={immediate || reduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.12 }}
-      transition={{ duration: reduceMotion ? 0 : 0.5, delay: reduceMotion ? 0 : delay, ease: 'easeOut' }}>
+      transition={{ duration: reduceMotion ? 0 : 0.24, delay: reduceMotion ? 0 : delay, ease: 'easeOut' }}>
       {children}
     </motion.div>
   )

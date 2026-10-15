@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
 import Reveal from '../components/Reveal'
+import ProgressRing from '../components/playground/ProgressRing'
 import EnrollmentApplications from '../components/EnrollmentApplications'
 import ProfileLearningActivity from '../components/ProfileLearningActivity'
 import './Profile.css'
@@ -30,11 +31,14 @@ function EnrollmentCard({ enrollment, index }) {
           <span><UserRound size={14} aria-hidden="true" />{course.author}</span>
           <span>{t(`levels.${course.level}`, { defaultValue: course.level })}</span>
         </div>
-        <div className="profile-course-progress">
-          <div className="profile-progress-heading"><span>{t('profile.progress')}</span><strong>{percentage}</strong></div>
-          <progress className="profile-progress-bar" max={100} value={progress_percent}
-            aria-label={t('profile.progressLabel', { course: course.title })} aria-valuetext={`${lessonCount} · ${percentage}`} />
-          <p className="profile-lesson-count">{lessonCount}</p>
+        <div className="profile-progress-layout">
+          <ProgressRing value={progress_percent} label={`${lessonCount} · ${percentage}`} />
+          <div className="profile-course-progress">
+            <div className="profile-progress-heading"><span>{t('profile.progress')}</span><strong>{percentage}</strong></div>
+            <progress className="profile-progress-bar" max={100} value={progress_percent}
+              aria-label={t('profile.progressLabel', { course: course.title })} aria-valuetext={`${lessonCount} · ${percentage}`} />
+            <p className="profile-lesson-count">{lessonCount}</p>
+          </div>
         </div>
         <div className="profile-course-actions">
           {!is_completed && next_lesson_id !== null ? (

@@ -4,6 +4,7 @@ import { CalendarDays } from 'lucide-react'
 import api from '../api'
 import { loadLearningActivity } from '../utils/activity'
 import LearningActivityCalendar from './LearningActivityCalendar'
+import ActivityPulse from './playground/ActivityPulse'
 
 export function LearningActivityPanel({ activity, loading, error, onRetry }) {
   const { t, i18n } = useTranslation()
@@ -22,6 +23,7 @@ export function LearningActivityPanel({ activity, loading, error, onRetry }) {
         <div><dt>{t('activity.activeDays')}</dt><dd><strong>{number.format(activity.active_days_last_365)}</strong><span>{t('activity.last365Days')}</span></dd></div>
         <div><dt>{t('activity.currentStreak')}</dt><dd><strong>{number.format(activity.current_streak_days)}</strong><span>{t('activity.streakUnit', { count: activity.current_streak_days })}</span></dd></div>
       </dl>
+      <ActivityPulse days={activity.daily_counts} />
       <div className="profile-activity-calendar-card">
         {!activity.active_days_last_365 && <div className="activity-empty-message">
           <h3>{t(activity.total_completed_lessons ? 'activity.noRecentActivity' : 'activity.noActivity')}</h3><p>{t('activity.emptyDescription')}</p>

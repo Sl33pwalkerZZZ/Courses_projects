@@ -83,12 +83,38 @@
     "skip": "Go to courses",
     "scrollHint": "Scroll to explore how ideas become knowledge",
     "core": "AI",
-    "ai": { "label": "ARTIFICIAL INTELLIGENCE", "title": "An idea opens a world.", "description": "Begin with curiosity. Artificial intelligence gives us new ways to ask, explore, and create." },
-    "knowledge": { "label": "KNOWLEDGE SYSTEMS", "title": "Give ideas a structure.", "description": "Connect research, documents, and experience. Turn scattered information into knowledge you can use." },
-    "automation": { "label": "AUTOMATION", "title": "Make the connections work.", "description": "Bring knowledge and tools together. Thoughtful workflows make room for work that matters." },
-    "learning": { "label": "LEARNING PROGRESS", "title": "Understanding grows with practice.", "description": "Move from one lesson to the next. Small steps become skills you can put to work.", "note": "Step by step" },
-    "catalog": { "label": "COURSE CATALOG", "title": "Your next chapter is here.", "description": "Take the next step with a real course. Choose a direction and learn at your own pace." },
-    "fragments": { "knowledge": "Knowledge", "research": "Research", "documents": "Documents", "workflows": "Workflows" }
+    "ai": {
+      "label": "ARTIFICIAL INTELLIGENCE",
+      "title": "An idea opens a world.",
+      "description": "Begin with curiosity. Artificial intelligence gives us new ways to ask, explore, and create."
+    },
+    "knowledge": {
+      "label": "KNOWLEDGE SYSTEMS",
+      "title": "Give ideas a structure.",
+      "description": "Connect research, documents, and experience. Turn scattered information into knowledge you can use."
+    },
+    "automation": {
+      "label": "AUTOMATION",
+      "title": "Make the connections work.",
+      "description": "Bring knowledge and tools together. Thoughtful workflows make room for work that matters."
+    },
+    "learning": {
+      "label": "LEARNING PROGRESS",
+      "title": "Understanding grows with practice.",
+      "description": "Move from one lesson to the next. Small steps become skills you can put to work.",
+      "note": "Step by step"
+    },
+    "catalog": {
+      "label": "COURSE CATALOG",
+      "title": "Your next chapter is here.",
+      "description": "Take the next step with a real course. Choose a direction and learn at your own pace."
+    },
+    "fragments": {
+      "knowledge": "Knowledge",
+      "research": "Research",
+      "documents": "Documents",
+      "workflows": "Workflows"
+    }
   },
   "card": {
     "artLabel": "LIBRARY / AI",
@@ -195,7 +221,11 @@
     "reviewedOn": "Reviewed on {{date}}",
     "viewAndReapply": "View course and apply again",
     "viewApplication": "View course and application status",
-    "status": { "pending": "Awaiting approval", "approved": "Approved", "rejected": "Declined" }
+    "status": {
+      "pending": "Awaiting approval",
+      "approved": "Approved",
+      "rejected": "Declined"
+    }
   },
   "lesson": {
     "accessError": "You cannot access this lesson. You may need to enroll in the course.",
@@ -428,5 +458,16 @@
         "description": "Learn from the lesson material and apply new knowledge at your own pace."
       }
     }
+  },
+  "playground": {
+    "notFound": "Page not found",
+    "notFoundDescription": "This path does not lead to a learning space. Explore the course library instead.",
+    "renderError": "Something interrupted this page",
+    "renderErrorDescription": "Reload the page to try again. Your saved learning progress is safe.",
+    "readingPosition": "Reading position",
+    "activityPulse": "Your learning pulse",
+    "recentActivity_one": "{{count}} lesson completed in the last 28 days",
+    "recentActivity_other": "{{count}} lessons completed in the last 28 days",
+    "activityData": "View daily counts"
   }
 }

@@ -7,6 +7,8 @@ import useAuth from '../hooks/useAuth'
 import LessonCourseSidebar from '../components/LessonCourseSidebar'
 import LessonQuiz from '../components/LessonQuiz'
 import ProtectedLessonImage from '../components/ProtectedLessonImage'
+import Celebration from '../components/playground/Celebration'
+import ReadingProgress from '../components/playground/ReadingProgress'
 import { lessonErrorKey, lessonNavigation, loadCourseOutline, loadEnrollmentProgress, saveLessonCompletion } from '../utils/lessons'
 import './LessonView.css'
 
@@ -65,6 +67,7 @@ function LessonWorkspace({ id, courseSlug }) {
   const [outlineError, setOutlineError] = useState(false)
   const [outlineRetry, setOutlineRetry] = useState(0)
   const [completing, setCompleting] = useState(false)
+  const [celebrate, setCelebrate] = useState(false)
   const [completeError, setCompleteError] = useState('')
   const [progressLoading, setProgressLoading] = useState(false)
   const [progressError, setProgressError] = useState(false)
@@ -124,6 +127,7 @@ function LessonWorkspace({ id, courseSlug }) {
       const completedAt = await saveLessonCompletion(api, id)
       if (!activeRef.current) return
       setLesson((current) => ({ ...current, completed_at: completedAt }))
+      setCelebrate(true)
       await refreshProgress()
     } catch (failure) {
       if (activeRef.current) setCompleteError(failure.response?.status === 403 ? 'lessonWorkspace.accessDenied' : 'lesson.completeError')
@@ -168,10 +172,12 @@ function LessonWorkspace({ id, courseSlug }) {
           })}</p>}
         </header>
 
+        <ReadingProgress />
         <LessonMaterial lesson={lesson} />
         {outline?.enrollment && <LessonQuiz key={lesson.id} lessonId={lesson.id} />}
 
         <section className="lesson-completion" aria-label={t('lessonWorkspace.completion')} aria-busy={completing}>
+          {celebrate && <Celebration />}
           <div><h2>{t(completed ? 'lessonWorkspace.savedTitle' : 'lessonWorkspace.finishTitle')}</h2>
             <p>{t(completed ? 'lessonWorkspace.savedDescription' : 'lessonWorkspace.finishDescription')}</p></div>
           <button className="academic-button lesson-complete-button" type="button" onClick={handleComplete}

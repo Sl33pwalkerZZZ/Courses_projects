@@ -1,23 +1,24 @@
 .learning-activity-calendar {
-  --activity-zero: #24292f;
-  --activity-one: #294a39;
-  --activity-two: #477157;
-  --activity-three: #659379;
-  --activity-four: #91b79b;
-  --activity-cell: 16px;
+  --activity-zero: var(--v2-surface-raised);
+  --activity-one: #174C54;
+  --activity-two: #21757C;
+  --activity-three: #30A79F;
+  --activity-four: #51D6C5;
+  --activity-cell: 24px;
   --activity-gap: 4px;
   min-width: 0;
 }
 :root[data-theme="light"] .learning-activity-calendar {
-  --activity-zero: #eae5dc;
-  --activity-one: #d5e5d9;
-  --activity-two: #a8c6af;
-  --activity-three: #759d80;
-  --activity-four: #426e4f;
+  --activity-zero: var(--v2-surface-raised);
+  --activity-one: #C6E9E5;
+  --activity-two: #8DD2CB;
+  --activity-three: #3FA99F;
+  --activity-four: #08756D;
 }
 .activity-calendar-scroll { max-width: 100%; overflow-x: auto; padding: 6px 6px 14px; scrollbar-width: thin; scroll-padding-left: 52px; }
 .activity-calendar-layout { display: flex; align-items: flex-start; gap: 12px; width: max-content; min-width: 0; }
-.activity-weekday-labels { position: sticky; left: 0; z-index: 1; display: grid; grid-template-rows: 22px repeat(7, var(--activity-cell)); row-gap: var(--activity-gap); width: 34px; flex-shrink: 0; background: var(--surface); color: var(--secondary); font-size: .6rem; }
+/* Mask the scroll container's 6px inset so cells cannot peek around this rail. */
+.activity-weekday-labels { position: sticky; left: 0; z-index: 1; display: grid; grid-template-rows: 22px repeat(7, var(--activity-cell)); row-gap: var(--activity-gap); width: 34px; flex-shrink: 0; background: var(--surface); color: var(--secondary); font-size: .6rem; box-shadow: -6px 0 var(--surface), 6px 0 var(--surface); }
 .activity-weekday-labels span { align-self: center; }
 .activity-calendar-grid { min-width: 0; }
 .activity-month-labels { display: grid; grid-template-columns: repeat(var(--activity-weeks), var(--activity-cell)); gap: var(--activity-gap); height: 26px; color: var(--secondary); font-size: .64rem; }
@@ -39,5 +40,5 @@
 .activity-legend-entry { display: inline-flex; align-items: center; gap: 5px; }
 .activity-legend-cell { display: inline-block; width: 12px; height: 12px; }
 .activity-calendar-note { margin: 14px 0 0; color: var(--secondary); font-size: .65rem; line-height: 1.9; }
-.activity-calendar-note > span { display: none; }
-@media (max-width: 1100px) { .activity-calendar-note > span { display: inline; } }
+/* The accessible 24px annual grid scrolls even on desktop. */
+.activity-calendar-note > span { display: inline; }

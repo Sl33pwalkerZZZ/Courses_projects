@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion, useReducedMotion } from 'motion/react'
 import Badge from './ui/Badge'
+import SubjectGraphic from './playground/SubjectGraphic'
 import './CourseCard.css'
 
 const SYMBOLS = [Cpu, Workflow, Layers3, Network]
@@ -23,7 +24,7 @@ export default function CourseCard({ course, index = 0 }) {
   }).format(course.average_rating) : null
 
   return (
-    <motion.div className="course-card-reveal"
+    <motion.div layout="position" className="course-card-reveal"
       initial={reducedMotion ? false : { y: 12 }} whileInView={{ y: 0 }}
       viewport={{ once: true, amount: 0.12 }}
       transition={{ duration: reducedMotion ? 0 : 0.24, delay: reducedMotion ? 0 : Math.min(index, 4) * 0.04, ease: [0.2, 0.8, 0.2, 1] }}>
@@ -33,6 +34,7 @@ export default function CourseCard({ course, index = 0 }) {
           <Badge>{course.direction.name}</Badge>
           <ArrowUpRight className="studio-card-arrow" size={20} aria-hidden="true" />
         </div>
+        <SubjectGraphic seed={`${course.direction.slug}:${course.slug}`} />
         <h3 id={`course-title-${course.id}`}>{course.title}</h3>
         <p className="academic-card-description">{course.description}</p>
         <div className="academic-card-meta"><UserRound size={16} aria-hidden="true" /><span>{course.author}</span></div>

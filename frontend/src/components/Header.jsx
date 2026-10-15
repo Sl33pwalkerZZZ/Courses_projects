@@ -48,7 +48,7 @@ export default function Header() {
 
   function navigation() {
     return <>
-      <Link to="/#course-library" className="catalog-nav-link" onClick={() => {
+      <Link to="/#course-library" className="catalog-nav-link" aria-current={pathname === '/' ? 'page' : undefined} onClick={() => {
         setMenuOpen(false)
         // Also works when this exact hash is already selected.
         document.getElementById('course-library')?.scrollIntoView()
@@ -57,7 +57,7 @@ export default function Header() {
         <NavLink to="/profile" className="catalog-nav-link" onClick={() => setMenuOpen(false)}>{t('header.profile')}</NavLink>
         <Button variant="ghost" onClick={handleLogout}>{t('header.logout')}<LogOut size={16} aria-hidden="true" /></Button>
       </> : <>
-        <Link to="/login" className="header-login" onClick={() => setMenuOpen(false)}>{t('header.login')}</Link>
+        <NavLink to="/login" className="header-login" onClick={() => setMenuOpen(false)}>{t('header.login')}</NavLink>
         <Button to="/register" onClick={() => setMenuOpen(false)}>{t('header.register')}<ArrowUpRight size={16} aria-hidden="true" /></Button>
       </>}
     </>

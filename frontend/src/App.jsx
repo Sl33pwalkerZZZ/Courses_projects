@@ -1,10 +1,10 @@
 import { lazy, Suspense, useLayoutEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CourseCatalog from './pages/CourseCatalog'
 import Reveal from './components/Reveal'
+import { NotFound, PageErrorBoundary, PageLoading } from './components/GlobalState'
 import ScrollProgress from './components/ScrollProgress'
 import { useAuthSession } from './hooks/useAuth'
 
@@ -18,11 +18,10 @@ export default function App() {
   const session = useAuthSession()
   const authed = session.authenticated
   const { pathname } = useLocation()
-  const { t } = useTranslation()
   const isAuthPage = pathname === '/login' || pathname === '/register'
   const pageClassName = isAuthPage ? 'auth-container'
     : pathname === '/' ? 'catalog-container v2-home'
-      : pathname === '/profile' ? 'catalog-container' : 'container legacy-page'
+      : pathname === '/profile' ? 'dashboard-container' : 'container'
 
   // React Router preserves scroll by default; a catalog card may be far down the page.
   useLayoutEffect(() => {
@@ -34,11 +33,12 @@ export default function App() {
 
   return (
     <>
-      <ScrollProgress studio={pathname === '/'} />
+      <ScrollProgress studio />
       <Header />
       <main id="main-content" tabIndex={-1} className={pageClassName}>
         <Reveal key={pathname} immediate>
-          <Suspense fallback={<p role="status">{t('common.loading')}</p>}>
+          <PageErrorBoundary resetKey={`${pathname}:${session.generation}`}>
+            <Suspense fallback={<PageLoading />}>
             {/* Private routes share a session key; refresh preserves it and public pages stay mounted. */}
             <Routes>
               <Route path="/" element={<CourseCatalog />} />
@@ -47,11 +47,13 @@ export default function App() {
               <Route path="/profile" element={authed ? <Profile key={session.generation} /> : <Navigate to="/login" replace />} />
               <Route path="/courses/:slug" element={<CourseDetail key={session.generation} />} />
               <Route path="/lessons/:id" element={<LessonView key={session.generation} />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
-          </Suspense>
+            </Suspense>
+          </PageErrorBoundary>
         </Reveal>
       </main>
-      <Footer studio={pathname === '/'} />
+      <Footer studio home={pathname === '/'} />
     </>
   )
 }

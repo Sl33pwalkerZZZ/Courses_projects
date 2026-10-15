@@ -1,9 +1,9 @@
-/* Deferred Profile layouts retain their existing shared styles. */
+/* Shared discovery and dashboard grids. */
 .catalog-container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
 .academic-course-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .catalog-state { display: flex; flex-direction: column; align-items: center; padding: 60px 24px; text-align: center; border: 1px dashed var(--line-strong); border-radius: 10px; background: var(--state-bg); }
 .catalog-state > svg { color: var(--gold); }
-.catalog-state h3 { margin: 22px 0 0; font-family: var(--font-heading); font-size: 1.7rem; font-weight: 400; }
+.catalog-state h3 { margin: 22px 0 0; font-family: var(--font-heading); font-size: 1.7rem; font-weight: 700; }
 .catalog-state p { color: var(--secondary); max-width: 450px; font-size: .88rem; line-height: 1.8; margin-bottom: 24px; }
 @media (max-width: 1199px) { .academic-course-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 900px) { .catalog-container { padding-inline: 24px; } }
@@ -36,7 +36,9 @@
 .course-skeleton > span:last-child { width: 45%; margin-top: 48px; }
 .studio-workflow { margin: 0 16px; padding: 48px 0 64px; border-top: 1px solid var(--v2-border); scroll-margin-top: 16px; }
 .studio-workflow ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; list-style: none; margin: 32px 0 0; padding: 0; }
-.studio-workflow li { padding: 24px; }
+.studio-workflow li { min-width: 0; }
+.studio-workflow li > div, .studio-workflow .v2-surface { height: 100%; }
+.studio-workflow .v2-surface { padding: 24px; }
 .studio-step-top { display: flex; justify-content: space-between; align-items: center; color: var(--v2-accent); }
 .studio-step-top span { color: var(--v2-text-muted); font-size: 14px; font-variant-numeric: tabular-nums; }
 .studio-workflow h3 { margin: 24px 0 12px; font-size: 20px; line-height: 28px; letter-spacing: -.02em; }
@@ -57,5 +59,5 @@
   .v2-home .course-count { margin: 0; }
   .v2-home .academic-course-grid { grid-template-columns: 1fr; gap: 20px; }
   .studio-workflow { padding: 40px 0 48px; }
-  .studio-workflow li { padding: 20px; }
+  .studio-workflow .v2-surface { padding: 20px; }
 }

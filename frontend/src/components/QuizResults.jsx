@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { CircleCheck, CircleX } from 'lucide-react'
+import ProgressRing from './playground/ProgressRing'
+import Celebration from './playground/Celebration'
 
 export default function QuizResults({ result, onRetry, headingRef }) {
   const { t, i18n } = useTranslation()
@@ -10,7 +12,8 @@ export default function QuizResults({ result, onRetry, headingRef }) {
         <p>{t(result.passed ? 'quiz.passed' : 'quiz.notPassed')}</p>
         <p>{t('quiz.correctSummary', { correct: result.correct_count, total: result.question_count })}</p>
         <p>{t('quiz.passingScore', { score: percent.format(result.passing_percentage / 100) })}</p></div>
-      <strong className="quiz-score">{percent.format(result.score / 100)}</strong>
+      {result.passed && <Celebration />}
+      <ProgressRing value={result.score} label={percent.format(result.score / 100)} size={104} />
     </div>
     <ol className="quiz-feedback">
       {result.answers.map((answer) => <li className="quiz-feedback-question" key={answer.question_id}>

@@ -1,31 +1,33 @@
-import { ArrowLeft, BookOpen } from 'lucide-react'
+import { ArrowLeft, Sparkles } from 'lucide-react'
+import { motion, useReducedMotion } from 'motion/react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import Reveal from './Reveal'
+import SignalMap from './SignalMap'
+import ParticleField from './playground/ParticleField'
+import Badge from './ui/Badge'
 import './AuthLayout.css'
 
 export default function AuthLayout({ mode, children }) {
   const { t } = useTranslation()
+  const reducedMotion = useReducedMotion()
 
   return (
-    <section className="auth-page" aria-labelledby="auth-title">
-      <Link className="auth-back" to="/"><ArrowLeft size={16} aria-hidden="true" />{t('auth.backToCatalog')}</Link>
+    <section className="auth-page v2-scope" aria-labelledby="auth-title">
+      <Link className="auth-back" to="/"><ArrowLeft size={18} aria-hidden="true" />{t('auth.backToCatalog')}</Link>
       <div className="auth-grid">
-        <Reveal className="auth-intro" immediate>
-          <p className="eyebrow">{t('auth.eyebrow')}</p>
-          <h2>{t(`auth.${mode}Welcome`)}</h2>
+        <aside className="auth-intro" aria-labelledby="auth-welcome">
+          <ParticleField />
+          <Badge className="auth-eyebrow">{t('studio.eyebrow')}</Badge>
+          <h2 id="auth-welcome">{t(`auth.${mode}Welcome`)}</h2>
           <p className="auth-intro-description">{t(`auth.${mode}Description`)}</p>
-          <div className="auth-illustration" aria-hidden="true">
-            <span className="auth-orbit auth-orbit-one" /><span className="auth-orbit auth-orbit-two" />
-            <span className="auth-orbit-dot" />
-            <span className="auth-book"><BookOpen size={42} strokeWidth={1} /></span>
-            <span className="auth-illustration-caption">{t('card.artLabel')}</span>
-          </div>
-          <p className="auth-note"><BookOpen size={16} aria-hidden="true" />{t('catalog.note')}</p>
-        </Reveal>
-        <Reveal className="auth-panel" delay={0.08} immediate>
+          <div className="auth-illustration" aria-hidden="true"><SignalMap /></div>
+          <p className="auth-note"><Sparkles size={18} aria-hidden="true" />{t('catalog.note')}</p>
+        </aside>
+        <motion.div key={mode} className="auth-panel"
+          initial={reducedMotion ? false : { y: 12 }} animate={{ y: 0 }}
+          transition={{ duration: reducedMotion ? 0 : 0.24, ease: [0.2, 0.8, 0.2, 1] }}>
           {children}
-        </Reveal>
+        </motion.div>
       </div>
     </section>
   )

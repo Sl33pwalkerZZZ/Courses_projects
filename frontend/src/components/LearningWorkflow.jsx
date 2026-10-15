@@ -1,6 +1,7 @@
 import { ArrowUpRight, Compass, KeyRound, Workflow } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import Surface from './ui/Surface'
+import Reveal from './Reveal'
 
 const STEPS = [
   { key: 'explore', Icon: Compass },
@@ -18,11 +19,11 @@ export default function LearningWorkflow() {
         <h2 id="workflow-title">{t('studio.workflowTitle')}</h2>
       </div>
       <ol>
-        {STEPS.map(({ key, Icon }, index) => <Surface as="li" key={key}>
+        {STEPS.map(({ key, Icon }, index) => <li key={key} className="studio-workflow-step"><Reveal><Surface as="div">
           <div className="studio-step-top"><Icon size={24} strokeWidth={1.75} aria-hidden="true" /><span aria-hidden="true">0{index + 1}</span></div>
           <h3>{t(`studio.workflow.${key}.title`)}</h3>
           <p>{t(`studio.workflow.${key}.description`)}</p>
-        </Surface>)}
+        </Surface></Reveal></li>)}
       </ol>
       <a className="studio-workflow-link" href="#course-library">{t('catalog.explore')}<ArrowUpRight size={18} aria-hidden="true" /></a>
     </section>

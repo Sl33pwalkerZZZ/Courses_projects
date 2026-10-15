@@ -1,5 +1,5 @@
-/* AI Signal Studio. Derived from docs/design/ai-courses-v2.tokens.json.
-   V2 is opt-in: legacy page aliases are not remapped globally. */
+/* Digital Playground: one shared palette across discovery, learning and account pages.
+   Extends docs/design/ai-courses-v2.tokens.json; compatibility aliases live in index.css. */
 :root {
   --v2-canvas: #0B1020;
   --v2-surface: #121A2C;
@@ -31,8 +31,8 @@
   --v2-font-code: ui-monospace, SFMono-Regular, Consolas, monospace;
   --v2-radius-small: 8px;
   --v2-radius-control: 12px;
-  --v2-radius-card: 16px;
-  --v2-radius-hero: 24px;
+  --v2-radius-card: 20px;
+  --v2-radius-hero: 28px;
   --v2-radius-pill: 999px;
   --v2-space-4: 4px;
   --v2-space-8: 8px;

@@ -43,3 +43,4 @@ html { scroll-padding-top: calc(var(--v2-header-height) + 16px); }
   .header-menu-preferences { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) { .site-header *, .header-menu * { transition: none; } }
+.header-nav [aria-current="page"] { color: var(--v2-primary); text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 2px; }
