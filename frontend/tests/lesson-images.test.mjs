@@ -1,8 +1,27 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { loadLessonImage } from '../src/utils/lessonImages.js'
+import { lessonImageDescription, loadLessonImage } from '../src/utils/lessonImages.js'
 
 const imageBlob = () => new Blob(['image bytes'], { type: 'image/png' })
+
+test('informative images use authored alternatives in the selected UI language', () => {
+  const image = { alt_text: { en: 'English diagram description', ru: 'Описание схемы', kk: 'Сызбаның сипаттамасы' } }
+  for (const language of ['en', 'ru', 'kk']) {
+    assert.deepEqual(lessonImageDescription(image, language), { alt: image.alt_text[language], lang: language })
+  }
+  assert.deepEqual(lessonImageDescription(image, 'kk-KZ'), { alt: image.alt_text.kk, lang: 'kk' })
+})
+
+test('missing translations fall back to authored text with its pronunciation language', () => {
+  assert.deepEqual(lessonImageDescription({ alt_text: { en: ' A chart ' } }, 'ru'), { alt: 'A chart', lang: 'en' })
+  assert.deepEqual(lessonImageDescription({ alt_text: { kk: 'Сызба' } }, 'en'), { alt: 'Сызба', lang: 'kk' })
+})
+
+test('decorative and legacy images retain empty alt without fabricated descriptions', () => {
+  for (const alt_text of [undefined, null, {}, { en: '', ru: '   ' }, { en: 42 }, [], 'filename.png']) {
+    assert.deepEqual(lessonImageDescription({ id: 7, image: '/private/diagram.png', alt_text }, 'en'), { alt: '' })
+  }
+})
 
 function harness(client, id = 15) {
   const loaded = [], errors = [], created = [], revoked = []

@@ -8,7 +8,21 @@ import CourseReviews from '../components/CourseReviews'
 import CourseEnrollment from '../components/CourseEnrollment'
 import CourseCurriculum from '../components/CourseCurriculum'
 import Reveal from '../components/Reveal'
+import { loadCourse } from '../utils/courseDetail'
 import './CourseDetail.css'
+
+export function CourseLoadError({ kind, onRetry }) {
+  const { t } = useTranslation()
+  const notFound = kind === 'notFound'
+  return <div className="course-overview course-overview-state" role="alert">
+    <BookOpen size={28} aria-hidden="true" /><h1>{t(notFound ? 'course.notFound' : 'course.loadError')}</h1>
+    {!notFound && <>
+      <p>{t('course.loadErrorDescription')}</p>
+      <button type="button" className="btn-primary" onClick={onRetry}>{t('common.retry')}</button>
+    </>}
+    <Link className="course-overview-back" to="/"><ArrowLeft size={17} aria-hidden="true" />{t('courseOverview.backToCatalog')}</Link>
+  </div>
+}
 
 export default function CourseDetail() {
   const { slug } = useParams()
@@ -22,15 +36,13 @@ function CourseContent({ slug, authed }) {
   const pageRef = useRef(null)
   const [course, setCourse] = useState(null)
   const [error, setError] = useState(null)
+  const [retry, setRetry] = useState(0)
   const [enrollment, setEnrollment] = useState(null)
 
   useEffect(() => {
-    let active = true
-    api.get(`/courses/${encodeURIComponent(slug)}/`)
-      .then((res) => { if (active) setCourse(res.data) })
-      .catch(() => { if (active) setError('course.notFound') })
-    return () => { active = false }
-  }, [slug])
+    const request = loadCourse(api, slug, setCourse, setError)
+    return request.dispose
+  }, [slug, retry])
 
   useLayoutEffect(() => {
     if (!course) return
@@ -46,10 +58,10 @@ function CourseContent({ slug, authed }) {
     else window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
   }, [course])
 
-  if (error) return <div className="course-overview course-overview-state" role="alert">
-    <BookOpen size={28} aria-hidden="true" /><h1>{t(error)}</h1>
-    <Link className="course-overview-back" to="/"><ArrowLeft size={17} aria-hidden="true" />{t('courseOverview.backToCatalog')}</Link>
-  </div>
+  if (error) return <CourseLoadError kind={error} onRetry={() => {
+    setError(null)
+    setRetry((value) => value + 1)
+  }} />
   if (!course) return <div className="course-overview course-overview-state" role="status" aria-busy="true">
     <BookOpen size={28} aria-hidden="true" /><p>{t('common.loading')}</p>
   </div>

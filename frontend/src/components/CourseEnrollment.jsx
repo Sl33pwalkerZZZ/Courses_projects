@@ -9,6 +9,9 @@ export default function CourseEnrollment({ course, authed, onEnrollmentChange })
   const { t } = useTranslation()
   const formId = useId()
   const submittingRef = useRef(false)
+  const messageInputRef = useRef(null)
+  const requestButtonRef = useRef(null)
+  const focusTargetRef = useRef(null)
   const [state, setState] = useState({ enrollment: null, application: null })
   const [loading, setLoading] = useState(authed)
   const [loadError, setLoadError] = useState('')
@@ -35,6 +38,27 @@ export default function CourseEnrollment({ course, authed, onEnrollmentChange })
     }
     return () => { active = false }
   }, [course.slug, authed, requiresApproval, reload, onEnrollmentChange])
+
+  useEffect(() => {
+    // Move focus only after an explicit open/cancel action mounts its target.
+    const target = focusTargetRef.current
+    focusTargetRef.current = null
+    if (target === 'message') messageInputRef.current?.focus()
+    if (target === 'request') requestButtonRef.current?.focus()
+  }, [showForm])
+
+  function openApplicationForm() {
+    focusTargetRef.current = 'message'
+    setShowForm(true)
+    setSubmitError('')
+    setSuccess('')
+  }
+
+  function cancelApplicationForm() {
+    focusTargetRef.current = 'request'
+    setShowForm(false)
+    setSubmitError('')
+  }
 
   function refreshState() {
     setLoading(true)
@@ -135,17 +159,17 @@ export default function CourseEnrollment({ course, authed, onEnrollmentChange })
         <form className="enrollment-form" onSubmit={handleRequest} aria-busy={submitting}>
           <h2>{t('enrollment.formTitle', { course: course.title })}</h2>
           <label htmlFor={`${formId}-message`}>{t('enrollment.messageLabel')}</label>
-          <textarea id={`${formId}-message`} value={message} onChange={(event) => setMessage(event.target.value)}
+          <textarea ref={messageInputRef} id={`${formId}-message`} value={message} onChange={(event) => setMessage(event.target.value)}
             required minLength={20} maxLength={1000} rows={5} disabled={submitting}
             placeholder={t('enrollment.messagePlaceholder')} aria-describedby={`${formId}-hint`} />
           <p className="enrollment-hint" id={`${formId}-hint`}>{t('enrollment.messageHint')}</p>
           <div className="enrollment-form-actions">
             <button className="btn-primary" type="submit" disabled={submitting}>{t(submitting ? 'enrollment.submitting' : 'enrollment.submit')}</button>
-            <button className="enrollment-text-button" type="button" disabled={submitting} onClick={() => { setShowForm(false); setSubmitError('') }}>{t('enrollment.cancel')}</button>
+            <button className="enrollment-text-button" type="button" disabled={submitting} onClick={cancelApplicationForm}>{t('enrollment.cancel')}</button>
           </div>
         </form>
       ) : (
-        <button className="btn-primary" type="button" onClick={() => { setShowForm(true); setSubmitError(''); setSuccess('') }}>
+        <button ref={requestButtonRef} className="btn-primary" type="button" onClick={openApplicationForm}>
           {t(application?.status === 'rejected' ? 'enrollment.reapply' : 'enrollment.request')}
         </button>
       )}

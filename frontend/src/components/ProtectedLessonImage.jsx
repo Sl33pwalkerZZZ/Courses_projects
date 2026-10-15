@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
-import { loadLessonImage } from '../utils/lessonImages'
+import { lessonImageDescription, loadLessonImage } from '../utils/lessonImages'
 
 export default function ProtectedLessonImage({ image }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [result, setResult] = useState(null)
   const [retry, setRetry] = useState(0)
 
@@ -17,7 +17,8 @@ export default function ProtectedLessonImage({ image }) {
   }, [image.id, retry])
 
   if (result?.imageId === image.id && result.src) {
-    return <img src={result.src} alt="" loading="lazy" onError={() => setResult({ imageId: image.id, error: true })} />
+    const description = lessonImageDescription(image, i18n.resolvedLanguage || i18n.language)
+    return <img src={result.src} alt={description.alt} lang={description.lang} loading="lazy" onError={() => setResult({ imageId: image.id, error: true })} />
   }
   if (result?.imageId === image.id && result.error) {
     return <div role="alert">

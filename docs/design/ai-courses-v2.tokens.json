@@ -1,0 +1,324 @@
+{
+  "status": "proposal-only; not loaded by the application",
+  "direction": "AI Signal Studio",
+  "colors": {
+    "light": {
+      "canvas": "#F4F7FC",
+      "surface": "#FFFFFF",
+      "surfaceRaised": "#EAF0F9",
+      "text": "#101828",
+      "textMuted": "#46566F",
+      "border": "#D7DFEB",
+      "controlBorder": "#74829A",
+      "primary": "#1255D9",
+      "primaryHover": "#0B42B4",
+      "onPrimary": "#FFFFFF",
+      "focus": "#1255D9",
+      "accent": "#0B7A75",
+      "success": "#087052",
+      "warning": "#865200",
+      "danger": "#B4233A",
+      "dangerHover": "#8F1C2F",
+      "onDanger": "#FFFFFF"
+    },
+    "dark": {
+      "canvas": "#0B1020",
+      "surface": "#121A2C",
+      "surfaceRaised": "#182338",
+      "text": "#EEF4FF",
+      "textMuted": "#A9B7D0",
+      "border": "#35445F",
+      "controlBorder": "#667995",
+      "primary": "#84B7FF",
+      "primaryHover": "#A3CAFF",
+      "onPrimary": "#07101F",
+      "focus": "#84B7FF",
+      "accent": "#51D6C5",
+      "success": "#6CE5B7",
+      "warning": "#F5C16C",
+      "danger": "#FF9AAE",
+      "dangerHover": "#FFB8C5",
+      "onDanger": "#07101F"
+    },
+    "inverseHero": {
+      "canvas": "#0B1224",
+      "text": "#F5F8FF",
+      "textMuted": "#BAC7DD",
+      "primary": "#84B7FF",
+      "onPrimary": "#07101F",
+      "focus": "#51D6C5",
+      "border": "#45526D",
+      "primaryHover": "#A3CAFF",
+      "surfaceRaised": "#182338"
+    }
+  },
+  "font": {
+    "ui": "Noto Sans, system-ui, sans-serif",
+    "heading": "Noto Sans, system-ui, sans-serif",
+    "code": "ui-monospace, SFMono-Regular, Consolas, monospace",
+    "weights": {
+      "body": 400,
+      "ui": 500,
+      "label": 600,
+      "heading": 700,
+      "display": 750
+    },
+    "typePx": {
+      "displayDesktop": [
+        64,
+        72
+      ],
+      "displayMobile": [
+        36,
+        42
+      ],
+      "pageDesktop": [
+        40,
+        48
+      ],
+      "pageMobile": [
+        28,
+        36
+      ],
+      "section": [
+        28,
+        36
+      ],
+      "card": [
+        20,
+        28
+      ],
+      "body": [
+        16,
+        26
+      ],
+      "lesson": [
+        18,
+        30
+      ],
+      "control": [
+        14,
+        20
+      ],
+      "supporting": [
+        14,
+        22
+      ],
+      "nonessentialCaption": [
+        12,
+        18
+      ],
+      "sectionMobile": [
+        24,
+        32
+      ]
+    }
+  },
+  "spacePx": [
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    32,
+    40,
+    48,
+    64,
+    80,
+    96
+  ],
+  "radiusPx": {
+    "small": 8,
+    "control": 12,
+    "card": 16,
+    "hero": 24,
+    "pill": 999
+  },
+  "layout": {
+    "contentMaxPx": 1280,
+    "readingWidthCh": [
+      65,
+      75
+    ],
+    "guttersPx": {
+      "mobile": 16,
+      "tablet": 24,
+      "desktop": 32
+    },
+    "headerPx": {
+      "mobile": 64,
+      "desktop": 72
+    },
+    "gridColumns": {
+      "mobile": 4,
+      "tablet": 8,
+      "desktop": 12
+    },
+    "gridGapPx": {
+      "mobile": 16,
+      "tablet": 24,
+      "desktop": 24
+    },
+    "breakpointsPx": {
+      "tablet": 640,
+      "desktop": 1024,
+      "wide": 1440
+    },
+    "lessonRailPx": 288,
+    "controlMinHeightPx": 48,
+    "touchTargetMinPx": 44,
+    "calendarTargetMinPx": 24,
+    "anchorClearanceExtraPx": 16,
+    "mobileHeroArtMaxHeightPx": 160,
+    "headerOverflowRule": "Move preferences into Menu before shrinking controls; allow natural height at zoom; anchor clearance uses actual header height."
+  },
+  "elevation": {
+    "cardLight": "0 8px 24px rgb(16 24 40 / 6%)",
+    "overlayLight": "0 16px 48px rgb(16 24 40 / 16%)",
+    "cardDark": "0 8px 24px rgb(0 0 0 / 18%)",
+    "overlayDark": "0 16px 48px rgb(0 0 0 / 35%)"
+  },
+  "zIndex": {
+    "content": 0,
+    "stickySection": 10,
+    "header": 20,
+    "popover": 30,
+    "drawer": 40,
+    "dialog": 50,
+    "skipLink": 60
+  },
+  "motion": {
+    "durationMs": {
+      "feedback": 120,
+      "hover": 160,
+      "disclosure": 200,
+      "reveal": 240,
+      "drawer": 240,
+      "heroOnce": 480
+    },
+    "ease": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+    "enterTranslationMaxPx": 12,
+    "cardHoverTranslationPx": -3,
+    "staggerMs": 40,
+    "staggerTotalMaxMs": 160,
+    "reducedMotion": "No transforms, parallax, drawing, counting or forced delay; content visible immediately."
+  },
+  "variants": {
+    "buttons": {
+      "primary": {
+        "background": "primary",
+        "foreground": "onPrimary",
+        "hoverBackground": "primaryHover",
+        "focus": "focus"
+      },
+      "secondary": {
+        "background": "surface",
+        "foreground": "text",
+        "border": "controlBorder",
+        "hoverBackground": "surfaceRaised",
+        "focus": "focus"
+      },
+      "ghost": {
+        "background": "transparent",
+        "foreground": "text",
+        "hoverBackground": "surfaceRaised",
+        "focus": "focus"
+      },
+      "destructive": {
+        "background": "danger",
+        "foreground": "onDanger",
+        "hoverBackground": "dangerHover",
+        "focus": "focus"
+      },
+      "disabled": {
+        "background": "surfaceRaised",
+        "foreground": "textMuted",
+        "border": "border",
+        "opacity": 1
+      },
+      "busy": {
+        "appearance": "retain current variant",
+        "ariaBusy": true,
+        "accessibleName": "retain action name",
+        "indicator": "currentColor"
+      }
+    },
+    "fields": {
+      "default": {
+        "background": "surface",
+        "foreground": "text",
+        "placeholder": "textMuted",
+        "border": "controlBorder",
+        "focus": "focus"
+      },
+      "invalid": {
+        "background": "surface",
+        "foreground": "text",
+        "border": "danger",
+        "message": "danger",
+        "ariaInvalid": true
+      },
+      "readOnly": {
+        "background": "surfaceRaised",
+        "foreground": "text",
+        "border": "controlBorder"
+      },
+      "disabled": {
+        "background": "surfaceRaised",
+        "foreground": "textMuted",
+        "border": "border",
+        "opacity": 1
+      }
+    },
+    "badges": {
+      "neutral": {
+        "background": "surfaceRaised",
+        "foreground": "textMuted"
+      },
+      "success": {
+        "background": "surfaceRaised",
+        "foreground": "success"
+      },
+      "pending": {
+        "background": "surfaceRaised",
+        "foreground": "warning"
+      },
+      "error": {
+        "background": "surfaceRaised",
+        "foreground": "danger"
+      },
+      "semantics": "Always include a visible label; do not rely on color alone."
+    },
+    "inverseHeroButtons": {
+      "scope": "Resolve all roles from colors.inverseHero.",
+      "primary": {
+        "background": "primary",
+        "foreground": "onPrimary",
+        "hoverBackground": "primaryHover",
+        "focus": "focus"
+      },
+      "secondary": {
+        "background": "canvas",
+        "foreground": "text",
+        "border": "border",
+        "hoverBackground": "surfaceRaised",
+        "focus": "focus"
+      }
+    },
+    "focus": {
+      "widthPx": 3,
+      "offsetPx": 3,
+      "color": "focus"
+    },
+    "active": {
+      "appearance": "retain readable variant; stronger control border where appropriate",
+      "translationPx": 0
+    },
+    "loadingSurface": {
+      "background": "surfaceRaised",
+      "foreground": "textMuted",
+      "animation": "static under reduced motion"
+    }
+  }
+}

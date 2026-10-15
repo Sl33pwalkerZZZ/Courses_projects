@@ -1,3 +1,16 @@
+// Empty/missing alternatives mean decorative. Never invent text from file names.
+export function lessonImageDescription(image, language) {
+  const alternatives = image.alt_text
+  if (!alternatives || typeof alternatives !== 'object' || Array.isArray(alternatives)) return { alt: '' }
+  const preferred = language?.split('-')[0]
+  for (const locale of new Set([preferred, 'en', 'ru', 'kk'])) {
+    if (!['en', 'ru', 'kk'].includes(locale)) continue
+    const text = alternatives[locale]
+    if (typeof text === 'string' && text.trim()) return { alt: text.trim(), lang: locale }
+  }
+  return { alt: '' }
+}
+
 // Fetch private images through the JWT client, never through a supplied storage URL.
 export function loadLessonImage(client, imageId, onLoad, onError, urlApi = URL) {
   const controller = new AbortController()
