@@ -6,6 +6,7 @@ import './i18n'
 import ThemeProvider from './theme/ThemeProvider'
 import { getPreferredTheme } from './theme/useTheme'
 import './index.css'
+import './styles/v2-tokens.css'
 import App from './App.jsx'
 
 document.documentElement.dataset.theme = getPreferredTheme()

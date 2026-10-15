@@ -5,7 +5,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { I18nextProvider } from 'react-i18next'
 import { createInstance } from 'i18next'
-import { createServer } from 'vite'
+import { createTestServer } from './helpers/vite.mjs'
 import { createQuizSubmission, loadLessonQuiz, loadQuizAttempt, loadQuizHistory, normalizeAttempt, normalizeQuiz, quizAnswers, quizErrorKey, selectQuizChoice } from '../src/utils/quizzes.js'
 
 const quiz = {
@@ -27,7 +27,7 @@ let server, Question, Results, Confirmation, LoadState, HistoryPanel
 const dictionaries = new Map()
 
 before(async () => {
-  server = await createServer({ server: { middlewareMode: true, hmr: false, ws: false }, optimizeDeps: { noDiscovery: true, include: [] }, appType: 'custom' })
+  server = await createTestServer()
   Question = (await server.ssrLoadModule('/src/components/QuizQuestion.jsx')).default
   Results = (await server.ssrLoadModule('/src/components/QuizResults.jsx')).default
   const lessonQuiz = await server.ssrLoadModule('/src/components/LessonQuiz.jsx')

@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { MemoryRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import { createInstance } from 'i18next'
-import { createServer } from 'vite'
+import { createTestServer } from './helpers/vite.mjs'
 import { lessonErrorKey, lessonNavigation, loadCourseOutline, loadEnrollmentProgress, orderCurriculum, saveLessonCompletion } from '../src/utils/lessons.js'
 
 const modules = [
@@ -24,7 +24,7 @@ const translations = new Map()
 let server, Sidebar, Material, Status
 
 before(async () => {
-  server = await createServer({ server: { middlewareMode: true, hmr: false, ws: false }, optimizeDeps: { noDiscovery: true, include: [] }, appType: 'custom' })
+  server = await createTestServer()
   Sidebar = (await server.ssrLoadModule('/src/components/LessonCourseSidebar.jsx')).default
   const view = await server.ssrLoadModule('/src/pages/LessonView.jsx')
   Material = view.LessonMaterial

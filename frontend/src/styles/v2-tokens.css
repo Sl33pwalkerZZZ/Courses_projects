@@ -1,0 +1,77 @@
+/* AI Signal Studio. Derived from docs/design/ai-courses-v2.tokens.json.
+   V2 is opt-in: legacy page aliases are not remapped globally. */
+:root {
+  --v2-canvas: #0B1020;
+  --v2-surface: #121A2C;
+  --v2-surface-raised: #182338;
+  --v2-text: #EEF4FF;
+  --v2-text-muted: #A9B7D0;
+  --v2-border: #35445F;
+  --v2-control-border: #667995;
+  --v2-primary: #84B7FF;
+  --v2-primary-hover: #A3CAFF;
+  --v2-on-primary: #07101F;
+  --v2-focus: #84B7FF;
+  --v2-accent: #51D6C5;
+  --v2-success: #6CE5B7;
+  --v2-warning: #F5C16C;
+  --v2-danger: #FF9AAE;
+  --v2-danger-hover: #FFB8C5;
+  --v2-on-danger: #07101F;
+  --v2-hero-canvas: #0B1224;
+  --v2-hero-text: #F5F8FF;
+  --v2-hero-text-muted: #BAC7DD;
+  --v2-hero-primary: #84B7FF;
+  --v2-hero-on-primary: #07101F;
+  --v2-hero-focus: #51D6C5;
+  --v2-hero-border: #45526D;
+  --v2-hero-primary-hover: #A3CAFF;
+  --v2-hero-surface-raised: #182338;
+  --v2-font-ui: "Noto Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --v2-font-code: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --v2-radius-small: 8px;
+  --v2-radius-control: 12px;
+  --v2-radius-card: 16px;
+  --v2-radius-hero: 24px;
+  --v2-radius-pill: 999px;
+  --v2-space-4: 4px;
+  --v2-space-8: 8px;
+  --v2-space-12: 12px;
+  --v2-space-16: 16px;
+  --v2-space-20: 20px;
+  --v2-space-24: 24px;
+  --v2-space-32: 32px;
+  --v2-space-40: 40px;
+  --v2-space-48: 48px;
+  --v2-space-64: 64px;
+  --v2-space-80: 80px;
+  --v2-space-96: 96px;
+  --v2-control-height: 48px;
+  --v2-content-max: 1280px;
+  --v2-shadow-card: 0 8px 24px rgb(0 0 0 / 18%);
+  --v2-shadow-overlay: 0 16px 48px rgb(0 0 0 / 35%);
+  --v2-header-height: 72px;
+}
+:root[data-theme="light"] {
+  --v2-canvas: #F4F7FC;
+  --v2-surface: #FFFFFF;
+  --v2-surface-raised: #EAF0F9;
+  --v2-text: #101828;
+  --v2-text-muted: #46566F;
+  --v2-border: #D7DFEB;
+  --v2-control-border: #74829A;
+  --v2-primary: #1255D9;
+  --v2-primary-hover: #0B42B4;
+  --v2-on-primary: #FFFFFF;
+  --v2-focus: #1255D9;
+  --v2-accent: #0B7A75;
+  --v2-success: #087052;
+  --v2-warning: #865200;
+  --v2-danger: #B4233A;
+  --v2-danger-hover: #8F1C2F;
+  --v2-on-danger: #FFFFFF;
+  --v2-shadow-card: 0 8px 24px rgb(16 24 40 / 6%);
+  --v2-shadow-overlay: 0 16px 48px rgb(16 24 40 / 16%);
+}
+.v2-scope { font-family: var(--v2-font-ui); color: var(--v2-text); }
+@media (max-width: 1023px) { :root { --v2-header-height: 64px; } }

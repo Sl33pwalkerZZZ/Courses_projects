@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { MemoryRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import { createInstance } from 'i18next'
-import { createServer } from 'vite'
+import { createTestServer } from './helpers/vite.mjs'
 import { activityLevel, buildActivityGrid, loadLearningActivity, normalizeActivity } from '../src/utils/activity.js'
 
 const now = new Date('2024-03-01T12:00:00Z')
@@ -20,7 +20,7 @@ let server, Calendar, Panel, Sections
 const dictionaries = new Map()
 
 before(async () => {
-  server = await createServer({ server: { middlewareMode: true, hmr: false, ws: false }, optimizeDeps: { noDiscovery: true, include: [] }, appType: 'custom' })
+  server = await createTestServer()
   Calendar = (await server.ssrLoadModule('/src/components/LearningActivityCalendar.jsx')).default
   Panel = (await server.ssrLoadModule('/src/components/ProfileLearningActivity.jsx')).LearningActivityPanel
   Sections = (await server.ssrLoadModule('/src/pages/Profile.jsx')).ProfileLearningSections

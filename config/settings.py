@@ -150,6 +150,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 PUBLIC_MEDIA_URL = '/media/'
 PUBLIC_MEDIA_ROOT = BASE_DIR / 'public-media'
 
+# Optional authored image alternatives; private metadata, not a database/content rewrite.
+LESSON_IMAGE_DESCRIPTIONS_FILE = MEDIA_ROOT / 'lesson-image-descriptions.json'
+
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration

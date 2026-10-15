@@ -5,6 +5,7 @@ from progress.models import LessonProgress
 from reviews.summaries import display_average
 
 from .models import Assignment, Course, Direction, Lesson, LessonImage, Module
+from .image_descriptions import image_alt_text, load_image_descriptions
 
 
 class DirectionSerializer(serializers.ModelSerializer):
@@ -56,14 +57,21 @@ class CourseDetailSerializer(RatedCourseListSerializer):
 
 class LessonImageSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
+    alt_text = serializers.SerializerMethodField()
 
     def get_image(self, image):
         # Never expose FileField/storage URLs in the student API.
         return reverse("lesson-image", args=[image.pk])
 
+    def get_alt_text(self, image):
+        # Nested images share the lesson serializer's context: one read per response.
+        if "image_descriptions" not in self.context:
+            self.context["image_descriptions"] = load_image_descriptions()
+        return image_alt_text(self.context["image_descriptions"], image.pk)
+
     class Meta:
         model = LessonImage
-        fields = ["id", "image", "order"]
+        fields = ["id", "image", "order", "alt_text"]
 
 
 class AssignmentSerializer(serializers.ModelSerializer):

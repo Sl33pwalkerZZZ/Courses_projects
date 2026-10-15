@@ -7,7 +7,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { MemoryRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import { createInstance } from 'i18next'
-import { createServer } from 'vite'
+import { createTestServer } from './helpers/vite.mjs'
 import { courseErrorKind, loadCourse } from '../src/utils/courseDetail.js'
 
 let server
@@ -15,10 +15,7 @@ let CourseLoadError
 const translations = new Map()
 
 before(async () => {
-  server = await createServer({
-    server: { middlewareMode: true, hmr: false, ws: false },
-    optimizeDeps: { noDiscovery: true, include: [] }, appType: 'custom',
-  })
+  server = await createTestServer()
   CourseLoadError = (await server.ssrLoadModule('/src/pages/CourseDetail.jsx')).CourseLoadError
   for (const language of ['en', 'ru', 'kk']) {
     const dictionary = JSON.parse(await readFile(new URL(`../src/i18n/locales/${language}.json`, import.meta.url), 'utf8'))

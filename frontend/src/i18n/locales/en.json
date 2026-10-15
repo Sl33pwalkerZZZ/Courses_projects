@@ -9,6 +9,8 @@
     "reset": "Reset filters"
   },
   "header": {
+    "menu": "Open menu",
+    "closeMenu": "Close menu",
     "skip": "Skip to content",
     "home": "AI Courses — home",
     "tagline": "A LIBRARY OF NEW KNOWLEDGE",
@@ -396,5 +398,12 @@
     "signIn": "Your session has ended. Sign in again to access the quiz.",
     "accessDenied": "Enrollment is required to access this quiz.",
     "tryAgain": "Try again"
+  },
+  "studio": {
+    "eyebrow": "THE FUTURE IS LEARNED",
+    "title": "Build skills for",
+    "titleAccent": "the AI era.",
+    "description": "Practical courses for learning, work and everyday ideas. Explore AI and put your knowledge into practice.",
+    "appearance": "Appearance"
   }
 }

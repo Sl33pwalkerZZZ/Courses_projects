@@ -1,0 +1,20 @@
+.signal-map { width: 340px; height: 340px; position: relative; justify-self: center; pointer-events: none; }
+.signal-map-stage { position: relative; width: 340px; height: 340px; }
+.signal-map-stage img { position: absolute; display: block; max-width: none; }
+.signal-map-blue { left: 0; top: 0; }
+.signal-map-teal { left: 76px; top: 76px; }
+.signal-map-core { left: 127px; top: 127px; }
+.signal-map-trace { position: absolute; inset: 0; width: 340px; height: 340px; }
+.signal-map-trace path { stroke: var(--v2-hero-text); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.signal-map-trace .signal-map-branch { opacity: .5; }
+.signal-map-trace circle { fill: var(--v2-hero-text); stroke: var(--v2-hero-canvas); stroke-width: 2; }
+@media (max-width: 1100px) and (min-width: 768px) {
+  .signal-map { width: 272px; height: 272px; }
+  .signal-map-stage { transform: scale(.8); transform-origin: top left; }
+}
+@media (max-width: 767px) {
+  .signal-map { width: 136px; height: 136px; }
+  .signal-map-stage { transform: scale(.4); transform-origin: top left; }
+  /* Mobile renders the complete static signal, without drawing work. */
+  .signal-map-trace path { stroke-dasharray: none !important; stroke-dashoffset: 0 !important; }
+}

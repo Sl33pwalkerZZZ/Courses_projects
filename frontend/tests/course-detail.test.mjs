@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { MemoryRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import { createInstance } from 'i18next'
-import { createServer } from 'vite'
+import { createTestServer } from './helpers/vite.mjs'
 
 let server
 let CourseCurriculum
@@ -22,10 +22,7 @@ const modules = [
 
 before(async () => {
   // Compile the real JSX with the already installed Vite; no DOM package or API calls.
-  server = await createServer({
-    server: { middlewareMode: true, hmr: false, ws: false },
-    optimizeDeps: { noDiscovery: true, include: [] }, appType: 'custom',
-  })
+  server = await createTestServer()
   CourseCurriculum = (await server.ssrLoadModule('/src/components/CourseCurriculum.jsx')).default
   CourseEnrollment = (await server.ssrLoadModule('/src/components/CourseEnrollment.jsx')).default
   for (const language of ['en', 'ru', 'kk']) {

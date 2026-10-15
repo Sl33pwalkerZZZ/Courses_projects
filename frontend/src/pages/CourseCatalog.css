@@ -80,3 +80,50 @@
   .academic-course-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .catalog-state { padding: 40px 20px; }
 }
+
+/* Phase 1 opt-in bridge: private pages keep the academic palette and type. */
+.v2-home { max-width: none; padding: 0; background: var(--v2-canvas); }
+.v2-home .catalog-page {
+  --ink: var(--v2-canvas);
+  --surface: var(--v2-surface);
+  --surface-raised: var(--v2-surface-raised);
+  --foreground: var(--v2-text);
+  --secondary: var(--v2-text-muted);
+  --gold: var(--v2-accent);
+  --cyan: var(--v2-focus);
+  --line: var(--v2-border);
+  --line-strong: var(--v2-control-border);
+  --font-heading: var(--v2-font-ui);
+  --button-bg: var(--v2-primary);
+  --button-hover: var(--v2-primary-hover);
+  --button-text: var(--v2-on-primary);
+  --badge-bg: var(--v2-surface-raised);
+  --badge-text: var(--v2-accent);
+  --badge-border: var(--v2-border);
+  --card-bg: var(--v2-surface);
+  --card-shadow: var(--v2-shadow-card);
+  --state-bg: var(--v2-surface);
+  --skeleton-line: var(--v2-border);
+  --art-default: var(--v2-surface-raised);
+  --art-gold: var(--v2-surface-raised);
+  max-width: 1440px;
+  margin: auto;
+  padding: 32px 64px 0;
+}
+.v2-home .course-library { margin-top: 0; padding: 64px 16px 80px; scroll-margin-top: 16px; }
+.v2-home .library-heading h2 { font-weight: 700; font-size: 36px; line-height: 44px; }
+.v2-home .library-heading .eyebrow { font-size: 12px; letter-spacing: .08em; }
+.v2-home .course-count, .v2-home .catalog-results { font-size: 14px; line-height: 22px; }
+.v2-home .catalog-filters { border-radius: var(--v2-radius-card); }
+.v2-home .catalog-search, .v2-home .filter-reset { border-color: var(--v2-control-border); border-radius: var(--v2-radius-control); }
+.v2-home .catalog-select label { font-size: 12px; }
+.v2-home .academic-course-card h3 { font-weight: 700; font-size: 20px; line-height: 28px; }
+.v2-home .catalog-state h3 { font-weight: 700; }
+@media (max-width: 1200px) { .v2-home .catalog-page { padding-inline: 32px; } .v2-home .course-library { padding-inline: 0; } }
+@media (max-width: 1023px) { .v2-home .catalog-page { padding: 24px 24px 0; } }
+@media (max-width: 639px) {
+  .v2-home .catalog-page { padding: 16px 16px 0; }
+  .v2-home .course-library { padding: 40px 0 48px; }
+  .v2-home .library-heading { gap: 16px; }
+  .v2-home .library-heading h2 { font-size: 28px; line-height: 36px; }
+}

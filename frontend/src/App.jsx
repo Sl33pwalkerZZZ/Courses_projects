@@ -21,7 +21,8 @@ export default function App() {
   const { t } = useTranslation()
   const isAuthPage = pathname === '/login' || pathname === '/register'
   const pageClassName = isAuthPage ? 'auth-container'
-    : pathname === '/' || pathname === '/profile' ? 'catalog-container' : 'container legacy-page'
+    : pathname === '/' ? 'catalog-container v2-home'
+      : pathname === '/profile' ? 'catalog-container' : 'container legacy-page'
 
   // React Router preserves scroll by default; a catalog card may be far down the page.
   useLayoutEffect(() => {

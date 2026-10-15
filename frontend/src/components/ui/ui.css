@@ -1,0 +1,33 @@
+.v2-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: var(--v2-control-height);
+  padding: 12px 20px;
+  border: 1px solid transparent;
+  border-radius: var(--v2-radius-control);
+  font: 600 14px/20px var(--v2-font-ui);
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 120ms, border-color 120ms, color 120ms;
+}
+.v2-button svg { flex-shrink: 0; }
+.v2-button:hover { text-decoration: none; }
+.v2-button--primary { background: var(--v2-primary); color: var(--v2-on-primary); }
+.v2-button--primary:hover { background: var(--v2-primary-hover); }
+.v2-button--secondary { background: var(--v2-surface); color: var(--v2-text); border-color: var(--v2-control-border); }
+.v2-button--secondary:hover, .v2-button--ghost:hover { background: var(--v2-surface-raised); }
+.v2-button--ghost { background: transparent; color: var(--v2-text); }
+.v2-button--danger { background: var(--v2-danger); color: var(--v2-on-danger); }
+.v2-button--danger:hover { background: var(--v2-danger-hover); }
+.v2-button:disabled { color: var(--v2-text-muted); background: var(--v2-surface-raised); border-color: var(--v2-border); cursor: default; }
+.v2-button:focus-visible, .v2-dialog :focus-visible { outline: 3px solid var(--v2-focus); outline-offset: 3px; }
+.v2-icon-button { width: 44px; min-width: 44px; min-height: 44px; padding: 10px; }
+.v2-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: var(--v2-radius-pill); font: 600 12px/18px var(--v2-font-ui); background: var(--v2-surface-raised); color: var(--v2-text-muted); }
+.v2-badge--success { color: var(--v2-success); }
+.v2-badge--pending { color: var(--v2-warning); }
+.v2-badge--error { color: var(--v2-danger); }
+.v2-dialog { border: 1px solid var(--v2-border); border-radius: var(--v2-radius-card); background: var(--v2-surface); color: var(--v2-text); padding: 24px; font-family: var(--v2-font-ui); box-shadow: var(--v2-shadow-overlay); }
+.v2-dialog::backdrop { background: rgb(7 16 31 / 55%); }
+@media (prefers-reduced-motion: reduce) { .v2-button { transition: none; } }
