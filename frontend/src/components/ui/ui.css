@@ -30,4 +30,5 @@
 .v2-badge--error { color: var(--v2-danger); }
 .v2-dialog { border: 1px solid var(--v2-border); border-radius: var(--v2-radius-card); background: var(--v2-surface); color: var(--v2-text); padding: 24px; font-family: var(--v2-font-ui); box-shadow: var(--v2-shadow-overlay); }
 .v2-dialog::backdrop { background: rgb(7 16 31 / 55%); }
+.v2-surface { border: 1px solid var(--v2-border); border-radius: var(--v2-radius-card); background: var(--v2-surface); color: var(--v2-text); }
 @media (prefers-reduced-motion: reduce) { .v2-button { transition: none; } }

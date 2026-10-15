@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Library, SearchX } from 'lucide-react'
+import { Library } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
 import CatalogFilters from '../components/CatalogFilters'
 import CourseCard from '../components/CourseCard'
-import Reveal from '../components/Reveal'
 import HomeHero from '../components/HomeHero'
+import Badge from '../components/ui/Badge'
+import { CatalogSkeleton, CatalogState } from '../components/CatalogState'
+import LearningWorkflow from '../components/LearningWorkflow'
 import './CourseCatalog.css'
 
 export default function CourseCatalog() {
@@ -53,10 +55,11 @@ export default function CourseCatalog() {
     <div className="catalog-page v2-scope">
       <HomeHero />
       <section id="course-library" className="course-library" aria-labelledby="library-title" aria-busy={!courses && !error}>
-        <Reveal className="library-heading">
-          <div><p className="eyebrow">{t('catalog.libraryLabel')}</p><h2 id="library-title">{t('catalog.libraryTitle')}</h2></div>
-          <span className="course-count"><Library size={17} aria-hidden="true" />{courses ? t('catalog.courseCount', { count: courses.length }) : t('header.catalog')}</span>
-        </Reveal>
+        <div className="library-heading studio-section-heading">
+          <div><p className="studio-eyebrow">{t('studio.libraryLabel')}</p><h2 id="library-title">{t('studio.libraryTitle')}</h2>
+            <p className="studio-section-description">{t('studio.libraryDescription')}</p></div>
+          <Badge className="course-count"><Library size={16} aria-hidden="true" />{courses ? t('catalog.courseCount', { count: courses.length }) : t('header.catalog')}</Badge>
+        </div>
         <CatalogFilters search={search} onSearchChange={setSearch} level={level} onLevelChange={setLevel}
           direction={direction} onDirectionChange={setDirection} directions={directions}
           hasFilters={hasFilters} onReset={resetFilters} />
@@ -65,27 +68,18 @@ export default function CourseCatalog() {
             : hasFilters ? t('catalog.found', { courses: t('catalog.courseCount', { count: visibleCourses.length }) }) : t('catalog.prompt')}
         </p>
         {error ? (
-          <div className="catalog-state" role="alert">
-            <Library size={32} aria-hidden="true" /><h3>{t('catalog.errorTitle')}</h3><p>{t(error)}</p>
-            <button className="academic-button" onClick={retryLoading}>{t('common.retry')}</button>
-          </div>
+          <CatalogState kind="error" onAction={retryLoading} />
         ) : !courses ? (
-          <div className="academic-course-grid" aria-hidden="true">
-            {[0, 1, 2].map((index) => <div key={index} className="course-skeleton"><div /><span /><span /><span /></div>)}
-          </div>
+          <CatalogSkeleton />
         ) : visibleCourses.length === 0 ? (
-          <div className="catalog-state">
-            <SearchX size={32} aria-hidden="true" />
-            <h3>{t(hasFilters ? 'catalog.emptyTitle' : 'catalog.noCoursesTitle')}</h3>
-            <p>{t(hasFilters ? 'catalog.emptyDescription' : 'catalog.noCoursesDescription')}</p>
-            {hasFilters && <button className="academic-button" onClick={resetFilters}>{t('common.reset')}</button>}
-          </div>
+          <CatalogState kind={hasFilters ? 'filtered' : 'empty'} onAction={resetFilters} />
         ) : (
           <div className="academic-course-grid">
             {visibleCourses.map((course, index) => <CourseCard key={course.id} course={course} index={index} />)}
           </div>
         )}
       </section>
+      <LearningWorkflow />
     </div>
   )
 }

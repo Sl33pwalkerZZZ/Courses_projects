@@ -1,14 +1,24 @@
-.catalog-filters { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(170px, 220px) minmax(170px, 205px) 48px; align-items: center; gap: 12px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
-.catalog-search { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 0 15px; height: 54px; border: 1px solid var(--line); border-radius: 6px; background: var(--ink); color: var(--secondary); }
-.catalog-search:focus-within { border-color: var(--cyan); }
-.catalog-search input { width: 100%; min-width: 0; height: 100%; border: 0; background: transparent; color: var(--foreground); font-size: .87rem; }
-.catalog-search input::placeholder { color: var(--secondary); opacity: 1; }
-.catalog-search input:focus-visible { outline-offset: 0; }
-.catalog-select { min-width: 0; }
-.catalog-select label { display: block; padding-left: 10px; margin-bottom: 3px; color: var(--secondary); font-size: .65rem; }
-.catalog-select select { width: 100%; min-height: 33px; padding: 3px 8px; border: 0; border-radius: 4px; background: var(--surface); color: var(--foreground); font-size: .83rem; cursor: pointer; }
-.filter-reset { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid var(--line); border-radius: 6px; color: var(--foreground); background: var(--surface-raised); }
-.filter-reset:hover:not(:disabled) { border-color: var(--gold); }
-.filter-reset:disabled { color: var(--secondary); background: transparent; }
-@media (max-width: 1199px) { .catalog-filters { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 48px; } .catalog-search { grid-column: 1 / -1; } }
-@media (max-width: 767px) { .catalog-filters { grid-template-columns: minmax(0, 1fr) 48px; padding: 12px; } .catalog-select { grid-column: 1 / -1; } .filter-reset { grid-column: 2; } .catalog-select select { min-height: 44px; } .catalog-search input, .catalog-select select { font-size: 1rem; } }
+.catalog-filters { display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 220px) minmax(180px, 200px) 48px; align-items: end; gap: 16px; padding: 20px; background: var(--v2-surface); border: 1px solid var(--v2-border); border-radius: var(--v2-radius-card); }
+.catalog-search-group, .catalog-select { min-width: 0; }
+.catalog-filters label { display: block; margin-bottom: 8px; color: var(--v2-text-muted); font-size: 14px; line-height: 20px; }
+.catalog-search { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 0 14px; min-height: 48px; border: 1px solid var(--v2-control-border); border-radius: var(--v2-radius-control); background: var(--v2-surface); color: var(--v2-text-muted); }
+.catalog-search > svg { flex-shrink: 0; }
+.catalog-search:focus-within { outline: 3px solid var(--v2-focus); outline-offset: 3px; }
+.catalog-search input { width: 100%; min-width: 0; height: 46px; padding: 8px 0; border: 0; background: transparent; color: var(--v2-text); font: 400 14px/24px var(--v2-font-ui); }
+.catalog-search input::placeholder { color: var(--v2-text-muted); opacity: 1; }
+.catalog-search input:focus-visible { outline: none; }
+.catalog-select select { width: 100%; min-height: 48px; padding: 10px 12px; border: 1px solid var(--v2-control-border); border-radius: var(--v2-radius-control); background: var(--v2-surface); color: var(--v2-text); font: 400 14px/24px var(--v2-font-ui); cursor: pointer; }
+.catalog-select select:focus-visible { outline: 3px solid var(--v2-focus); outline-offset: 3px; }
+.filter-reset.v2-button { width: 48px; min-height: 48px; padding: 12px; }
+.filter-reset-label { display: none; }
+@media (max-width: 1100px) {
+  .catalog-filters { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 48px; }
+  .catalog-search-group { grid-column: 1 / -1; }
+}
+@media (max-width: 639px) {
+  .catalog-filters { grid-template-columns: minmax(0, 1fr) 48px; padding: 16px; gap: 16px 12px; }
+  .catalog-select { grid-column: 1 / -1; }
+  .filter-reset.v2-button { grid-column: 1 / -1; width: auto; }
+  .filter-reset-label { display: inline; }
+  .catalog-search input, .catalog-select select { font-size: 16px; }
+}

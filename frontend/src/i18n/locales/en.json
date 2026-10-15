@@ -404,6 +404,29 @@
     "title": "Build skills for",
     "titleAccent": "the AI era.",
     "description": "Practical courses for learning, work and everyday ideas. Explore AI and put your knowledge into practice.",
-    "appearance": "Appearance"
+    "appearance": "Appearance",
+    "libraryLabel": "CURATED LEARNING",
+    "libraryTitle": "Explore what’s next",
+    "libraryDescription": "Find your direction. Build practical AI skills, one course at a time.",
+    "searchLabel": "Search courses",
+    "catalogErrorTitle": "We couldn’t load the courses",
+    "catalogEmptyTitle": "New courses are on the way",
+    "workflowLabel": "YOUR LEARNING FLOW",
+    "workflowTitle": "How learning works",
+    "footerLabel": "KEEP EXPLORING",
+    "workflow": {
+      "explore": {
+        "title": "Find your direction",
+        "description": "Search the catalog and choose a course that fits your goals."
+      },
+      "access": {
+        "title": "Get course access",
+        "description": "Enroll directly or send an application, depending on the course."
+      },
+      "practice": {
+        "title": "Put ideas to work",
+        "description": "Learn from the lesson material and apply new knowledge at your own pace."
+      }
+    }
   }
 }

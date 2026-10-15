@@ -25,3 +25,19 @@
   .footer-inner { padding: 24px 20px 20px; }
   .footer-bottom { flex-direction: column; }
 }
+
+/* Public homepage footer; other routes retain their checkpoint footer. */
+.studio-footer { border-color: var(--v2-border); background: var(--v2-surface); }
+.studio-footer-inner { max-width: 1440px; margin: auto; padding: 48px 80px 24px; }
+.studio-footer-top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(200px, 280px); gap: 64px; padding-bottom: 40px; }
+.studio-footer-about > p { max-width: 480px; color: var(--v2-text-muted); font-size: 14px; line-height: 24px; margin: 16px 0 0; }
+.studio-footer nav { display: flex; flex-direction: column; align-items: flex-start; }
+.studio-footer nav a { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: var(--v2-text-muted); font-size: 14px; line-height: 22px; }
+.studio-footer nav svg { flex-shrink: 0; }
+.studio-footer nav a:hover { color: var(--v2-primary); }
+.studio-footer-bottom { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px 40px; border-top: 1px solid var(--v2-border); padding-top: 24px; }
+.studio-footer-bottom p { margin: 0; max-width: 640px; color: var(--v2-text-muted); font-size: 14px; line-height: 24px; }
+.studio-footer :focus-visible { outline: 3px solid var(--v2-focus); outline-offset: 3px; }
+@media (max-width: 1200px) { .studio-footer-inner { padding-inline: 32px; } }
+@media (max-width: 1023px) { .studio-footer-inner { padding-inline: 24px; } .studio-footer-top { gap: 32px; } }
+@media (max-width: 639px) { .studio-footer-inner { padding: 32px 16px 24px; } .studio-footer-top { grid-template-columns: 1fr; gap: 32px; padding-bottom: 32px; } }

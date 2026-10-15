@@ -1,129 +1,61 @@
+/* Deferred Profile layouts retain their existing shared styles. */
 .catalog-container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
-.catalog-page { position: relative; isolation: isolate; }
-.catalog-hero { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: center; gap: 56px; padding: 86px 0 72px; }
-.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
-.hero-copy h1 { margin: 24px 0; font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.6rem, 4.4vw, 4.15rem); line-height: 1.14; letter-spacing: -.045em; overflow-wrap: anywhere; }
-.hero-copy h1 em { color: var(--heading-accent); font-weight: 400; }
-.hero-description { max-width: 490px; color: var(--secondary); font-size: .97rem; line-height: 1.95; margin: 0; }
-.hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: 31px; }
-.hero-secondary { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; font-size: .82rem; color: var(--foreground); }
-.hero-note { display: flex; align-items: center; gap: 9px; margin-top: 31px; color: var(--secondary); font-size: .72rem; }
-.research-visual { position: relative; min-width: 0; padding: 23px; background: var(--research-bg); border: 1px solid var(--line); border-radius: 12px; }
-.knowledge-index { pointer-events: none; user-select: none; }
-.research-topline { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; color: var(--secondary); font-size: .56rem; letter-spacing: .12em; line-height: 1.7; }
-.research-topline > span:last-child { flex-shrink: 0; font-variant-numeric: tabular-nums; }
-.index-diagram { position: relative; width: 100%; min-height: 300px; aspect-ratio: 1.18; margin: 20px 0; background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px); background-size: 32px 32px; }
-.index-connectors { position: absolute; inset: 0; width: 100%; height: 100%; }
-.index-connectors path { stroke: var(--cyan-line); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.index-connectors rect { fill: var(--gold); }
-.index-document { position: absolute; display: grid; gap: 12px; padding: 16px; border: 1px solid var(--line); background: var(--surface); }
-.index-knowledge { top: 10%; left: 6%; width: 43%; }
-.index-research { top: 67%; right: 4%; width: 40%; }
-.index-reference { color: var(--gold); font-family: var(--font-heading); font-size: .7rem; letter-spacing: .06em; font-variant-numeric: tabular-nums; }
-.index-label { color: var(--secondary); font-size: .59rem; letter-spacing: .08em; line-height: 1.6; overflow-wrap: anywhere; }
-.index-document i { height: 1px; background: var(--line); }
-.index-document i:last-child { width: 65%; }
-.index-core { position: absolute; top: 34%; left: 52%; width: 42%; padding: 8px 0 12px 16px; border-left: 1px solid var(--gold-line); border-bottom: 1px solid var(--gold-line); }
-.index-core > span { color: var(--foreground); font-family: var(--font-heading); font-size: 3.1rem; letter-spacing: -.06em; }
-.index-core small { display: block; margin-top: 6px; color: var(--secondary); font-family: var(--font-heading); font-style: italic; font-size: .75rem; line-height: 1.5; overflow-wrap: anywhere; }
-.index-annotation { position: absolute; top: 73%; left: 6%; width: 35%; display: grid; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
-.research-caption { display: flex; align-items: center; gap: 9px; color: var(--secondary); font-size: .61rem; line-height: 1.6; }
-.caption-line { width: 19px; height: 1px; background: var(--gold); flex-shrink: 0; }
-.platform-intro { display: grid; grid-template-columns: 1fr 2fr; align-items: center; gap: 40px; padding: 29px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.platform-intro p { margin: 0; max-width: 740px; color: var(--secondary); font-size: .88rem; line-height: 1.85; }
-/* The real library enters over the portal's final viewport; there is no duplicate grid. */
-.course-library { position: relative; z-index: 1; margin-top: -100svh; padding: 64px 0 72px; background: var(--ink); }
-.library-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 27px; }
-.library-heading .eyebrow { margin-top: 0; }
-.library-heading h2 { margin: 12px 0 0; font-family: var(--font-heading); font-size: clamp(2rem, 3vw, 2.7rem); font-weight: 400; letter-spacing: -.03em; }
-.course-count { display: inline-flex; align-items: center; flex-shrink: 0; gap: 9px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 5px; color: var(--secondary); font-size: .73rem; }
-.catalog-results { margin: 20px 0; font-size: .74rem; color: var(--secondary); }
 .academic-course-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .catalog-state { display: flex; flex-direction: column; align-items: center; padding: 60px 24px; text-align: center; border: 1px dashed var(--line-strong); border-radius: 10px; background: var(--state-bg); }
 .catalog-state > svg { color: var(--gold); }
 .catalog-state h3 { margin: 22px 0 0; font-family: var(--font-heading); font-size: 1.7rem; font-weight: 400; }
 .catalog-state p { color: var(--secondary); max-width: 450px; font-size: .88rem; line-height: 1.8; margin-bottom: 24px; }
-.course-skeleton { height: 395px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
-.course-skeleton div { height: 168px; background: var(--surface-raised); }
-.course-skeleton span { display: block; height: 14px; margin: 26px 24px; border-radius: 4px; background: var(--skeleton-line); animation: skeleton-pulse 2s ease-in-out infinite alternate; }
-.course-skeleton span:last-child { width: 45%; }
-@keyframes skeleton-pulse { to { opacity: .4; } }
-@media (max-width: 1199px) {
-  .academic-course-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .catalog-hero { gap: 32px; }
-}
-@media (prefers-reduced-motion: reduce), (max-width: 767px) and (max-height: 650px) {
-  .course-library { margin-top: 0; }
-}
-@media (max-width: 900px) {
-  .catalog-container { padding-inline: 24px; }
-  .catalog-hero { grid-template-columns: 1fr; padding-top: 52px; }
-  .hero-description { max-width: 590px; }
-  .research-visual { width: min(100%, 440px); justify-self: center; }
-  .index-diagram { min-height: 270px; aspect-ratio: 1.4; }
-  .platform-intro { grid-template-columns: 1fr; gap: 12px; }
-}
-@media (max-width: 767px) {
-  .catalog-container { padding-inline: 20px; }
-  .catalog-hero { padding: 40px 0; gap: 36px; }
-  .hero-copy h1 { font-size: clamp(2.15rem, 7.5vw, 3.3rem); }
-  .hero-actions { gap: 12px; }
-  .hero-description { font-size: .9rem; }
-  .research-visual { padding: 18px; }
-  .index-diagram { min-height: 240px; margin: 16px 0; }
-  .index-document { padding: 12px; gap: 10px; }
-  .index-research, .index-connectors path:nth-child(n+2), .index-connectors rect { display: none; }
-  .index-core { padding-left: 12px; }
-  .index-core > span { font-size: 2.5rem; }
-  .course-library { padding: 40px 0; }
-  .library-heading { align-items: flex-start; flex-direction: column; gap: 18px; }
-  .academic-course-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .catalog-state { padding: 40px 20px; }
-}
+@media (max-width: 1199px) { .academic-course-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .catalog-container { padding-inline: 24px; } }
+@media (max-width: 767px) { .catalog-container { padding-inline: 20px; } .academic-course-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; } .catalog-state { padding: 40px 20px; } }
 
-/* Phase 1 opt-in bridge: private pages keep the academic palette and type. */
+/* Public homepage: all presentation comes directly from Signal Studio tokens. */
 .v2-home { max-width: none; padding: 0; background: var(--v2-canvas); }
-.v2-home .catalog-page {
-  --ink: var(--v2-canvas);
-  --surface: var(--v2-surface);
-  --surface-raised: var(--v2-surface-raised);
-  --foreground: var(--v2-text);
-  --secondary: var(--v2-text-muted);
-  --gold: var(--v2-accent);
-  --cyan: var(--v2-focus);
-  --line: var(--v2-border);
-  --line-strong: var(--v2-control-border);
-  --font-heading: var(--v2-font-ui);
-  --button-bg: var(--v2-primary);
-  --button-hover: var(--v2-primary-hover);
-  --button-text: var(--v2-on-primary);
-  --badge-bg: var(--v2-surface-raised);
-  --badge-text: var(--v2-accent);
-  --badge-border: var(--v2-border);
-  --card-bg: var(--v2-surface);
-  --card-shadow: var(--v2-shadow-card);
-  --state-bg: var(--v2-surface);
-  --skeleton-line: var(--v2-border);
-  --art-default: var(--v2-surface-raised);
-  --art-gold: var(--v2-surface-raised);
-  max-width: 1440px;
-  margin: auto;
-  padding: 32px 64px 0;
+.v2-home .catalog-page { max-width: 1440px; margin: auto; padding: 32px 64px 0; font: 400 16px/26px var(--v2-font-ui); }
+.studio-scroll-progress { background: var(--v2-primary); }
+.v2-home :focus-visible { outline: 3px solid var(--v2-focus); outline-offset: 3px; }
+.v2-home .course-library { padding: 64px 16px; scroll-margin-top: 16px; }
+.v2-home .library-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
+.studio-eyebrow { margin: 0 0 12px; color: var(--v2-accent); font: 650 12px/20px var(--v2-font-ui); letter-spacing: .08em; }
+.studio-section-heading h2 { margin: 0; color: var(--v2-text); font: 700 36px/44px var(--v2-font-ui); letter-spacing: -.035em; overflow-wrap: anywhere; }
+.studio-section-description { margin: 16px 0 0; max-width: 640px; color: var(--v2-text-muted); font-size: 16px; line-height: 26px; }
+.v2-home .course-count { flex-shrink: 0; margin-top: 28px; border: 1px solid var(--v2-border); border-radius: var(--v2-radius-control); color: var(--v2-text-muted); font-size: 14px; line-height: 22px; }
+.v2-home .catalog-results { margin: 20px 0 24px; color: var(--v2-text-muted); font-size: 14px; line-height: 22px; }
+.v2-home .academic-course-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.v2-home .catalog-state { padding: 48px 24px; border: 1px solid var(--v2-border); border-radius: var(--v2-radius-card); background: var(--v2-surface); }
+.studio-state-icon { display: grid; place-items: center; width: 56px; height: 56px; background: var(--v2-surface-raised); color: var(--v2-accent); border-radius: var(--v2-radius-card); }
+.v2-home .catalog-state h3 { margin: 24px 0 0; color: var(--v2-text); font: 700 24px/32px var(--v2-font-ui); }
+.v2-home .catalog-state p { margin: 16px 0 24px; color: var(--v2-text-muted); font-size: 16px; line-height: 26px; }
+.v2-home .course-skeleton { min-height: 380px; padding: 24px; }
+.studio-skeleton-heading { display: flex; gap: 16px; align-items: center; margin-bottom: 32px; }
+.studio-skeleton-heading i { width: 64px; height: 64px; border-radius: var(--v2-radius-card); background: var(--v2-surface-raised); }
+.studio-skeleton-heading span, .course-skeleton > span { display: block; height: 16px; border-radius: 4px; background: var(--v2-surface-raised); }
+.studio-skeleton-heading span { width: 40%; }
+.course-skeleton > span { margin-top: 20px; }
+.course-skeleton > span:nth-last-child(2) { width: 65%; }
+.course-skeleton > span:last-child { width: 45%; margin-top: 48px; }
+.studio-workflow { margin: 0 16px; padding: 48px 0 64px; border-top: 1px solid var(--v2-border); scroll-margin-top: 16px; }
+.studio-workflow ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; list-style: none; margin: 32px 0 0; padding: 0; }
+.studio-workflow li { padding: 24px; }
+.studio-step-top { display: flex; justify-content: space-between; align-items: center; color: var(--v2-accent); }
+.studio-step-top span { color: var(--v2-text-muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.studio-workflow h3 { margin: 24px 0 12px; font-size: 20px; line-height: 28px; letter-spacing: -.02em; }
+.studio-workflow li p { margin: 0; color: var(--v2-text-muted); font-size: 14px; line-height: 24px; }
+.studio-workflow-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 24px; color: var(--v2-primary); font-size: 14px; font-weight: 600; }
+@media (max-width: 1200px) {
+  .v2-home .catalog-page { padding-inline: 32px; }
+  .v2-home .course-library { padding-inline: 0; }
+  .studio-workflow { margin-inline: 0; }
 }
-.v2-home .course-library { margin-top: 0; padding: 64px 16px 80px; scroll-margin-top: 16px; }
-.v2-home .library-heading h2 { font-weight: 700; font-size: 36px; line-height: 44px; }
-.v2-home .library-heading .eyebrow { font-size: 12px; letter-spacing: .08em; }
-.v2-home .course-count, .v2-home .catalog-results { font-size: 14px; line-height: 22px; }
-.v2-home .catalog-filters { border-radius: var(--v2-radius-card); }
-.v2-home .catalog-search, .v2-home .filter-reset { border-color: var(--v2-control-border); border-radius: var(--v2-radius-control); }
-.v2-home .catalog-select label { font-size: 12px; }
-.v2-home .academic-course-card h3 { font-weight: 700; font-size: 20px; line-height: 28px; }
-.v2-home .catalog-state h3 { font-weight: 700; }
-@media (max-width: 1200px) { .v2-home .catalog-page { padding-inline: 32px; } .v2-home .course-library { padding-inline: 0; } }
-@media (max-width: 1023px) { .v2-home .catalog-page { padding: 24px 24px 0; } }
+@media (max-width: 1100px) { .v2-home .academic-course-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 1023px) { .v2-home .catalog-page { padding: 24px 24px 0; } .studio-workflow ol { grid-template-columns: 1fr; gap: 16px; } }
 @media (max-width: 639px) {
   .v2-home .catalog-page { padding: 16px 16px 0; }
   .v2-home .course-library { padding: 40px 0 48px; }
-  .v2-home .library-heading { gap: 16px; }
-  .v2-home .library-heading h2 { font-size: 28px; line-height: 36px; }
+  .v2-home .library-heading { flex-direction: column; gap: 16px; margin-bottom: 24px; }
+  .studio-section-heading h2 { font-size: 28px; line-height: 36px; }
+  .v2-home .course-count { margin: 0; }
+  .v2-home .academic-course-grid { grid-template-columns: 1fr; gap: 20px; }
+  .studio-workflow { padding: 40px 0 48px; }
+  .studio-workflow li { padding: 20px; }
 }

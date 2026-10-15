@@ -46,7 +46,7 @@ async (initialPage) => {
     })
   }
   try {
-    await page.goto('http://127.0.0.1:5175/')
+    await page.goto('http://localhost:5173/')
     await page.locator('.academic-course-card').nth(1).waitFor()
     require(await page.locator('.academic-course-card').count() === 2, 'Initial course count')
     const requests = courseRequests

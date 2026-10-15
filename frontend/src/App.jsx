@@ -34,7 +34,7 @@ export default function App() {
 
   return (
     <>
-      <ScrollProgress />
+      <ScrollProgress studio={pathname === '/'} />
       <Header />
       <main id="main-content" tabIndex={-1} className={pageClassName}>
         <Reveal key={pathname} immediate>
@@ -51,7 +51,7 @@ export default function App() {
           </Suspense>
         </Reveal>
       </main>
-      <Footer />
+      <Footer studio={pathname === '/'} />
     </>
   )
 }

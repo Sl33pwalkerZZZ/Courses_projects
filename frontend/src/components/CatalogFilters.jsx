@@ -1,5 +1,6 @@
 import { Search, SlidersHorizontal, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import Button from './ui/Button'
 import './CatalogFilters.css'
 
 export default function CatalogFilters({ search, onSearchChange, level, onLevelChange,
@@ -7,11 +8,13 @@ export default function CatalogFilters({ search, onSearchChange, level, onLevelC
   const { t } = useTranslation()
   return (
     <div className="catalog-filters" role="search" aria-label={t('filters.label')}>
-      <div className="catalog-search">
-        <label className="sr-only" htmlFor="course-search">{t('filters.searchLabel')}</label>
-        <Search size={19} aria-hidden="true" />
-        <input id="course-search" type="search" placeholder={t('filters.placeholder')}
-          value={search} onChange={(event) => onSearchChange(event.target.value)} />
+      <div className="catalog-search-group">
+        <label htmlFor="course-search">{t('studio.searchLabel')}</label>
+        <div className="catalog-search">
+          <Search size={20} strokeWidth={1.75} aria-hidden="true" />
+          <input id="course-search" type="search" placeholder={t('filters.placeholder')}
+            value={search} onChange={(event) => onSearchChange(event.target.value)} />
+        </div>
       </div>
       <div className="catalog-select">
         <label htmlFor="course-direction">{t('filters.direction')}</label>
@@ -29,9 +32,10 @@ export default function CatalogFilters({ search, onSearchChange, level, onLevelC
           <option value="advanced">{t('levels.advanced')}</option>
         </select>
       </div>
-      <button className="filter-reset" onClick={onReset} disabled={!hasFilters} aria-label={t('filters.reset')}>
+      <Button variant="secondary" className="filter-reset v2-icon-button" onClick={onReset} disabled={!hasFilters} aria-label={t('filters.reset')}>
         {hasFilters ? <X size={19} aria-hidden="true" /> : <SlidersHorizontal size={19} aria-hidden="true" />}
-      </button>
+        <span className="filter-reset-label">{t('common.reset')}</span>
+      </Button>
     </div>
   )
 }
