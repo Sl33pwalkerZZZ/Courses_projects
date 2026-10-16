@@ -1,4 +1,5 @@
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
+import { useReducedMotion } from '../hooks/useMotionPreferences'
 import { Moon, Sun } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../theme/useTheme'

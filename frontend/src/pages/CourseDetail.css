@@ -11,8 +11,8 @@
 .course-overview-intro { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; margin: 24px 0 0; color: var(--v2-hero-text-muted); font-size: 1rem; line-height: 1.75; white-space: pre-line; }
 .course-overview-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 16px 24px; margin: 28px 0 0; padding: 0; list-style: none; font-size: .8rem; color: var(--v2-hero-text-muted); }
 .course-overview-meta li { display: inline-flex; align-items: center; gap: 8px; }
-.course-overview-meta svg { flex-shrink: 0; color: var(--v2-hero-primary); }
-.course-overview-level { padding: 6px 10px; border-radius: 8px; background: var(--v2-hero-surface-raised); color: var(--v2-hero-primary); }
+.course-overview-meta svg { flex-shrink: 0; color: var(--v2-hero-link); }
+.course-overview-level { padding: 6px 10px; border-radius: 8px; background: var(--v2-hero-surface-raised); color: var(--v2-hero-link); }
 .course-overview-rating, .course-overview-rating > span:first-child { display: inline-flex; align-items: center; gap: 8px; }
 .course-overview-rating { flex-wrap: wrap; }
 .course-overview-author { display: flex; align-items: center; gap: 9px; margin: 20px 0 0; color: var(--v2-hero-text-muted); font-size: .8rem; overflow-wrap: anywhere; }

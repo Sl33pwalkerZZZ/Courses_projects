@@ -18,7 +18,7 @@
 .signal-hero-copy { min-width: 0; }
 .signal-hero-eyebrow { color: var(--v2-hero-focus); background: var(--v2-hero-surface-raised); letter-spacing: .06em; }
 .signal-hero h1 { margin: 28px 0 24px; font: 750 clamp(40px, 4.45vw, 64px)/1.125 var(--v2-font-ui); letter-spacing: -.04em; overflow-wrap: anywhere; }
-.signal-hero h1 span { color: var(--v2-hero-primary); }
+.signal-hero .signal-hero-title-accent { color: var(--v2-hero-link); }
 .signal-hero-description { max-width: 610px; margin: 0; color: var(--v2-hero-text-muted); font-size: 18px; line-height: 1.6; }
 .signal-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 .signal-hero .v2-button { min-height: 52px; }

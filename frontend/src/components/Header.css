@@ -6,13 +6,13 @@
 .header-nav { margin-left: auto; display: flex; align-items: center; gap: 24px; font-size: 14px; }
 .catalog-nav-link, .header-login { display: inline-flex; align-items: center; min-height: 44px; color: var(--v2-text-muted); font-weight: 500; line-height: 20px; }
 .site-header a:hover, .header-menu a:hover { text-decoration: none; }
-.site-header .catalog-nav-link:hover, .header-menu .catalog-nav-link:hover, .header-login:hover { color: var(--v2-primary); }
-.catalog-nav-link.active { color: var(--v2-primary); text-decoration: underline; text-underline-offset: 6px; }
+.site-header .catalog-nav-link:hover, .header-menu .catalog-nav-link:hover, .header-login:hover { color: var(--v2-link); }
+.catalog-nav-link.active { color: var(--v2-link); text-decoration: underline; text-underline-offset: 6px; }
 .header-preferences { display: flex; align-items: center; gap: 12px; }
 .header-preferences > div { display: flex; }
 .site-header .language-switcher, .header-menu .language-switcher { display: flex; padding: 0; gap: 2px; border-radius: var(--v2-radius-control); }
 .site-header .language-switcher button, .header-menu .language-switcher button { border: 0; border-radius: 8px; min-width: 44px; min-height: 44px; padding: 8px; color: var(--v2-text-muted); background: transparent; font-size: 12px; font-weight: 700; }
-.site-header .language-switcher button[aria-pressed="true"], .header-menu .language-switcher button[aria-pressed="true"] { background: var(--v2-surface-raised); color: var(--v2-primary); }
+.site-header .language-switcher button[aria-pressed="true"], .header-menu .language-switcher button[aria-pressed="true"] { background: var(--v2-surface-raised); color: var(--v2-link); }
 .site-header .theme-toggle, .header-menu .theme-toggle { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--v2-control-border); border-radius: var(--v2-radius-control); color: var(--v2-text); background: var(--v2-surface); }
 .theme-toggle > span { display: flex; }
 .site-header :focus-visible { outline: 3px solid var(--v2-focus); outline-offset: 3px; }
@@ -43,4 +43,4 @@ html { scroll-padding-top: calc(var(--v2-header-height) + 16px); }
   .header-menu-preferences { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) { .site-header *, .header-menu * { transition: none; } }
-.header-nav [aria-current="page"] { color: var(--v2-primary); text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 2px; }
+.header-nav [aria-current="page"] { color: var(--v2-link); text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 2px; }

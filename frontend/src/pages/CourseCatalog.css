@@ -43,7 +43,7 @@
 .studio-step-top span { color: var(--v2-text-muted); font-size: 14px; font-variant-numeric: tabular-nums; }
 .studio-workflow h3 { margin: 24px 0 12px; font-size: 20px; line-height: 28px; letter-spacing: -.02em; }
 .studio-workflow li p { margin: 0; color: var(--v2-text-muted); font-size: 14px; line-height: 24px; }
-.studio-workflow-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 24px; color: var(--v2-primary); font-size: 14px; font-weight: 600; }
+.studio-workflow-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 24px; color: var(--v2-link); font-size: 14px; font-weight: 600; }
 @media (max-width: 1200px) {
   .v2-home .catalog-page { padding-inline: 32px; }
   .v2-home .course-library { padding-inline: 0; }

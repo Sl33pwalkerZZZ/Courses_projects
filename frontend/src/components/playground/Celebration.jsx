@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
+import { useReducedMotion } from '../../hooks/useMotionPreferences'
 
 // Mount only after a confirmed success. Finite, decorative, no overlay capture.
 export default function Celebration() {

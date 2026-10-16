@@ -8,6 +8,9 @@ import HomeHero from '../components/HomeHero'
 import Badge from '../components/ui/Badge'
 import { CatalogSkeleton, CatalogState } from '../components/CatalogState'
 import LearningWorkflow from '../components/LearningWorkflow'
+import SignalStory from '../components/motion/SignalStory'
+import DiscoveryDirections from '../components/motion/DiscoveryDirections'
+import AnimatedText from '../components/motion/AnimatedText'
 import './CourseCatalog.css'
 
 export default function CourseCatalog() {
@@ -54,12 +57,14 @@ export default function CourseCatalog() {
   return (
     <div className="catalog-page v2-scope">
       <HomeHero />
+      <SignalStory />
       <section id="course-library" className="course-library" aria-labelledby="library-title" aria-busy={!courses && !error}>
         <div className="library-heading studio-section-heading">
-          <div><p className="studio-eyebrow">{t('studio.libraryLabel')}</p><h2 id="library-title">{t('studio.libraryTitle')}</h2>
+          <div><p className="studio-eyebrow">{t('studio.libraryLabel')}</p><h2 id="library-title"><AnimatedText text={t('studio.libraryTitle')} /></h2>
             <p className="studio-section-description">{t('studio.libraryDescription')}</p></div>
           <Badge className="course-count"><Library size={16} aria-hidden="true" />{courses ? t('catalog.courseCount', { count: courses.length }) : t('header.catalog')}</Badge>
         </div>
+        <DiscoveryDirections directions={directions} selected={direction} onSelect={setDirection} />
         <CatalogFilters search={search} onSearchChange={setSearch} level={level} onLevelChange={setLevel}
           direction={direction} onDirectionChange={setDirection} directions={directions}
           hasFilters={hasFilters} onReset={resetFilters} />

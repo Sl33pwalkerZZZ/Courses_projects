@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
+import { useReducedMotion } from '../hooks/useMotionPreferences'
 
 export default function Reveal({ children, className, delay = 0, immediate = false }) {
   const reduceMotion = useReducedMotion()

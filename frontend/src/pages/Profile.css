@@ -95,8 +95,8 @@
 .profile-avatar { width: 64px; height: 64px; border-radius: 20px; color: var(--v2-hero-focus); border-color: var(--v2-hero-border); background: var(--v2-hero-surface-raised); }
 .profile-account-details { font-size: .85rem; }
 .profile-account-details dt { color: var(--v2-hero-text-muted); }
-.profile-role-badge { color: var(--v2-hero-primary); border-color: var(--v2-hero-border); background: var(--v2-hero-surface-raised); }
-.profile-refresh { min-height: 44px; padding: 10px 16px; border: 1px solid var(--v2-hero-border); border-radius: 12px; color: var(--v2-hero-primary); font-size: .85rem; }
+.profile-role-badge { color: var(--v2-hero-link); border-color: var(--v2-hero-border); background: var(--v2-hero-surface-raised); }
+.profile-refresh { min-height: 44px; padding: 10px 16px; border: 1px solid var(--v2-hero-border); border-radius: 12px; color: var(--v2-hero-link); font-size: .85rem; }
 .profile-courses-heading h2, .profile-activity-heading h2 { font-weight: 700; }
 .profile-course-card { padding: 28px; border-radius: 20px; }
 .profile-course-card h3 { font-size: 1.4rem; font-weight: 700; }

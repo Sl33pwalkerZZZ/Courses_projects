@@ -10,7 +10,7 @@
 .studio-card-heading { display: flex; align-items: flex-start; gap: 16px; min-width: 0; }
 .studio-subject { display: grid; place-items: center; width: 64px; height: 64px; flex-shrink: 0; border-radius: var(--v2-radius-card); background: var(--v2-primary); color: var(--v2-on-primary); }
 .studio-subject--1 { background: var(--v2-accent); color: var(--v2-surface); }
-.studio-subject--2 { background: var(--v2-hero-canvas); color: var(--v2-hero-primary); }
+.studio-subject--2 { background: var(--v2-hero-canvas); color: var(--v2-hero-link); }
 .studio-subject--3 { background: var(--v2-surface-raised); color: var(--v2-accent); }
 .studio-card-heading .v2-badge { margin-top: 4px; border-radius: var(--v2-radius-small); overflow-wrap: anywhere; min-width: 0; font-size: 14px; line-height: 20px; }
 .studio-card-arrow { flex-shrink: 0; margin: 4px 0 0 auto; color: var(--v2-text-muted); }
@@ -21,7 +21,7 @@
 .academic-card-rating { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; margin-top: 12px; color: var(--v2-text-muted); font-size: 14px; line-height: 22px; }
 .card-rating-value { display: inline-flex; align-items: center; gap: 6px; color: var(--v2-accent); font-weight: 600; font-variant-numeric: tabular-nums; }
 .academic-card-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--v2-border); padding-top: 20px; margin-top: 20px; color: var(--v2-text-muted); font-size: 14px; line-height: 22px; }
-.card-open { display: inline-flex; align-items: center; gap: 6px; color: var(--v2-primary); font-weight: 600; }
+.card-open { display: inline-flex; align-items: center; gap: 6px; color: var(--v2-link); font-weight: 600; }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .academic-course-card:hover { transform: translateY(-3px); border-color: var(--v2-control-border); box-shadow: var(--v2-shadow-card); }
 }

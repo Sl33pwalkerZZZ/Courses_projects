@@ -1,5 +1,5 @@
-.lesson-quiz { --quiz-success: #8cbca2; min-width: 0; margin: 0 0 36px; padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
-:root[data-theme="light"] .lesson-quiz { --quiz-success: #426e4f; }
+.lesson-quiz { --quiz-success: var(--v2-success); min-width: 0; margin: 0 0 36px; padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
+:root[data-theme="light"] .lesson-quiz { --quiz-success: var(--v2-success); }
 .quiz-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 18px; }
 .quiz-header .eyebrow { margin: 0 0 10px; }
 .quiz-header h2 { margin: 0; font-family: var(--font-heading); font-size: 1.9rem; line-height: 1.3; overflow-wrap: anywhere; }

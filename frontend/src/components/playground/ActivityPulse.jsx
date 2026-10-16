@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
+import { useReducedMotion } from '../../hooks/useMotionPreferences'
 
 export default function ActivityPulse({ days }) {
   const { t, i18n } = useTranslation()

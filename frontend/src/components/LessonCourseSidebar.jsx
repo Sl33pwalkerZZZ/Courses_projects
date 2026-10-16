@@ -2,7 +2,8 @@ import { useEffect, useId, useState } from 'react'
 import { BookOpen, ChevronDown, Circle, CircleCheck, ListTree, ArrowLeft } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
+import { useReducedMotion } from '../hooks/useMotionPreferences'
 import { orderCurriculum } from '../utils/lessons'
 
 export default function LessonCourseSidebar({ course, lessonId, completedIds = [], enrollment, progressLoading, progressError, onRefresh }) {

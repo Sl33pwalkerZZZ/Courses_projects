@@ -1,6 +1,7 @@
 import { useId, useState } from 'react'
 import { ArrowUpRight, BookOpen, ChevronDown, LockKeyhole } from 'lucide-react'
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
+import { useReducedMotion } from '../hooks/useMotionPreferences'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import './CourseCurriculum.css'

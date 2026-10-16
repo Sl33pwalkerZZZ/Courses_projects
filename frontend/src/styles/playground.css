@@ -1,5 +1,5 @@
 /* Signature interactions and reusable visual surfaces. Never encode user state here. */
-.particle-field { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; color: var(--v2-hero-primary); opacity: .65; }
+.particle-field { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; color: var(--v2-hero-link); opacity: .65; }
 .play-progress-ring { position: relative; display: inline-grid; place-items: center; flex-shrink: 0; }
 .play-progress-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
 .play-progress-ring circle { fill: none; stroke: var(--line); stroke-width: 6; }
@@ -13,7 +13,7 @@
 .play-course-journey ol { list-style: none; margin: 20px 0 0; padding: 0; max-height: 360px; overflow-y: auto; }
 .play-course-journey li + li { border-top: 1px solid var(--v2-hero-border); }
 .play-course-journey a { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 10px 0; font-size: 14px; }
-.play-course-journey a > span { color: var(--v2-hero-primary); font-variant-numeric: tabular-nums; }
+.play-course-journey a > span { color: var(--v2-hero-link); font-variant-numeric: tabular-nums; }
 .play-course-journey strong { flex: 1; min-width: 0; overflow-wrap: anywhere; font-weight: 500; }
 .play-course-journey svg { flex-shrink: 0; }
 .play-subject-graphic { width: 100%; height: 92px; color: var(--v2-accent); margin-top: 16px; overflow: hidden; }

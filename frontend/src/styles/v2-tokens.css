@@ -1,32 +1,44 @@
-/* Digital Playground: one shared palette across discovery, learning and account pages.
-   Extends docs/design/ai-courses-v2.tokens.json; compatibility aliases live in index.css. */
+/* Amethyst: semantic purple system shared by every route.
+   Fill and text-link tokens are separate to preserve normal-text contrast. */
 :root {
-  --v2-canvas: #0B1020;
-  --v2-surface: #121A2C;
-  --v2-surface-raised: #182338;
-  --v2-text: #EEF4FF;
-  --v2-text-muted: #A9B7D0;
-  --v2-border: #35445F;
-  --v2-control-border: #667995;
-  --v2-primary: #84B7FF;
-  --v2-primary-hover: #A3CAFF;
-  --v2-on-primary: #07101F;
-  --v2-focus: #84B7FF;
-  --v2-accent: #51D6C5;
-  --v2-success: #6CE5B7;
-  --v2-warning: #F5C16C;
-  --v2-danger: #FF9AAE;
-  --v2-danger-hover: #FFB8C5;
-  --v2-on-danger: #07101F;
-  --v2-hero-canvas: #0B1224;
-  --v2-hero-text: #F5F8FF;
-  --v2-hero-text-muted: #BAC7DD;
-  --v2-hero-primary: #84B7FF;
-  --v2-hero-on-primary: #07101F;
-  --v2-hero-focus: #51D6C5;
-  --v2-hero-border: #45526D;
-  --v2-hero-primary-hover: #A3CAFF;
-  --v2-hero-surface-raised: #182338;
+  --v2-canvas: #0D0818;
+  --v2-surface: #241238;
+  --v2-surface-raised: #311A4A;
+  --v2-text: #FFFFFF;
+  --v2-text-muted: #D3C5E5;
+  --v2-border: #503763;
+  --v2-control-border: #9B80B5;
+  --v2-primary: #955CF0;
+  --v2-primary-hover: #AE7CFF;
+  --v2-on-primary: #0D0818;
+  --v2-link: #C4A5FF;
+  --v2-focus: #C4A5FF;
+  --v2-accent: #C4A5FF;
+  --v2-soft-accent: #39214F;
+  --v2-success: #90E5C0;
+  --v2-warning: #F5CF87;
+  --v2-danger: #FFB1C7;
+  --v2-danger-hover: #FFC8D7;
+  --v2-on-danger: #0D0818;
+  --v2-field-glow: rgb(149 92 240 / 15%);
+  --v2-overlay: rgb(13 8 24 / 72%);
+  --v2-particle-line: rgba(196,165,255,.25);
+  --v2-particle-dot: rgba(196,165,255,.72);
+  --v2-activity-0: #311A4A;
+  --v2-activity-1: #543076;
+  --v2-activity-2: #7945A8;
+  --v2-activity-3: #A16EE1;
+  --v2-activity-4: #C4A5FF;
+  --v2-hero-canvas: #241238;
+  --v2-hero-text: #FFFFFF;
+  --v2-hero-text-muted: #D3C5E5;
+  --v2-hero-primary: #955CF0;
+  --v2-hero-link: #C4A5FF;
+  --v2-hero-on-primary: #0D0818;
+  --v2-hero-focus: #C4A5FF;
+  --v2-hero-border: #6C4C86;
+  --v2-hero-primary-hover: #AE7CFF;
+  --v2-hero-surface-raised: #311A4A;
   --v2-font-ui: "Noto Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --v2-font-code: ui-monospace, SFMono-Regular, Consolas, monospace;
   --v2-radius-small: 8px;
@@ -53,25 +65,47 @@
   --v2-header-height: 72px;
 }
 :root[data-theme="light"] {
-  --v2-canvas: #F4F7FC;
+  --v2-canvas: #FAF7FF;
   --v2-surface: #FFFFFF;
-  --v2-surface-raised: #EAF0F9;
-  --v2-text: #101828;
-  --v2-text-muted: #46566F;
-  --v2-border: #D7DFEB;
-  --v2-control-border: #74829A;
-  --v2-primary: #1255D9;
-  --v2-primary-hover: #0B42B4;
+  --v2-surface-raised: #F3EBFF;
+  --v2-text: #241238;
+  --v2-text-muted: #655474;
+  --v2-border: #DDCEE9;
+  --v2-control-border: #9274A8;
+  --v2-primary: #722CC4;
+  --v2-primary-hover: #6020AC;
   --v2-on-primary: #FFFFFF;
-  --v2-focus: #1255D9;
-  --v2-accent: #0B7A75;
-  --v2-success: #087052;
+  --v2-link: #722CC4;
+  --v2-focus: #722CC4;
+  --v2-accent: #722CC4;
+  --v2-soft-accent: #EFE3FF;
+  --v2-success: #176449;
   --v2-warning: #865200;
-  --v2-danger: #B4233A;
-  --v2-danger-hover: #8F1C2F;
+  --v2-danger: #B4234D;
+  --v2-danger-hover: #93183D;
   --v2-on-danger: #FFFFFF;
-  --v2-shadow-card: 0 8px 24px rgb(16 24 40 / 6%);
-  --v2-shadow-overlay: 0 16px 48px rgb(16 24 40 / 16%);
+  --v2-field-glow: rgb(149 92 240 / 10%);
+  --v2-overlay: rgb(36 18 56 / 48%);
+  --v2-particle-line: rgba(114,44,196,.18);
+  --v2-particle-dot: rgba(114,44,196,.55);
+  --v2-activity-0: #F3EBFF;
+  --v2-activity-1: #E0C9FA;
+  --v2-activity-2: #BD91E8;
+  --v2-activity-3: #9458CE;
+  --v2-activity-4: #722CC4;
+  --v2-hero-canvas: #FFFFFF;
+  --v2-hero-text: #241238;
+  --v2-hero-text-muted: #655474;
+  --v2-hero-primary: #722CC4;
+  --v2-hero-link: #722CC4;
+  --v2-hero-on-primary: #FFFFFF;
+  --v2-hero-focus: #722CC4;
+  --v2-hero-border: #D3BDE8;
+  --v2-hero-primary-hover: #6020AC;
+  --v2-hero-surface-raised: #F3EBFF;
+  --v2-shadow-card: 0 8px 28px rgb(58 23 90 / 7%);
+  --v2-shadow-overlay: 0 16px 48px rgb(58 23 90 / 18%);
 }
+
 .v2-scope { font-family: var(--v2-font-ui); color: var(--v2-text); }
 @media (max-width: 1023px) { :root { --v2-header-height: 64px; } }

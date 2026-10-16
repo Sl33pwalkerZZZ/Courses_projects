@@ -430,10 +430,10 @@
     "tryAgain": "Try again"
   },
   "studio": {
-    "eyebrow": "THE FUTURE IS LEARNED",
-    "title": "Build skills for",
-    "titleAccent": "the AI era.",
-    "description": "Practical courses for learning, work and everyday ideas. Explore AI and put your knowledge into practice.",
+    "eyebrow": "DIGITAL PLAYGROUND / AMETHYST",
+    "title": "Learn beyond",
+    "titleAccent": "the ordinary.",
+    "description": "A universe of AI skills, playful experiments, and ideas in motion.",
     "appearance": "Appearance",
     "libraryLabel": "CURATED LEARNING",
     "libraryTitle": "Explore what’s next",
@@ -469,5 +469,28 @@
     "recentActivity_one": "{{count}} lesson completed in the last 28 days",
     "recentActivity_other": "{{count}} lessons completed in the last 28 days",
     "activityData": "View daily counts"
+  },
+  "amethyst": {
+    "companion": "A curious companion. Move around this scene.",
+    "story": {
+      "eyebrow": "A SIGNAL BECOMES A SKILL",
+      "title": "Follow your curiosity.",
+      "scroll": "Scroll to connect the path. Move back to explore it again.",
+      "discover": {
+        "label": "Discover",
+        "title": "Begin with a question.",
+        "description": "Find a direction that interests you. Browse real courses and preview their learning paths."
+      },
+      "connect": {
+        "label": "Connect",
+        "title": "Give your ideas a structure.",
+        "description": "Open a course, explore the curriculum and follow its access policy. Your learning space starts with confirmed enrollment."
+      },
+      "practice": {
+        "label": "Practice",
+        "title": "Make understanding your own.",
+        "description": "Read, try an assignment and check your understanding. Your saved lessons and quiz results remain separate."
+      }
+    }
   }
 }

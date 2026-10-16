@@ -3,7 +3,7 @@
 :root {
   --ink: var(--v2-canvas); --surface: var(--v2-surface); --surface-raised: var(--v2-surface-raised);
   --foreground: var(--v2-text); --secondary: var(--v2-text-muted);
-  --cyan: var(--v2-focus); --violet: var(--v2-primary); --gold: var(--v2-primary);
+  --cyan: var(--v2-focus); --violet: var(--v2-link); --gold: var(--v2-link);
   --line: var(--v2-border); --line-strong: var(--v2-control-border);
   --header-bg: var(--v2-surface); --button-bg: var(--v2-primary); --button-hover: var(--v2-primary-hover); --button-text: var(--v2-on-primary);
   --heading-accent: var(--v2-accent); --badge-bg: var(--v2-surface-raised); --badge-border: var(--v2-border); --badge-text: var(--v2-accent);
@@ -14,7 +14,7 @@
   --grid-line: var(--v2-border); --research-bg: var(--v2-surface); --orbit-glow: transparent;
   --violet-line: var(--v2-border); --cyan-line: var(--v2-border); --axis-line: var(--v2-border);
   --orbit-label-bg: var(--v2-surface); --state-bg: var(--v2-surface); --skeleton-line: var(--v2-border);
-  --selection-bg: var(--v2-surface-raised); --legacy-link: var(--v2-primary); --legacy-button: var(--v2-primary); --legacy-button-hover: var(--v2-primary-hover); --legacy-error: var(--v2-danger);
+  --selection-bg: var(--v2-surface-raised); --legacy-link: var(--v2-link); --legacy-button: var(--v2-primary); --legacy-button-hover: var(--v2-primary-hover); --legacy-error: var(--v2-danger);
   --font-heading: var(--v2-font-ui); --font-ui: var(--v2-font-ui); --text: var(--foreground); --muted: var(--secondary); --border: var(--line); --bg: var(--ink);
   font-family: var(--font-ui); color-scheme: dark;
 }

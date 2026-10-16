@@ -1,19 +1,19 @@
 .learning-activity-calendar {
-  --activity-zero: var(--v2-surface-raised);
-  --activity-one: #174C54;
-  --activity-two: #21757C;
-  --activity-three: #30A79F;
-  --activity-four: #51D6C5;
+  --activity-zero: var(--v2-activity-0);
+  --activity-one: var(--v2-activity-1);
+  --activity-two: var(--v2-activity-2);
+  --activity-three: var(--v2-activity-3);
+  --activity-four: var(--v2-activity-4);
   --activity-cell: 24px;
   --activity-gap: 4px;
   min-width: 0;
 }
 :root[data-theme="light"] .learning-activity-calendar {
-  --activity-zero: var(--v2-surface-raised);
-  --activity-one: #C6E9E5;
-  --activity-two: #8DD2CB;
-  --activity-three: #3FA99F;
-  --activity-four: #08756D;
+  --activity-zero: var(--v2-activity-0);
+  --activity-one: var(--v2-activity-1);
+  --activity-two: var(--v2-activity-2);
+  --activity-three: var(--v2-activity-3);
+  --activity-four: var(--v2-activity-4);
 }
 .activity-calendar-scroll { max-width: 100%; overflow-x: auto; padding: 6px 6px 14px; scrollbar-width: thin; scroll-padding-left: 52px; }
 .activity-calendar-layout { display: flex; align-items: flex-start; gap: 12px; width: max-content; min-width: 0; }

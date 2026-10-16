@@ -54,7 +54,7 @@
 .review-delete-button:hover { color: var(--gold); }
 .review-secondary-button:disabled, .review-delete-button:disabled { opacity: .6; cursor: default; }
 .review-delete-dialog { width: min(460px, calc(100% - 40px)); max-height: calc(100svh - 40px); padding: 28px; border: 1px solid var(--gold-line); border-radius: 20px; background: var(--surface); color: var(--foreground); box-shadow: var(--card-shadow); }
-.review-delete-dialog::backdrop { background: #0b1020b3; }
+.review-delete-dialog::backdrop { background: var(--v2-overlay); }
 .review-delete-dialog h2 { margin: 0 0 18px; font-family: var(--font-heading); font-weight: 650; font-size: 1.65rem; }
 .review-delete-dialog p { font-size: .85rem; line-height: 1.8; overflow-wrap: anywhere; }
 .review-delete-hint { color: var(--secondary); }

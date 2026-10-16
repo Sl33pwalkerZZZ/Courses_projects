@@ -1,4 +1,5 @@
-import { motion, useReducedMotion, useScroll } from 'motion/react'
+import { motion, useScroll } from 'motion/react'
+import { useReducedMotion } from '../hooks/useMotionPreferences'
 
 export default function ScrollProgress({ studio = false }) {
   const { scrollYProgress } = useScroll()

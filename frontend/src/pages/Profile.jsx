@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
 import Reveal from '../components/Reveal'
+import AnimatedText from '../components/motion/AnimatedText'
 import ProgressRing from '../components/playground/ProgressRing'
 import EnrollmentApplications from '../components/EnrollmentApplications'
 import ProfileLearningActivity from '../components/ProfileLearningActivity'
@@ -112,7 +113,7 @@ export default function Profile() {
     <section className="profile-page" aria-labelledby="profile-title" aria-busy={!account && !error}>
       <Reveal className="profile-heading" immediate>
         <p className="eyebrow">{t('profile.eyebrow')}</p>
-        <h1 id="profile-title">{t('header.profile')}</h1>
+        <h1 id="profile-title"><AnimatedText text={t('header.profile')} /></h1>
         {account && (
           <div className="profile-account">
             <span className="profile-avatar"><UserRound size={24} aria-hidden="true" /></span>

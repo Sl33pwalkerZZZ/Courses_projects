@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { ArrowDown, BookOpen, FileText, Network, Workflow } from 'lucide-react'
-import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
+import { motion, useScroll, useTransform } from 'motion/react'
+import { useReducedMotion } from '../hooks/useMotionPreferences'
 import { useTranslation } from 'react-i18next'
 import './KnowledgeJourney.css'
 

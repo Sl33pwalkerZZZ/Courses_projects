@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
+import { useReducedMotion } from '../hooks/useMotionPreferences'
 import blueField from '../assets/signal-map/blue-field.svg'
 import tealField from '../assets/signal-map/teal-field.svg'
 import core from '../assets/signal-map/core.svg'

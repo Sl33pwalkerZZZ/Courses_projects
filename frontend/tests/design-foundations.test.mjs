@@ -81,37 +81,41 @@ test('shared actions preserve native link, router-link and disabled button seman
   assert.match(button, /disabled=""/)
 })
 
-test('signal graphic is decorative, local and reserves the Figma layer dimensions', () => {
+test('companion is decorative, local and preserves the Figma layer geometry', () => {
   const html = render(HomeHero)
-  assert.match(html, /class="signal-map" aria-hidden="true"/)
-  assert.equal((html.match(/alt=""/g) || []).length, 3)
-  for (const size of [340, 188, 86]) assert.ok(html.includes(`width="${size}" height="${size}"`))
+  assert.match(html, /class="ai-companion" aria-hidden="true"/)
+  assert.equal((html.match(/<image /g) || []).length, 9)
+  for (const size of [340, 208, 151, 36, 14, 12, 8, 9]) assert.ok(html.includes(`width="${size}" height="${size}"`))
+  assert.match(html, /href="(?:data:image\/svg\+xml,|\/src\/assets\/amethyst\/)/)
   assert.doesNotMatch(html, /https:\/\/www\.figma\.com|\.png/)
 })
 
-test('functional V2 colors remain readable in both themes and the inverse hero', async () => {
-  const spec = JSON.parse(await readFile(new URL('../../docs/design/ai-courses-v2.tokens.json', import.meta.url), 'utf8'))
+test('effective Amethyst colors preserve text/control contrast in both themes and hero surfaces', async () => {
+  const css = await readFile(new URL('../src/styles/v2-tokens.css', import.meta.url), 'utf8')
   const luminance = (hex) => {
     const rgb = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
       .map((c) => c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4)
     return rgb[0] * .2126 + rgb[1] * .7152 + rgb[2] * .0722
   }
   const contrast = (a, b) => {
-    const [low, high] = [luminance(a), luminance(b)].sort((x, y) => x - y)
-    return (high + .05) / (low + .05)
+    const values = [luminance(a), luminance(b)].sort((x, y) => x - y)
+    return (values[1] + .05) / (values[0] + .05)
   }
-  for (const theme of ['light', 'dark']) {
-    const colors = spec.colors[theme]
-    for (const bg of ['canvas', 'surface', 'surfaceRaised']) {
-      for (const fg of ['text', 'textMuted', 'accent', 'success', 'warning', 'danger']) {
-        assert.ok(contrast(colors[fg], colors[bg]) >= 4.5, `${theme}: ${fg}/${bg}`)
+  const blocks = [css.split(':root {')[1].split('}')[0], css.split(':root[data-theme="light"] {')[1].split('}')[0]]
+  for (const [index, block] of blocks.entries()) {
+    const colors = Object.fromEntries([...block.matchAll(/--v2-([\w-]+): (#[0-9A-Fa-f]{6});/g)].map((match) => [match[1], match[2]]))
+    assert.equal(colors.primary, index ? '#722CC4' : '#955CF0')
+    for (const bg of ['canvas', 'surface', 'surface-raised']) {
+      for (const fg of ['text', 'text-muted', 'link', 'accent', 'success', 'warning', 'danger']) {
+        assert.ok(contrast(colors[fg], colors[bg]) >= 4.5, `${index}: ${fg}/${bg}`)
       }
-      assert.ok(contrast(colors.controlBorder, colors[bg]) >= 3)
+      assert.ok(contrast(colors['control-border'], colors[bg]) >= 3)
     }
-    assert.ok(contrast(colors.primary, colors.onPrimary) >= 4.5)
-    assert.ok(contrast(colors.primaryHover, colors.onPrimary) >= 4.5)
+    assert.ok(contrast(colors.primary, colors['on-primary']) >= 4.5)
+    assert.ok(contrast(colors['primary-hover'], colors['on-primary']) >= 4.5)
+    for (const bg of ['hero-canvas', 'hero-surface-raised']) {
+      for (const fg of ['hero-text', 'hero-text-muted', 'hero-link']) assert.ok(contrast(colors[fg], colors[bg]) >= 4.5)
+      assert.ok(contrast(colors['hero-focus'], colors[bg]) >= 3)
+    }
   }
-  const inverse = spec.colors.inverseHero
-  assert.ok(contrast(inverse.textMuted, inverse.canvas) >= 4.5)
-  assert.ok(contrast(inverse.primaryHover, inverse.onPrimary) >= 4.5)
 })

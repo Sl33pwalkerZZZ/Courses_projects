@@ -1,16 +1,21 @@
 import { useEffect, useRef } from 'react'
-import { useReducedMotion } from 'motion/react'
+import { useReducedMotion } from '../../hooks/useMotionPreferences'
+import { useTheme } from '../../theme/useTheme'
 import '../../styles/playground.css'
 
 // Decorative only: capped density/DPR/30fps, no work outside the viewport or tab.
 export default function ParticleField() {
   const ref = useRef(null)
   const reduced = useReducedMotion()
+  const theme = useTheme()?.theme
   useEffect(() => {
     if (reduced || !ref.current) return
     const canvas = ref.current, context = canvas.getContext('2d')
     if (!context) return
     const host = canvas.parentElement
+    const palette = getComputedStyle(host)
+    const line = palette.getPropertyValue('--v2-particle-line').trim()
+    const dot = palette.getPropertyValue('--v2-particle-dot').trim()
     let width = 1, height = 1, points = [], frame = 0, visible = false, last = 0
     const pointer = { x: -1000, y: -1000 }
     const fine = window.matchMedia('(hover:hover) and (pointer:fine)')
@@ -35,7 +40,7 @@ export default function ParticleField() {
         return { x: p.x + Math.sin(time / 2400 + p.phase) * 10 + (pointer.x - p.x) * pull,
           y: p.y + Math.cos(time / 2900 + p.phase) * 10 + (pointer.y - p.y) * pull }
       })
-      context.strokeStyle = 'rgba(132,183,255,.18)'; context.fillStyle = 'rgba(81,214,197,.65)'
+      context.strokeStyle = line; context.fillStyle = dot
       active.forEach((p, i) => {
         context.beginPath(); context.arc(p.x, p.y, 2, 0, Math.PI * 2); context.fill()
         active.slice(i + 1).forEach((q) => {
@@ -52,7 +57,7 @@ export default function ParticleField() {
     host.addEventListener('pointermove', move); host.addEventListener('pointerleave', leave)
     document.addEventListener('visibilitychange', sync)
     return () => { cancelAnimationFrame(frame); observer.disconnect(); size.disconnect(); host.removeEventListener('pointermove', move); host.removeEventListener('pointerleave', leave); document.removeEventListener('visibilitychange', sync) }
-  }, [reduced])
+  }, [reduced, theme])
   return reduced ? <svg className="particle-field" aria-hidden="true" viewBox="0 0 900 500" preserveAspectRatio="none"><path d="M20 400 200 120 450 350 700 80 880 300" fill="none" stroke="currentColor" /></svg>
     : <canvas className="particle-field" ref={ref} aria-hidden="true" />
 }

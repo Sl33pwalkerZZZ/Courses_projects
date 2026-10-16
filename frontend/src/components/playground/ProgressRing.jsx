@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
+import { useReducedMotion } from '../../hooks/useMotionPreferences'
 import { useTranslation } from 'react-i18next'
 
 export default function ProgressRing({ value = 0, label, size = 88 }) {

@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Eye, EyeOff, LockKeyhole, Mail, UserRound } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
+import { useReducedMotion } from '../hooks/useMotionPreferences'
 
 export default function AuthField({ name, type = 'text', label, hint, ...props }) {
   const { t } = useTranslation()

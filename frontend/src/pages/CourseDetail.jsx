@@ -8,6 +8,7 @@ import CourseReviews from '../components/CourseReviews'
 import CourseEnrollment from '../components/CourseEnrollment'
 import CourseCurriculum from '../components/CourseCurriculum'
 import Reveal from '../components/Reveal'
+import AnimatedText from '../components/motion/AnimatedText'
 import CourseJourney from '../components/playground/CourseJourney'
 import { loadCourse } from '../utils/courseDetail'
 import './CourseDetail.css'
@@ -88,7 +89,7 @@ function CourseContent({ slug, authed }) {
             <span className="eyebrow">{t('courseOverview.eyebrow')}</span>
             {course.direction?.name && <span className="course-overview-direction">{course.direction.name}</span>}
           </div>
-          <h1 id="course-overview-title">{course.title}</h1>
+          <h1 id="course-overview-title"><AnimatedText text={course.title} /></h1>
           {course.description && <p className="course-overview-intro">{course.description}</p>}
           <ul className="course-overview-meta" aria-label={t('courseOverview.summaryLabel')}>
             {course.level && <li><span className="course-overview-level">{t(`levels.${course.level}`, { defaultValue: course.level })}</span></li>}

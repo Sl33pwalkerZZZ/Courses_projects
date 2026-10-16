@@ -67,8 +67,9 @@ for (const lang of ['en', 'ru', 'kk']) {
   test(`auth decoration remains local, nonblocking and decorative in ${lang}`, () => {
     const html = render(Login, {}, lang)
     assert.match(html, /class="auth-illustration" aria-hidden="true"/)
-    assert.equal((html.match(/alt=""/g) || []).length, 3)
-    for (const size of [340, 188, 86]) assert.ok(html.includes(`width="${size}" height="${size}"`))
+    assert.match(html, /class="ai-companion" aria-hidden="true"/)
+    assert.equal((html.match(/<image /g) || []).length, 9)
+    for (const size of [340, 208, 151, 36, 14]) assert.ok(html.includes(`width="${size}" height="${size}"`))
     assert.doesNotMatch(html, /https:\/\/www\.figma\.com|opacity:0|visibility:hidden/)
   })
 }

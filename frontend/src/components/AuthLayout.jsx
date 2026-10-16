@@ -1,8 +1,9 @@
 import { ArrowLeft, Sparkles } from 'lucide-react'
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
+import { useReducedMotion } from '../hooks/useMotionPreferences'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import SignalMap from './SignalMap'
+import AICompanion from './motion/AICompanion'
 import ParticleField from './playground/ParticleField'
 import Badge from './ui/Badge'
 import './AuthLayout.css'
@@ -20,7 +21,7 @@ export default function AuthLayout({ mode, children }) {
           <Badge className="auth-eyebrow">{t('studio.eyebrow')}</Badge>
           <h2 id="auth-welcome">{t(`auth.${mode}Welcome`)}</h2>
           <p className="auth-intro-description">{t(`auth.${mode}Description`)}</p>
-          <div className="auth-illustration" aria-hidden="true"><SignalMap /></div>
+          <div className="auth-illustration" aria-hidden="true"><AICompanion /></div>
           <p className="auth-note"><Sparkles size={18} aria-hidden="true" />{t('catalog.note')}</p>
         </aside>
         <motion.div key={mode} className="auth-panel"

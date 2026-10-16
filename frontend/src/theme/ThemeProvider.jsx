@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { ThemeContext, THEME_KEY, getPreferredTheme } from './useTheme'
 import { savePreference } from '../utils/preferences'
 
 export default function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(getPreferredTheme)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.dataset.theme = theme
   }, [theme])
 
