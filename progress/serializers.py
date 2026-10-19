@@ -108,3 +108,23 @@ class LessonProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = LessonProgress
         fields = ["id", "lesson", "completed_at"]
+
+
+class SelectionMapSubmissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        from .models import AssignmentSubmission
+        model = AssignmentSubmission
+        fields = [
+            "id", "assignment", "status", "revision", "payload", "reviewer_comment",
+            "reviewed_at", "submitted_at", "review_history",
+        ]
+        read_only_fields = fields
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if instance.status == "draft":
+            data["submitted_at"] = None
+        if instance.status in ("draft", "pending"):
+            # Notes being prepared by an instructor are not decisions yet.
+            data["reviewer_comment"] = ""
+        return data

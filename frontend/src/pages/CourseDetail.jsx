@@ -11,6 +11,7 @@ import Reveal from '../components/Reveal'
 import AnimatedText from '../components/motion/AnimatedText'
 import CourseJourney from '../components/playground/CourseJourney'
 import { loadCourse } from '../utils/courseDetail'
+import { ContentLanguageNotice } from '../components/learning/LearningContent'
 import './CourseDetail.css'
 
 export function CourseLoadError({ kind, onRetry }) {
@@ -89,8 +90,9 @@ function CourseContent({ slug, authed }) {
             <span className="eyebrow">{t('courseOverview.eyebrow')}</span>
             {course.direction?.name && <span className="course-overview-direction">{course.direction.name}</span>}
           </div>
-          <h1 id="course-overview-title"><AnimatedText text={course.title} /></h1>
-          {course.description && <p className="course-overview-intro">{course.description}</p>}
+          <h1 id="course-overview-title" lang={course.content_language || undefined}><AnimatedText text={course.title} /></h1>
+          {course.description && <p className="course-overview-intro" lang={course.content_language || undefined}>{course.description}</p>}
+          <ContentLanguageNotice language={course.content_language} />
           <ul className="course-overview-meta" aria-label={t('courseOverview.summaryLabel')}>
             {course.level && <li><span className="course-overview-level">{t(`levels.${course.level}`, { defaultValue: course.level })}</span></li>}
             <li><Layers3 size={16} aria-hidden="true" />{t('courseOverview.moduleCount', { count: modules.length })}</li>
@@ -129,7 +131,7 @@ function CourseContent({ slug, authed }) {
             <section className="course-overview-about" id="course-about" aria-labelledby="course-about-title">
               <p className="eyebrow">{t('courseOverview.aboutEyebrow')}</p>
               <h2 id="course-about-title">{t('courseOverview.about')}</h2>
-              <div className="course-overview-description">
+              <div className="course-overview-description" lang={course.content_language || undefined}>
                 {course.description ? course.description.split(/\n\s*\n/).map((paragraph, index) => <p key={index}>{paragraph}</p>)
                   : <p>{t('courseOverview.noDescription')}</p>}
               </div>

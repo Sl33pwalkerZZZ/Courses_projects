@@ -12,19 +12,19 @@ from reviews.summaries import with_review_summary
 
 from .media import private_lesson_file
 from .models import Course, Lesson, LessonImage
-from .permissions import can_access_lesson
+from .permissions import can_access_lesson, can_preview_course
 from .serializers import CourseDetailSerializer, RatedCourseListSerializer, LessonDetailSerializer
 
 
 class CourseListView(generics.ListAPIView):
-    queryset = with_review_summary(Course.objects.filter(is_published=True).select_related("direction", "author"))
+    queryset = with_review_summary(Course.objects.filter(is_published=True).select_related("direction", "author", "content_import"))
     serializer_class = RatedCourseListSerializer
     permission_classes = [permissions.AllowAny]
 
 
 class CourseDetailView(generics.RetrieveAPIView):
     queryset = with_review_summary(
-        Course.objects.filter(is_published=True).select_related("direction", "author").prefetch_related("modules__lessons")
+        Course.objects.filter(is_published=True).select_related("direction", "author", "content_import").prefetch_related("modules__lessons")
     )
     serializer_class = CourseDetailSerializer
     permission_classes = [permissions.AllowAny]
@@ -79,4 +79,28 @@ class LessonImageView(APIView):
             response = FileResponse(file_path.open("rb"))
         except (FileNotFoundError, IsADirectoryError, PermissionError):
             raise Http404("Image not found.")
+        return response
+
+
+class InstructorCoursePreviewView(generics.RetrieveAPIView):
+    """Read-only staff preview; never adds enrollment or discloses draft quiz keys."""
+    authentication_classes = [JWTAuthentication, SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = CourseDetailSerializer
+    lookup_field = "slug"
+    queryset = with_review_summary(
+        Course.objects.select_related("direction", "author", "content_import")
+        .prefetch_related("modules__lessons")
+    )
+
+    def get_object(self):
+        course = super().get_object()
+        if not can_preview_course(self.request.user, course):
+            raise PermissionDenied("You do not have permission to preview this course.")
+        return course
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        response = super().finalize_response(request, response, *args, **kwargs)
+        response["Cache-Control"] = "private, no-store"
+        patch_vary_headers(response, ["Authorization", "Cookie"])
         return response

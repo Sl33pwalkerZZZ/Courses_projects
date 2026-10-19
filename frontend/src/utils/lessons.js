@@ -28,7 +28,11 @@ export async function loadEnrollmentProgress(client, slug) {
   return data.find((enrollment) => enrollment.course.slug === slug) || null
 }
 
-export async function loadCourseOutline(client, slug) {
+export async function loadCourseOutline(client, slug, preview = false) {
+  if (preview) {
+    const { data } = await client.get(`/instructor/courses/${encodeURIComponent(slug)}/preview/`)
+    return { course: { ...data, modules: orderCurriculum(data.modules) }, enrollment: null }
+  }
   const [response, enrollment] = await Promise.all([
     client.get(`/courses/${encodeURIComponent(slug)}/`), loadEnrollmentProgress(client, slug),
   ])
@@ -42,4 +46,13 @@ export async function saveLessonCompletion(client, lessonId) {
     throw new Error('Lesson completion was not confirmed')
   }
   return data.completed_at
+}
+
+// Hide only exact fallback table paragraphs when every cell is rendered natively.
+export function lessonParagraphs(lesson) {
+  const normalized = text => text.replace(/\s+/g, ' ').trim()
+  const tables = new Set((lesson.learning_content?.interactions || []).filter(item => item.rows?.length).map(item =>
+    normalized([...(item.headers?.length ? [item.headers] : []), ...item.rows].map(row => row.join(' | ')).join('\n')),
+  ))
+  return (lesson.text_content || '').split(/\n\s*\n/).filter(paragraph => !tables.has(normalized(paragraph)))
 }

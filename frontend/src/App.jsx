@@ -13,6 +13,20 @@ const LessonView = lazy(() => import('./pages/LessonView'))
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register'))
 const Profile = lazy(() => import('./pages/Profile'))
+const InstructorPreview = lazy(() => import('./pages/InstructorPreview'))
+const InstructorStudio = lazy(() => import('./pages/instructor/InstructorStudio'))
+const Dashboard = lazy(() => import('./pages/instructor/CourseEditor').then(module => ({ default: module.Dashboard })))
+const StudioCourseList = lazy(() => import('./pages/instructor/CourseEditor').then(module => ({ default: module.CourseList })))
+const NewCourse = lazy(() => import('./pages/instructor/CourseEditor').then(module => ({ default: module.NewCourse })))
+const CourseWorkspace = lazy(() => import('./pages/instructor/CourseEditor').then(module => ({ default: module.CourseWorkspace })))
+const CourseSettings = lazy(() => import('./pages/instructor/CourseEditor').then(module => ({ default: module.CourseSettings })))
+const Curriculum = lazy(() => import('./pages/instructor/Curriculum'))
+const Assessment = lazy(() => import('./pages/instructor/Assessment'))
+const Publication = lazy(() => import('./pages/instructor/Publication'))
+const Submissions = lazy(() => import('./pages/instructor/Publication').then(module => ({ default: module.Submissions })))
+const PublicationReviews = lazy(() => import('./pages/instructor/Publication').then(module => ({ default: module.PublicationReviews })))
+const InstructorManagement = lazy(() => import('./pages/instructor/Publication').then(module => ({ default: module.InstructorManagement })))
+const WordImport = lazy(() => import('./pages/instructor/WordImport'))
 
 export default function App() {
   const session = useAuthSession()
@@ -46,6 +60,23 @@ export default function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={authed ? <Profile key={session.generation} /> : <Navigate to="/login" replace />} />
               <Route path="/courses/:slug" element={<CourseDetail key={session.generation} />} />
+              <Route path="/instructor" element={<InstructorStudio key={session.generation} />}>
+                <Route index element={<Dashboard />} />
+                <Route path="courses" element={<StudioCourseList />} />
+                <Route path="courses/new" element={<NewCourse />} />
+                <Route path="import" element={<WordImport />} />
+                <Route path="reviews" element={<PublicationReviews />} />
+                <Route path="instructors" element={<InstructorManagement />} />
+                <Route path="courses/:id" element={<CourseWorkspace key={pathname.split('/')[3]} />}>
+                  <Route index element={<Navigate to="edit" replace />} />
+                  <Route path="edit" element={<CourseSettings />} />
+                  <Route path="curriculum" element={<Curriculum />} />
+                  <Route path="assessment" element={<Assessment />} />
+                  <Route path="submissions" element={<Submissions />} />
+                  <Route path="publication" element={<Publication />} />
+                </Route>
+              </Route>
+              <Route path="/instructor/courses/:slug/preview" element={<InstructorPreview key={session.generation} />} />
               <Route path="/lessons/:id" element={<LessonView key={session.generation} />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

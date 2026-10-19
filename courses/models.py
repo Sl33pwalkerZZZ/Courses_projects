@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class Direction(models.Model):
@@ -31,6 +32,12 @@ class Course(models.Model):
         max_length=20, choices=EnrollmentMode.choices, default=EnrollmentMode.APPROVAL,
     )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def clean(self):
+        super().clean()
+        imported = getattr(self, "content_import", None) if self.pk else None
+        if self.is_published and imported and not imported.review_approved:
+            raise ValidationError({"is_published": "Review and approve the imported source and assessment before publication."})
 
     def __str__(self):
         return self.title
@@ -79,6 +86,35 @@ class Assignment(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name="assignments")
     type = models.CharField(max_length=20, choices=Type.choices)
     description = models.TextField()
+    learning_activity = models.CharField(max_length=40, blank=True, default="")
 
     def __str__(self):
         return f"{self.lesson.title}: {self.get_type_display()}"
+
+
+class CourseImport(models.Model):
+    """Provenance and ownership for this explicitly imported draft, not legacy data."""
+    course = models.OneToOneField(Course, on_delete=models.CASCADE, related_name="content_import")
+    source_name = models.CharField(max_length=255)
+    source_sha256 = models.CharField(max_length=64)
+    manifest_sha256 = models.CharField(max_length=64)
+    content_sha256 = models.CharField(max_length=64)
+    version = models.CharField(max_length=40)
+    content_language = models.CharField(max_length=10, default="ru")
+    review_approved = models.BooleanField(default=False, help_text="Confirm source facts, lessons and quiz answers were reviewed before publication.")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.course}: {self.version}"
+
+
+class LessonLearningContent(models.Model):
+    """Additive structured teaching material; existing lesson records are untouched."""
+    lesson = models.OneToOneField(Lesson, on_delete=models.CASCADE, related_name="learning_content")
+    content_language = models.CharField(max_length=10, default="ru")
+    source_sections = models.JSONField(default=list, blank=True)
+    objectives = models.JSONField(default=list, blank=True)
+    interactions = models.JSONField(default=list, blank=True)
+
+    def __str__(self):
+        return self.lesson.title

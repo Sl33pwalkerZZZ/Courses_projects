@@ -6,7 +6,7 @@ import { motion } from 'motion/react'
 import { useReducedMotion } from '../hooks/useMotionPreferences'
 import { orderCurriculum } from '../utils/lessons'
 
-export default function LessonCourseSidebar({ course, lessonId, completedIds = [], enrollment, progressLoading, progressError, onRefresh }) {
+export default function LessonCourseSidebar({ course, lessonId, completedIds = [], enrollment, preview = false, progressLoading, progressError, onRefresh }) {
   const { t, i18n } = useTranslation()
   const reducedMotion = useReducedMotion()
   const outlineId = useId()
@@ -49,7 +49,7 @@ export default function LessonCourseSidebar({ course, lessonId, completedIds = [
         <div className="lesson-outline-course">
           <p className="eyebrow">{t('lessonWorkspace.yourCourse')}</p>
           <h2>{course.title}</h2>
-          <Link className="lesson-outline-back" to={`/courses/${encodeURIComponent(course.slug)}`}>
+          <Link className="lesson-outline-back" to={preview ? `/instructor/courses/${encodeURIComponent(course.slug)}/preview` : `/courses/${encodeURIComponent(course.slug)}`}>
             <ArrowLeft size={15} aria-hidden="true" />{t('lessonWorkspace.backToCourse')}
           </Link>
         </div>
@@ -84,7 +84,7 @@ export default function LessonCourseSidebar({ course, lessonId, completedIds = [
                     const isCurrent = lesson.id === Number(lessonId)
                     const isCompleted = completed.has(lesson.id)
                     return <li key={lesson.id}><Link className={`lesson-outline-link${isCompleted ? ' is-completed' : ''}`}
-                      to={`/lessons/${lesson.id}`} state={{ courseSlug: course.slug }} aria-current={isCurrent ? 'page' : undefined}>
+                      to={`/lessons/${lesson.id}`} state={{ courseSlug: course.slug, preview }} aria-current={isCurrent ? 'page' : undefined}>
                       {isCompleted ? <CircleCheck size={17} aria-hidden="true" /> : <Circle size={15} aria-hidden="true" />}
                       <span><span className="lesson-outline-lesson-number">{number.format(lesson.order ?? lessonIndex + 1)}</span>{lesson.title}</span>
                       {isCompleted && <span className="sr-only">{t('lessonWorkspace.completedLesson')}</span>}

@@ -4,6 +4,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { logout } from '../api'
 import useAuth from '../hooks/useAuth'
+import useInstructor from '../hooks/useInstructor'
 import ThemeToggle from './ThemeToggle'
 import LanguageSwitcher from './LanguageSwitcher'
 import Button from './ui/Button'
@@ -15,6 +16,7 @@ export default function Header() {
   const navigate = useNavigate()
   const { pathname, hash } = useLocation()
   const authed = useAuth()
+  const { identity: instructor } = useInstructor()
   const [menuOpen, setMenuOpen] = useState(false)
   const headerRef = useRef(null)
 
@@ -54,6 +56,7 @@ export default function Header() {
         document.getElementById('course-library')?.scrollIntoView()
       }}>{t('header.catalog')}</Link>
       {authed ? <>
+        {instructor && <NavLink to="/instructor" className="catalog-nav-link" onClick={() => setMenuOpen(false)}>{t('instructorStudio.title')}</NavLink>}
         <NavLink to="/profile" className="catalog-nav-link" onClick={() => setMenuOpen(false)}>{t('header.profile')}</NavLink>
         <Button variant="ghost" onClick={handleLogout}>{t('header.logout')}<LogOut size={16} aria-hidden="true" /></Button>
       </> : <>

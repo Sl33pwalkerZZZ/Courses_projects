@@ -30,6 +30,13 @@ class Quiz(models.Model):
             if self.lesson_id != original_lesson:
                 raise ValidationError({"lesson": "A quiz with attempts cannot be moved to another lesson."})
         if self.is_published:
+            # Only imported teaching material has this additional editorial gate.
+            # Legacy courses and their quizzes retain their existing behavior.
+            from courses.models import CourseImport
+            if self.lesson_id and CourseImport.objects.filter(
+                course_id=self.lesson.module.course_id, review_approved=False,
+            ).exists():
+                raise ValidationError({"is_published": "Review the imported course and assessment before publication."})
             validate_quiz(self)
 
     def __str__(self):

@@ -4,7 +4,7 @@ from django.urls import reverse
 from progress.models import LessonProgress
 from reviews.summaries import display_average
 
-from .models import Assignment, Course, Direction, Lesson, LessonImage, Module
+from .models import Assignment, Course, Direction, Lesson, LessonImage, LessonLearningContent, Module
 from .image_descriptions import image_alt_text, load_image_descriptions
 
 
@@ -17,10 +17,18 @@ class DirectionSerializer(serializers.ModelSerializer):
 class CourseListSerializer(serializers.ModelSerializer):
     direction = DirectionSerializer(read_only=True)
     author = serializers.StringRelatedField()
+    content_language = serializers.SerializerMethodField()
+
+    def get_content_language(self, course):
+        studio_settings = getattr(course, 'studio_settings', None)
+        if studio_settings:
+            return studio_settings.language
+        imported = getattr(course, "content_import", None)
+        return imported.content_language if imported else None
 
     class Meta:
         model = Course
-        fields = ["id", "title", "slug", "description", "direction", "level", "author", "enrollment_mode"]
+        fields = ["id", "title", "slug", "description", "direction", "level", "author", "enrollment_mode", "content_language"]
 
 
 class RatedCourseListSerializer(CourseListSerializer):
@@ -64,6 +72,9 @@ class LessonImageSerializer(serializers.ModelSerializer):
         return reverse("lesson-image", args=[image.pk])
 
     def get_alt_text(self, image):
+        description = getattr(image, 'studio_description', None)
+        if description is not None:
+            return {} if description.decorative else description.alt_text
         # Nested images share the lesson serializer's context: one read per response.
         if "image_descriptions" not in self.context:
             self.context["image_descriptions"] = load_image_descriptions()
@@ -77,7 +88,13 @@ class LessonImageSerializer(serializers.ModelSerializer):
 class AssignmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Assignment
-        fields = ["id", "type", "description"]
+        fields = ["id", "type", "description", "learning_activity"]
+
+
+class LessonLearningContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LessonLearningContent
+        fields = ["content_language", "source_sections", "objectives", "interactions"]
 
 
 class LessonDetailSerializer(serializers.ModelSerializer):
@@ -85,6 +102,7 @@ class LessonDetailSerializer(serializers.ModelSerializer):
     assignments = AssignmentSerializer(many=True, read_only=True)
     course_slug = serializers.CharField(source="module.course.slug", read_only=True)
     completed_at = serializers.SerializerMethodField()
+    learning_content = LessonLearningContentSerializer(read_only=True)
 
     def get_completed_at(self, lesson):
         completed_at = LessonProgress.objects.filter(
@@ -96,4 +114,4 @@ class LessonDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = ["id", "title", "order", "text_content", "images", "assignments", "course_slug", "completed_at"]
+        fields = ["id", "title", "order", "text_content", "images", "assignments", "course_slug", "completed_at", "learning_content"]

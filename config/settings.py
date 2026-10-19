@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'certificates',
     'reviews',
     'quizzes',
+    'studio',
 ]
 
 AUTH_USER_MODEL = 'users.User'

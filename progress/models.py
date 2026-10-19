@@ -82,6 +82,7 @@ class LessonProgress(models.Model):
 
 class AssignmentSubmission(models.Model):
     class Status(models.TextChoices):
+        DRAFT = "draft", "Черновик"
         PENDING = "pending", "На проверке"
         APPROVED = "approved", "Принято"
         REJECTED = "rejected", "Отклонено"
@@ -92,8 +93,21 @@ class AssignmentSubmission(models.Model):
     file = models.FileField(upload_to="submissions/", blank=True)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING)
     reviewer_comment = models.TextField(blank=True)
+    # Opt in only: legacy submissions keep their existing defaults and behavior.
+    is_structured = models.BooleanField(default=False)
+    payload = models.JSONField(default=dict, blank=True)
+    revision = models.PositiveIntegerField(default=0)
+    review_history = models.JSONField(default=list, blank=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
     reviewed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["student", "assignment"], condition=models.Q(is_structured=True),
+                name="one_structured_assignment_per_student",
+            ),
+        ]
 
     def __str__(self):
         return f"{self.student} — {self.assignment} ({self.get_status_display()})"

@@ -9,7 +9,9 @@ import LessonQuiz from '../components/LessonQuiz'
 import ProtectedLessonImage from '../components/ProtectedLessonImage'
 import Celebration from '../components/playground/Celebration'
 import ReadingProgress from '../components/playground/ReadingProgress'
-import { lessonErrorKey, lessonNavigation, loadCourseOutline, loadEnrollmentProgress, saveLessonCompletion } from '../utils/lessons'
+import { lessonErrorKey, lessonNavigation, lessonParagraphs, loadCourseOutline, loadEnrollmentProgress, saveLessonCompletion } from '../utils/lessons'
+import LearningContent, { ContentLanguageNotice, SourceParagraph } from '../components/learning/LearningContent'
+import SelectionMap from '../components/learning/SelectionMap'
 import './LessonView.css'
 
 export default function LessonView() {
@@ -17,7 +19,7 @@ export default function LessonView() {
   const { state } = useLocation()
   const authed = useAuth()
   // Changing lesson or logging out must discard the previous lesson's private state.
-  return authed ? <LessonWorkspace key={`${id}:${authed}`} id={id} courseSlug={state?.courseSlug} />
+  return authed ? <LessonWorkspace key={`${id}:${authed}`} id={id} courseSlug={state?.courseSlug} preview={Boolean(state?.preview)} />
     : <LessonWorkspaceStatus error="lessonWorkspace.signIn" courseSlug={state?.courseSlug} />
 }
 
@@ -39,24 +41,27 @@ export function LessonWorkspaceStatus({ error, courseSlug, onRetry }) {
   </section>
 }
 
-export function LessonMaterial({ lesson }) {
+export function LessonMaterial({ lesson, preview = false }) {
   const { t } = useTranslation()
   return <div className="lesson-material">
-    {lesson.text_content?.trim() ? <div className="lesson-material-text">
-      {lesson.text_content.split(/\n\s*\n/).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+    <ContentLanguageNotice language={lesson.content_language || lesson.learning_content?.content_language} />
+    {lesson.text_content?.trim() ? <div className="lesson-material-text" lang={lesson.content_language || lesson.learning_content?.content_language || undefined}>
+      {lessonParagraphs(lesson).map((paragraph, index) => lesson.learning_content
+        ? <SourceParagraph key={index} text={paragraph} /> : <p key={index}>{paragraph}</p>)}
     </div> : <div className="lesson-material-empty"><BookOpen size={24} aria-hidden="true" /><p>{t('lessonWorkspace.emptyMaterial')}</p></div>}
+    <LearningContent content={lesson.learning_content} showLanguageNotice={false} />
     {lesson.images?.length > 0 && <div className="lesson-material-images">
       {lesson.images.map((image) => <ProtectedLessonImage key={image.id} image={image} />)}
     </div>}
     {lesson.assignments?.length > 0 && <section className="lesson-material-assignments" aria-labelledby="lesson-assignments-title">
       <p className="eyebrow">{t('lessonWorkspace.practice')}</p>
       <h2 id="lesson-assignments-title">{t('lesson.assignment')}</h2>
-      {lesson.assignments.map((assignment) => <p key={assignment.id}>{assignment.description}</p>)}
+      {lesson.assignments.map((assignment) => <div key={assignment.id}><p lang={lesson.content_language || lesson.learning_content?.content_language || undefined}>{assignment.description}</p>{assignment.learning_activity === 'ai_selection_map' && <SelectionMap key={assignment.id} assignment={assignment} preview={preview} />}</div>)}
     </section>}
   </div>
 }
 
-function LessonWorkspace({ id, courseSlug }) {
+function LessonWorkspace({ id, courseSlug, preview }) {
   const { t } = useTranslation()
   const activeRef = useRef(true)
   const submittingRef = useRef(false)
@@ -89,11 +94,11 @@ function LessonWorkspace({ id, courseSlug }) {
   useEffect(() => {
     if (!slug) return
     let active = true
-    loadCourseOutline(api, slug).then((data) => {
+    loadCourseOutline(api, slug, preview).then((data) => {
       if (active) setOutline(data)
     }).catch(() => { if (active) setOutlineError(true) })
     return () => { active = false }
-  }, [slug, outlineRetry])
+  }, [slug, outlineRetry, preview])
 
   function retryLesson() {
     setError('')
@@ -144,12 +149,12 @@ function LessonWorkspace({ id, courseSlug }) {
   // The current lesson's detail/POST confirmation stays authoritative even if a progress refresh fails.
   const completedIds = (outline?.enrollment?.completed_lesson_ids || []).filter((lessonId) => lessonId !== lesson.id)
   if (completed) completedIds.push(lesson.id)
-  const courseLink = `/courses/${encodeURIComponent(lesson.course_slug)}`
+  const courseLink = preview ? `/instructor/courses/${encodeURIComponent(lesson.course_slug)}/preview` : `/courses/${encodeURIComponent(lesson.course_slug)}`
 
   return <div className="lesson-workspace">
     <div className="lesson-workspace-grid">
       {outline ? <LessonCourseSidebar course={outline.course} lessonId={id} completedIds={completedIds}
-        enrollment={outline.enrollment} progressLoading={progressLoading} progressError={progressError} onRefresh={refreshProgress} />
+        preview={preview} enrollment={outline.enrollment} progressLoading={progressLoading} progressError={progressError} onRefresh={refreshProgress} />
         : <aside className="lesson-course-sidebar lesson-outline-state" aria-label={t('lessonWorkspace.outline')}>
           <BookOpen size={22} aria-hidden="true" />
           {outlineError ? <div role="alert"><p>{t('lessonWorkspace.outlineError')}</p>
@@ -164,7 +169,7 @@ function LessonWorkspace({ id, courseSlug }) {
           <p className="eyebrow">{navigation ? t('lessonWorkspace.moduleLabel', { number: navigation.module.order ?? navigation.moduleIndex + 1 }) : t('lessonWorkspace.learningSpace')}</p>
           {navigation && <p className="lesson-module-name">{navigation.module.title}</p>}
           <div className="lesson-title-row">
-            <h1 id="lesson-title">{lesson.title}</h1>
+            <h1 id="lesson-title" lang={lesson.content_language || lesson.learning_content?.content_language || undefined}>{lesson.title}</h1>
             {completed && <span className="lesson-completed-badge"><CircleCheck size={16} aria-hidden="true" />{t('profile.completed')}</span>}
           </div>
           {navigation && <p className="lesson-position">{t('lessonWorkspace.lessonPosition', {
@@ -173,7 +178,9 @@ function LessonWorkspace({ id, courseSlug }) {
         </header>
 
         <ReadingProgress />
-        <LessonMaterial lesson={lesson} />
+        {preview && <p className="learning-source-note">{t('instructorPreview.notice')}</p>}
+        <LessonMaterial lesson={lesson} preview={preview} />
+        {preview && <p>{t('instructorPreview.quiz')}</p>}
         {outline?.enrollment && <LessonQuiz key={lesson.id} lessonId={lesson.id} />}
 
         <section className="lesson-completion" aria-label={t('lessonWorkspace.completion')} aria-busy={completing}>
@@ -189,10 +196,10 @@ function LessonWorkspace({ id, courseSlug }) {
         </section>
 
         {navigation ? <nav className="lesson-pagination" aria-label={t('lessonWorkspace.lessonNavigation')}>
-          {navigation.previous && <Link className="lesson-pagination-link lesson-previous" to={`/lessons/${navigation.previous.id}`} state={{ courseSlug: lesson.course_slug }}>
+          {navigation.previous && <Link className="lesson-pagination-link lesson-previous" to={`/lessons/${navigation.previous.id}`} state={{ courseSlug: lesson.course_slug, preview }}>
             <ArrowLeft size={18} aria-hidden="true" /><span><small>{t('lessonWorkspace.previous')}</small>{navigation.previous.title}</span>
           </Link>}
-          {navigation.next && <Link className="lesson-pagination-link lesson-next" to={`/lessons/${navigation.next.id}`} state={{ courseSlug: lesson.course_slug }}>
+          {navigation.next && <Link className="lesson-pagination-link lesson-next" to={`/lessons/${navigation.next.id}`} state={{ courseSlug: lesson.course_slug, preview }}>
             <span><small>{t('lessonWorkspace.next')}</small>{navigation.next.title}</span><ArrowRight size={18} aria-hidden="true" />
           </Link>}
           {!navigation.next && <Link className="lesson-pagination-link lesson-next" to={courseLink}>
