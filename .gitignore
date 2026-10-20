@@ -4,3 +4,10 @@ __pycache__/
 db.sqlite3
 media/
 .idea/
+
+# Local source-only recovery archives
+.local-redesign-checkpoints/
+
+# Private course sources and local database safety copies
+course_sources/
+.local-course-backups/

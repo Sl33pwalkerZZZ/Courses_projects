@@ -116,6 +116,29 @@ class StudioTests(TestCase):
         lesson = self.client.post(self.url(f'modules/{self.module.pk}/lessons/'), {'title': 'Second', 'text_content': 'Body'}, format='json')
         self.assertEqual(self.client.post(self.url(f'modules/{self.module.pk}/reorder/'), {'ids': [lesson.data['id'], self.lesson.pk]}, format='json').status_code, 200)
 
+    def test_curriculum_detail_includes_all_existing_lessons_in_order_without_writes(self):
+        # Insert out of order: the editor must receive the full ordered curriculum,
+        # not the public module previews or the course-list summary.
+        for order in [6, 3, 5, 2, 4]:
+            Lesson.objects.create(module=self.module, title=f'Existing lesson {order}',
+                                  text_content=f'Existing body {order}', order=order)
+        before = list(Lesson.objects.filter(module=self.module).order_by('order', 'pk').values())
+        path = self.url(f'courses/{self.course.pk}/')
+        for user in [self.author, self.admin]:
+            self.client.force_authenticate(user)
+            response = self.client.get(path)
+            self.assertEqual(response.status_code, 200)
+            lessons = response.data['modules'][0]['lessons']
+            self.assertEqual([row['id'] for row in lessons], [row['id'] for row in before])
+            self.assertEqual([row['order'] for row in lessons], list(range(1, 7)))
+            self.assertEqual([row['text_content'] for row in lessons], [row['text_content'] for row in before])
+            for row in lessons:
+                self.assertTrue({'images', 'assignments', 'quiz', 'learning_content'} <= row.keys())
+        for user, status in [(self.other, 404), (self.student, 403)]:
+            self.client.force_authenticate(user)
+            self.assertEqual(self.client.get(path).status_code, status)
+        self.assertEqual(before, list(Lesson.objects.filter(module=self.module).order_by('order', 'pk').values()))
+
     def test_learning_content_rejects_shapes_that_crash_react(self):
         path = self.url(f'lessons/{self.lesson.pk}/')
         invalid = [{'type': 'categories', 'items': {'title': 'Object not list'}}, {'type': 'model_service', 'rows': ['bad']}, {'type': 'categories', 'items': [{'title': {'bad': 'object'}}]}, {'type': 'script', 'text': 'alert(1)'}]
