@@ -3,18 +3,19 @@ import { after, before, test } from 'node:test'
 import { readFile } from 'node:fs/promises'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter, Routes, Route, Outlet } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import { createInstance } from 'i18next'
 import { createTestServer } from './helpers/vite.mjs'
 import { moveStudioItem, prepareLearningContent, publicationProblems, quizProblems, studioError, teachingEntryChange } from '../src/utils/instructorStudio.js'
 
-let server, EducationalSections, QuizEditor
+let server, EducationalSections, QuizEditor, Curriculum
 const translations = new Map()
 before(async () => {
   server = await createTestServer()
   EducationalSections = (await server.ssrLoadModule('/src/components/instructor/EducationalSections.jsx')).default
   QuizEditor = (await server.ssrLoadModule('/src/pages/instructor/Assessment.jsx')).QuizEditor
+  Curriculum = (await server.ssrLoadModule('/src/pages/instructor/Curriculum.jsx')).default
   for (const language of ['en', 'ru', 'kk']) {
     const dictionary = JSON.parse(await readFile(new URL(`../src/i18n/locales/${language}.json`, import.meta.url), 'utf8'))
     const i18n = createInstance()
@@ -63,6 +64,27 @@ test('quiz validation rejects incomplete answer keys and accepts single/multiple
   assert.ok(quizProblems(quiz).includes('answers 1'))
 })
 for (const language of ['en', 'ru', 'kk']) {
+  test(`curriculum renders all six existing lessons in stored order with editing controls in ${language}`, () => {
+    const lessons = [6, 3, 5, 2, 4, 1].map(order => ({ id: 90 + order, order, title: `Existing lesson ${order}` }))
+    const course = { id: 8, is_published: false, modules: [{ id: 31, order: 1, title: 'Existing module', lessons }] }
+    const html = renderToStaticMarkup(createElement(I18nextProvider, { i18n: translations.get(language) },
+      createElement(MemoryRouter, { initialEntries: ['/curriculum'] }, createElement(Routes, null,
+        createElement(Route, { element: createElement(Outlet, { context: { course, reload() {} } }) },
+          createElement(Route, { path: '/curriculum', element: createElement(Curriculum) }))))))
+    assert.equal((html.match(/aria-expanded="false"/g) || []).length, 6)
+    let previous = -1
+    for (let order = 1; order <= 6; order++) {
+      const position = html.indexOf(`Existing lesson ${order}`)
+      assert.ok(position > previous, `Lesson ${order} must be visible and sorted`)
+      previous = position
+      assert.ok(html.includes(`class="instructor-lesson-order">${order}.</span>`))
+      assert.ok(html.includes(`aria-controls="studio-lesson-${90 + order}"`))
+      assert.ok(html.includes(`${translations.get(language).t('instructorStudio.up')}: Existing lesson ${order}`))
+    }
+    assert.ok(html.includes(translations.get(language).t('instructorStudio.editLesson')))
+    assert.doesNotMatch(html, /instructorStudio\.[a-zA-Z]/)
+    assert.deepEqual(lessons.map(lesson => lesson.order), [6, 3, 5, 2, 4, 1])
+  })
   test(`teaching headings and source tables are editable in ${language}`, () => {
     const html = render(EducationalSections, { value: [{ type: 'service_overview', title: 'Overview', services: [{ name: 'Service', description: 'Source body', details: 'Details', examples: ['Example'], url: 'https://example.org' }] }, { type: 'model_service', title: 'Comparison', headers: ['Model', 'Service'], rows: [['A', 'B']] }], onChange() {} }, language)
     assert.match(html, /value="Service"/)

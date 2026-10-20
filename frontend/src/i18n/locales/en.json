@@ -613,6 +613,7 @@
     "add": "Add",
     "renameModule": "Edit module title",
     "moduleTitle": "Module title",
+    "editLesson": "Edit lesson",
     "lessonTitle": "Lesson title",
     "addModule": "Add module",
     "lessonBody": "Lesson text (plain text; blank lines separate paragraphs)",
