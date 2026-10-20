@@ -283,10 +283,14 @@ class EnrollmentRequestTests(APITestCase):
         self.assertEqual(self.client.post(self.complete_url).status_code, 401)
         self.assertFalse(LessonProgress.objects.exists())
 
-    def test_staff_lesson_preview_requires_django_permission(self):
+    def test_staff_student_permission_does_not_override_role_but_admin_can_preview(self):
         self.client.force_authenticate(self.staff)
         self.assertEqual(self.client.get(self.lesson_url).status_code, 403)
         self.staff.user_permissions.add(Permission.objects.get(content_type__app_label="courses", codename="view_lesson"))
+        self.client.force_authenticate(get_user_model().objects.get(pk=self.staff.pk))
+        self.assertEqual(self.client.get(self.lesson_url).status_code, 403)
+        self.staff.role = "admin"
+        self.staff.save(update_fields=["role"])
         self.client.force_authenticate(get_user_model().objects.get(pk=self.staff.pk))
         self.assertEqual(self.client.get(self.lesson_url).status_code, 200)
         # Previewing is not a personal enrollment and must not manufacture progress.

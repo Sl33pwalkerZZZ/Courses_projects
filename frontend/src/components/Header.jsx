@@ -56,7 +56,7 @@ export default function Header() {
         document.getElementById('course-library')?.scrollIntoView()
       }}>{t('header.catalog')}</Link>
       {authed ? <>
-        {instructor && <NavLink to="/instructor" className="catalog-nav-link" onClick={() => setMenuOpen(false)}>{t('instructorStudio.title')}</NavLink>}
+        {instructor?.can_access_studio && <NavLink to="/instructor" className="catalog-nav-link" onClick={() => setMenuOpen(false)}>{t('instructorStudio.title')}</NavLink>}
         <NavLink to="/profile" className="catalog-nav-link" onClick={() => setMenuOpen(false)}>{t('header.profile')}</NavLink>
         <Button variant="ghost" onClick={handleLogout}>{t('header.logout')}<LogOut size={16} aria-hidden="true" /></Button>
       </> : <>

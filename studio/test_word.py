@@ -2,6 +2,8 @@
 import io
 from pathlib import Path
 from unittest import TestCase
+from unittest.mock import patch
+from zlib import error as ZlibError
 from xml.sax.saxutils import escape
 from zipfile import ZIP_DEFLATED, ZipFile
 
@@ -23,6 +25,12 @@ def paragraph(text, style=""):
 
 
 class WordPreviewTests(TestCase):
+    def test_corrupt_compressed_streams_are_validation_errors(self):
+        for error in (ZlibError('corrupt compressed stream'), EOFError('truncated member')):
+            with self.subTest(error=type(error).__name__), patch('studio.word.ZipFile.read', side_effect=error):
+                with self.assertRaisesRegex(ValueError, 'damaged or unsupported'):
+                    parse_docx(docx(paragraph('Content')), 'source.docx')
+
     def test_preserves_headings_paragraphs_tables_and_safe_reference(self):
         body = paragraph('Перед началом') + paragraph('Раздел', 'Heading1') + paragraph('<script>plain text</script>')
         body += '<w:tbl><w:tr><w:tc>' + paragraph('Сервис') + '</w:tc><w:tc>' + paragraph('Цена') + '</w:tc></w:tr><w:tr><w:tc>' + paragraph('A') + '</w:tc><w:tc>' + paragraph('0') + '</w:tc></w:tr></w:tbl>'

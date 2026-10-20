@@ -121,11 +121,15 @@ class ProtectedLessonMediaTests(APITestCase):
         self.client.force_authenticate(self.other)
         self.assertEqual(self.client.get(self.url).status_code, 403)
 
-    def test_staff_preview_requires_existing_lesson_permission(self):
+    def test_staff_student_cannot_preview_even_with_model_permission(self):
         self.client.force_authenticate(self.staff)
         self.assertEqual(self.client.get(self.url).status_code, 403)
         self.staff.user_permissions.add(Permission.objects.get(codename="view_lesson", content_type__app_label="courses"))
         # Refetch to discard Django's permission cache from the denied request.
+        self.client.force_authenticate(get_user_model().objects.get(pk=self.staff.pk))
+        self.assertEqual(self.client.get(self.url).status_code, 403)
+        self.staff.role = 'admin'
+        self.staff.save(update_fields=['role'])
         self.client.force_authenticate(get_user_model().objects.get(pk=self.staff.pk))
         self.assertEqual(self.image_bytes(self.client.get(self.url)), PNG)
 

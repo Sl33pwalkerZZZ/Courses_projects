@@ -10,11 +10,13 @@ from rest_framework.exceptions import PermissionDenied, ValidationError
 from courses.models import Course, CourseImport, Lesson
 from quizzes.validation import validate_quiz
 from .models import PublicationRequest, PublicationEvent
-from .permissions import moderator
+from .permissions import instructor, moderator
 
 
 def owned_courses(user):
     courses = Course.objects.all()
+    if not instructor(user):
+        return courses.none()
     return courses if moderator(user) else courses.filter(author=user)
 
 
@@ -26,12 +28,14 @@ def course_for(user, pk, *, lock=False):
 
 
 def unique_slug(title):
-    base = slugify(title)[:180] or 'course'
+    maximum = Course._meta.get_field('slug').max_length
+    base = slugify(title)[:maximum] or 'course'
     slug = base
     suffix = 1
     while Course.objects.filter(slug=slug).exists():
         suffix += 1
-        slug = f'{base}-{suffix}'
+        tail = f'-{suffix}'
+        slug = f'{base[:maximum - len(tail)]}{tail}'
     return slug
 
 

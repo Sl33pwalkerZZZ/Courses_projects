@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.cache import patch_vary_headers
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -25,7 +26,7 @@ from courses.models import Assignment, Course, CourseImport, Direction, Lesson, 
 from progress.models import AssignmentSubmission
 from quizzes.models import Quiz, QuizChoice, QuizQuestion
 from .models import CourseSettings, ImportPreview, LessonImageDescription, PublicationEvent, PublicationRequest
-from .permissions import InstructorPermission, moderator
+from .permissions import InstructorPermission, effective_permissions, moderator
 from .presentation import assignment_data, course_data, lesson_data, publication_data, publication_status, quiz_data, submission_data
 from .serializers import AssignmentWriteSerializer, CourseWriteSerializer, LessonWriteSerializer, ModuleWriteSerializer, QuizWriteSerializer, ReviewWriteSerializer
 from .services import course_for, decide_publication, fingerprint, owned_courses, requirements, unique_slug
@@ -33,6 +34,13 @@ from .services import course_for, decide_publication, fingerprint, owned_courses
 
 class StudioView(APIView):
     permission_classes = [InstructorPermission]
+
+    def handle_exception(self, exc):
+        if isinstance(exc, DjangoValidationError):
+            exc = ValidationError(exc.message_dict if hasattr(exc, 'message_dict') else exc.messages)
+        elif isinstance(exc, IntegrityError):
+            exc = ValidationError({'conflict': 'A conflicting record already exists. Reload before retrying; no partial records were saved.'})
+        return super().handle_exception(exc)
 
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
@@ -77,8 +85,12 @@ def create_course(user, data):
 
 
 class MeView(StudioView):
+    # Permission discovery is safe for any authenticated user; all management
+    # endpoints retain InstructorPermission and object-level ownership checks.
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        return Response({'id': request.user.pk, 'username': request.user.username, 'role': request.user.role, 'is_moderator': moderator(request.user)})
+        return Response({'id': request.user.pk, 'username': request.user.username, **effective_permissions(request.user)})
 
 
 class MetaView(StudioView):
@@ -181,7 +193,8 @@ def save_lesson(lesson, data):
     learning = data.pop('learning_content', None)
     for key, value in data.items():
         setattr(lesson, key, value)
-    lesson.full_clean()
+    # A lesson may be assembled in stages; publication still requires its body.
+    lesson.full_clean(exclude=['text_content'] if not lesson.text_content else None)
     lesson.save()
     if learning is not None:
         LessonLearningContent.objects.update_or_create(lesson=lesson, defaults=learning)
@@ -394,8 +407,10 @@ class InstructorsView(StudioView):
 class InstructorRoleView(StudioView):
     @transaction.atomic
     def post(self, request, pk):
-        if not moderator(request.user) or not (request.user.is_superuser or request.user.has_perm('users.change_user')):
-            raise PermissionDenied('Real user-management permission is required.')
+        if not moderator(request.user):
+            raise PermissionDenied('Administrator access required.')
+        if not isinstance(request.data, dict) or set(request.data) != {'role'}:
+            raise ValidationError('Provide only the student/author role field.')
         user = get_object_or_404(get_user_model().objects.select_for_update(), pk=pk, is_active=True)
         role = request.data.get('role')
         if role not in ('author', 'student') or user.is_staff or user.is_superuser or user.role == 'admin':
@@ -437,7 +452,8 @@ class ImportConfirmView(StudioView):
         get_user_model().objects.select_for_update().get(pk=request.user.pk)
         preview = ImportPreview.objects.filter(pk=pk, owner=request.user).first()
         if preview and preview.course_id:
-            return Response(course_data(preview.course, detail=True))
+            # A receipt is not a permanent capability after ownership changes.
+            return Response(course_data(course_for(request.user, preview.course_id), detail=True))
         parsed = signed['parsed']
         preview = ImportPreview(id=pk, owner=request.user, source_sha256=parsed['source_sha256'], parsed=parsed)
         if CourseImport.objects.filter(source_sha256=preview.source_sha256).exists():

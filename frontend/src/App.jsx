@@ -14,6 +14,7 @@ const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register'))
 const Profile = lazy(() => import('./pages/Profile'))
 const InstructorPreview = lazy(() => import('./pages/InstructorPreview'))
+const StudioAccessGuard = lazy(() => import('./pages/instructor/InstructorStudio').then(module => ({ default: module.StudioAccessGuard })))
 const InstructorStudio = lazy(() => import('./pages/instructor/InstructorStudio'))
 const Dashboard = lazy(() => import('./pages/instructor/CourseEditor').then(module => ({ default: module.Dashboard })))
 const StudioCourseList = lazy(() => import('./pages/instructor/CourseEditor').then(module => ({ default: module.CourseList })))
@@ -65,8 +66,8 @@ export default function App() {
                 <Route path="courses" element={<StudioCourseList />} />
                 <Route path="courses/new" element={<NewCourse />} />
                 <Route path="import" element={<WordImport />} />
-                <Route path="reviews" element={<PublicationReviews />} />
-                <Route path="instructors" element={<InstructorManagement />} />
+                <Route path="reviews" element={<StudioAccessGuard moderator><PublicationReviews /></StudioAccessGuard>} />
+                <Route path="instructors" element={<StudioAccessGuard moderator><InstructorManagement /></StudioAccessGuard>} />
                 <Route path="courses/:id" element={<CourseWorkspace key={pathname.split('/')[3]} />}>
                   <Route index element={<Navigate to="edit" replace />} />
                   <Route path="edit" element={<CourseSettings />} />
@@ -75,8 +76,9 @@ export default function App() {
                   <Route path="submissions" element={<Submissions />} />
                   <Route path="publication" element={<Publication />} />
                 </Route>
+                <Route path="*" element={<NotFound />} />
               </Route>
-              <Route path="/instructor/courses/:slug/preview" element={<InstructorPreview key={session.generation} />} />
+              <Route path="/instructor/courses/:slug/preview" element={<StudioAccessGuard key={session.generation}><InstructorPreview /></StudioAccessGuard>} />
               <Route path="/lessons/:id" element={<LessonView key={session.generation} />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

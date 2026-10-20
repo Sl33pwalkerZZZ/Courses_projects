@@ -25,7 +25,7 @@ class MyEnrollmentRequestsView(generics.ListAPIView):
 
     def get_queryset(self):
         return EnrollmentRequest.objects.filter(student=self.request.user).select_related(
-            "course", "course__direction", "course__author", "course__content_import",
+            "course", "course__direction", "course__author", "course__content_import", "course__studio_settings",
         )
 
 
@@ -73,7 +73,7 @@ class MyEnrollmentsView(generics.ListAPIView):
         )
         return (
             Enrollment.objects.filter(student=self.request.user)
-            .select_related("course", "course__direction", "course__author", "course__content_import")
+            .select_related("course", "course__direction", "course__author", "course__content_import", "course__studio_settings")
             .prefetch_related(
                 Prefetch("course__modules", queryset=modules),
                 Prefetch(
@@ -202,11 +202,20 @@ class SelectionMapView(APIView):
                     return Response({"code": "revision_conflict", "detail": "The draft changed. Reload before saving."}, status=409)
             history = list(submission.review_history)
             if complete and submission.status == "rejected":
-                history.append({
+                decision = {
                     "revision": submission.revision, "status": "rejected",
                     "reviewer_comment": submission.reviewer_comment,
                     "reviewed_at": submission.reviewed_at.isoformat() if submission.reviewed_at else None,
-                })
+                }
+                # Studio records decisions when reviewing; legacy Admin decisions
+                # are archived here. Preserve both paths without duplicate feedback.
+                if not any(
+                    entry.get("status") == "rejected"
+                    and entry.get("reviewed_at") == decision["reviewed_at"]
+                    and (entry.get("reviewer_comment") or entry.get("comment", "")) == submission.reviewer_comment
+                    for entry in history
+                ):
+                    history.append(decision)
             updates = {"payload": payload, "revision": revision + 1}
             if complete:
                 updates.update(status="pending", submitted_at=timezone.now(), reviewed_at=None,

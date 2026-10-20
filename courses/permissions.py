@@ -1,11 +1,10 @@
 from progress.models import Enrollment
+from studio.permissions import moderator
 
 
 def can_preview_lessons(user):
-    """Use Django permissions for administrator previews, never the display role."""
-    return user.is_active and (
-        user.is_superuser or (user.is_staff and user.has_perm("courses.view_lesson"))
-    )
+    """Use Studio authority for previews; staff/student flags grant no override."""
+    return moderator(user)
 
 
 def can_access_lesson(user, lesson):
@@ -18,11 +17,8 @@ def can_access_lesson(user, lesson):
 
 
 def can_preview_course(user, course):
-    """Admin preview requires real Django permissions; display roles grant nothing."""
+    """Only owning authors and administrators with actual permissions may preview."""
     return user.is_authenticated and user.is_active and (
         (user.role == 'author' and course.author_id == user.pk)
-        or user.is_superuser or (
-            user.is_staff and user.has_perm("courses.view_course")
-            and user.has_perm("courses.view_lesson")
-        )
+        or moderator(user)
     )

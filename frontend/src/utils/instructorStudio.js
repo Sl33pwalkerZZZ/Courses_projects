@@ -6,8 +6,10 @@ export function moveStudioItem(items, index, direction) {
   ;[next[index], next[destination]] = [next[destination], next[index]]
   return next
 }
-export function studioError(error, fallback) {
+export function studioError(error, fallback, translate) {
   if (!error?.response?.data) return fallback
+  const missing = publicationProblems(error.response.data)
+  if (missing.length && translate) return missing.map(item => translate(`instructorStudio.requirements.${item.key}`, { defaultValue: item.label || item.key })).join(' · ')
   const values = []
   function visit(value, path = '') {
     if (typeof value === 'string') values.push(path ? `${path}: ${value}` : value)
@@ -31,4 +33,18 @@ export function quizProblems(quiz) {
     if (q.type === 'single' ? correct !== 1 : correct < 1) problems.push(`answers ${i + 1}`)
   })
   return problems
+}
+
+// Render structured publication validation as meaningful localized checklist text.
+// DRF wraps error leaf values as strings, including the requirement's key.
+export function publicationProblems(data) {
+  return Array.isArray(data?.requirements) ? data.requirements.filter(item => item && typeof item === 'object' && item.key && item.met !== true && item.met !== 'True') : []
+}
+export function teachingEntryChange(entry, text) {
+  if (typeof entry === 'string') return text
+  const field = ['text', 'description', 'body'].find(key => Object.hasOwn(entry, key)) || 'text'
+  return { ...entry, [field]: text }
+}
+export function prepareLearningContent(content) {
+  return { ...content, objectives: (content.objectives || []).map(text => text.trim()).filter(Boolean) }
 }

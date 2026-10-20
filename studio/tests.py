@@ -3,6 +3,7 @@ from io import BytesIO
 import zipfile
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
+from django.db import IntegrityError, transaction
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from rest_framework.test import APIClient
@@ -59,12 +60,23 @@ class StudioTests(TestCase):
         self.client.force_authenticate(self.author)
         self.assertEqual(self.client.get(self.url('reviews/')).status_code, 403)
 
-    def test_role_admin_without_real_staff_permission_is_denied(self):
+    def test_trusted_admin_role_does_not_require_django_staff_flags(self):
         self.student.role = 'admin'
         self.student.save()
         self.client.force_authenticate(self.student)
-        self.assertEqual(self.client.get(self.url('reviews/')).status_code, 403)
-        self.assertEqual(self.client.get(self.url('courses/')).status_code, 403)
+        self.assertEqual(self.client.get(self.url('reviews/')).status_code, 200)
+        self.assertEqual(self.client.get(self.url('courses/')).status_code, 200)
+
+    def test_authorized_staff_moderator_can_preview_without_enrollment(self):
+        self.other.role = 'admin'
+        self.other.is_staff = True
+        self.other.save()
+        self.other.user_permissions.add(Permission.objects.get(content_type__app_label='courses', codename='change_course'))
+        self.client.force_authenticate(self.other)
+        self.assertEqual(self.client.get(self.url('courses/')).status_code, 200)
+        self.assertEqual(self.client.get('/api/instructor/courses/private/preview/').status_code, 200)
+        self.assertEqual(self.client.get(f'/api/lessons/{self.lesson.pk}/').status_code, 200)
+        self.assertFalse(Enrollment.objects.exists())
 
     def test_create_patch_unique_slug_and_no_publish_mass_assignment(self):
         payload = {'title': 'New Course', 'description': 'Description', 'direction': self.direction.pk, 'level': 'beginner', 'enrollment_mode': 'approval', 'language': 'kk'}
@@ -79,6 +91,15 @@ class StudioTests(TestCase):
         self.assertEqual(self.client.patch(path, {'is_published': True}, format='json').status_code, 400)
         self.assertEqual(self.client.patch(path, {'author': self.other.pk}, format='json').status_code, 400)
         self.assertEqual(self.client.get('/api/courses/').data, [])
+
+    def test_long_titles_allocate_unique_slugs_within_the_actual_field_limit(self):
+        payload = {'title': 'Educational course title ' * 8, 'description': 'Description', 'direction': self.direction.pk}
+        first = self.client.post(self.url('courses/'), payload, format='json')
+        second = self.client.post(self.url('courses/'), payload, format='json')
+        self.assertEqual(first.status_code, 201, first.data)
+        self.assertEqual(second.status_code, 201, second.data)
+        self.assertNotEqual(first.data['slug'], second.data['slug'])
+        self.assertLessEqual(len(second.data['slug']), Course._meta.get_field('slug').max_length)
 
     def test_curriculum_add_edit_and_reorder(self):
         module = self.client.post(self.url(f'courses/{self.course.pk}/modules/'), {'title': 'Two'}, format='json')
@@ -262,3 +283,47 @@ class StudioTests(TestCase):
         self.assertEqual(self.client.delete(self.url(f'courses/{self.course.pk}/')).status_code, 405)
         self.assertEqual(self.client.delete(self.url(f'lessons/{self.lesson.pk}/')).status_code, 405)
         self.assertTrue(Course.objects.filter(pk=self.course.pk).exists())
+
+    def test_empty_lesson_draft_is_editable_but_cannot_be_published(self):
+        response = self.client.post(self.url(f'modules/{self.module.pk}/lessons/'),
+                                    {'title': 'Unfinished', 'text_content': ''}, format='json')
+        self.assertEqual(response.status_code, 201, response.data)
+        self.make_quiz()
+        self.assertEqual(self.request_publication().status_code, 400)
+        saved = self.client.patch(self.url(f"lessons/{response.data['id']}/"),
+                                  {'text_content': 'Completed lesson body'}, format='json')
+        self.assertEqual(saved.status_code, 200, saved.data)
+        self.assertEqual(self.request_publication().status_code, 201)
+
+    def test_docx_receipt_rechecks_current_course_ownership(self):
+        preview = self.client.post(self.url('imports/preview/'), {'file': document()}, format='multipart').data
+        payload = {'title': 'Imported', 'description': 'Details', 'direction': self.direction.pk,
+                   'preview_token': preview['preview_token'], 'lessons': [
+                       {'title': item['title'], 'text_content': item['text_content']} for item in preview['parsed']['lessons']]}
+        url = self.url(f"imports/{preview['id']}/confirm/")
+        created = self.client.post(url, payload, format='json')
+        self.assertEqual(created.status_code, 201, created.data)
+        Course.objects.filter(pk=created.data['id']).update(author=self.other)
+        self.assertEqual(self.client.post(url, payload, format='json').status_code, 404)
+
+    def test_confirmed_source_has_database_duplicate_protection(self):
+        ImportPreview.objects.create(owner=self.author, source_sha256='d' * 64, parsed={})
+        with self.assertRaises(IntegrityError), transaction.atomic():
+            ImportPreview.objects.create(owner=self.other, source_sha256='d' * 64, parsed={})
+        self.assertEqual(ImportPreview.objects.count(), 1)
+
+    def test_student_resubmission_preserves_one_studio_feedback_entry(self):
+        from progress.test_selection_maps import complete_map
+        assignment = Assignment.objects.create(lesson=self.lesson, type='text', description='Map', learning_activity='ai_selection_map')
+        Enrollment.objects.create(student=self.student, course=self.course)
+        submission = AssignmentSubmission.objects.create(assignment=assignment, student=self.student,
+                                                         is_structured=True, status='pending', payload=complete_map())
+        reviewed = self.client.post(self.url(f'submissions/{submission.pk}/review/'),
+                                    {'revision': 0, 'status': 'rejected', 'reviewer_comment': 'Add evidence'}, format='json')
+        self.assertEqual(reviewed.status_code, 200, reviewed.data)
+        self.client.force_authenticate(self.student)
+        resubmitted = self.client.post(f'/api/assignments/{assignment.pk}/selection-map/submit/',
+                                      {'revision': 1, 'payload': complete_map()}, format='json')
+        self.assertEqual(resubmitted.status_code, 200, resubmitted.data)
+        self.assertEqual(resubmitted.data['status'], 'pending')
+        self.assertEqual(len(resubmitted.data['review_history']), 1)

@@ -5,6 +5,7 @@ import re
 from pathlib import PurePosixPath
 from xml.etree import ElementTree as ET
 from zipfile import BadZipFile, ZipFile
+from zlib import error as ZlibError
 
 from courses.management.first_course_document import plain_text
 
@@ -114,7 +115,7 @@ def parse_docx(data, filename):
                 warnings.append("Embedded illustrations were not extracted. Upload reviewed images separately using protected lesson assets.")
             if document.findall(".//w:ins", NS) or document.findall(".//w:del", NS):
                 warnings.append("Tracked changes are present. Review all imported text carefully.")
-    except (BadZipFile, KeyError, ET.ParseError, RuntimeError, NotImplementedError) as error:
+    except (BadZipFile, KeyError, ET.ParseError, RuntimeError, NotImplementedError, ZlibError, EOFError) as error:
         raise ValueError("The DOCX file is damaged or unsupported.") from error
     if not blocks:
         raise ValueError("The document has no readable paragraphs or tables.")

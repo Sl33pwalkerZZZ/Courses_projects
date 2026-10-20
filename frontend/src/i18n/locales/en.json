@@ -568,6 +568,11 @@
     "loadError": "Preview could not be loaded. Check your staff permissions or retry."
   },
   "instructorStudio": {
+    "accessDenied": "Access denied",
+    "returnToCourses": "Return to courses",
+    "allCourses": "All courses",
+    "effectiveRole": "Effective role",
+    "superuserOverride": "Django superuser administrator override",
     "title": "Instructor Studio",
     "intro": "Build thoughtful learning experiences. Draft, review, then publish.",
     "navigation": "Instructor navigation",
@@ -764,6 +769,13 @@
       "drafts": "Drafts",
       "published": "Published",
       "pending_publications": "Publication requests"
-    }
+    },
+    "details": "Additional details",
+    "examples": "Examples (one per line)",
+    "referenceUrl": "Reference URL",
+    "criteria": "Selection criteria (one per line)",
+    "note": "Source note",
+    "warning": "Warning",
+    "publishedLocked": "Published course content is read-only to preserve student outcomes. Contact an administrator to arrange a safe revision."
   }
 }

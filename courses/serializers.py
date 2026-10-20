@@ -72,7 +72,7 @@ class LessonImageSerializer(serializers.ModelSerializer):
         return reverse("lesson-image", args=[image.pk])
 
     def get_alt_text(self, image):
-        description = getattr(image, 'studio_description', None)
+        description = getattr(image, 'studio_description', None) if not image._state.adding else None
         if description is not None:
             return {} if description.decorative else description.alt_text
         # Nested images share the lesson serializer's context: one read per response.

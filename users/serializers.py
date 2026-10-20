@@ -21,6 +21,10 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        from studio.permissions import effective_permissions
+        return {**super().to_representation(instance), **effective_permissions(instance)}
+
     class Meta:
         model = User
         fields = ["id", "username", "email", "role"]

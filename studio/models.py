@@ -46,3 +46,8 @@ class ImportPreview(models.Model):
     parsed = models.JSONField()
     course = models.ForeignKey('courses.Course', on_delete=models.PROTECT, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        # Receipts are created only at confirmation. This also prevents two
+        # different authors concurrently confirming the same uploaded source.
+        constraints = [models.UniqueConstraint(fields=['source_sha256'], name='studio_unique_import_source')]

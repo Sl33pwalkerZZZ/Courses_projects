@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
+from django.db.models import Prefetch
 from django.utils.cache import patch_vary_headers
 from rest_framework import generics, permissions
 from rest_framework.authentication import SessionAuthentication
@@ -17,14 +18,14 @@ from .serializers import CourseDetailSerializer, RatedCourseListSerializer, Less
 
 
 class CourseListView(generics.ListAPIView):
-    queryset = with_review_summary(Course.objects.filter(is_published=True).select_related("direction", "author", "content_import"))
+    queryset = with_review_summary(Course.objects.filter(is_published=True).select_related("direction", "author", "content_import", "studio_settings"))
     serializer_class = RatedCourseListSerializer
     permission_classes = [permissions.AllowAny]
 
 
 class CourseDetailView(generics.RetrieveAPIView):
     queryset = with_review_summary(
-        Course.objects.filter(is_published=True).select_related("direction", "author", "content_import").prefetch_related("modules__lessons")
+        Course.objects.filter(is_published=True).select_related("direction", "author", "content_import", "studio_settings").prefetch_related("modules__lessons")
     )
     serializer_class = CourseDetailSerializer
     permission_classes = [permissions.AllowAny]
@@ -32,7 +33,9 @@ class CourseDetailView(generics.RetrieveAPIView):
 
 
 class LessonDetailView(generics.RetrieveAPIView):
-    queryset = Lesson.objects.select_related("module__course").prefetch_related("images", "assignments")
+    queryset = Lesson.objects.select_related("module__course").prefetch_related(
+        Prefetch("images", queryset=LessonImage.objects.select_related("studio_description")), "assignments",
+    )
     serializer_class = LessonDetailSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -89,7 +92,7 @@ class InstructorCoursePreviewView(generics.RetrieveAPIView):
     serializer_class = CourseDetailSerializer
     lookup_field = "slug"
     queryset = with_review_summary(
-        Course.objects.select_related("direction", "author", "content_import")
+        Course.objects.select_related("direction", "author", "content_import", "studio_settings")
         .prefetch_related("modules__lessons")
     )
 

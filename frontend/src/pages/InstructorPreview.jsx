@@ -3,6 +3,7 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
 import useAuth from '../hooks/useAuth'
+import { refreshInstructorPermissions } from '../hooks/useInstructor'
 import { ContentLanguageNotice } from '../components/learning/LearningContent'
 import { orderCurriculum } from '../utils/lessons'
 
@@ -18,7 +19,7 @@ function Preview({ slug }) {
   const [retry, setRetry] = useState(0)
   useEffect(() => {
     let active = true
-    api.get(`/instructor/courses/${encodeURIComponent(slug)}/preview/`).then(({ data }) => { if (active) setCourse(data) }).catch(() => { if (active) setError(true) })
+    api.get(`/instructor/courses/${encodeURIComponent(slug)}/preview/`).then(({ data }) => { if (active) setCourse(data) }).catch(error => { if (error.response?.status === 403) refreshInstructorPermissions(); if (active) setError(true) })
     return () => { active = false }
   }, [slug, retry])
   if (error) return <section role="alert"><p>{t('instructorPreview.loadError')}</p><button type="button" onClick={() => { setError(false); setRetry(value => value + 1) }}>{t('common.retry')}</button></section>

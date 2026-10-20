@@ -185,7 +185,7 @@ class FirstCoursePreviewTests(APITestCase):
         User = get_user_model()
         cls.student = User.objects.create_user(username="student")
         cls.author = User.objects.create_user(username="author", role="author")
-        cls.staff = User.objects.create_user(username="staff", is_staff=True)
+        cls.staff = User.objects.create_user(username="staff", is_staff=True, role="admin")
         cls.staff.user_permissions.add(*Permission.objects.filter(codename__in=["view_course", "view_lesson"], content_type__app_label="courses"))
         cls.limited = User.objects.create_user(username="limited", is_staff=True)
         cls.limited.user_permissions.add(Permission.objects.get(codename="view_lesson", content_type__app_label="courses"))
@@ -204,9 +204,12 @@ class FirstCoursePreviewTests(APITestCase):
 
     def test_preview_rejects_anonymous_student_display_author_and_limited_staff(self):
         self.assertEqual(self.client.get(self.preview).status_code, 401)
-        for user in [self.student, self.author, self.limited]:
+        for user in [self.student, self.limited]:
             self.client.force_authenticate(user)
             self.assertEqual(self.client.get(self.preview).status_code, 403)
+        # Studio now explicitly authorizes authors to preview their own drafts.
+        self.client.force_authenticate(self.author)
+        self.assertEqual(self.client.get(self.preview).status_code, 200)
 
     def test_authorized_staff_preview_without_enrollment_or_quiz_keys(self):
         self.client.force_authenticate(self.staff)
