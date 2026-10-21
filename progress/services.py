@@ -26,8 +26,10 @@ def submit_enrollment_request(*, student, course, message):
 
 @transaction.atomic
 def review_enrollment_request(*, application_id, reviewer, approve, note=""):
+    from studio.permissions import moderator
+
     if not reviewer.is_active or not (
-        reviewer.is_superuser
+        moderator(reviewer)
         or (reviewer.is_staff and reviewer.has_perm("progress.change_enrollmentrequest"))
     ):
         raise PermissionDenied("You do not have permission to review enrollment requests.")

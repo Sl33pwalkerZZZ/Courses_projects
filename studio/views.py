@@ -23,12 +23,13 @@ from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from courses.models import Assignment, Course, CourseImport, Direction, Lesson, LessonImage, LessonLearningContent, Module
-from progress.models import AssignmentSubmission
+from progress.models import AssignmentSubmission, EnrollmentRequest
+from progress.services import review_enrollment_request
 from quizzes.models import Quiz, QuizChoice, QuizQuestion
 from .models import CourseSettings, ImportPreview, LessonImageDescription, PublicationEvent, PublicationRequest
 from .permissions import InstructorPermission, effective_permissions, moderator
 from .presentation import assignment_data, course_data, lesson_data, publication_data, publication_status, quiz_data, submission_data
-from .serializers import AssignmentWriteSerializer, CourseWriteSerializer, LessonWriteSerializer, ModuleWriteSerializer, QuizWriteSerializer, ReviewWriteSerializer
+from .serializers import AssignmentWriteSerializer, CourseWriteSerializer, EnrollmentDecisionSerializer, LessonWriteSerializer, ModuleWriteSerializer, QuizWriteSerializer, ReviewWriteSerializer
 from .services import course_for, decide_publication, fingerprint, owned_courses, requirements, unique_slug
 
 
@@ -395,6 +396,47 @@ class ReviewDecisionView(StudioView):
             raise ValidationError({'note': 'Provide feedback up to 10000 characters.'})
         review = decide_publication(request_id=pk, reviewer=request.user, decision=request.data.get('decision'), note=note)
         return Response(publication_data(review))
+
+
+def enrollment_request_data(application):
+    return {
+        'id': application.pk,
+        'student': {'id': application.student_id, 'username': application.student.username},
+        'course': {'id': application.course_id, 'title': application.course.title},
+        'message': application.message, 'status': application.status,
+        'created_at': application.created_at, 'admin_note': application.admin_note,
+        'reviewed_at': application.reviewed_at,
+    }
+
+
+class EnrollmentRequestsView(StudioView):
+    def get(self, request):
+        if not moderator(request.user):
+            raise PermissionDenied('Administrator access required.')
+        selected = request.query_params.get('status', EnrollmentRequest.Status.PENDING)
+        if selected not in [*EnrollmentRequest.Status.values, 'all']:
+            raise ValidationError({'status': 'Choose pending, approved, rejected or all.'})
+        applications = EnrollmentRequest.objects.select_related('student', 'course')
+        if selected != 'all':
+            applications = applications.filter(status=selected)
+        return Response([enrollment_request_data(application) for application in applications])
+
+
+class EnrollmentRequestDecisionView(StudioView):
+    def post(self, request, pk):
+        if not moderator(request.user):
+            raise PermissionDenied('Administrator access required.')
+        data = validated(EnrollmentDecisionSerializer, request.data)
+        # All decisions, including Django Admin actions, share the same locks,
+        # idempotency and Enrollment get_or_create operation.
+        try:
+            application, changed = review_enrollment_request(
+                application_id=pk, reviewer=request.user,
+                approve=data['decision'] == 'approve', note=data['note'],
+            )
+        except EnrollmentRequest.DoesNotExist:
+            raise Http404
+        return Response({**enrollment_request_data(application), 'changed': changed})
 
 
 class InstructorsView(StudioView):

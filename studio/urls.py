@@ -11,5 +11,7 @@ urlpatterns = [
     path('courses/<int:pk>/submissions/', views.CourseSubmissionsView.as_view()), path('submissions/<int:pk>/review/', views.SubmissionReviewView.as_view()), path('submissions/<int:pk>/file/', views.SubmissionFileView.as_view()),
     path('courses/<int:pk>/publication/', views.PublicationView.as_view()), path('reviews/', views.ReviewsView.as_view()), path('reviews/<int:pk>/decision/', views.ReviewDecisionView.as_view()),
     path('instructors/', views.InstructorsView.as_view()), path('instructors/<int:pk>/', views.InstructorRoleView.as_view()),
+    path('enrollment-requests/', views.EnrollmentRequestsView.as_view()),
+    path('enrollment-requests/<int:pk>/decision/', views.EnrollmentRequestDecisionView.as_view()),
     path('imports/preview/', views.ImportPreviewView.as_view()), path('imports/<uuid:pk>/confirm/', views.ImportConfirmView.as_view()),
 ]

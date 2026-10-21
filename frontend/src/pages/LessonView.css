@@ -125,6 +125,14 @@ main.container.legacy-page:has(.lesson-workspace) { max-width: 1440px; padding: 
 }
 
 /* Digital Playground: calm paper-like reading panel alongside an ink outline. */
+.lesson-material-text h2 { margin-block:2rem 1rem; font-size:1.35rem; line-height:1.45; }
+.lesson-ai-examples ul { display:grid; gap:.65rem; margin-block:1rem 2rem; padding-inline-start:1.5rem; }
+.lesson-ai-examples li { padding-inline-start:.25rem; line-height:1.75; }
+.lesson-source-closing { margin-top:2.5rem; padding-top:1rem; border-top:1px solid var(--line); }
+.lesson-source-disclosure,.lesson-practice-disclosure { margin-block:1.25rem; min-width:0; }
+.lesson-source-disclosure summary,.lesson-practice-disclosure summary { min-height:44px; padding-block:12px; font-weight:650; cursor:pointer; }
+.lesson-practice-disclosure { border-top:1px solid var(--line); }
+.lesson-reading-area > .lesson-quiz:not(.quiz-load-state) { margin-block:2rem; padding:clamp(16px,3vw,28px); border:1px solid var(--line); border-radius:20px; background:var(--surface-raised); }
 .lesson-workspace { padding-top: 0; }
 .lesson-workspace-grid { grid-template-columns: 292px minmax(0, 1fr); gap: 28px; }
 .lesson-course-sidebar { top: calc(var(--v2-header-height) + 20px); border-radius: 20px; }

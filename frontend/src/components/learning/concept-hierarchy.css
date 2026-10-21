@@ -1,0 +1,9 @@
+.concept-hierarchy{min-width:0;color:var(--v2-text)}
+.concept-hierarchy .concept-hierarchy-level{list-style:none;margin:0;padding:0;min-width:0}
+.concept-hierarchy .concept-hierarchy-level>li{min-width:0;margin:0;padding:clamp(.55rem,1.6vw,1rem);border:1px solid var(--v2-control-border);border-radius:14px;background:var(--v2-surface-raised)}
+.concept-hierarchy .concept-hierarchy-level .concept-hierarchy-level{margin-block-start:.75rem;margin-inline-start:clamp(.1rem,.8vw,.6rem)}
+.concept-hierarchy .concept-hierarchy-level .concept-hierarchy-level>li{background:var(--v2-surface);border-inline-start:3px solid var(--v2-link)}
+.concept-hierarchy .concept-hierarchy-copy h4{margin:0;color:var(--v2-text);font-size:1rem;line-height:1.5;overflow-wrap:anywhere}
+.concept-hierarchy .concept-hierarchy-copy p,.concept-hierarchy .concept-hierarchy-boundary{margin:.4rem 0 0;color:var(--v2-text);font-size:.95rem;line-height:1.65;overflow-wrap:anywhere}
+.concept-hierarchy .concept-hierarchy-boundary{margin-block-start:1rem}
+@media(max-width:400px){.concept-hierarchy .concept-hierarchy-level>li{padding:.5rem}.concept-hierarchy .concept-hierarchy-level .concept-hierarchy-level{margin-inline-start:0}.concept-hierarchy .concept-hierarchy-copy h4{font-size:.95rem}}

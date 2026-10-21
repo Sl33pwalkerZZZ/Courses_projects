@@ -209,10 +209,8 @@ class EnrollmentRequestTests(APITestCase):
         self.assertIsNone(application.reviewed_at)
         self.assertFalse(Enrollment.objects.exists())
 
-    def test_review_requires_staff_permission_not_a_display_role(self):
+    def test_legacy_admin_review_requires_explicit_staff_permission(self):
         application = self.application()
-        self.other.role = get_user_model().Role.ADMIN
-        self.other.save(update_fields=["role"])
         for reviewer in (self.student, self.other, self.staff):
             with self.assertRaises(PermissionDenied):
                 review_enrollment_request(application_id=application.pk, reviewer=reviewer, approve=True)

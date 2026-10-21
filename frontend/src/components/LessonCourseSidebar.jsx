@@ -65,7 +65,7 @@ export default function LessonCourseSidebar({ course, lessonId, completedIds = [
             <button className="lesson-text-button" type="button" onClick={onRefresh} disabled={progressLoading}>{t('common.retry')}</button>
           </div>}
         </div>
-        <nav className="lesson-outline-modules" aria-label={t('lessonWorkspace.lessonNavigation')}>
+        <nav className="lesson-outline-modules" aria-label={t('lessonWorkspace.outline')}>
           {modules.map((module, index) => {
             const isExpanded = expanded.has(module.id)
             const buttonId = `${outlineId}-${module.id}`

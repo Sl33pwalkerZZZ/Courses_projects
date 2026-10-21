@@ -172,6 +172,29 @@ test('empty material is intentional and never filled with a placeholder lesson',
 })
 
 for (const language of ['en', 'ru', 'kk']) {
+  test(`structured practice keeps the source reference and uses translated controls in ${language}`, () => {
+    const t = translations.get(language).t.bind(translations.get(language))
+    assert.notEqual(t('common.cancel'), 'common.cancel')
+    for (const key of ['practiceTransition', 'openPractice', 'practiceReference']) {
+      assert.notEqual(t(`learning.${key}`), `learning.${key}`)
+    }
+    const lesson = {
+      text_content: 'Source task\n\nПараметр | Ответ участника\nРабочая задача | \n\nWorked example\n\n1.8. Выводы по первой главе\n\nKeep conclusion\n\nМатериалы для дополнительного изучения\n\nhttps://example.org/',
+      learning_content: { content_language: 'ru', objectives: ['Original objective'], interactions: [
+        { type: 'model_service', title: 'Source template', headers: ['Параметр', 'Ответ участника'], rows: [['Рабочая задача', '']] },
+      ] },
+      assignments: [{ id: 1, learning_activity: 'ai_selection_map', description: 'Preserve safety. Поля сравнения и сохранение черновика — авторское цифровое развитие исходной карты.' }],
+    }
+    const html = render(Material, { lesson }, language)
+    assert.ok(html.indexOf('Original objective') < html.indexOf('Source task'))
+    assert.match(html, /Worked example/)
+    assert.match(html, /Keep conclusion/)
+    assert.match(html, /href="https:\/\/example.org\/"/)
+    assert.match(html, /Preserve safety/)
+    assert.doesNotMatch(html, /авторское цифровое развитие|learning\.(openPractice|practiceReference|practiceTransition)/)
+    assert.match(html, /<details class="lesson-practice-disclosure"><summary>/)
+    assert.equal((html.match(/<table>/g) || []).length, 1)
+  })
   test(`private lesson images initially show translated loading without public or protected URLs in ${language}`, () => {
     const html = render(Material, { lesson: { images: [{ id: 15, image: '/api/lesson-images/15/' }] } }, language)
     assert.ok(html.includes(translations.get(language).t('common.loading')))

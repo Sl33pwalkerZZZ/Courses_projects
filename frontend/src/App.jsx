@@ -27,6 +27,7 @@ const Publication = lazy(() => import('./pages/instructor/Publication'))
 const Submissions = lazy(() => import('./pages/instructor/Publication').then(module => ({ default: module.Submissions })))
 const PublicationReviews = lazy(() => import('./pages/instructor/Publication').then(module => ({ default: module.PublicationReviews })))
 const InstructorManagement = lazy(() => import('./pages/instructor/Publication').then(module => ({ default: module.InstructorManagement })))
+const EnrollmentRequests = lazy(() => import('./pages/instructor/EnrollmentRequests'))
 const WordImport = lazy(() => import('./pages/instructor/WordImport'))
 
 export default function App() {
@@ -66,6 +67,7 @@ export default function App() {
                 <Route path="courses" element={<StudioCourseList />} />
                 <Route path="courses/new" element={<NewCourse />} />
                 <Route path="import" element={<WordImport />} />
+                <Route path="enrollment-requests" element={<StudioAccessGuard moderator><EnrollmentRequests /></StudioAccessGuard>} />
                 <Route path="reviews" element={<StudioAccessGuard moderator><PublicationReviews /></StudioAccessGuard>} />
                 <Route path="instructors" element={<StudioAccessGuard moderator><InstructorManagement /></StudioAccessGuard>} />
                 <Route path="courses/:id" element={<CourseWorkspace key={pathname.split('/')[3]} />}>

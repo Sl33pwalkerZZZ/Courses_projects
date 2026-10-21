@@ -9,9 +9,10 @@ import LessonQuiz from '../components/LessonQuiz'
 import ProtectedLessonImage from '../components/ProtectedLessonImage'
 import Celebration from '../components/playground/Celebration'
 import ReadingProgress from '../components/playground/ReadingProgress'
-import { lessonErrorKey, lessonNavigation, lessonParagraphs, loadCourseOutline, loadEnrollmentProgress, saveLessonCompletion } from '../utils/lessons'
+import { lessonErrorKey, lessonNavigation, loadCourseOutline, loadEnrollmentProgress, saveLessonCompletion } from '../utils/lessons'
 import LearningContent, { ContentLanguageNotice, SourceParagraph } from '../components/learning/LearningContent'
 import SelectionMap from '../components/learning/SelectionMap'
+import { lessonPresentation, lessonReadingBlocks, studentAssignmentDescription } from '../utils/lessonPresentation'
 import './LessonView.css'
 
 export default function LessonView() {
@@ -43,21 +44,41 @@ export function LessonWorkspaceStatus({ error, courseSlug, onRetry }) {
 
 export function LessonMaterial({ lesson, preview = false }) {
   const { t } = useTranslation()
+  const presentation = lessonPresentation(lesson)
+  const language = lesson.content_language || lesson.learning_content?.content_language
+  const paragraphs = values => lessonReadingBlocks(values).map((block, index) => {
+    if (block.type === 'examples') return <section className="lesson-ai-examples" key={index}>
+      <h2>{block.heading}</h2><ul>{block.items.map(item => <li key={item}>{item}</li>)}</ul>
+    </section>
+    const paragraph = block.text
+    return /^(?:1\.\d\. |Шаг \d\.|Основные ограничения ИИ$|Связь между ИИ, машинным и глубоким обучением$)/u.test(paragraph.trim())
+      ? <h2 key={index}>{paragraph}</h2>
+      : lesson.learning_content ? <SourceParagraph key={index} text={paragraph} /> : <p key={index}>{paragraph}</p>
+  })
   return <div className="lesson-material">
-    <ContentLanguageNotice language={lesson.content_language || lesson.learning_content?.content_language} />
+    <ContentLanguageNotice language={language} />
+    {lesson.learning_content?.objectives?.length > 0 && <LearningContent content={{ content_language: language, objectives: lesson.learning_content.objectives }} showLanguageNotice={false} />}
     {lesson.text_content?.trim() ? <div className="lesson-material-text" lang={lesson.content_language || lesson.learning_content?.content_language || undefined}>
-      {lessonParagraphs(lesson).map((paragraph, index) => lesson.learning_content
-        ? <SourceParagraph key={index} text={paragraph} /> : <p key={index}>{paragraph}</p>)}
+      {paragraphs(presentation.reading)}
     </div> : <div className="lesson-material-empty"><BookOpen size={24} aria-hidden="true" /><p>{t('lessonWorkspace.emptyMaterial')}</p></div>}
-    <LearningContent content={lesson.learning_content} showLanguageNotice={false} />
+    {(presentation.content?.interactions?.length > 0 || presentation.content?.takeaways?.length > 0) && <LearningContent content={presentation.content} showLanguageNotice={false} />}
     {lesson.images?.length > 0 && <div className="lesson-material-images">
       {lesson.images.map((image) => <ProtectedLessonImage key={image.id} image={image} />)}
     </div>}
     {lesson.assignments?.length > 0 && <section className="lesson-material-assignments" aria-labelledby="lesson-assignments-title">
       <p className="eyebrow">{t('lessonWorkspace.practice')}</p>
       <h2 id="lesson-assignments-title">{t('lesson.assignment')}</h2>
-      {lesson.assignments.map((assignment) => <div key={assignment.id}><p lang={lesson.content_language || lesson.learning_content?.content_language || undefined}>{assignment.description}</p>{assignment.learning_activity === 'ai_selection_map' && <SelectionMap key={assignment.id} assignment={assignment} preview={preview} />}</div>)}
+      {lesson.assignments.map((assignment) => <div key={assignment.id}>{assignment.learning_activity === 'ai_selection_map' ? <>
+        <p>{t('learning.practiceTransition')}</p>
+        <details className="lesson-practice-disclosure"><summary>{t('learning.openPractice')}</summary><SelectionMap key={assignment.id} assignment={assignment} preview={preview} /></details>
+        <details className="lesson-source-disclosure"><summary>{t('learning.practiceReference')}</summary>
+          <p lang={language}>{studentAssignmentDescription(assignment.description)}</p>
+          {presentation.templates.length > 0 && <LearningContent content={{ content_language: language, interactions: presentation.templates }} showLanguageNotice={false} />}
+        </details>
+      </> : <p lang={language}>{assignment.description}</p>}</div>)}
     </section>}
+    {presentation.conclusions.length > 0 && <section className="lesson-source-closing lesson-material-text" lang={language}>{paragraphs(presentation.conclusions)}</section>}
+    {presentation.resources.length > 0 && <details className="lesson-source-disclosure lesson-material-text" lang={language}><summary>{presentation.resources[0]}</summary>{paragraphs(presentation.resources.slice(1))}</details>}
   </div>
 }
 

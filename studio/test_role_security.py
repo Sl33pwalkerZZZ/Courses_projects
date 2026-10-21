@@ -57,7 +57,9 @@ class RoleSecurityTests(TestCase):
             f'assignments/{self.assignment.pk}/', f'courses/{self.foreign.pk}/submissions/',
             f'submissions/{self.submission.pk}/review/', f'submissions/{self.submission.pk}/file/',
             f'courses/{self.foreign.pk}/publication/', 'reviews/', f'reviews/{self.review.pk}/decision/',
-            'instructors/', f'instructors/{self.author.pk}/', 'imports/preview/', f'imports/{uuid4()}/confirm/',
+            'instructors/', f'instructors/{self.author.pk}/',
+            'enrollment-requests/', 'enrollment-requests/999999/decision/',
+            'imports/preview/', f'imports/{uuid4()}/confirm/',
         ]
 
     def test_anonymous_students_staff_students_and_inactive_denied_all_management_verbs(self):

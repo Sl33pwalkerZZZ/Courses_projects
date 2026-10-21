@@ -5,3 +5,12 @@
 /* Controls retain visible boundaries in both purple palettes. */
 .learning-choice-list button,.selection-map button,.selection-field input,.selection-field textarea,.selection-field select{border-color:var(--v2-control-border)}
 .selection-map .academic-button{background:var(--v2-primary);color:var(--v2-on-primary);border-color:var(--v2-primary)}
+
+/* The complete process remains readable without animation or an active panel. */
+.learning-process{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;counter-reset:process;min-width:0}
+.learning-process li{position:relative;display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.8rem;align-items:start;min-width:0;padding:1rem;border:1px solid var(--v2-control-border);border-radius:14px;background:var(--v2-surface-raised);color:var(--v2-text)}
+.learning-process li+li::before{content:'';position:absolute;inset-block-start:-1rem;inset-inline-start:2rem;height:1rem;border-inline-start:2px solid var(--v2-link)}
+.learning-process-number{display:grid;place-items:center;width:2rem;min-height:2rem;border:1px solid var(--v2-control-border);border-radius:50%;color:var(--v2-link)}
+.learning-process-copy{min-width:0;color:var(--v2-text);overflow-wrap:anywhere}
+.learning-process .learning-process-copy h4{margin:0;font-size:1rem;line-height:1.5;color:var(--v2-text)}
+.learning-process .learning-process-copy p{margin:.75rem 0 0;white-space:pre-wrap;line-height:1.7;color:var(--v2-text)}

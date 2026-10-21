@@ -52,10 +52,16 @@ test('source references remain unchanged clickable HTTPS links, never executable
   assert.match(html, /javascript:alert\(1\)/)
   assert.doesNotMatch(html, /href="javascript:|<script>/)
 })
-test('step interactions are meaningful static HTML and expose native keyboard buttons', () => {
+test('LLM process is readable static HTML without requiring keyboard or pointer selection', () => {
   const html = render(Interaction, { interaction: { type: 'llm_steps', title: 'Process', steps: [{ title: 'Input', text: 'Source description' }, { title: 'Output', text: 'Result' }] } })
-  assert.match(html, /aria-pressed="true"/); assert.match(html, /Source description/); assert.match(html, /Output/)
-  assert.doesNotMatch(html, /correct_answer|is_correct/)
+  assert.match(html, /<h4>Input<\/h4>/); assert.match(html, /<p>Source description<\/p>/); assert.match(html, /<h4>Output<\/h4>/)
+  assert.doesNotMatch(html, /<button|aria-pressed|correct_answer|is_correct/)
+})
+test('other step selectors retain their native keyboard buttons', () => {
+  const html = render(Interaction, { interaction: { type: 'selection_steps', title: 'Selection', steps: [{ title: 'Task', text: 'Source description' }, { title: 'Compare', text: 'Criteria' }] } })
+  assert.match(html, /<button/)
+  assert.match(html, /aria-pressed="true"/)
+  assert.match(html, /Source description/)
 })
 for (const language of ['ru', 'kk', 'en']) test(`Russian course fallback with translated interface in ${language}`, () => {
   const html = render(Content, { content: { content_language: 'ru', objectives: ['Исходная цель'], interactions: [] } }, language)

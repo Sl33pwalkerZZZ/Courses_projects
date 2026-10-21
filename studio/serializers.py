@@ -128,3 +128,14 @@ class ReviewWriteSerializer(serializers.Serializer):
         if attrs['status'] == 'rejected' and not attrs['reviewer_comment'].strip():
             raise serializers.ValidationError({'reviewer_comment': 'Explain what the student should improve.'})
         return attrs
+
+
+class EnrollmentDecisionSerializer(serializers.Serializer):
+    decision = serializers.ChoiceField(choices=['approve', 'reject'])
+    note = serializers.CharField(max_length=10000, allow_blank=True, required=False, default='')
+
+    def validate(self, attrs):
+        unknown = set(self.initial_data) - set(self.fields)
+        if unknown:
+            raise serializers.ValidationError({field: 'This field cannot be edited.' for field in unknown})
+        return attrs

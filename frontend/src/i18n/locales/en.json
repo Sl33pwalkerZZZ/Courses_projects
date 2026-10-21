@@ -4,6 +4,7 @@
     "description": "Practical courses in artificial intelligence: LLMs, automation, knowledge management, and digital productivity."
   },
   "common": {
+    "cancel": "Cancel",
     "loading": "Loading…",
     "retry": "Try again",
     "reset": "Reset filters"
@@ -494,9 +495,17 @@
     }
   },
   "learning": {
+    "practiceTransition": "Follow the instructions above. Open the map, fill it in and save a draft; submit it for review when ready.",
+    "openPractice": "Fill in the selection map",
+    "practiceReference": "Instructions and source template",
     "russianFallback": "Course material is available in Russian. Interface controls remain in your selected language.",
     "objectives": "Learning objectives",
     "takeaways": "Key takeaways",
+    "hierarchyAI": "The broad field containing the following areas.",
+    "hierarchyML": "An area of AI: learning from data.",
+    "hierarchyDL": "An area of machine learning: multilayer neural networks.",
+    "hierarchyLLM": "One class of deep learning models.",
+    "hierarchyBoundary": "AI is broader than machine learning. LLMs are not all of AI or all of generative AI.",
     "exploreSteps": "Explore the steps",
     "exploreItems": "Explore the comparison",
     "authoredActivity": "Interactive presentation added for this course; the source explanation is preserved above."
@@ -777,6 +786,28 @@
     "criteria": "Selection criteria (one per line)",
     "note": "Source note",
     "warning": "Warning",
-    "publishedLocked": "Published course content is read-only to preserve student outcomes. Contact an administrator to arrange a safe revision."
+    "publishedLocked": "Published course content is read-only to preserve student outcomes. Contact an administrator to arrange a safe revision.",
+    "enrollmentRequests": {
+      "title": "Enrollment requests",
+      "intro": "Review applications for approval-required courses. Decisions grant or deny access without changing course content.",
+      "filter": "Request status",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "all": "All requests",
+      "empty": "No requests with this status.",
+      "student": "Student",
+      "submitted": "Submitted",
+      "status": "Status",
+      "note": "Explanation (optional)",
+      "reviewNote": "Administrator explanation",
+      "approve": "Approve application",
+      "reject": "Reject application",
+      "approveConfirm": "Approve {{username}} for “{{course}}”? This will grant course access.",
+      "rejectConfirm": "Reject the application from {{username}} for “{{course}}”?",
+      "alreadyReviewed": "This application was already reviewed ({{status}}). No changes were made.",
+      "approveSuccess": "Application approved. Course access has been granted.",
+      "rejectSuccess": "Application rejected."
+    }
   }
 }
