@@ -10,3 +10,6 @@ args = ["-y", "@playwright/mcp@latest", "--browser=firefox"]
 
 [mcp_servers.playwright.env]
 PLAYWRIGHT_HOST_PLATFORM_OVERRIDE = "debian13-x64"
+
+[mcp_servers.playwright.tools.browser_run_code_unsafe]
+approval_mode = "approve"

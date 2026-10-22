@@ -1,0 +1,27 @@
+{
+  "93": {
+    "id": 93,
+    "course_slug": "kak-vybrat-neyroset-pod-svoyu-zadachu",
+    "text": "862:d546fabd2a2484b9",
+    "interactions": "453:ebfbf3658f18ecab"
+  },
+  "94": {
+    "id": 94,
+    "course_slug": "kak-vybrat-neyroset-pod-svoyu-zadachu",
+    "text": "1888:56458f54a1305c3c",
+    "interactions": "2047:33e09b36195fa19a"
+  },
+  "95": {
+    "id": 95,
+    "course_slug": "kak-vybrat-neyroset-pod-svoyu-zadachu",
+    "text": "1840:5b6e2a9bd8c0f33b",
+    "interactions": "2300:a8f7f46070bce0c5"
+  },
+  "96": {
+    "id": 96,
+    "course_slug": "kak-vybrat-neyroset-pod-svoyu-zadachu",
+    "text": "2362:06c5890f6fbdddb1",
+    "interactions": "371:94d12bb62914dfed",
+    "assignment": "319:9b17c2b988688608"
+  }
+}

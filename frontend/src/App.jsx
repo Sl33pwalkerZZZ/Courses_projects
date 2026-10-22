@@ -13,6 +13,7 @@ const LessonView = lazy(() => import('./pages/LessonView'))
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register'))
 const Profile = lazy(() => import('./pages/Profile'))
+const CertificateVerification = lazy(() => import('./pages/CertificateVerification'))
 const InstructorPreview = lazy(() => import('./pages/InstructorPreview'))
 const StudioAccessGuard = lazy(() => import('./pages/instructor/InstructorStudio').then(module => ({ default: module.StudioAccessGuard })))
 const InstructorStudio = lazy(() => import('./pages/instructor/InstructorStudio'))
@@ -60,6 +61,7 @@ export default function App() {
               <Route path="/" element={<CourseCatalog />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/certificates/verify/:verificationId" element={<CertificateVerification key={pathname} />} />
               <Route path="/profile" element={authed ? <Profile key={session.generation} /> : <Navigate to="/login" replace />} />
               <Route path="/courses/:slug" element={<CourseDetail key={session.generation} />} />
               <Route path="/instructor" element={<InstructorStudio key={session.generation} />}>

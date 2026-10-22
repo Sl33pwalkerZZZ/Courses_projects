@@ -163,3 +163,7 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# Deployment approval gate: keep disabled until reviewed migrations are applied.
+CERTIFICATES_ENABLED = False
+CERTIFICATE_PUBLIC_ORIGIN = ""

@@ -161,3 +161,9 @@ main.container.legacy-page:has(.lesson-workspace) { max-width: 1440px; padding: 
 @media(max-width: 1180px) { .lesson-workspace-grid { grid-template-columns: 260px minmax(0,1fr); gap: 20px; } .lesson-reading-area { padding: 28px; } }
 @media(max-width: 900px) { .lesson-workspace-grid { display: flex; } .lesson-course-sidebar { position: static; } .lesson-outline-body { max-height: none; } }
 @media(max-width: 600px) { .lesson-reading-area { padding: 24px 16px; border-radius: 20px; } .lesson-workspace h1 { font-size: 1.9rem; } .lesson-material-text { font-size: 1rem; } .lesson-material-assignments, .lesson-completion { padding: 20px 16px; } .lesson-pagination { grid-template-columns: 1fr; } .lesson-next { grid-column: 1; } .lesson-previous { grid-column: 1; } }
+.lesson-practice-instructions{display:grid;gap:.75rem;padding-inline-start:1.5rem;line-height:1.8}
+.lesson-resources{margin-block:2rem;min-width:0;padding:clamp(1rem,3vw,1.5rem);border:1px solid var(--v2-border);border-radius:16px;background:var(--v2-surface);color:var(--v2-text);overflow-wrap:anywhere}
+.lesson-resources h2{font-size:1.25rem;line-height:1.5;margin:0 0 1rem}
+.lesson-resources ul{display:grid;gap:.5rem;margin:0;padding-inline-start:1.25rem}
+.lesson-resources a{display:inline-flex;align-items:center;min-height:44px;color:var(--v2-link);text-decoration:underline;text-underline-offset:.2em;line-height:1.7;overflow-wrap:anywhere}
+.lesson-resources a:focus-visible{outline:3px solid var(--v2-link);outline-offset:3px;border-radius:3px}

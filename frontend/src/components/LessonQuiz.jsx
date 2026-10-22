@@ -107,6 +107,7 @@ function QuizSession({ quiz, lessonId }) {
       <h2 id="lesson-quiz-title">{quiz.title}</h2></div><BookOpenCheck size={25} strokeWidth={1.4} aria-hidden="true" /></header>
     {quiz.instructions && <p className="quiz-instructions">{quiz.instructions}</p>}
     <p className="quiz-independent-note">{t('quiz.independentCompletion')}</p>
+    <p className="quiz-independent-note">{t('quiz.certificateNote')}</p>
     {phase === 'results' ? <QuizResults result={result} onRetry={tryAgain} headingRef={headingRef} />
       : phase === 'confirming' ? <QuizConfirmation total={quiz.questions.length} busy={busy} error={error} headingRef={headingRef}
         onBack={() => { focusRequested.current = true; setPhase('answering'); setError('') }} onSubmit={submit} /> : <>

@@ -28,6 +28,7 @@ urlpatterns = [
     path('api/', include('courses.urls')),
     path('api/', include('progress.urls')),
     path('api/', include('quizzes.urls')),
+    path('api/', include('certificates.urls')),
     # FileField/Admin links also pass through authentication and lesson access.
     path('api/private-media/<path:filename>', LessonImageView.as_view(), name='private-media'),
 ]

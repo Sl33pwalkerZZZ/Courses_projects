@@ -8,6 +8,7 @@ import AnimatedText from '../components/motion/AnimatedText'
 import ProgressRing from '../components/playground/ProgressRing'
 import EnrollmentApplications from '../components/EnrollmentApplications'
 import ProfileLearningActivity from '../components/ProfileLearningActivity'
+import MyCertificates from '../components/certificates/Certificates'
 import './Profile.css'
 
 function EnrollmentCard({ enrollment, index }) {
@@ -84,6 +85,7 @@ export function ProfileLearningSections({ enrollments }) {
       )}
     </section>
     <EnrollmentApplications />
+    <MyCertificates />
   </>
 }
 

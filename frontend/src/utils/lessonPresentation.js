@@ -1,5 +1,17 @@
 import { lessonParagraphs } from './lessons.js'
 import { lesson91Source } from './lesson91Source.js'
+import course8Source from './course8Source.json' with { type: 'json' }
+import { sourceFingerprint } from './sourceFingerprint.js'
+
+export function verifiedCourse8Practice(lesson) {
+  const source = course8Source['96']
+  return Number(lesson.id) === 96 && lesson.course_slug === source.course_slug
+    && sourceFingerprint(lesson.text_content || '') === source.text
+    && sourceFingerprint(JSON.stringify(lesson.learning_content?.interactions) || '') === source.interactions
+    && lesson.assignments?.some(item => item.learning_activity === 'ai_selection_map')
+    && lesson.assignments.filter(item => item.learning_activity === 'ai_selection_map')
+      .every(item => sourceFingerprint(item.description || '') === source.assignment)
+}
 
 // Omit only the verified Word cover/course introduction from this lesson view.
 // Unknown teacher edits fall back to the complete text rather than losing prose.
@@ -11,10 +23,18 @@ export function lesson91Reading(lesson, paragraphs) {
     ? paragraphs.slice(source.titlePage.length) : paragraphs
 }
 
-export function lessonReadingBlocks(paragraphs) {
+export function lessonReadingBlocks(paragraphs, lesson) {
   const source = lesson91Source
   const blocks = []
+  const practice = lesson && verifiedCourse8Practice(lesson)
+  const instructions = practice ? lesson.text_content.split('\n\n').slice(3, 9) : []
   for (let index = 0; index < paragraphs.length; index++) {
+    if (practice
+      && instructions.every((text, offset) => paragraphs[index + offset] === text)) {
+      blocks.push({ type: 'instructions', items: instructions })
+      index += instructions.length - 1
+      continue
+    }
     const matchesExamples = paragraphs[index] === source.exampleHeading
       && source.examples.every((text, offset) => paragraphs[index + 1 + offset] === text)
       && paragraphs[index + 1 + source.examples.length] === source.relationHeading

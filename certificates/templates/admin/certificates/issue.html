@@ -1,0 +1,5 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<p>Issuance validates enrollment, course policy, completion and assessment evidence on the server. This does not claim accreditation.</p>
+<form method="post">{% csrf_token %}{{ form.as_p }}<input type="submit" value="Validate and issue certificate"></form>
+{% endblock %}

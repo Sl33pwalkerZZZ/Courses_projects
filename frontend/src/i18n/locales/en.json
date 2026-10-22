@@ -381,9 +381,10 @@
     "editModerationHint": "Saving changes sends your review for moderation again, including previously approved reviews."
   },
   "quiz": {
+    "certificateNote": "A certificate confirms separate course requirements. Completing lessons or passing a test alone does not issue a certificate. See the course page for requirements and availability.",
     "knowledgeCheck": "Knowledge check",
     "loading": "Loading knowledge check…",
-    "independentCompletion": "This quiz is optional. Your lesson completion is saved separately using the lesson button.",
+    "independentCompletion": "Lesson completion and assessment results are recorded separately. Taking the assessment does not replace the lesson completion button.",
     "questionPosition": "Question {{number}} of {{total}}",
     "chooseOne": "Choose one answer.",
     "chooseMultiple": "Select all correct answers. Credit is awarded only for an exact match.",
@@ -495,6 +496,10 @@
     }
   },
   "learning": {
+    "selfCheck": "Ungraded practice",
+    "selfCheckNote": "Optional self-check. Your answer is not saved and does not affect progress or grades.",
+    "practiceCorrect": "Correct.",
+    "practiceTryAgain": "Try again.",
     "practiceTransition": "Follow the instructions above. Open the map, fill it in and save a draft; submit it for review when ready.",
     "openPractice": "Fill in the selection map",
     "practiceReference": "Instructions and source template",
@@ -808,6 +813,47 @@
       "alreadyReviewed": "This application was already reviewed ({{status}}). No changes were made.",
       "approveSuccess": "Application approved. Course access has been granted.",
       "rejectSuccess": "Application rejected."
+    }
+  }
+,
+  "certificates": {
+    "myTitle": "My certificates",
+    "courseTitle": "Course certificate",
+    "completionDifference": "Lesson completion records learning progress. Certificates have separate course requirements, listed below when issuance is enabled.",
+    "disabled": "Certificate issuance is not enabled for this course.",
+    "eligible": "The requirements are met. An authorized administrator can review and issue your certificate.",
+    "notEligible": "The certificate requirements have not all been met.",
+    "met": "Met",
+    "notMet": "Not yet met",
+    "adminIssue": "Certificates are issued by an authorized administrator after eligibility and learner-name review.",
+    "empty": "You do not have any issued certificates yet.",
+    "loadError": "Certificate information could not be loaded.",
+    "downloadError": "The certificate could not be downloaded. Please try again.",
+    "download": "Download PDF",
+    "verify": "Verify certificate",
+    "issuedOn": "Issued on {{date}}",
+    "status": {
+      "issued": "Issued",
+      "revoked": "Revoked"
+    },
+    "verificationTitle": "Certificate verification",
+    "valid": "Certificate verified",
+    "revoked": "This certificate has been revoked and is no longer valid.",
+    "unknown": "Certificate not found or verification is unavailable.",
+    "learner": "Learner initials",
+    "course": "Course",
+    "issuer": "Issuer",
+    "date": "Issue date",
+    "privacy": "Public verification shows initials only. No account information, grades or submissions are disclosed.",
+    "requirements": {
+      "published_course": "Published course",
+      "enrolled": "Course enrollment",
+      "policy_enabled": "Certificate policy enabled",
+      "approved_issuer": "Approved issuer",
+      "all_lessons": "All lessons completed",
+      "final_assessment": "Final assessment passed",
+      "assignment_approved": "Required practical assignment approved by an educator",
+      "configured_requirements": "Completion requirements configured"
     }
   }
 }

@@ -7,6 +7,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import { createInstance } from 'i18next'
 import { createTestServer } from './helpers/vite.mjs'
+import course8Source from './fixtures/course8Source.json' with { type: 'json' }
 import { lessonErrorKey, lessonNavigation, loadCourseOutline, loadEnrollmentProgress, orderCurriculum, saveLessonCompletion } from '../src/utils/lessons.js'
 
 const modules = [
@@ -21,6 +22,30 @@ const course = { slug: 'existing-course', title: 'Existing course', modules }
 const enrollment = { course, total_lessons: 4, completed_lessons: 1, progress_percent: 25, completed_lesson_ids: [11] }
 const failure = (status) => ({ response: { status } })
 const translations = new Map()
+test('real source integration renders one reading and preserves objectives and practice', () => {
+  for (const id of [93, 94, 95, 96]) {
+    const saved = structuredClone(course8Source[id])
+    const lesson = { ...saved, learning_content: { content_language: 'ru', objectives: ['Keep learning objective'], interactions: saved.interactions },
+      assignments: id === 96 ? [{ id: 1, learning_activity: 'ai_selection_map', description: saved.assignment_description }] : [] }
+    const html = render(Material, { lesson })
+    assert.ok(html.includes('Keep learning objective'))
+    assert.doesNotMatch(html, /<h2>1\.[1-8]\./)
+    assert.equal((html.match(/<table>/g) || []).length, id === 96 ? 0 : 1)
+    if (id === 94) for (const item of saved.interactions[1].items) assert.equal(html.split(`href="${item.url}"`).length - 1, 1)
+    if (id === 95) assert.equal((html.match(/class="course8-step-number"/g) || []).length, 5)
+    if (id === 96) {
+      assert.match(html, /lesson-practice-instructions/)
+      assert.match(html, /lesson-practice-disclosure/)
+      assert.ok(html.includes(translations.get('en').t('selectionMap.safety')))
+      assert.ok(!html.includes(translations.get('en').t('learning.practiceReference')))
+      assert.match(html, /разрешение на их использование|обезличенные образцы/)
+      assert.match(html, /class="lesson-resources"/)
+      assert.equal((html.match(/rel="noopener noreferrer"/g) || []).length, 7)
+      for (const url of saved.text_content.match(/https?:\/\/\S+/gu)) assert.ok(html.includes(`href="${url}"`))
+      assert.match(html, />OpenAI Academy — обучение работе с ChatGPT<\/a>/)
+    }
+  }
+})
 let server, Sidebar, Material, Status
 
 before(async () => {

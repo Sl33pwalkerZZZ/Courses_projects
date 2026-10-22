@@ -1,6 +1,53 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import { lessonPresentation, isSelectionMapTemplate, studentAssignmentDescription, studentInteraction } from '../src/utils/lessonPresentation.js'
+import { lesson91Reading, lessonReadingBlocks } from '../src/utils/lessonPresentation.js'
+import { lesson91Source as source } from '../src/utils/lesson91Source.js'
+import course8Source from './fixtures/course8Source.json' with { type: 'json' }
+import { verifiedCourse8Practice } from '../src/utils/lessonPresentation.js'
+
+test('verified practice groups all six instructions once and rejects changed content', () => {
+  const saved = course8Source['96']
+  const lesson = { ...saved, learning_content: { interactions: saved.interactions }, assignments: [{ learning_activity: 'ai_selection_map', description: saved.assignment_description }] }
+  assert.equal(verifiedCourse8Practice(lesson), true)
+  const paragraphs = saved.text_content.split('\n\n')
+  const blocks = lessonReadingBlocks(paragraphs, lesson)
+  assert.equal(blocks.filter(block => block.type === 'instructions').length, 1)
+  assert.equal(blocks.find(block => block.type === 'instructions').items.length, 6)
+  assert.deepEqual(blocks.flatMap(block => block.type === 'instructions' ? block.items : [block.text]), paragraphs)
+  for (const changed of [{ ...lesson, id: 95 }, { ...lesson, text_content: saved.text_content + '\nTeacher update' }, { ...lesson, assignments: [] }, { ...lesson, assignments: [{ learning_activity: 'ai_selection_map', description: 'New teacher instructions' }] }]) {
+    assert.ok(!verifiedCourse8Practice(changed))
+    assert.ok(lessonReadingBlocks(paragraphs, changed).every(block => block.type !== 'instructions'))
+  }
+})
+
+test('lesson 91 hides only its verified cover prefix without mutating source or losing teaching text', () => {
+  const paragraphs = [...source.titlePage, source.sectionHeading, 'Keep every teaching paragraph.']
+  const original = [...paragraphs]
+  const lesson = { id: 91, course_slug: source.courseSlug }
+  assert.deepEqual(lesson91Reading(lesson, paragraphs), paragraphs.slice(7))
+  assert.deepEqual(paragraphs, original)
+  for (const other of [{ ...lesson, id: 92 }, { ...lesson, course_slug: 'other' }]) {
+    assert.deepEqual(lesson91Reading(other, paragraphs), original)
+  }
+  const edited = [...paragraphs]
+  edited[1] = 'New teacher text'
+  assert.deepEqual(lesson91Reading(lesson, edited), edited)
+  const changedHeading = [...paragraphs]
+  changedHeading[7] = 'New heading'
+  assert.deepEqual(lesson91Reading(lesson, changedHeading), changedHeading)
+})
+
+test('source examples gain a semantic list with exact wording and preserve all other prose', () => {
+  const paragraphs = ['Before', source.exampleHeading, ...source.examples, source.relationHeading, 'After']
+  const blocks = lessonReadingBlocks(paragraphs)
+  assert.deepEqual(blocks[1], { type: 'examples', heading: source.exampleHeading, items: source.examples })
+  const restored = blocks.flatMap(block => block.type === 'examples' ? [block.heading, ...block.items] : [block.text])
+  assert.deepEqual(restored, paragraphs)
+  const edited = [...paragraphs]
+  edited[2] = 'Teacher replacement example'
+  assert.ok(lessonReadingBlocks(edited).every(block => block.type === 'paragraph'))
+})
 
 const template = { type: 'model_service', title: 'Source map', headers: ['Параметр', 'Ответ участника'], rows: [['Рабочая задача', ''], ['Исходные данные', '']] }
 test('practice has one form entry point while its exact source template stays available as reference', () => {

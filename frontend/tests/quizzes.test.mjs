@@ -220,7 +220,7 @@ test('submit confirmation disables both actions while grading and shows independ
   const html = render(Confirmation, { total: 2, busy: true, onBack: () => {}, onSubmit: () => {} })
   assert.equal((html.match(/disabled=""/g) || []).length, 2)
   assert.match(html, /Grading answers/)
-  assert.match(html, /completion is saved separately/)
+  assert.match(html, /Lesson completion and assessment results are recorded separately/)
   const failed = render(Confirmation, { total: 2, error: 'quiz.submitError', onBack: () => {}, onSubmit: () => {} })
   assert.match(failed, /role="alert"/)
   assert.doesNotMatch(failed, /quiz-results/)

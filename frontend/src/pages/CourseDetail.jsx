@@ -7,6 +7,7 @@ import useAuth from '../hooks/useAuth'
 import CourseReviews from '../components/CourseReviews'
 import CourseEnrollment from '../components/CourseEnrollment'
 import CourseCurriculum from '../components/CourseCurriculum'
+import { CourseCertificateStatus } from '../components/certificates/Certificates'
 import Reveal from '../components/Reveal'
 import AnimatedText from '../components/motion/AnimatedText'
 import CourseJourney from '../components/playground/CourseJourney'
@@ -144,6 +145,7 @@ function CourseContent({ slug, authed }) {
       </div>
 
       <div className="course-overview-reviews" id="course-reviews">
+        {authed && <CourseCertificateStatus courseId={course.id} />}
         <CourseReviews key={slug} slug={slug} enrolled={canAccessLessons} />
       </div>
     </article>
