@@ -1,5 +1,4 @@
 from django import forms
-from django.conf import settings
 from django.contrib import admin, messages
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
@@ -15,7 +14,9 @@ from studio.permissions import moderator
 
 class CertificateAdminPermission:
     def has_module_permission(self, request):
-        return getattr(settings, 'CERTIFICATES_ENABLED', False) and moderator(request.user)
+        # Administrators must be able to configure policies before enabling
+        # issuance. The service, not admin visibility, enforces that switch.
+        return bool(request.user.is_staff and moderator(request.user))
 
     def has_view_permission(self, request, obj=None):
         return self.has_module_permission(request)
@@ -86,7 +87,11 @@ class CertificateAdmin(CertificateAdminPermission, admin.ModelAdmin):
         # All issuance must run the checked atomic service, never a raw admin form.
         return False
 
-    @admin.action(description='Revoke selected certificates')
+    def has_change_permission(self, request, obj=None):
+        # Issued snapshots/evidence are immutable, including for superusers.
+        return False
+
+    @admin.action(description='Revoke selected certificates', permissions=['view'])
     def revoke_selected(self, request, queryset):
         for certificate in queryset:
             revoke_certificate(administrator=request.user, certificate=certificate, reason='Revoked by administrator through Django Admin.')

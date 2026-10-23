@@ -15,7 +15,6 @@ from django.core.files.base import ContentFile
 from django.db import IntegrityError, transaction
 from django.db.models import Max
 from django.shortcuts import get_object_or_404
-from django.utils import timezone
 from django.utils.cache import patch_vary_headers
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -24,7 +23,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from courses.models import Assignment, Course, CourseImport, Direction, Lesson, LessonImage, LessonLearningContent, Module
 from progress.models import AssignmentSubmission, EnrollmentRequest
-from progress.services import review_enrollment_request
+from progress.services import review_enrollment_request, review_assignment_submission
 from quizzes.models import Quiz, QuizChoice, QuizQuestion
 from .models import CourseSettings, ImportPreview, LessonImageDescription, PublicationEvent, PublicationRequest
 from .permissions import InstructorPermission, effective_permissions, moderator
@@ -338,7 +337,15 @@ class CourseSubmissionsView(StudioView):
         course = course_for(request.user, pk)
         # Unsubmitted drafts are private to students, including from instructors.
         submissions = AssignmentSubmission.objects.filter(assignment__lesson__module__course=course).exclude(status='draft').select_related('student', 'assignment__lesson')
-        return Response([submission_data(s) for s in submissions.order_by('-submitted_at', '-pk')])
+        return Response([submission_data(s, reviewer=request.user) for s in submissions.order_by('-submitted_at', '-pk')])
+
+
+class SubmissionsView(StudioView):
+    def get(self, request):
+        submissions = AssignmentSubmission.objects.filter(
+            assignment__lesson__module__course__in=owned_courses(request.user),
+        ).exclude(status='draft').select_related('student', 'assignment__lesson__module__course')
+        return Response([submission_data(item, reviewer=request.user) for item in submissions.order_by('-submitted_at', '-pk')])
 
 
 class SubmissionReviewView(StudioView):
@@ -352,12 +359,12 @@ class SubmissionReviewView(StudioView):
         data = validated(ReviewWriteSerializer, request.data)
         if data['revision'] != submission.revision:
             return Response({'revision': 'Submission changed. Reload before reviewing.'}, status=409)
-        submission.status = data['status']
-        submission.reviewer_comment = data['reviewer_comment']
-        submission.reviewed_at = timezone.now()
-        submission.revision += 1
-        submission.review_history = submission.review_history + [{'reviewer_id': request.user.pk, 'status': submission.status, 'comment': submission.reviewer_comment, 'reviewed_at': submission.reviewed_at.isoformat(), 'revision': submission.revision}]
-        submission.save(update_fields=['status', 'reviewer_comment', 'reviewed_at', 'revision', 'review_history'])
+        if submission.student_id == request.user.pk:
+            raise PermissionDenied('You cannot review your own submission.')
+        submission = review_assignment_submission(
+            submission_id=pk, reviewer=request.user, revision=data['revision'],
+            status=data['status'], comment=data['reviewer_comment'],
+        )
         return Response(submission_data(submission))
 
 

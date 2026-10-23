@@ -60,8 +60,18 @@ def course_data(course, *, detail=False):
     return data
 
 
-def submission_data(submission):
-    return {'id': submission.pk, 'assignment': submission.assignment_id, 'assignment_description': submission.assignment.description,
+def submission_data(submission, reviewer=None):
+    from django.contrib.auth import get_user_model
+    from certificates.services import approved_submission
+    course = submission.assignment.lesson.module.course
+    last = submission.review_history[-1] if submission.review_history else {}
+    reviewer_name = get_user_model().objects.filter(pk=last.get('reviewer_id')).values_list('username', flat=True).first() if isinstance(last, dict) else None
+    verifiable = approved_submission(submission.student, submission.assignment) if submission.status == 'approved' else None
+    return {'course_id': course.pk, 'course_title': course.title, 'lesson_id': submission.assignment.lesson_id,
+            'student_username': submission.student.username, 'reviewer_username': reviewer_name,
+            'can_review': submission.status == 'pending' and reviewer is not None and reviewer.pk != submission.student_id,
+            'review_is_verifiable': bool(verifiable and verifiable.pk == submission.pk),
+            'id': submission.pk, 'assignment': submission.assignment_id, 'assignment_description': submission.assignment.description,
             'lesson_title': submission.assignment.lesson.title, 'student': {'id': submission.student_id, 'username': submission.student.username},
             'status': submission.status, 'payload': submission.payload, 'content': submission.content, 'revision': submission.revision,
             'reviewer_comment': submission.reviewer_comment, 'submitted_at': submission.submitted_at, 'reviewed_at': submission.reviewed_at,

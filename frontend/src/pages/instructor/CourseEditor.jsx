@@ -10,7 +10,7 @@ import { studioList } from '../../utils/instructorStudio'
 export function Dashboard() {
   const { t } = useTranslation()
   const resource = useStudioResource('/studio/dashboard/')
-  return <><h2>{t('instructorStudio.dashboard')}</h2><ResourceState resource={resource}>{data => <div className="instructor-stats">{Object.entries(data?.counts || data || {}).filter(([, value]) => typeof value === 'number').map(([key, value]) => <div className="instructor-panel" key={key}><strong>{value}</strong><span>{t(`instructorStudio.metrics.${key}`, { defaultValue: key.replaceAll('_', ' ') })}</span></div>)}</div>}</ResourceState><div className="instructor-actions"><Button to="/instructor/courses/new">{t('instructorStudio.newCourse')}</Button><Button to="/instructor/courses" variant="secondary">{t('instructorStudio.courses')}</Button></div></>
+  return <><h2>{t('instructorStudio.dashboard')}</h2><ResourceState resource={resource}>{data => <div className="instructor-stats">{Object.entries(data?.counts || data || {}).filter(([, value]) => typeof value === 'number').map(([key, value]) => <div className="instructor-panel" key={key}><strong>{value}</strong><span>{t(`instructorStudio.metrics.${key}`, { defaultValue: key.replaceAll('_', ' ') })}</span></div>)}</div>}</ResourceState><div className="instructor-actions"><Button to="/instructor/submissions">{t('instructorStudio.submissions')}</Button><Button to="/instructor/courses/new" variant="secondary">{t('instructorStudio.newCourse')}</Button><Button to="/instructor/courses" variant="secondary">{t('instructorStudio.courses')}</Button></div></>
 }
 export function CourseList() {
   const { identity } = useOutletContext()

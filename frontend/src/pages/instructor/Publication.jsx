@@ -35,25 +35,7 @@ function ReviewCard({ request, onSaved }) {
   }
   return <article className="instructor-panel"><h3>{request.course?.title || request.course_title || `#${id}`}</h3><p>{t(`instructorStudio.statuses.${request.status}`, { defaultValue: request.status })}</p><div className="instructor-actions"><Button to={`/instructor/courses/${id}/publication`} variant="secondary">{t('instructorStudio.inspectRequirements')}</Button><Link to={`/instructor/courses/${id}/assessment`}>{t('instructorStudio.reviewAssessment')}</Link></div>{request.status === 'pending' && <><Input multiline label={t('instructorStudio.reviewNote')} value={note} onChange={event => setNote(event.target.value)} /><label className="instructor-check"><input type="checkbox" checked={checked} onChange={event => setChecked(event.target.checked)} />{t('instructorStudio.adminReviewed')}</label><Notice {...action} /><div className="instructor-actions"><Button disabled={action.busy || !checked} onClick={() => decide('approve')}>{t('instructorStudio.approvePublish')}</Button><Button variant="secondary" disabled={action.busy || !note.trim()} onClick={() => decide('reject')}>{t('instructorStudio.reject')}</Button></div></>}</article>
 }
-export function Submissions() {
-  const { course } = useOutletContext(), { t } = useTranslation()
-  const resource = useStudioResource(`/studio/courses/${course.id}/submissions/`)
-  return <><h3>{t('instructorStudio.submissions')}</h3><p>{t('instructorStudio.submissionPrivacy')}</p><ResourceState resource={resource}>{data => <>{!studioList(data).length && <p>{t('instructorStudio.noSubmissions')}</p>}{studioList(data).map(submission => <SubmissionCard key={`${submission.id}:${submission.revision}`} submission={submission} onSaved={resource.reload} />)}</>}</ResourceState></>
-}
-function ReadAnswer({ value }) {
-  if (Array.isArray(value)) return <ol>{value.map((item, index) => <li key={index}><ReadAnswer value={item} /></li>)}</ol>
-  if (value && typeof value === 'object') return <dl>{Object.entries(value).map(([key, item]) => <div key={key}><dt>{key.replaceAll('_', ' ')}</dt><dd><ReadAnswer value={item} /></dd></div>)}</dl>
-  return <span>{String(value ?? '')}</span>
-}
-function SubmissionCard({ submission, onSaved }) {
-  const { t } = useTranslation(), action = useStudioAction()
-  const [note, setNote] = useState(submission.reviewer_comment || '')
-  const review = status => {
-    if (!window.confirm(t('instructorStudio.reviewConfirm'))) return
-    action.run(signal => api.post(`/studio/submissions/${submission.id}/review/`, { revision: submission.revision, status, reviewer_comment: note }, { signal }), onSaved)
-  }
-  return <article className="instructor-panel"><h4>{submission.assignment_description || submission.assignment_title || submission.assignment?.description || `${t('instructorStudio.assignment')} #${submission.assignment?.id || submission.assignment}`}</h4><p>{submission.student?.username || submission.student_username || `#${submission.student?.id || submission.student}`} · {t(`instructorStudio.statuses.${submission.status}`, { defaultValue: submission.status })}</p><p><time dateTime={submission.submitted_at}>{new Date(submission.submitted_at).toLocaleString()}</time></p><div className="instructor-answer">{submission.content && <p>{submission.content}</p>}{submission.payload && <ReadAnswer value={submission.payload} />}</div>{submission.file_available && <SubmissionAttachment id={submission.id} />}{submission.status === 'pending' ? <><Input multiline label={t('instructorStudio.feedback')} value={note} onChange={event => setNote(event.target.value)} /><Notice {...action} /><div className="instructor-actions"><Button disabled={action.busy} onClick={() => review('approved')}>{t('instructorStudio.approve')}</Button><Button variant="secondary" disabled={action.busy || !note.trim()} onClick={() => review('rejected')}>{t('instructorStudio.reject')}</Button></div></> : <p>{submission.reviewer_comment}</p>}</article>
-}
+export { default as Submissions } from './Submissions'
 export function InstructorManagement() {
   const { identity } = useOutletContext(), { t } = useTranslation()
   const resource = useStudioResource(identity.can_manage_instructors ? '/studio/instructors/' : null)
@@ -64,19 +46,4 @@ function InstructorCard({ person, onSaved }) {
   const { t } = useTranslation(), action = useStudioAction()
   const protectedAccount = person.is_staff || person.is_superuser || person.role === 'admin'
   return <article className="instructor-panel"><h3>{person.username}</h3><p>{t(`instructorStudio.roles.${person.role}`, { defaultValue: person.role })}</p><Notice {...action} />{!protectedAccount && <Button variant="secondary" disabled={action.busy} onClick={() => { if (window.confirm(t('instructorStudio.roleConfirm', { username: person.username }))) action.run(signal => api.post(`/studio/instructors/${person.id}/`, { role: person.role === 'author' ? 'student' : 'author' }, { signal }), () => { onSaved(); refreshInstructorPermissions() }) }}>{t(person.role === 'author' ? 'instructorStudio.revokeAuthor' : 'instructorStudio.grantAuthor')}</Button>}</article>
-}
-
-function SubmissionAttachment({ id }) {
-  const { t } = useTranslation(), action = useStudioAction()
-  const download = () => action.run(signal => api.get(`/studio/submissions/${id}/file/`, { signal, responseType: 'blob' }), blob => {
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `submission-${id}`
-    document.body.appendChild(link)
-    link.click()
-    link.remove()
-    setTimeout(() => URL.revokeObjectURL(url), 1000)
-  }, '')
-  return <div><p>{t('instructorStudio.privateFileNotice')}</p><Button variant="secondary" disabled={action.busy} onClick={download}>{t('instructorStudio.download')}</Button><Notice {...action} /></div>
 }

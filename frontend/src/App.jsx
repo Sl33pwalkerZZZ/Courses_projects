@@ -69,6 +69,7 @@ export default function App() {
                 <Route path="courses" element={<StudioCourseList />} />
                 <Route path="courses/new" element={<NewCourse />} />
                 <Route path="import" element={<WordImport />} />
+                <Route path="submissions" element={<Submissions />} />
                 <Route path="enrollment-requests" element={<StudioAccessGuard moderator><EnrollmentRequests /></StudioAccessGuard>} />
                 <Route path="reviews" element={<StudioAccessGuard moderator><PublicationReviews /></StudioAccessGuard>} />
                 <Route path="instructors" element={<StudioAccessGuard moderator><InstructorManagement /></StudioAccessGuard>} />

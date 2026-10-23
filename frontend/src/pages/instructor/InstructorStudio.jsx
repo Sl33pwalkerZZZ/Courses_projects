@@ -28,6 +28,7 @@ function StudioLayout() {
     <nav className="instructor-navigation" aria-label={t('instructorStudio.navigation')}>
       <NavLink to="/instructor" end>{t('instructorStudio.dashboard')}</NavLink>
       <NavLink to="/instructor/courses">{t(identity.is_moderator ? 'instructorStudio.allCourses' : 'instructorStudio.courses')}</NavLink>
+      <NavLink to="/instructor/submissions">{t('instructorStudio.submissions')}</NavLink>
       <NavLink to="/instructor/import">{t('instructorStudio.import')}</NavLink>
       {identity.is_moderator && <NavLink to="/instructor/enrollment-requests">{t('instructorStudio.enrollmentRequests.title')}</NavLink>}
       {identity.is_moderator && <NavLink to="/instructor/reviews">{t('instructorStudio.reviews')}</NavLink>}

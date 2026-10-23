@@ -181,24 +181,21 @@ class SelectionMapTests(APITestCase):
         AssignmentSubmission.objects.update(reviewer_comment="Unfinished private review note")
         self.assertEqual(self.client.get(self.url).data["reviewer_comment"], "")
 
-    def test_admin_only_review_pending_and_rejection_requires_feedback(self):
+    def test_admin_review_is_readonly_and_links_to_audited_studio(self):
         self.submit()
         submission = AssignmentSubmission.objects.get()
         self.client.force_authenticate(None)
         self.client.force_login(self.author)
         url = reverse("admin:progress_assignmentsubmission_change", args=[submission.pk])
-        response = self.client.post(url, {"status": "rejected", "reviewer_comment": "", "expected_revision": 1, "_save": "Save"})
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'name="status"')
+        for status in ("approved", "rejected"):
+            response = self.client.post(url, {"status": status, "reviewer_comment": "Attempted bypass", "expected_revision": 1, "_save": "Save"})
+            self.assertEqual(response.status_code, 403)
         submission.refresh_from_db()
         self.assertEqual(submission.status, "pending")
-        response = self.client.post(url, {"status": "rejected", "reviewer_comment": "Add privacy details", "expected_revision": 1, "_save": "Save"})
-        self.assertEqual(response.status_code, 302)
-        submission.refresh_from_db()
-        self.assertEqual(submission.status, "rejected")
-        self.assertIsNotNone(submission.reviewed_at)
-        self.assertEqual(submission.revision, 2)
-        response = self.client.get(url)
-        self.assertNotContains(response, 'name="status"')
+        self.assertEqual(submission.review_history, [])
 
     def test_student_cannot_use_admin_to_review(self):
         self.submit()
@@ -207,23 +204,14 @@ class SelectionMapTests(APITestCase):
         url = reverse("admin:progress_assignmentsubmission_change", args=[AssignmentSubmission.objects.get().pk])
         self.assertEqual(self.client.get(url).status_code, 302)
 
-    def test_admin_stale_review_cannot_overwrite_and_approved_is_locked(self):
+    def test_studio_approval_is_locked_and_feedback_visible(self):
         self.submit()
         submission = AssignmentSubmission.objects.get()
-        self.client.force_authenticate(None)
-        self.client.force_login(self.author)
-        url = reverse("admin:progress_assignmentsubmission_change", args=[submission.pk])
-        response = self.client.post(url, {"status": "approved", "reviewer_comment": "Accepted",
-                                          "expected_revision": 0, "_save": "Save"})
-        self.assertEqual(response.status_code, 200)
-        submission.refresh_from_db()
-        self.assertEqual(submission.status, "pending")
-        response = self.client.post(url, {"status": "approved", "reviewer_comment": "Accepted",
-                                          "expected_revision": 1, "_save": "Save"})
-        self.assertEqual(response.status_code, 302)
-        submission.refresh_from_db()
-        self.assertEqual(submission.status, "approved")
-        self.client.logout()
+        self.client.force_authenticate(self.author)
+        url = f"/api/studio/submissions/{submission.pk}/review/"
+        self.assertEqual(self.client.post(url, {"revision": 0, "status": "approved"}, format="json").status_code, 409)
+        response = self.client.post(url, {"revision": 1, "status": "approved", "reviewer_comment": "Accepted"}, format="json")
+        self.assertEqual(response.status_code, 200, response.data)
         self.client.force_authenticate(self.student)
         self.assertEqual(self.client.get(self.url).data["reviewer_comment"], "Accepted")
         self.assertEqual(self.save(revision=2).status_code, 409)
@@ -235,7 +223,7 @@ class SelectionMapTests(APITestCase):
         self.client.force_login(self.author)
         url = reverse("admin:progress_assignmentsubmission_change", args=[submission.pk])
         response = self.client.get(url)
-        self.assertNotContains(response, 'name="status"')
+        self.assertEqual(response.status_code, 302)  # Private drafts are absent from admin.
         delete_url = reverse("admin:progress_assignmentsubmission_delete", args=[submission.pk])
         self.assertEqual(self.client.post(delete_url, {"post": "yes"}).status_code, 403)
         self.assertTrue(AssignmentSubmission.objects.filter(pk=submission.pk).exists())

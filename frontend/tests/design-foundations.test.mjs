@@ -105,6 +105,7 @@ test('effective Amethyst colors preserve text/control contrast in both themes an
   for (const [index, block] of blocks.entries()) {
     const colors = Object.fromEntries([...block.matchAll(/--v2-([\w-]+): (#[0-9A-Fa-f]{6});/g)].map((match) => [match[1], match[2]]))
     assert.equal(colors.primary, index ? '#722CC4' : '#955CF0')
+    assert.equal(colors.canvas.toLowerCase(), index ? '#faf7ff' : '#16181c')
     for (const bg of ['canvas', 'surface', 'surface-raised']) {
       for (const fg of ['text', 'text-muted', 'link', 'accent', 'success', 'warning', 'danger']) {
         assert.ok(contrast(colors[fg], colors[bg]) >= 4.5, `${index}: ${fg}/${bg}`)
@@ -113,6 +114,9 @@ test('effective Amethyst colors preserve text/control contrast in both themes an
     }
     assert.ok(contrast(colors.primary, colors['on-primary']) >= 4.5)
     assert.ok(contrast(colors['primary-hover'], colors['on-primary']) >= 4.5)
+    if (!index) for (const level of [1, 2, 3, 4]) {
+      assert.ok(contrast(colors[`activity-${level}`], colors['activity-0']) >= 3)
+    }
     for (const bg of ['hero-canvas', 'hero-surface-raised']) {
       for (const fg of ['hero-text', 'hero-text-muted', 'hero-link']) assert.ok(contrast(colors[fg], colors[bg]) >= 4.5)
       assert.ok(contrast(colors['hero-focus'], colors[bg]) >= 3)

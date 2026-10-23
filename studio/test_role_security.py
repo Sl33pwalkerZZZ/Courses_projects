@@ -55,7 +55,7 @@ class RoleSecurityTests(TestCase):
             f'lessons/{self.lesson.pk}/', f'lessons/{self.lesson.pk}/quiz/',
             f'lessons/{self.lesson.pk}/assignments/', f'lessons/{self.lesson.pk}/images/',
             f'assignments/{self.assignment.pk}/', f'courses/{self.foreign.pk}/submissions/',
-            f'submissions/{self.submission.pk}/review/', f'submissions/{self.submission.pk}/file/',
+            'submissions/', f'submissions/{self.submission.pk}/review/', f'submissions/{self.submission.pk}/file/',
             f'courses/{self.foreign.pk}/publication/', 'reviews/', f'reviews/{self.review.pk}/decision/',
             'instructors/', f'instructors/{self.author.pk}/',
             'enrollment-requests/', 'enrollment-requests/999999/decision/',
@@ -91,7 +91,7 @@ class RoleSecurityTests(TestCase):
 
     def test_author_foreign_nested_ids_denied_for_every_verb_without_mutation(self):
         client = self.client_for(self.author)
-        paths = [path for path in self.paths() if path not in ['meta/', 'dashboard/', 'courses/', 'imports/preview/'] and not path.startswith('imports/')]
+        paths = [path for path in self.paths() if path not in ['meta/', 'dashboard/', 'courses/', 'submissions/', 'imports/preview/'] and not path.startswith('imports/')]
         snapshots = {model: list(model.objects.values()) for model in [Course, Module, Lesson, Quiz, QuizQuestion, QuizChoice, Assignment, AssignmentSubmission, PublicationRequest]}
         for path in paths:
             for method in ['get', 'post', 'patch', 'put', 'delete']:
@@ -101,6 +101,7 @@ class RoleSecurityTests(TestCase):
         for model, before in snapshots.items():
             self.assertEqual(list(model.objects.values()), before)
         self.assertEqual([course['id'] for course in client.get('/api/studio/courses/').data], [self.own.pk])
+        self.assertEqual(client.get('/api/studio/submissions/').data, [])
 
     def test_admin_and_superuser_student_have_explicit_administrative_authority(self):
         for user in [self.admin, self.super_student]:

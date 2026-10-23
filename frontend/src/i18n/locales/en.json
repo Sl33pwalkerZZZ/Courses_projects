@@ -582,6 +582,20 @@
     "loadError": "Preview could not be loaded. Check your staff permissions or retry."
   },
   "instructorStudio": {
+    "assignmentReview": {
+      "answerLabels": {"service": "Service", "result": "Result"},
+      "intro": "Review submitted practical work for your courses. Drafts remain private to students.",
+      "filter": "Submission status",
+      "all": "All statuses",
+      "submitted": "Submitted",
+      "instructions": "Assignment instructions",
+      "open": "Open student submission",
+      "evidence": "Approval records the reviewer and review time. This evidence is used when checking certificate requirements.",
+      "selfReview": "You cannot review your own submission. Ask another authorized educator.",
+      "verified": "Approval has verifiable review evidence.",
+      "legacy": "Historical status: no verifiable review evidence. It does not count toward certificate eligibility.",
+      "saved": "Review saved."
+    },
     "accessDenied": "Access denied",
     "returnToCourses": "Return to courses",
     "allCourses": "All courses",

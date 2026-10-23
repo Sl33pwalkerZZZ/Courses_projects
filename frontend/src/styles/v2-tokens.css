@@ -1,13 +1,13 @@
 /* Amethyst: semantic purple system shared by every route.
    Fill and text-link tokens are separate to preserve normal-text contrast. */
 :root {
-  --v2-canvas: #0D0818;
-  --v2-surface: #241238;
-  --v2-surface-raised: #311A4A;
-  --v2-text: #FFFFFF;
-  --v2-text-muted: #D3C5E5;
-  --v2-border: #503763;
-  --v2-control-border: #9B80B5;
+  --v2-canvas: #16181c;
+  --v2-surface: #1e2127;
+  --v2-surface-raised: #282c34;
+  --v2-text: #F4F5F7;
+  --v2-text-muted: #C4C7D0;
+  --v2-border: #414650;
+  --v2-control-border: #858C9B;
   --v2-primary: #955CF0;
   --v2-primary-hover: #AE7CFF;
   --v2-on-primary: #0D0818;
@@ -21,24 +21,24 @@
   --v2-danger-hover: #FFC8D7;
   --v2-on-danger: #0D0818;
   --v2-field-glow: rgb(149 92 240 / 15%);
-  --v2-overlay: rgb(13 8 24 / 72%);
+  --v2-overlay: rgb(22 24 28 / 78%);
   --v2-particle-line: rgba(196,165,255,.25);
   --v2-particle-dot: rgba(196,165,255,.72);
-  --v2-activity-0: #311A4A;
-  --v2-activity-1: #543076;
-  --v2-activity-2: #7945A8;
-  --v2-activity-3: #A16EE1;
+  --v2-activity-0: #282c34;
+  --v2-activity-1: #8A68A8;
+  --v2-activity-2: #A081C3;
+  --v2-activity-3: #B594E5;
   --v2-activity-4: #C4A5FF;
-  --v2-hero-canvas: #241238;
-  --v2-hero-text: #FFFFFF;
-  --v2-hero-text-muted: #D3C5E5;
+  --v2-hero-canvas: #1e2127;
+  --v2-hero-text: #F4F5F7;
+  --v2-hero-text-muted: #C4C7D0;
   --v2-hero-primary: #955CF0;
   --v2-hero-link: #C4A5FF;
   --v2-hero-on-primary: #0D0818;
   --v2-hero-focus: #C4A5FF;
-  --v2-hero-border: #6C4C86;
+  --v2-hero-border: #858C9B;
   --v2-hero-primary-hover: #AE7CFF;
-  --v2-hero-surface-raised: #311A4A;
+  --v2-hero-surface-raised: #282c34;
   --v2-font-ui: "Noto Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --v2-font-code: ui-monospace, SFMono-Regular, Consolas, monospace;
   --v2-radius-small: 8px;
