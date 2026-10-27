@@ -24,7 +24,7 @@ export function ContentLanguageNotice({ language }) {
   return language === 'ru' && !i18n.language.startsWith('ru') ? <p className="learning-language" role="note">{t('learning.russianFallback')}</p> : null
 }
 
-function SourceTable({ headers = [], rows = [], labelId }) {
+export function SourceTable({ headers = [], rows = [], labelId }) {
   return rows.length > 0 && <div className="learning-table-scroll" role="region" aria-labelledby={labelId} tabIndex={0}><table>
     {headers.length > 0 && <thead><tr>{headers.map((header, i) => <th key={i} scope="col">{header}</th>)}</tr></thead>}
     <tbody>{rows.map((row, i) => <tr key={i}>{(Array.isArray(row) ? row : Object.values(row)).map((cell, j) => <td key={j}>{String(cell ?? '')}</td>)}</tr>)}</tbody>

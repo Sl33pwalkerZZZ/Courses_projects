@@ -1,0 +1,15 @@
+.media-lesson-reading { max-width: 70ch; min-width: 0; line-height: 1.85; color: var(--v2-text); overflow-wrap: anywhere; }
+.media-lesson-section { min-width: 0; margin-block: 0 2.5rem; }
+.media-lesson-section h2 { margin: 0 0 1.1rem; font-size: clamp(1.2rem, 2.3vw, 1.5rem); line-height: 1.4; }
+.media-lesson-section p { margin: 0 0 1.25rem; white-space: pre-wrap; }
+.media-lesson-section > :last-child p:last-child { margin-bottom: 0; }
+.media-lesson-definition { border-inline-start: 3px solid var(--v2-link); padding-inline-start: 1rem; }
+.media-lesson-section--example, .media-lesson-section--practice { padding: clamp(1rem, 3vw, 1.5rem); background: var(--v2-surface-raised); border: 1px solid var(--v2-border); border-radius: var(--v2-radius-lg, 20px); }
+.media-lesson-warning { padding-block-start: 1rem; border-block-start: 1px solid var(--v2-border); font-weight: 600; }
+.media-lesson-reading .learning-table-scroll { margin-block: 1rem; }
+.media-lesson-reading .learning-table-scroll:focus-visible { outline: 3px solid var(--v2-link); outline-offset: 3px; }
+.media-lesson-reading th { background: var(--v2-surface-raised); }
+@media (max-width: 400px) { .media-lesson-section { margin-block-end: 2rem; } }
+/* Space wrapper siblings: the workspace resets the last paragraph in each wrapper. */
+.media-lesson-section > div:not(.learning-table-scroll) + div:not(.learning-table-scroll) { margin-block-start: 1.25rem; }
+.media-lesson-prompt { padding: 1rem; border-inline-start: 3px solid var(--v2-link); background: var(--v2-surface-raised); border-radius: var(--v2-radius-sm, 8px); }
