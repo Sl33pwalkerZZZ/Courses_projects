@@ -548,3 +548,35 @@ class SubmissionFileView(StudioView):
             raise Http404('Submitted file not found.')
         response['X-Content-Type-Options'] = 'nosniff'
         return response
+
+
+class LessonAttachmentsView(StudioView):
+    def get(self, request, pk):
+        from courses.serializers import lesson_attachments
+        lesson = get_object_or_404(Lesson, pk=pk, module__course__in=owned_courses(request.user))
+        return Response(lesson_attachments(lesson))
+
+    def post(self, request, pk):
+        from courses.attachments import attachments_ready, store_attachment, MAX_AUDIO
+        from courses.serializers import LessonAttachmentSerializer
+        if not attachments_ready():
+            return Response({'detail': 'Lesson attachments require the pending courses migration.'}, status=503)
+        created_files = []
+        try:
+            with transaction.atomic():
+                lesson, course = lesson_for(request.user, pk)
+                if course.is_published:
+                    raise ValidationError('Published content is locked.')
+                upload = request.FILES.get('file')
+                if not upload or upload.size > MAX_AUDIO:
+                    raise ValidationError({'file': 'Upload a bounded MP3, PCM WAV or UTF-8 SRT file.'})
+                metadata = {key: request.data.get(key, '') for key in ('label','caption','transcript','provenance','after_section')}
+                row, created = store_attachment(lesson, upload.name, upload.read(MAX_AUDIO+1), metadata, created_files)
+                if created:
+                    editable(course)
+                result = LessonAttachmentSerializer(row).data
+        except Exception:
+            for storage, name in created_files:
+                storage.delete(name)
+            raise
+        return Response(result, status=201 if created else 200)

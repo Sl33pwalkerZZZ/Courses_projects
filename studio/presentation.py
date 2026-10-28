@@ -1,5 +1,6 @@
 from django.urls import reverse
 from courses.models import Lesson
+from courses.serializers import lesson_attachments
 from .services import requirements, fingerprint
 
 
@@ -23,6 +24,7 @@ def lesson_data(lesson):
                        'alt_text': description.alt_text if description else {}, 'decorative': description.decorative if description else False})
     return {'id': lesson.pk, 'title': lesson.title, 'order': lesson.order, 'text_content': lesson.text_content, 'module': lesson.module_id,
             'learning_content': {'content_language': learning.content_language, 'source_sections': learning.source_sections, 'objectives': learning.objectives, 'interactions': learning.interactions} if learning else None,
+            'attachments': lesson_attachments(lesson),
             'assignments': [assignment_data(a) for a in lesson.assignments.all()], 'images': images,
             'quiz': quiz_data(lesson.quiz) if hasattr(lesson, 'quiz') else None}
 

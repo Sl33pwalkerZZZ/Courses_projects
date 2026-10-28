@@ -36,13 +36,20 @@ class LearningContentSerializer(serializers.Serializer):
         import json
         if not isinstance(value, list) or len(value) > 50 or len(json.dumps(value)) > 150000:
             raise serializers.ValidationError('Provide at most 50 bounded teaching sections.')
-        allowed = {'concept_hierarchy', 'llm_steps', 'model_service', 'categories', 'service_overview', 'selection_steps'}
+        allowed = {'concept_hierarchy', 'llm_steps', 'model_service', 'categories', 'service_overview', 'selection_steps', 'image_placement'}
         for item in value:
             if not isinstance(item, dict) or item.get('type') not in allowed:
                 raise serializers.ValidationError('Unsupported teaching section type.')
         def strings(values):
             return isinstance(values, list) and len(values) <= 100 and all(isinstance(v, str) and len(v) <= 20000 for v in values)
         for item in value:
+            if item['type'] == 'image_placement':
+                if (set(item) != {'type', 'image_id', 'after_section', 'caption'}
+                        or type(item['image_id']) is not int or item['image_id'] <= 0
+                        or any(not isinstance(item[k], str) or not item[k].strip() or len(item[k]) > limit
+                               for k, limit in [('after_section', 255), ('caption', 2000)])):
+                    raise serializers.ValidationError('Invalid image placement.')
+                continue
             for key, field in item.items():
                 if key in ('items', 'steps', 'cards', 'services'):
                     if not isinstance(field, list) or len(field) > 100:
@@ -68,6 +75,21 @@ class LearningContentSerializer(serializers.Serializer):
 
 class LessonWriteSerializer(serializers.ModelSerializer):
     learning_content = LearningContentSerializer(required=False)
+
+    def validate(self, attrs):
+        learning = attrs.get('learning_content', {})
+        placements = [i for i in learning.get('interactions', []) if i.get('type') == 'image_placement']
+        if placements:
+            ids = [i['image_id'] for i in placements]
+            allowed = set(self.instance.images.values_list('pk', flat=True)) if self.instance else set()
+            current = getattr(self.instance, 'learning_content', None) if self.instance else None
+            sections = learning.get('source_sections', getattr(current, 'source_sections', []))
+            body = attrs.get('text_content', getattr(self.instance, 'text_content', ''))
+            paragraphs = body.split('\n\n')
+            if (len(ids) != len(set(ids)) or not set(ids).issubset(allowed)
+                    or any(i['after_section'] not in sections or paragraphs.count(i['after_section']) != 1 for i in placements)):
+                raise serializers.ValidationError('Image placements must reference this lesson and unique existing section anchors.')
+        return attrs
 
     class Meta:
         model = Lesson

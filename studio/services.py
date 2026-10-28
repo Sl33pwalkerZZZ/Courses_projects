@@ -41,6 +41,8 @@ def unique_slug(title):
 
 def fingerprint(course):
     # Includes assessment keys and source provenance; never return the digest payload.
+    from courses.attachments import attachments_ready
+    include_attachments = attachments_ready()
     modules = []
     for module in course.modules.order_by('order', 'pk'):
         lessons = []
@@ -56,6 +58,12 @@ def fingerprint(course):
                          'questions': [{'id': q.pk, 'text': q.text, 'type': q.type, 'explanation': q.explanation, 'order': q.order,
                                         'choices': list(q.choices.values('id', 'text', 'is_correct', 'order'))} for q in quiz.questions.all()]} if quiz else None,
             })
+        if include_attachments:
+            for row, lesson in zip(lessons, module.lessons.order_by('order', 'pk')):
+                assets = list(lesson.attachments.values('id', 'kind', 'sha256', 'filename', 'label', 'caption', 'transcript', 'provenance', 'after_section', 'order'))
+                # Preserve existing publication fingerprints for lessons without assets.
+                if assets:
+                    row['attachments'] = assets
         modules.append({'id': module.pk, 'title': module.title, 'order': module.order, 'lessons': lessons})
     imported = getattr(course, 'content_import', None)
     payload = {'title': course.title, 'description': course.description, 'direction': course.direction_id, 'level': course.level,
