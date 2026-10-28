@@ -17,6 +17,9 @@ import { studentSourceHeading } from '../utils/sourceHeadings'
 import { getCourse8Reading } from '../utils/course8Reading'
 import Course8Reading from '../components/learning/Course8Reading'
 import MediaLessonReading from '../components/learning/MediaLessonReading'
+import LessonAttachment from '../components/learning/LessonAttachment'
+import { attachmentLayout } from '../utils/lessonAttachments'
+import { lessonImagePlacements } from '../utils/lessonImagePlacements'
 import { mediaLessonSections } from '../utils/mediaLessonPresentation'
 import PracticeCheck from '../components/learning/PracticeCheck'
 import LessonResources from '../components/learning/LessonResources'
@@ -54,6 +57,8 @@ export function LessonMaterial({ lesson, preview = false }) {
   const presentation = lessonPresentation(lesson)
   const curatedReading = getCourse8Reading(lesson)
   const mediaSections = mediaLessonSections(lesson)
+  const attachmentPositions = attachmentLayout(lesson, curatedReading ? null : mediaSections)
+  const imageLayout = lessonImagePlacements(lesson, curatedReading ? null : mediaSections)
   const verifiedPractice = verifiedCourse8Practice(lesson)
   const language = lesson.content_language || lesson.learning_content?.content_language
   const paragraphs = values => lessonReadingBlocks(values, lesson).map((block, index) => {
@@ -70,14 +75,15 @@ export function LessonMaterial({ lesson, preview = false }) {
     <ContentLanguageNotice language={language} />
     {lesson.learning_content?.objectives?.length > 0 && <LearningContent content={{ content_language: language, objectives: lesson.learning_content.objectives }} showLanguageNotice={false} />}
     {curatedReading ? <Course8Reading lesson={lesson} /> : lesson.text_content?.trim() ? <div className="lesson-material-text" lang={lesson.content_language || lesson.learning_content?.content_language || undefined}>
-      {mediaSections ? <MediaLessonReading sections={mediaSections} /> : paragraphs(presentation.reading)}
+      {mediaSections ? <MediaLessonReading sections={mediaSections} placements={imageLayout.bySection} attachments={attachmentPositions.bySection} /> : paragraphs(presentation.reading)}
     </div> : <div className="lesson-material-empty"><BookOpen size={24} aria-hidden="true" /><p>{t('lessonWorkspace.emptyMaterial')}</p></div>}
     {!curatedReading && (presentation.content?.interactions?.length > 0 || presentation.content?.takeaways?.length > 0) && <LearningContent content={presentation.content} showLanguageNotice={false} />}
     {curatedReading && presentation.content?.takeaways?.length > 0 && <LearningContent content={{ ...presentation.content, interactions: [] }} showLanguageNotice={false} />}
     {curatedReading && <PracticeCheck key={lesson.id} lessonId={lesson.id} />}
-    {lesson.images?.length > 0 && <div className="lesson-material-images">
-      {lesson.images.map((image) => <ProtectedLessonImage key={image.id} image={image} />)}
+    {imageLayout.gallery.length > 0 && <div className="lesson-material-images">
+      {imageLayout.gallery.map((image) => <ProtectedLessonImage key={image.id} image={image} />)}
     </div>}
+    {attachmentPositions.fallback.map(asset => <LessonAttachment asset={asset} key={asset.id} />)}
     {lesson.assignments?.length > 0 && <section className="lesson-material-assignments" aria-labelledby="lesson-assignments-title">
       <p className="eyebrow">{t('lessonWorkspace.practice')}</p>
       <h2 id="lesson-assignments-title">{t('lesson.assignment')}</h2>

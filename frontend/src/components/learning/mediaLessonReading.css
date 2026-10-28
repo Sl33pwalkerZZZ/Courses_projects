@@ -13,3 +13,12 @@
 /* Space wrapper siblings: the workspace resets the last paragraph in each wrapper. */
 .media-lesson-section > div:not(.learning-table-scroll) + div:not(.learning-table-scroll) { margin-block-start: 1.25rem; }
 .media-lesson-prompt { padding: 1rem; border-inline-start: 3px solid var(--v2-link); background: var(--v2-surface-raised); border-radius: var(--v2-radius-sm, 8px); }
+.lesson-inline-figure { margin: 1.5rem 0; min-width: 0; }
+.lesson-inline-figure img { display: block; width: 100%; height: auto; border-radius: var(--v2-radius-sm, 8px); }
+.lesson-inline-figure figcaption { margin-block-start: .75rem; color: var(--v2-text-muted); font-size: .95rem; line-height: 1.6; }
+.lesson-image-enlarge { display: block; width: 100%; padding: 0; border: 1px solid var(--v2-border); border-radius: var(--v2-radius-sm, 8px); background: var(--v2-surface); cursor: zoom-in; }
+.lesson-image-enlarge:focus-visible, .lesson-image-close:focus-visible { outline: 3px solid var(--v2-link); outline-offset: 3px; }
+.lesson-image-dialog { box-sizing: border-box; width: min(96vw, 1600px); max-width: 96vw; max-height: 94dvh; padding: 1rem; border: 1px solid var(--v2-border); border-radius: 12px; background: var(--v2-surface); color: var(--v2-text); overflow: auto; }
+.lesson-image-dialog::backdrop { background: var(--v2-overlay); }
+.lesson-image-dialog img { display: block; width: 100%; height: auto; }
+.lesson-image-close { display: block; margin: 0 0 1rem auto; min-height: 44px; padding: .5rem 1rem; border: 1px solid var(--v2-border); border-radius: 8px; background: var(--v2-surface-raised); color: var(--v2-text); font: inherit; cursor: pointer; }

@@ -68,7 +68,7 @@ export function lessonPresentation(lesson) {
   const structuredPractice = lesson.assignments?.some(item => item.learning_activity === 'ai_selection_map')
   const source = lesson.learning_content
   const templates = structuredPractice ? (source?.interactions || []).filter(isSelectionMapTemplate) : []
-  const interactions = (source?.interactions || []).filter(item => !templates.includes(item)).map(studentInteraction)
+  const interactions = (source?.interactions || []).filter(item => !templates.includes(item) && item.type !== 'image_placement').map(studentInteraction)
   const sections = { reading: [], conclusions: [], resources: [] }
   let current = 'reading'
   for (const paragraph of lesson91Reading(lesson, lessonParagraphs(lesson))) {

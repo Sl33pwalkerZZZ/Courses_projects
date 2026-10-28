@@ -533,7 +533,19 @@
     "hierarchyBoundary": "ИИ шире машинного обучения. LLM — не весь ИИ и не весь генеративный ИИ.",
     "exploreSteps": "Изучите этапы",
     "exploreItems": "Изучите сравнение",
-    "authoredActivity": "Интерактивное представление добавлено для курса; исходное объяснение сохранено выше."
+    "authoredActivity": "Интерактивное представление добавлено для курса; исходное объяснение сохранено выше.",
+    "enlargeImage": "Увеличить изображение",
+    "closeImage": "Закрыть изображение",
+    "downloadSubtitles": "Скачать субтитры (SRT)",
+    "audioTranscript": "Текст или описание аудио",
+    "attachments": "Аудио и материалы",
+    "addAttachment": "Добавить аудио или субтитры",
+    "attachmentFile": "MP3/WAV — до 20 МБ; SRT — до 1 МБ",
+    "attachmentLabel": "Название материала",
+    "attachmentCaption": "Подпись",
+    "attachmentProvenance": "Происхождение и разрешения",
+    "attachmentSection": "Разместить после раздела",
+    "attachmentFallback": "Отдельный блок материалов"
   },
   "selectionMap": {
     "title": "Карта выбора ИИ-сервиса",

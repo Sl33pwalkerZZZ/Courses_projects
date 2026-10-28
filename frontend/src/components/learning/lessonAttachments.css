@@ -1,0 +1,8 @@
+.lesson-attachment { min-width: 0; margin: 1.5rem 0; padding: clamp(1rem, 3vw, 1.5rem); border: 1px solid var(--v2-border); border-radius: var(--v2-radius-lg, 20px); background: var(--v2-surface); color: var(--v2-text); overflow-wrap: anywhere; }
+.lesson-attachment h3 { margin: 0 0 1rem; font-size: 1.15rem; line-height: 1.45; }
+.lesson-attachment audio { display: block; width: 100%; max-width: 100%; min-width: 0; }
+.lesson-attachment figcaption { margin-block: 1rem; color: var(--v2-text-muted); line-height: 1.6; }
+.lesson-attachment-transcript { margin-block-start: 1rem; }
+.lesson-attachment-transcript h4 { margin: 0 0 .5rem; }
+.lesson-attachment-transcript p { white-space: pre-wrap; }
+.lesson-attachment :focus-visible { outline: 3px solid var(--v2-link); outline-offset: 3px; }

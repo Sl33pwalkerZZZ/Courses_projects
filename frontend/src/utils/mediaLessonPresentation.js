@@ -45,7 +45,7 @@ export function mediaLessonSections(lesson) {
   const content = lesson?.learning_content
   const headings = content?.source_sections
   if (!Array.isArray(headings) || !headings.length || headings.some(h => typeof h !== 'string' || !h.trim())
-    || new Set(headings).size !== headings.length || content.interactions?.length) return null
+    || new Set(headings).size !== headings.length || content.interactions?.some(item => item.type !== 'image_placement')) return null
   const paragraphs = (lesson.text_content || '').split(/\n\s*\n/u).map(text => text.trim()).filter(Boolean)
   const positions = headings.map(heading => paragraphs.indexOf(heading))
   if (positions[0] !== 0 || positions.some((position, i) => position < 0

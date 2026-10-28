@@ -9,6 +9,7 @@ export default function EducationalSections({ value, onChange }) {
   const { t } = useTranslation()
   const update = (index, patch) => onChange(value.map((item, i) => i === index ? { ...item, ...patch } : item))
   return <>{value.map((item, index) => {
+    if (item.type === 'image_placement') return null // Preserve placement metadata; it is not an interactive teaching card.
     const listKey = ['items', 'steps', 'cards', 'services'].find(key => Array.isArray(item[key]))
     const entries = listKey ? item[listKey] : []
     const updateEntry = (entryIndex, replacement) => update(index, { [listKey]: entries.map((entry, i) => i === entryIndex ? replacement : entry) })

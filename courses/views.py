@@ -1,3 +1,4 @@
+from pathlib import Path
 from django.conf import settings
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -38,6 +39,12 @@ class LessonDetailView(generics.RetrieveAPIView):
     )
     serializer_class = LessonDetailSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        response = super().finalize_response(request, response, *args, **kwargs)
+        response['Cache-Control'] = 'private, no-store'
+        patch_vary_headers(response, ['Authorization', 'Cookie'])
+        return response
 
     def get_object(self):
         lesson = super().get_object()
@@ -107,3 +114,28 @@ class InstructorCoursePreviewView(generics.RetrieveAPIView):
         response["Cache-Control"] = "private, no-store"
         patch_vary_headers(response, ["Authorization", "Cookie"])
         return response
+
+
+class LessonAttachmentView(LessonImageView):
+    """Same JWT/session permission boundary as images; no storage URL exposed."""
+    def get(self, request, pk):
+        from .attachments import attachments_ready
+        from .models import LessonAttachment
+        from rest_framework.exceptions import APIException
+        if not attachments_ready():
+            error = APIException('Lesson attachments require the pending courses migration.')
+            error.status_code = 503
+            raise error
+        attachment = get_object_or_404(LessonAttachment.objects.select_related('lesson__module__course'), pk=pk)
+        if not can_access_lesson(request.user, attachment.lesson):
+            raise PermissionDenied('No access to this lesson attachment.')
+        if not attachment.file.name.startswith('lessons/attachments/'):
+            raise Http404('Attachment not found.')
+        path = private_lesson_file(settings.MEDIA_ROOT, attachment.file.name)
+        if not path.is_relative_to((Path(settings.MEDIA_ROOT) / 'lessons/attachments').resolve()):
+            raise Http404('Attachment not found.')
+        try:
+            return FileResponse(path.open('rb'), as_attachment=attachment.kind == 'srt',
+                filename=attachment.filename, content_type=attachment.mime_type)
+        except (OSError, ValueError):
+            raise Http404('Attachment not found.')

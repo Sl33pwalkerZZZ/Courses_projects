@@ -91,7 +91,7 @@ export default function LearningContent({ content, showLanguageNotice = true }) 
   return <section className="learning-content">
     {showLanguageNotice && <ContentLanguageNotice language={content.content_language} />}
     {content.objectives?.length > 0 && <section><h2>{t('learning.objectives')}</h2><ul lang={content.content_language || undefined}>{content.objectives.map((objective, i) => <li key={i}>{objective}</li>)}</ul></section>}
-    {content.interactions?.map((interaction, i) => <div lang={content.content_language || undefined} key={i}><LearningInteraction interaction={interaction} /></div>)}
+    {content.interactions?.filter(item => item.type !== 'image_placement').map((interaction, i) => <div lang={content.content_language || undefined} key={i}><LearningInteraction interaction={interaction} /></div>)}
     {content.takeaways?.length > 0 && <section><h2>{t('learning.takeaways')}</h2><ul lang={content.content_language || undefined}>{content.takeaways.map((item, i) => <li key={i}>{item}</li>)}</ul></section>}
   </section>
 }

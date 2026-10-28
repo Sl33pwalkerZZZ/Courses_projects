@@ -513,7 +513,19 @@
     "hierarchyBoundary": "ЖИ машиналық оқытудан кең. LLM — бүкіл ЖИ де, бүкіл генеративті ЖИ де емес.",
     "exploreSteps": "Кезеңдерді зерттеңіз",
     "exploreItems": "Салыстыруды зерттеңіз",
-    "authoredActivity": "Курс үшін интерактивті көрініс қосылды; бастапқы түсіндірме жоғарыда сақталған."
+    "authoredActivity": "Курс үшін интерактивті көрініс қосылды; бастапқы түсіндірме жоғарыда сақталған.",
+    "enlargeImage": "Суретті үлкейту",
+    "closeImage": "Суретті жабу",
+    "downloadSubtitles": "Субтитрлерді жүктеп алу (SRT)",
+    "audioTranscript": "Аудио мәтіні немесе сипаттамасы",
+    "attachments": "Аудио және материалдар",
+    "addAttachment": "Аудио немесе субтитр қосу",
+    "attachmentFile": "MP3/WAV — 20 МБ дейін; SRT — 1 МБ дейін",
+    "attachmentLabel": "Материал атауы",
+    "attachmentCaption": "Түсіндірме",
+    "attachmentProvenance": "Шығу тегі және рұқсаттар",
+    "attachmentSection": "Бөлімнен кейін орналастыру",
+    "attachmentFallback": "Бөлек материалдар бөлімі"
   },
   "selectionMap": {
     "title": "ЖИ сервисін таңдау картасы",

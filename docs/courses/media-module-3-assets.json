@@ -1,0 +1,146 @@
+{
+  "module_order": 3,
+  "course_slug": "ai-media-content",
+  "status": "planning_only_no_files_created",
+  "upload_route": "POST /api/studio/lessons/{lesson_id}/images/",
+  "notes_ru": [
+    "Все шесть изображений нужно создать и утвердить; эти записи не являются готовыми файлами.",
+    "Размер 1600×900 — рекомендация для учебных схем; текст проверяется также на мобильном просмотре.",
+    "Для сложной схемы нужен полный текстовый эквивалент в уроке. Подпись и alt решают разные задачи.",
+    "Сначала сопоставьте реальные ID новых уроков с порядком 1–3; не угадывайте ID до импорта."
+  ],
+  "assets": [
+    {
+      "filename": "m3-l1-prompt-anatomy.png",
+      "lesson_order": 1,
+      "course_lesson": 7,
+      "lesson_title": "Генерация изображений с помощью ИИ",
+      "learning_purpose": "Разобрать параметры запроса и связать их с решением в кадре.",
+      "must_depict": "Оригинальная схема с пятью подписанными зонами: объект, композиция, свет, стиль, соотношение сторон. Справа условные лист и блокнот, слева свободная зона заголовка; стрелки показывают влияние параметров. Без реального интерфейса генератора.",
+      "width": 1600,
+      "height": 900,
+      "format": "PNG",
+      "decorative": false,
+      "caption_ru": "Пять параметров запроса задают проверяемые условия; они не гарантируют точного выполнения генератором.",
+      "alt_text": {
+        "ru": "Схема запроса: объект — лист и блокнот, композиция — предметы справа, свет — мягкий, стиль — плоская графика, кадр — 16:9. Слева оставлено место для заголовка."
+      },
+      "status": "awaiting_creation",
+      "provenance": "Original instructor-created diagram; no external images, brands, model-generated factual claims or product UI.",
+      "licensing_requirement": "Record creator, creation date, source file, font licence and permission for course distribution before upload. If external material is introduced, attach its explicit licence/permission; do not assume internet availability grants reuse.",
+      "placement": {
+        "after_section": "3. Пять опор визуального запроса"
+      }
+    },
+    {
+      "filename": "m3-l1-prompt-comparison.png",
+      "lesson_order": 1,
+      "course_lesson": 7,
+      "lesson_title": "Генерация изображений с помощью ИИ",
+      "learning_purpose": "Сравнить неопределённое задание и запрос, связанный с брифом.",
+      "must_depict": "Две исходные авторские иллюстрации одинакового размера. Слева перегруженный условный мотив без ясного объекта, справа лист и блокнот с местом для текста. Подписать «Учебное сравнение макетов», а не «результат сервиса»; нет вымышленных процентов или логотипов.",
+      "width": 1600,
+      "height": 900,
+      "format": "PNG",
+      "decorative": false,
+      "caption_ru": "Сравнивайте соответствие брифу: объект, свободное место, отсутствие ложных обещаний. Это авторские макеты, не реальные результаты генератора.",
+      "alt_text": {
+        "ru": "Слева неопределённая перегруженная композиция, справа лист и блокнот на простом фоне с местом для текста. Улучшенный макет выполняет конкретную задачу Ф1."
+      },
+      "status": "awaiting_creation",
+      "provenance": "Original instructor-created diagram; no external images, brands, model-generated factual claims or product UI.",
+      "licensing_requirement": "Record creator, creation date, source file, font licence and permission for course distribution before upload. If external material is introduced, attach its explicit licence/permission; do not assume internet availability grants reuse.",
+      "placement": {
+        "after_section": "4. Слабый и улучшенный запрос"
+      }
+    },
+    {
+      "filename": "m3-l2-layout-hierarchy.png",
+      "lesson_order": 2,
+      "course_lesson": 8,
+      "lesson_title": "Создание обложек, карточек и инфографики",
+      "learning_purpose": "Показать, как иерархия и свободное пространство улучшают чтение.",
+      "must_depict": "Парное оригинальное сравнение одной карточки Ф1 с совершенно одинаковыми фактами. Слева тесный текст и конкурирующие акценты, справа крупный короткий заголовок, иллюстрация и пояснение. У слабого примера есть отдельная читаемая расшифровка, чтобы смысл не зависел от плохого контраста.",
+      "width": 1600,
+      "height": 900,
+      "format": "PNG",
+      "decorative": false,
+      "caption_ru": "Факты одинаковы, меняется только организация внимания: заголовок, иллюстрация, пояснение.",
+      "alt_text": {
+        "ru": "Два макета карточки «Вторая сторона листа»: в первом элементы тесно расположены, во втором заголовок, лист с блокнотом и пояснение разделены свободным пространством."
+      },
+      "status": "awaiting_creation",
+      "provenance": "Original instructor-created diagram; no external images, brands, model-generated factual claims or product UI.",
+      "licensing_requirement": "Record creator, creation date, source file, font licence and permission for course distribution before upload. If external material is introduced, attach its explicit licence/permission; do not assume internet availability grants reuse.",
+      "placement": {
+        "after_section": "3. Иерархия, композиция и типографика"
+      }
+    },
+    {
+      "filename": "m3-l2-process-infographic.png",
+      "lesson_order": 2,
+      "course_lesson": 8,
+      "lesson_title": "Создание обложек, карточек и инфографики",
+      "learning_purpose": "Объяснить процесс без вымышленных данных и числовых диаграмм.",
+      "must_depict": "Три равнозначных подписанных блока: разрешённые односторонние листы → сборка по фактическим кадрам → блокнот для собственных заметок. Стрелки означают порядок, а не измеренную экологическую пользу. Подпись «Вымышленный учебный проект Ф1».",
+      "width": 1600,
+      "height": 900,
+      "format": "PNG",
+      "decorative": false,
+      "caption_ru": "Стрелки показывают последовательность действий. Измерения экономии в Ф1 отсутствуют.",
+      "alt_text": {
+        "ru": "Процесс Ф1: разрешённые односторонние листы, затем сборка, затем блокнот для собственных заметок. Показан порядок действий, а не измеренная эффективность."
+      },
+      "status": "awaiting_creation",
+      "provenance": "Original instructor-created diagram; no external images, brands, model-generated factual claims or product UI.",
+      "licensing_requirement": "Record creator, creation date, source file, font licence and permission for course distribution before upload. If external material is introduced, attach its explicit licence/permission; do not assume internet availability grants reuse.",
+      "placement": {
+        "after_section": "6. Пошаговая информационная схема без выдуманных данных"
+      }
+    },
+    {
+      "filename": "m3-l3-style-guide.png",
+      "lesson_order": 3,
+      "course_lesson": 9,
+      "lesson_title": "Единый визуальный стиль медиапроекта",
+      "learning_purpose": "Связать роли цвета и текста с единым оформлением серии.",
+      "must_depict": "Оригинальная мини-страница руководства: фон, основной текст, один акцент и линии. Рядом роли заголовка и подписи, две рамки согласованных композиций. Образцы подписаны текстом, а не различаются только цветом; никаких реальных брендовых цветов как обязательного стандарта.",
+      "width": 1600,
+      "height": 900,
+      "format": "PNG",
+      "decorative": false,
+      "caption_ru": "Руководство фиксирует роли и повторяемые решения, а не требует делать все изображения одинаковыми.",
+      "alt_text": {
+        "ru": "Пример стилевого руководства Ф1: спокойный фон, контрастный текст, один фиолетовый акцент, простые контуры и постоянные зоны заголовка и пояснения."
+      },
+      "status": "awaiting_creation",
+      "provenance": "Original instructor-created diagram; no external images, brands, model-generated factual claims or product UI.",
+      "licensing_requirement": "Record creator, creation date, source file, font licence and permission for course distribution before upload. If external material is introduced, attach its explicit licence/permission; do not assume internet availability grants reuse.",
+      "placement": {
+        "after_section": "5. Краткое руководство по стилю"
+      }
+    },
+    {
+      "filename": "m3-l3-export-check.png",
+      "lesson_order": 3,
+      "course_lesson": 9,
+      "lesson_title": "Единый визуальный стиль медиапроекта",
+      "learning_purpose": "Показать проверку адаптации и экспортированного файла перед монтажом.",
+      "must_depict": "Оригинальная схема одного макета в горизонтальной и вертикальной рамках. Отметить перестройку зон вместо растяжения; внизу маршрут исходник → утверждённый файл → проверка масштаба и кадрирования → проверка экспорта. Это схема работы, не поддельный скриншот CapCut.",
+      "width": 1600,
+      "height": 900,
+      "format": "PNG",
+      "decorative": false,
+      "caption_ru": "При смене формата перестраивайте композицию и проверяйте файл в конечном кадре.",
+      "alt_text": {
+        "ru": "Горизонтальный и вертикальный варианты сохраняют пропорции листа и блокнота. Схема подготовки ведёт от исходного макета к проверке кадрирования и итогового экспорта."
+      },
+      "status": "awaiting_creation",
+      "provenance": "Original instructor-created diagram; no external images, brands, model-generated factual claims or product UI.",
+      "licensing_requirement": "Record creator, creation date, source file, font licence and permission for course distribution before upload. If external material is introduced, attach its explicit licence/permission; do not assume internet availability grants reuse.",
+      "placement": {
+        "after_section": "6. Подготовка файлов для CapCut Desktop"
+      }
+    }
+  ]
+}

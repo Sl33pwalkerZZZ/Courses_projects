@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
 import { lessonImageDescription, loadLessonImage } from '../utils/lessonImages'
 
-export default function ProtectedLessonImage({ image }) {
+export default function ProtectedLessonImage({ image, enlarge = false }) {
   const { t, i18n } = useTranslation()
+  const dialog = useRef(null)
   const [result, setResult] = useState(null)
   const [retry, setRetry] = useState(0)
 
@@ -18,7 +19,15 @@ export default function ProtectedLessonImage({ image }) {
 
   if (result?.imageId === image.id && result.src) {
     const description = lessonImageDescription(image, i18n.resolvedLanguage || i18n.language)
-    return <img src={result.src} alt={description.alt} lang={description.lang} loading="lazy" onError={() => setResult({ imageId: image.id, error: true })} />
+    const illustration = <img src={result.src} alt={description.alt} lang={description.lang} loading="lazy" onError={() => setResult({ imageId: image.id, error: true })} />
+    if (!enlarge) return illustration
+    return <>
+      <button type="button" className="lesson-image-enlarge" aria-label={`${t('learning.enlargeImage')}: ${description.alt}`} onClick={() => dialog.current?.showModal()}>{illustration}</button>
+      <dialog ref={dialog} className="lesson-image-dialog" aria-label={`${t('learning.enlargeImage')}: ${description.alt}`} onClick={event => { if (event.target === dialog.current) dialog.current.close() }}>
+        <button type="button" className="lesson-image-close" autoFocus onClick={() => dialog.current.close()}>{t('learning.closeImage')}</button>
+        <img src={result.src} alt={description.alt} lang={description.lang} />
+      </dialog>
+    </>
   }
   if (result?.imageId === image.id && result.error) {
     return <div role="alert">

@@ -118,3 +118,23 @@ class LessonLearningContent(models.Model):
 
     def __str__(self):
         return self.lesson.title
+
+
+class LessonAttachment(models.Model):
+    """Private authored audio/subtitles; independent of assignments/progress."""
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='attachments')
+    kind = models.CharField(max_length=10, choices=[('audio', 'Audio'), ('srt', 'Subtitles')])
+    file = models.FileField(upload_to='lessons/attachments/', max_length=255)
+    filename = models.CharField(max_length=255)
+    mime_type = models.CharField(max_length=80)
+    sha256 = models.CharField(max_length=64)
+    label = models.CharField(max_length=255)
+    caption = models.TextField(blank=True, max_length=2000)
+    transcript = models.TextField(blank=True, max_length=20000)
+    provenance = models.TextField(max_length=4000)
+    after_section = models.CharField(max_length=255, blank=True)
+    order = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        ordering = ['order', 'pk']
+        constraints = [models.UniqueConstraint(fields=['lesson', 'sha256'], name='unique_lesson_attachment_bytes')]

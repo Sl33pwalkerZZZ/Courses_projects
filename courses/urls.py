@@ -2,9 +2,10 @@ from django.urls import path
 
 from progress.views import CourseEnrollmentRequestsView, EnrollView
 from reviews.views import CourseReviewsView, OwnReviewDetailView
-from .views import CourseDetailView, CourseListView, LessonDetailView, LessonImageView, InstructorCoursePreviewView
+from .views import CourseDetailView, CourseListView, LessonDetailView, LessonImageView, InstructorCoursePreviewView, LessonAttachmentView
 
 urlpatterns = [
+    path("lesson-attachments/<int:pk>/", LessonAttachmentView.as_view(), name="lesson-attachment"),
     path("instructor/courses/<slug:slug>/preview/", InstructorCoursePreviewView.as_view(), name="instructor-course-preview"),
     path("courses/", CourseListView.as_view(), name="course-list"),
     path("courses/<slug:slug>/", CourseDetailView.as_view(), name="course-detail"),

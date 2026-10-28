@@ -4,7 +4,7 @@ from django.urls import reverse
 from progress.models import LessonProgress
 from reviews.summaries import display_average
 
-from .models import Assignment, Course, Direction, Lesson, LessonImage, LessonLearningContent, Module
+from .models import Assignment, Course, Direction, Lesson, LessonImage, LessonLearningContent, LessonAttachment, Module
 from .image_descriptions import image_alt_text, load_image_descriptions
 
 
@@ -97,11 +97,31 @@ class LessonLearningContentSerializer(serializers.ModelSerializer):
         fields = ["content_language", "source_sections", "objectives", "interactions"]
 
 
+class LessonAttachmentSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField()
+
+    def get_url(self, attachment):
+        return reverse('lesson-attachment', args=[attachment.pk])
+
+    class Meta:
+        model = LessonAttachment
+        fields = ['id', 'kind', 'filename', 'mime_type', 'label', 'caption', 'transcript', 'after_section', 'order', 'url']
+
+
+def lesson_attachments(lesson):
+    from .attachments import attachments_ready
+    return LessonAttachmentSerializer(lesson.attachments.all(), many=True).data if attachments_ready() else []
+
+
 class LessonDetailSerializer(serializers.ModelSerializer):
     images = LessonImageSerializer(many=True, read_only=True)
     assignments = AssignmentSerializer(many=True, read_only=True)
     course_slug = serializers.CharField(source="module.course.slug", read_only=True)
     completed_at = serializers.SerializerMethodField()
+    attachments = serializers.SerializerMethodField()
+
+    def get_attachments(self, lesson):
+        return lesson_attachments(lesson)
     learning_content = LessonLearningContentSerializer(read_only=True)
 
     def get_completed_at(self, lesson):
@@ -114,4 +134,4 @@ class LessonDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = ["id", "title", "order", "text_content", "images", "assignments", "course_slug", "completed_at", "learning_content"]
+        fields = ["id", "title", "order", "text_content", "images", "assignments", "course_slug", "completed_at", "learning_content", "attachments"]

@@ -513,7 +513,19 @@
     "hierarchyBoundary": "AI is broader than machine learning. LLMs are not all of AI or all of generative AI.",
     "exploreSteps": "Explore the steps",
     "exploreItems": "Explore the comparison",
-    "authoredActivity": "Interactive presentation added for this course; the source explanation is preserved above."
+    "authoredActivity": "Interactive presentation added for this course; the source explanation is preserved above.",
+    "enlargeImage": "Enlarge image",
+    "closeImage": "Close image",
+    "downloadSubtitles": "Download subtitles (SRT)",
+    "audioTranscript": "Audio transcript or description",
+    "attachments": "Audio and materials",
+    "addAttachment": "Add audio or subtitles",
+    "attachmentFile": "MP3/WAV up to 20 MB; SRT up to 1 MB",
+    "attachmentLabel": "Material label",
+    "attachmentCaption": "Caption",
+    "attachmentProvenance": "Provenance and permissions",
+    "attachmentSection": "Place after section",
+    "attachmentFallback": "Separate materials block"
   },
   "selectionMap": {
     "title": "AI service selection map",
