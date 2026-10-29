@@ -202,16 +202,17 @@ class MediaModule4Tests(TestCase):
         from PIL import Image
         root=Path(settings.BASE_DIR)
         manifest=json.loads((root/'docs/courses/media-module-4-assets.json').read_text())
-        self.assertEqual(len(manifest['assets']),5)
+        self.assertEqual(len(manifest['assets']),7)
         for entry in manifest['assets']:
             self.assertEqual(entry['lesson_title'], TITLES[entry['lesson_order']-1])
-            for field in ['purpose','after_section','caption_ru','alternative_ru','provenance']:
+            for field in ['purpose','after_section','caption_ru','provenance']:
                 self.assertTrue(entry[field])
             self.assertIn(entry['after_section'],load_content()['lessons'][entry['lesson_order']-1]['source_sections'])
-            if entry['status']=='ready_local_not_imported':
+            if entry['status'] in ('ready_local_not_imported','approved'):
                 self.assertTrue((root/manifest['asset_directory']/entry['filename']).is_file())
             else:
-                self.assertEqual(entry['status'],'awaiting_creation')
+                self.assertEqual(entry['status'],'pending_human_review')
+                self.assertFalse(entry['human_review_approved'])
         with Image.open(root/'course_assets/module_4/m4-l3-audio-workflow.png') as image:
             self.assertEqual(image.format,'PNG')
             self.assertEqual(image.size,(1600,900))

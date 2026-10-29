@@ -1,0 +1,75 @@
+{
+  "status": "author_approved_finalized",
+  "audio": {
+    "m4-l10-silero-ru-roman-approved.wav": {
+      "sha256": "2c5b51061c22733b28738b2a662115773b2ee9aa53d3207d5bae27f6bd8d12f1",
+      "duration_seconds": 19.2625,
+      "sample_rate": 24000,
+      "channels": 1,
+      "sample_width": 2,
+      "approved_source_label": "ru-roman-variant-b-clear-pauses.wav"
+    },
+    "m4-l11-silero-ru-roman-approved.wav": {
+      "sha256": "1229c8d93c90674780a25f41eb872cb45b7882fcd281005204d2392856b034dc",
+      "duration_seconds": 8.5625,
+      "sample_rate": 24000,
+      "channels": 1,
+      "sample_width": 2,
+      "approved_source_label": "m4-l11-ru-roman-speech-candidate.wav"
+    },
+    "m4-l12-silero-ru-roman-before.wav": {
+      "sha256": "58660a175bae0834d400927dbe95b62b5be3c95afcde13c8ae65f523c2f1dbe6",
+      "duration_seconds": 8.5625,
+      "sample_rate": 24000,
+      "channels": 1,
+      "sample_width": 2,
+      "approved_source_label": "m4-l12-ru-roman-room-before-v2.wav"
+    },
+    "m4-l12-silero-ru-roman-after-dsp.wav": {
+      "sha256": "94300584112f4086d868386ea5a74535f84a69cb7d8d667766b14ba55a0783dc",
+      "duration_seconds": 8.5625,
+      "sample_rate": 24000,
+      "channels": 1,
+      "sample_width": 2,
+      "approved_source_label": "m4-l12-filter-strong-v3.wav"
+    }
+  },
+  "speaker": "ru_roman",
+  "model_id": "v5_cis_base_nostress",
+  "model_sha256": "0405777e332906f0644e08a680f7cfdc2137ea864090079c1fdd30a43c1b8761",
+  "license_notice": "course_assets/module_4/LICENSE_CIS",
+  "processing": "Conventional DSP strong v3, not AI denoising. Author selected despite reported quiet-frame attenuation tradeoff; no new processing.",
+  "lesson11_cues": [
+    {
+      "text": "Команда использует чистую сторону листа.",
+      "synthesis_input": "Ком+анда исп+ользует ч+истую ст+орону лист+а.",
+      "ssml": "<speak><prosody rate=\"100%\">Ком+анда исп+ользует ч+истую ст+орону лист+а.</prosody></speak>",
+      "start_sample": 4800,
+      "end_sample": 70800,
+      "segment_pcm_sha256": "86a7ea7e81644bd940a4434400c0c3fe84a913eac5f5dbcc0a8eafb766ffc32f"
+    },
+    {
+      "text": "Это пример повторного использования бумаги,",
+      "synthesis_input": "+Это прим+ер повт+орного исп+ользования бум+аги,",
+      "ssml": "<speak><prosody rate=\"100%\">+Это прим+ер повт+орного исп+ользования бум+аги,</prosody></speak>",
+      "start_sample": 78000,
+      "end_sample": 147000,
+      "segment_pcm_sha256": "59b0cca111c023f5bbebbc3c70691cdbda22136b7e399e134cae8805b07efc1a"
+    },
+    {
+      "text": "а не измерение экономии.",
+      "synthesis_input": "а не измер+ение экон+омии.",
+      "ssml": "<speak><prosody rate=\"100%\">а не измер+ение экон+омии.</prosody></speak>",
+      "start_sample": 154200,
+      "end_sample": 199500,
+      "segment_pcm_sha256": "d007d5f4f88930458c1c93f6978299b9a7a7554c91cce3c089218cbc11e8c03b"
+    }
+  ],
+  "lesson12_filter": {
+    "oversubtraction": 2.3,
+    "exponent": 1.0,
+    "min_gain": 0.04
+  },
+  "lesson12_input_sha256": "58660a175bae0834d400927dbe95b62b5be3c95afcde13c8ae65f523c2f1dbe6",
+  "lesson12_output_sha256": "94300584112f4086d868386ea5a74535f84a69cb7d8d667766b14ba55a0783dc"
+}

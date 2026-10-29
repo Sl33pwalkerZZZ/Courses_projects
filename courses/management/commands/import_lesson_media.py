@@ -2,6 +2,7 @@
 import hashlib
 import json
 import warnings
+import wave
 from io import BytesIO
 from pathlib import Path
 
@@ -14,9 +15,43 @@ from django.db import transaction
 
 from courses.attachments import attachments_ready, store_attachment
 from courses.management.commands.import_media_module import create_backup
-from courses.models import Course, LessonImage
+from courses.models import Course, LessonImage, LessonAttachment
 from studio.models import LessonImageDescription
 from studio.serializers import LessonWriteSerializer
+
+
+def validate_subtitle_pair(entry, raw, root, entries):
+    """Optional explicit SRT/WAV pair: exact text and actual duration, no estimates."""
+    import re
+    from courses.attachments import validate_file, validate_srt
+    name = entry['matching_audio_filename']
+    if not isinstance(name, str) or Path(name).name != name or '\\' in name or not name.lower().endswith('.wav'):
+        raise ValueError('Synchronized subtitles require a local plain WAV filename.')
+    matching = [a for a in entries if a.get('filename') == name and a.get('kind') == 'audio'
+                and a.get('lesson_order') == entry['lesson_order']
+                and a.get('status') in ('ready_local_not_imported', 'approved')]
+    if len(matching) != 1 or entry.get('kind') != 'srt':
+        raise ValueError('Subtitle pair must identify one ready audio asset in the same lesson.')
+    path = (root / name).resolve()
+    if not path.is_relative_to(root) or not path.is_file() or path.stat().st_size > 20*1024*1024:
+        raise ValueError('Matching WAV missing, escaping or oversized.')
+    audio = path.read_bytes()
+    validate_file(name, audio)
+    if matching[0].get('sha256') and hashlib.sha256(audio).hexdigest() != matching[0]['sha256']:
+        raise ValueError('Matching WAV checksum conflict.')
+    text = validate_srt(raw)
+    blocks = re.split(r'\n\s*\n', text.strip())
+    transcript = ' '.join(' '.join(block.splitlines()[2:]) for block in blocks)
+    if ' '.join(transcript.split()) != ' '.join(entry['alternative_ru'].split()):
+        raise ValueError('Synchronized subtitle text differs from its reference transcript.')
+    with wave.open(BytesIO(audio),'rb') as recording:
+        frames, rate = recording.getnframes(), recording.getframerate()
+    for block in blocks:
+        for stamp in block.splitlines()[1].split(' --> '):
+            h,m,tail = stamp.split(':');seconds,millis = tail.split(',')
+            milliseconds = ((int(h)*60+int(m))*60+int(seconds))*1000+int(millis)
+            if milliseconds*rate > frames*1000:
+                raise ValueError('Subtitle cue exceeds actual recording duration.')
 
 
 def load_assets(manifest, assets_dir):
@@ -28,6 +63,20 @@ def load_assets(manifest, assets_dir):
             if entry['status'] not in ('ready_local_not_imported', 'approved'):
                 skipped.append(entry['filename'])
                 continue
+            if entry.get('human_review_approved') is False:
+                raise ValueError('Asset is pending human listening approval.')
+            if (entry.get('transcript_verified') is False
+                    or entry.get('distribution_permission_confirmed') is False):
+                raise ValueError('Asset requires verified transcript and distribution permission before import.')
+            license_info = entry.get('license', {})
+            if license_info.get('commercial_use_authorized') is False:
+                if (data.get('usage_context') != license_info.get('allowed_use')
+                        or license_info.get('allowed_use') != 'non_commercial_educational_demonstration'
+                        or not license_info.get('attribution_required')
+                        or not license_info.get('attribution_ru')
+                        or license_info['attribution_ru'] not in entry.get('caption_ru', '')
+                        or not license_info.get('commercial_distribution_warning')):
+                    raise ValueError('Restricted audio requires the approved non-commercial context and visible attribution.')
             name = entry['filename']
             if not isinstance(name, str) or Path(name).name != name or '\\' in name or name in seen:
                 raise ValueError('Unsafe or duplicate asset name.')
@@ -36,6 +85,10 @@ def load_assets(manifest, assets_dir):
             if not path.is_relative_to(root) or not path.is_file() or path.stat().st_size > 20*1024*1024:
                 raise ValueError(f'Missing, escaping or oversized asset: {name}')
             raw = path.read_bytes()
+            if entry.get('sha256') and hashlib.sha256(raw).hexdigest() != entry['sha256']:
+                raise ValueError(f'Asset checksum differs from the reviewed manifest: {name}')
+            if entry.get('matching_audio_filename'):
+                validate_subtitle_pair(entry, raw, root, data['assets'])
             if (not isinstance(entry.get('caption_ru'),str) or len(entry['caption_ru']) > 2000
                     or not isinstance(entry.get('alternative_ru'),str) or not entry['alternative_ru'].strip()
                     or not isinstance(entry.get('label_ru'),str) or not entry['label_ru'].strip()):
@@ -66,7 +119,7 @@ def load_assets(manifest, assets_dir):
         if not prepared:
             raise ValueError('No ready/approved local assets to import.')
         return data, prepared, skipped
-    except (OSError, KeyError, ValueError, TypeError, Image.DecompressionBombError, Image.DecompressionBombWarning) as exc:
+    except (OSError, KeyError, ValueError, TypeError, ValidationError, wave.Error, Image.DecompressionBombError, Image.DecompressionBombWarning) as exc:
         raise CommandError(f'Invalid media manifest/assets: {exc}') from exc
 
 
@@ -137,8 +190,11 @@ class Command(BaseCommand):
         plan=import_plan(data,assets)
         ready=attachments_ready()
         self.stdout.write(json.dumps({'mode':'apply' if options['apply'] else 'dry-run',
-            'migration_required':not ready,'create':sum(p['create'] for p in plan),'skipped_unapproved_or_missing_audio':skipped,
+            'migration_required':not ready,'apply_blocked_reason':data.get('apply_blocked_reason'), 'create':sum(p['create'] for p in plan),'skipped_unapproved_or_missing_audio':skipped,
             'assets':[{'lesson_id':p['lesson'].pk,'filename':p['entry']['filename'],'kind':p['entry']['kind'],'after_section':p['entry']['after_section']} for p in plan]},ensure_ascii=False))
+        replacing_existing = data.get('replacement_required') and LessonAttachment.objects.filter(lesson__module__course__slug=data['course_slug'],lesson__module__order=data['module_order']).exists()
+        if options['apply'] and (replacing_existing or data.get('apply_blocked_reason') or any(e.get('status') == 'pending_human_review' for e in data['assets'])):
+            raise CommandError(data.get('apply_blocked_reason') or ('Use finalize_module4_media; create-only import would duplicate existing demonstrations.' if data.get('replacement_required') else 'Manifest contains assets pending human review; partial import is blocked.'))
         if not options['apply'] or not any(p['create'] for p in plan):
             self.stdout.write('No writes (dry-run or unchanged no-op).')
             return

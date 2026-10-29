@@ -23,6 +23,12 @@ class LessonMediaImportTests(TestCase):
         self.override.enable();self.addCleanup(self.override.disable)
         self.manifest=self.root/'manifest.json'
         data=json.loads((Path(settings.BASE_DIR)/'docs/courses/media-module-4-assets.json').read_text())
+        # Approval here applies only to isolated test fixtures, never the real manifest.
+        data.pop('apply_blocked_reason',None)
+        data.pop('replacement_required',None)
+        for asset in data['assets']:
+            if asset['status']=='pending_human_review':
+                asset['status']='approved';asset['human_review_approved']=True
         self.manifest.write_text(json.dumps(data))
         author=get_user_model().objects.create_user(username='fixture-owner',role='author')
         direction=Direction.objects.create(name='Fixture',slug='fixture')
@@ -41,19 +47,39 @@ class LessonMediaImportTests(TestCase):
         return output.getvalue()
 
     def test_dry_run_creates_neither_records_nor_files(self):
-        self.assertIn('"create": 2',self.run_import())
+        self.assertIn('"create": 7',self.run_import())
         self.backup.assert_not_called()
         self.assertEqual(LessonAttachment.objects.count(),0)
         self.assertEqual(LessonImage.objects.count(),0)
         self.assertFalse((self.root/'private').exists())
         self.assertEqual(curriculum_snapshot(self.course),self.before)
 
-    def test_srt_and_diagram_only_idempotent_preserves_theory(self):
+    def test_all_ready_media_idempotent_preserves_theory(self):
         self.run_import('--apply')
-        self.assertEqual(LessonAttachment.objects.count(),1)
-        self.assertEqual(LessonAttachment.objects.get().kind,'srt')
+        self.assertEqual(LessonAttachment.objects.count(),6)
+        self.assertEqual(LessonAttachment.objects.filter(kind='audio').count(),4)
+        self.assertFalse(LessonAttachment.objects.filter(filename='m4-l1-f1-synthetic-narration.wav').exists())
+        primary=LessonAttachment.objects.get(filename='m4-l10-silero-ru-roman-approved.wav')
+        self.assertIn('Silero',primary.caption)
+        self.assertNotIn('ElevenLabs',primary.caption)
+        self.assertFalse(LessonAttachment.objects.filter(filename='m4-l1-f1-natural-narration.mp3').exists())
+        self.assertIn('MIT License',primary.provenance)
+        self.assertEqual(LessonAttachment.objects.filter(kind='srt').count(),2)
         self.assertEqual(LessonImage.objects.count(),1)
-        attachment=LessonAttachment.objects.get()
+        from rest_framework.test import APIClient
+        client=APIClient();client.force_authenticate(self.course.author)
+        data=json.loads(self.manifest.read_text())
+        for entry in [e for e in data['assets'] if e['kind']=='audio' and e['status'] in ('ready_local_not_imported','approved')]:
+            row=LessonAttachment.objects.get(filename=entry['filename'])
+            self.assertEqual(row.lesson.order,entry['lesson_order'])
+            self.assertEqual(row.after_section,entry['after_section'])
+            self.assertEqual(row.transcript,entry['alternative_ru'])
+            response=client.get(f'/api/lesson-attachments/{row.pk}/')
+            self.assertEqual(response.status_code,200)
+            self.assertEqual(response['Cache-Control'],'private, no-store')
+            self.assertEqual(b''.join(response.streaming_content),(Path(settings.BASE_DIR)/'course_assets/module_4'/entry['filename']).read_bytes())
+            response.close()
+        attachment=LessonAttachment.objects.get(filename='m4-l2-f1-example.srt')
         self.assertIn('5. SRT',attachment.after_section)
         self.assertEqual(self.backup.call_count,1)
         self.assertIn('"create": 0',self.run_import('--apply'))
@@ -65,9 +91,33 @@ class LessonMediaImportTests(TestCase):
                 lesson['learning_content']['interactions']=[]
         self.assertEqual(after,self.before)
 
+    def test_real_pending_manifest_only_dry_runs_and_rejects_partial_apply(self):
+        data=json.loads((Path(settings.BASE_DIR)/'docs/courses/media-module-4-assets.json').read_text())
+        data['apply_blocked_reason']='Lesson 12 requires author listening approval'
+        for entry in data['assets']:
+            if entry['lesson_order']==3 and entry['kind']=='audio':
+                entry['status']='pending_human_review';entry['human_review_approved']=False
+        self.manifest.write_text(json.dumps(data))
+        output=self.run_import('--dry-run')
+        self.assertIn('"create": 5',output)
+        self.assertIn('m4-l12-silero-ru-roman-before.wav',output)
+        with self.assertRaisesMessage(CommandError,'requires author listening approval'):
+            self.run_import('--apply')
+        self.assertEqual(LessonAttachment.objects.count(),0)
+        self.backup.assert_not_called()
+
+    def test_status_change_alone_cannot_approve_pending_audio(self):
+        data=json.loads((Path(settings.BASE_DIR)/'docs/courses/media-module-4-assets.json').read_text())
+        for entry in data['assets']:
+            if entry['lesson_order']==3 and entry['kind']=='audio':
+                entry['status']='approved';entry['human_review_approved']=False
+        self.manifest.write_text(json.dumps(data))
+        with self.assertRaisesMessage(CommandError,'pending human listening approval'):
+            self.run_import('--dry-run')
+
     def test_metadata_conflict_stops_without_modifying_existing_assets(self):
         self.run_import('--apply')
-        asset=LessonAttachment.objects.get();asset.caption='Teacher change';asset.save()
+        asset=LessonAttachment.objects.get(filename='m4-l2-f1-example.srt');asset.caption='Teacher change';asset.save()
         with self.assertRaises(CommandError):self.run_import('--apply')
         asset.refresh_from_db();self.assertEqual(asset.caption,'Teacher change')
         self.assertEqual(self.backup.call_count,1)
