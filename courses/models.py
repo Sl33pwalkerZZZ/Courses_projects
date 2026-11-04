@@ -123,7 +123,7 @@ class LessonLearningContent(models.Model):
 class LessonAttachment(models.Model):
     """Private authored audio/subtitles; independent of assignments/progress."""
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='attachments')
-    kind = models.CharField(max_length=10, choices=[('audio', 'Audio'), ('srt', 'Subtitles')])
+    kind = models.CharField(max_length=10, choices=[('audio', 'Audio'), ('srt', 'Subtitles'), ('video', 'Video'), ('vtt', 'WebVTT')])
     file = models.FileField(upload_to='lessons/attachments/', max_length=255)
     filename = models.CharField(max_length=255)
     mime_type = models.CharField(max_length=80)
@@ -138,3 +138,12 @@ class LessonAttachment(models.Model):
     class Meta:
         ordering = ['order', 'pk']
         constraints = [models.UniqueConstraint(fields=['lesson', 'sha256'], name='unique_lesson_attachment_bytes')]
+
+
+class LessonPlaybackGrant(models.Model):
+    """Short-lived revocable native playback authorization; never stores JWTs."""
+    token_hash = models.CharField(max_length=64, unique=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    attachment = models.ForeignKey(LessonAttachment, on_delete=models.CASCADE)
+    expires_at = models.DateTimeField(db_index=True)
+    revoked_at = models.DateTimeField(null=True, blank=True)

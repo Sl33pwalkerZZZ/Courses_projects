@@ -4,7 +4,11 @@ from progress.views import CourseEnrollmentRequestsView, EnrollView
 from reviews.views import CourseReviewsView, OwnReviewDetailView
 from .views import CourseDetailView, CourseListView, LessonDetailView, LessonImageView, InstructorCoursePreviewView, LessonAttachmentView
 
+from .video import PlaybackGrantView, PlaybackView
+
 urlpatterns = [
+    path('lesson-attachments/<int:pk>/playback-grant/', PlaybackGrantView.as_view(), name='lesson-playback-grant'),
+    path('lesson-attachments/<int:pk>/playback/', PlaybackView.as_view(), name='lesson-playback'),
     path("lesson-attachments/<int:pk>/", LessonAttachmentView.as_view(), name="lesson-attachment"),
     path("instructor/courses/<slug:slug>/preview/", InstructorCoursePreviewView.as_view(), name="instructor-course-preview"),
     path("courses/", CourseListView.as_view(), name="course-list"),

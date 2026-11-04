@@ -84,9 +84,16 @@ def validate_file(filename, raw):
     if not isinstance(filename, str) or Path(filename).name != filename or '\\' in filename:
         raise ValidationError('Use a plain attachment filename.')
     suffix = Path(filename).suffix.lower()
-    limit = MAX_SRT if suffix == '.srt' else MAX_AUDIO
+    from .video_validation import video_limit, validate_video, validate_vtt
+    limit = video_limit() if suffix == '.mp4' else MAX_SRT if suffix in ('.srt', '.vtt') else MAX_AUDIO
     if not isinstance(raw, bytes) or not raw or len(raw) > limit:
         raise ValidationError('Empty or oversized lesson attachment.')
+    if suffix == '.mp4':
+        validate_video(raw)
+        return 'video', 'video/mp4'
+    if suffix == '.vtt':
+        validate_vtt(raw)
+        return 'vtt', 'text/vtt'
     if suffix == '.srt':
         validate_srt(raw)
         return 'srt', 'application/x-subrip'
@@ -106,7 +113,7 @@ def validate_file(filename, raw):
     if suffix == '.mp3':
         validate_mp3(raw)
         return 'audio', 'audio/mpeg'
-    raise ValidationError('Only MP3, PCM WAV and UTF-8 SRT are supported.')
+    raise ValidationError('Only MP3, PCM WAV, MP4/H.264/AAC, UTF-8 SRT and WebVTT are supported.')
 
 
 def validate_metadata(lesson, kind, metadata):
@@ -116,8 +123,8 @@ def validate_metadata(lesson, kind, metadata):
     for key, maximum in limits.items():
         if not isinstance(metadata[key], str) or len(metadata[key]) > maximum:
             raise ValidationError(f'Invalid {key}.')
-    if not metadata['label'].strip() or not metadata['provenance'].strip() or (kind == 'audio' and not metadata['transcript'].strip()):
-        raise ValidationError('A label, provenance and audio transcript/equivalent are required.')
+    if not metadata['label'].strip() or not metadata['provenance'].strip() or (kind in ('audio', 'video') and not metadata['transcript'].strip()):
+        raise ValidationError('A label, provenance and audio/video transcript/equivalent are required.')
     anchor = metadata['after_section']
     learning = getattr(lesson, 'learning_content', None)
     if anchor and (not learning or anchor not in learning.source_sections or lesson.text_content.split('\n\n').count(anchor) != 1):

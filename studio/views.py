@@ -568,10 +568,15 @@ class LessonAttachmentsView(StudioView):
                 if course.is_published:
                     raise ValidationError('Published content is locked.')
                 upload = request.FILES.get('file')
-                if not upload or upload.size > MAX_AUDIO:
-                    raise ValidationError({'file': 'Upload a bounded MP3, PCM WAV or UTF-8 SRT file.'})
+                from courses.video_validation import video_limit
+                limit = video_limit() if upload and Path(upload.name).suffix.lower() == '.mp4' else MAX_AUDIO
+                if not upload or upload.size > limit:
+                    raise ValidationError({'file': 'Upload a bounded supported lesson media file.'})
+                mime = (getattr(upload, 'content_type', '') or '').split(';')[0].lower()
+                if Path(upload.name).suffix.lower() == '.mp4' and mime not in ('video/mp4', 'application/octet-stream'):
+                    raise ValidationError({'file': 'MP4 MIME type must be video/mp4.'})
                 metadata = {key: request.data.get(key, '') for key in ('label','caption','transcript','provenance','after_section')}
-                row, created = store_attachment(lesson, upload.name, upload.read(MAX_AUDIO+1), metadata, created_files)
+                row, created = store_attachment(lesson, upload.name, upload.read(limit+1), metadata, created_files)
                 if created:
                     editable(course)
                 result = LessonAttachmentSerializer(row).data

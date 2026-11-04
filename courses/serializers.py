@@ -103,9 +103,25 @@ class LessonAttachmentSerializer(serializers.ModelSerializer):
     def get_url(self, attachment):
         return reverse('lesson-attachment', args=[attachment.pk])
 
+    poster_image_id = serializers.SerializerMethodField()
+
+    def get_poster_image_id(self, attachment):
+        if attachment.kind != 'video' or not attachment.after_section:
+            return None
+        content = getattr(attachment.lesson, 'learning_content', None)
+        candidates = {item.get('image_id') for item in (content.interactions if content else [])
+                      if isinstance(item, dict) and item.get('type') == 'image_placement' and item.get('after_section') == attachment.after_section}
+        images = list(attachment.lesson.images.filter(pk__in=candidates).values_list('pk', flat=True))
+        return images[0] if len(images) == 1 else None
+
+    playback_grant_url = serializers.SerializerMethodField()
+
+    def get_playback_grant_url(self, attachment):
+        return reverse('lesson-playback-grant', args=[attachment.pk]) if attachment.kind in ('video', 'vtt') else None
+
     class Meta:
         model = LessonAttachment
-        fields = ['id', 'kind', 'filename', 'mime_type', 'label', 'caption', 'transcript', 'after_section', 'order', 'url']
+        fields = ['id', 'kind', 'filename', 'mime_type', 'label', 'caption', 'transcript', 'after_section', 'order', 'url', 'playback_grant_url', 'poster_image_id']
 
 
 def lesson_attachments(lesson):
