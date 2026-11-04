@@ -3,13 +3,15 @@ import { before, after, test } from 'node:test'
 import { readFile } from 'node:fs/promises'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
+import { MemoryRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import { createInstance } from 'i18next'
 import { createTestServer } from './helpers/vite.mjs'
-let server, Card
+let server, Card, Navigation
 before(async () => {
   server = await createTestServer()
   Card = (await server.ssrLoadModule('/src/pages/instructor/EnrollmentRequests.jsx')).EnrollmentRequestCard
+  Navigation = (await server.ssrLoadModule('/src/components/instructor/StudioNavigation.jsx')).default
 })
 after(async () => server?.close())
 for (const language of ['ru', 'kk', 'en']) {
@@ -39,7 +41,13 @@ for (const language of ['ru', 'kk', 'en']) {
 }
 test('review route and navigation use moderator access rather than author role', async () => {
   const app = await readFile(new URL('../src/App.jsx', import.meta.url), 'utf8')
-  const layout = await readFile(new URL('../src/pages/instructor/InstructorStudio.jsx', import.meta.url), 'utf8')
+  const dictionary = JSON.parse(await readFile(new URL('../src/i18n/locales/en.json', import.meta.url), 'utf8'))
+  const i18n = createInstance()
+  await i18n.init({ lng: 'en', resources: { en: { translation: dictionary } } })
   assert.match(app, /path="enrollment-requests" element={<StudioAccessGuard moderator><EnrollmentRequests/)
-  assert.match(layout, /identity\.is_moderator && <NavLink to="\/instructor\/enrollment-requests"/)
+  for (const moderator of [false, true]) {
+    const html = renderToStaticMarkup(createElement(I18nextProvider, { i18n }, createElement(MemoryRouter, null,
+      createElement(Navigation, { identity: { is_moderator: moderator, can_manage_instructors: false } }))))
+    assert.equal(html.includes('href="/instructor/enrollment-requests"'), moderator)
+  }
 })

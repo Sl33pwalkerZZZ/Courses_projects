@@ -9,3 +9,18 @@
 .certificate-verification dl > div { margin-block: 1rem; }
 .certificate-verification dt { font-weight: 600; }
 .certificate-verification dd { margin: .3rem 0 0; overflow-wrap: anywhere; }
+
+/* Public verification and student certificates; no issuance or eligibility edits. */
+.certificate-verification { padding: clamp(24px,4vw,48px); border: 1px solid var(--v2-border); border-top: 3px solid var(--v2-link); border-radius: 24px; background: var(--v2-surface); }
+.certificate-verification h1 { margin: 0 0 28px; font-size: clamp(28px,4vw,42px); line-height: 1.2; font-weight: 600; letter-spacing: -.03em; overflow-wrap: anywhere; }
+.certificate-verification [data-certificate-status] { padding: 16px; background: var(--v2-surface-raised); border-radius: 12px; }
+.certificate-verification [data-certificate-status="valid"] { border-inline-start: 3px solid var(--v2-success); }
+.certificate-verification [data-certificate-status="revoked"] { border-inline-start: 3px solid var(--v2-danger); }
+.certificate-verification dl { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; margin: 32px 0; }
+.certificate-verification dl > div { min-width: 0; margin: 0; }
+.certificate-verification dt { font-size: 13px; font-weight: 400; color: var(--v2-text-muted); }
+.certificate-verification dd { margin-top: 8px; line-height: 1.7; }
+.profile-page .certificate-section { padding: 32px; background: var(--v2-surface); border-radius: 20px; }
+.profile-page .certificate-card { padding: 24px; background: var(--v2-surface-raised); }
+.profile-page .certificate-actions > * { max-width: 100%; overflow-wrap: anywhere; }
+@media(max-width:600px) { .certificate-verification { width: 100%; margin-block: 24px; padding: 24px 20px; border-radius: 20px; } .certificate-verification dl { grid-template-columns: minmax(0,1fr); } .profile-page .certificate-section, .profile-page .certificate-card { padding: 24px 20px; } }

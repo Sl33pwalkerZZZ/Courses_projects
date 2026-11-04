@@ -47,7 +47,7 @@ test('caption and figure appear between original theory sections without a dupli
  assert.equal((html.match(/<figure /g)||[]).length,1)
  assert.equal((html.match(/Authored explanatory caption/g)||[]).length,1)
  assert.ok(html.indexOf('Original theory')<html.indexOf('<figure'))
- assert.ok(html.indexOf('</figure>')<html.indexOf('Next section'))
+ assert.ok(html.indexOf('</figure>')<html.indexOf('>Next section</h2>'))
  assert.match(html,/<figcaption>Authored explanatory caption<\/figcaption>/)
  assert.match(html,/Continued theory/)
  assert.match(html,/lesson-material-images/)

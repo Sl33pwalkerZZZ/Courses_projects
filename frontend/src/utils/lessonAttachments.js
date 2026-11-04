@@ -3,11 +3,15 @@ export function attachmentLayout(lesson, sections) {
   const anchors = new Set((sections || []).map(section => section.heading))
   const bySection = new Map(), fallback = [], seen = new Set()
   for (const asset of lesson.attachments || []) {
-    if (!Number.isSafeInteger(asset.id) || asset.id <= 0 || !['audio', 'srt'].includes(asset.kind) || seen.has(asset.id)) continue
+    if (!Number.isSafeInteger(asset.id) || asset.id <= 0 || !['audio', 'srt', 'video', 'vtt'].includes(asset.kind) || seen.has(asset.id)) continue
     seen.add(asset.id)
-    if (!anchors.has(asset.after_section)) { fallback.push(asset); continue }
+    if (asset.kind === 'vtt') continue
+    const subtitles = (lesson.attachments || []).filter(item => item.kind === 'vtt' && item.after_section && item.after_section === asset.after_section)
+    const videos = (lesson.attachments || []).filter(item => item.kind === 'video' && item.after_section === asset.after_section)
+    const placed = asset.kind === 'video' && subtitles.length === 1 && videos.length === 1 ? { ...asset, subtitle_attachment_id: subtitles[0].id } : asset
+    if (!anchors.has(asset.after_section)) { fallback.push(placed); continue }
     const group = bySection.get(asset.after_section) || []
-    group.push(asset)
+    group.push(placed)
     bySection.set(asset.after_section, group)
   }
   return { bySection, fallback }

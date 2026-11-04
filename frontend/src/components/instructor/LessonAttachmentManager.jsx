@@ -20,10 +20,10 @@ export default function LessonAttachmentManager({ lesson, locked, onSaved }) {
       Object.entries(fields).forEach(([key, value]) => body.append(key, value))
       action.run(signal => api.post(`/studio/lessons/${lesson.id}/attachments/`, body, { signal }), onSaved)
     }}><fieldset disabled={locked || action.busy}><legend>{t('learning.addAttachment')}</legend>
-      <Input type="file" label={t('learning.attachmentFile')} accept=".mp3,.wav,.srt" required onChange={event => setFile(event.target.files[0] || null)} />
+      <Input type="file" label={t('learning.attachmentFile')} accept=".mp3,.wav,.srt,.mp4,.vtt" required onChange={event => setFile(event.target.files[0] || null)} />
       <Input label={t('learning.attachmentLabel')} value={fields.label} required maxLength={255} onChange={e => update('label', e.target.value)} />
       <Input multiline label={t('learning.attachmentCaption')} value={fields.caption} maxLength={2000} onChange={e => update('caption', e.target.value)} />
-      <Input multiline label={t('learning.audioTranscript')} value={fields.transcript} required={Boolean(file && !file.name.toLowerCase().endsWith('.srt'))} maxLength={20000} onChange={e => update('transcript', e.target.value)} />
+      <Input multiline label={t(file && /\.mp4$/i.test(file.name) ? 'learning.videoTranscript' : 'learning.audioTranscript')} value={fields.transcript} required={Boolean(file && !(/\.(srt|vtt)$/i.test(file.name)))} maxLength={20000} onChange={e => update('transcript', e.target.value)} />
       <Input multiline label={t('learning.attachmentProvenance')} value={fields.provenance} required maxLength={4000} onChange={e => update('provenance', e.target.value)} />
       <Select label={t('learning.attachmentSection')} value={fields.after_section} onChange={e => update('after_section', e.target.value)} options={[{ value: '', label: t('learning.attachmentFallback') }, ...(lesson.learning_content?.source_sections || []).map(value => ({ value, label: value }))]} />
     </fieldset><Notice {...action} /><Button type="submit" variant="secondary" disabled={locked || action.busy}>{t('instructorStudio.upload')}</Button></form>

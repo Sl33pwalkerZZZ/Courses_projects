@@ -481,3 +481,19 @@ test('theme and locale storage events do not replace the auth snapshot or notify
     assert.equal(changes, initialChanges)
   } finally { unsubscribe() }
 })
+
+test('obsolete playback grant is revoked without returning it to the replacement account', async () => {
+  const pending = deferred(), originalFetch = globalThis.fetch, revoked = []
+  globalThis.fetch = async (url, options) => { revoked.push({ url, options }); return { ok: true } }
+  try {
+    const auth = await setup(credentials(1), async config => { await pending.promise; return response(config, { url: '/api/lesson-attachments/8/playback/', revoke_token: 'fixture-revocation-proof' }) })
+    const request = auth.api.post('/lesson-attachments/8/playback-grant/', {}, { baseURL: '/api' })
+    await Promise.resolve()
+    auth.otherTabLogin(2)
+    pending.resolve()
+    await assert.rejects(request, canceled)
+    assert.equal(revoked.length, 1)
+    assert.deepEqual(JSON.parse(revoked[0].options.body), { revoke_token: 'fixture-revocation-proof' })
+    assert.equal(revoked[0].options.headers.Authorization, undefined)
+  } finally { globalThis.fetch = originalFetch }
+})

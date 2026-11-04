@@ -41,11 +41,11 @@ for (const lang of ['en', 'ru', 'kk']) {
     const html = render(HomeHero, {}, lang)
     const t = translations.get(lang).t.bind(translations.get(lang))
     assert.match(html, /<h1 id="hero-title">/)
-    assert.ok(html.includes(t('studio.title')))
-    assert.ok(html.includes(t('studio.titleAccent')))
-    assert.ok(html.includes(t('studio.description')))
+    assert.ok(html.includes(t('cinema.title')))
+    assert.ok(html.includes(t('cinema.titleAccent')))
+    assert.ok(html.includes(t('cinema.description')))
     assert.match(html, /href="#course-library"/)
-    assert.match(html, /href="\/register"/)
+    assert.match(html, /href="#learning-workflow"/)
     assert.doesNotMatch(html, /opacity:0|visibility:hidden|studio\.[a-zA-Z]/)
   })
 
@@ -81,13 +81,11 @@ test('shared actions preserve native link, router-link and disabled button seman
   assert.match(button, /disabled=""/)
 })
 
-test('companion is decorative, local and preserves the Figma layer geometry', () => {
-  const html = render(HomeHero)
-  assert.match(html, /class="ai-companion" aria-hidden="true"/)
-  assert.equal((html.match(/<image /g) || []).length, 9)
-  for (const size of [340, 208, 151, 36, 14, 12, 8, 9]) assert.ok(html.includes(`width="${size}" height="${size}"`))
-  assert.match(html, /href="(?:data:image\/svg\+xml,|\/src\/assets\/amethyst\/)/)
-  assert.doesNotMatch(html, /https:\/\/www\.figma\.com|\.png/)
+test('hero presents a real course when supplied and no fictitious progress', () => {
+  const html = render(HomeHero, { courses: [{ id: 41, slug: 'real-course', title: 'Actual public course', description: 'Real description', author: 'Author', level: 'beginner', direction: { name: 'Media', slug: 'media' } }] })
+  assert.match(html, /Actual public course/)
+  assert.match(html, /href="\/courses\/real-course"/)
+  assert.doesNotMatch(html, /ai-companion|completed_lessons|progress_percent/)
 })
 
 test('effective Amethyst colors preserve text/control contrast in both themes and hero surfaces', async () => {

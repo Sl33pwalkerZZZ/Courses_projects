@@ -51,7 +51,7 @@ test('four source tables appear once, with labelled focusable regions and column
   }
   const html = render(mediaLessonSections(lessons[1]))
   assert.ok(html.indexOf('Поэтому работа начинается') < html.indexOf('<table>'))
-  assert.ok(html.indexOf('</table>') < html.indexOf('2. Из чего'))
+  assert.ok(html.indexOf('</table>') < html.search(/<h2[^>]*>2\. Из чего/))
 })
 
 test('same metadata contract works for future courses without IDs or title matching', () => {
@@ -86,7 +86,7 @@ test('prompt examples, rules and original references are visible without interac
   const html = render(mediaLessonSections(lessons[2]))
   assert.match(html, /media-lesson-warning/)
   for (const url of lessons[2].text_content.match(/https?:\/\/[^\s)]+/g)) assert.ok(html.includes(`href="${url}"`))
-  assert.equal((html.match(/<a /g) || []).length, 3)
+  assert.equal((html.match(/<a href="https?:/g) || []).length, 3)
 })
 
 test('LessonMaterial retains objectives and renders fallback for legacy lessons', () => {

@@ -1,22 +1,27 @@
-import { Link, NavLink, Outlet, useNavigate, useOutletContext, useParams } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import api from '../../api'
 import Button from '../../components/ui/Button'
 import { Input, Select, Notice, ResourceState } from '../../components/instructor/StudioShared'
 import { useStudioAction, useStudioResource } from '../../components/instructor/useStudio'
+import StudioDashboard, { StudioDataState, StudioEntrance, StudioPageHeading } from '../../components/instructor/StudioDashboard'
+import StudioCourseCollection from '../../components/instructor/StudioCourseCollection'
 import { studioList } from '../../utils/instructorStudio'
 
 export function Dashboard() {
-  const { t } = useTranslation()
-  const resource = useStudioResource('/studio/dashboard/')
-  return <><h2>{t('instructorStudio.dashboard')}</h2><ResourceState resource={resource}>{data => <div className="instructor-stats">{Object.entries(data?.counts || data || {}).filter(([, value]) => typeof value === 'number').map(([key, value]) => <div className="instructor-panel" key={key}><strong>{value}</strong><span>{t(`instructorStudio.metrics.${key}`, { defaultValue: key.replaceAll('_', ' ') })}</span></div>)}</div>}</ResourceState><div className="instructor-actions"><Button to="/instructor/submissions">{t('instructorStudio.submissions')}</Button><Button to="/instructor/courses/new" variant="secondary">{t('instructorStudio.newCourse')}</Button><Button to="/instructor/courses" variant="secondary">{t('instructorStudio.courses')}</Button></div></>
+  const { identity } = useOutletContext()
+  const metrics = useStudioResource('/studio/dashboard/')
+  const projects = useStudioResource('/studio/courses/')
+  return <StudioDashboard metrics={metrics} projects={projects} moderator={identity.is_moderator} />
 }
 export function CourseList() {
   const { identity } = useOutletContext()
   const { t } = useTranslation()
   const resource = useStudioResource('/studio/courses/')
-  return <><div className="instructor-section-heading"><h2>{t(identity.is_moderator ? 'instructorStudio.allCourses' : 'instructorStudio.courses')}</h2><Button to="/instructor/courses/new">{t('instructorStudio.newCourse')}</Button></div><ResourceState resource={resource}>{data => <div className="instructor-courses">{!studioList(data).length && <p>{t('instructorStudio.noCourses')}</p>}{studioList(data).map(course => <article className="instructor-panel" key={course.id}><span className="instructor-badge">{t(`instructorStudio.${course.is_published ? 'published' : 'draft'}`)}</span><h3><Link to={`/instructor/courses/${course.id}/edit`}>{course.title}</Link></h3><p>{course.description}</p><Button to={`/instructor/courses/${course.id}/edit`} variant="secondary">{t('instructorStudio.edit')}</Button></article>)}</div>}</ResourceState></>
+  return <StudioEntrance><StudioPageHeading title={t(identity.is_moderator ? 'instructorStudio.allCourses' : 'instructorStudio.courses')} description={t('studioVisual.coursesDescription')} />
+    <StudioDataState resource={resource}>{data => <StudioCourseCollection courses={studioList(data)} />}</StudioDataState>
+  </StudioEntrance>
 }
 export function CourseWorkspace() {
   const { id } = useParams()

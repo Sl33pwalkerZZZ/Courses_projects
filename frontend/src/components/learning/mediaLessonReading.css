@@ -22,3 +22,19 @@
 .lesson-image-dialog::backdrop { background: var(--v2-overlay); }
 .lesson-image-dialog img { display: block; width: 100%; height: auto; }
 .lesson-image-close { display: block; margin: 0 0 1rem auto; min-height: 44px; padding: .5rem 1rem; border: 1px solid var(--v2-border); border-radius: 8px; background: var(--v2-surface-raised); color: var(--v2-text); font: inherit; cursor: pointer; }
+
+/* Section navigation is generated from existing headings, never saved content. */
+.lesson-section-navigation { margin: 0 0 40px; padding: 0 20px; border: 1px solid var(--v2-border); border-radius: 12px; background: var(--v2-surface-raised); font-size: 14px; }
+.lesson-section-navigation summary { display: flex; align-items: center; gap: 12px; min-height: 52px; cursor: pointer; color: var(--v2-text); font-weight: 500; }
+.lesson-section-navigation summary::after { content: '+'; margin-inline-start: auto; font-size: 20px; color: var(--v2-link); }
+.lesson-section-navigation[open] summary::after { content: '−'; }
+.lesson-section-navigation summary > span { color: var(--v2-text-muted); font-variant-numeric: tabular-nums; }
+.lesson-section-navigation ol { margin: 0; padding: 8px 0 16px; list-style: none; }
+.lesson-section-navigation li + li { border-top: 1px solid var(--v2-border); }
+.lesson-section-navigation a { display: flex; align-items: center; min-height: 44px; padding-block: 8px; color: var(--v2-link); overflow-wrap: anywhere; line-height: 1.7; }
+.lesson-section-navigation :focus-visible { outline: 3px solid var(--v2-focus); outline-offset: 3px; }
+.media-lesson-section h2 { scroll-margin-top: calc(var(--v2-header-height) + 24px); }
+.media-lesson-section { padding-top: 8px; margin-bottom: 48px; }
+.media-lesson-section + .media-lesson-section { padding-top: 24px; border-top: 1px solid var(--v2-border); }
+.media-lesson-section--example, .media-lesson-section--practice { padding: 24px; }
+@media(max-width:600px) { .lesson-section-navigation { padding-inline: 16px; } .media-lesson-section--example, .media-lesson-section--practice { padding: 20px 16px; } }

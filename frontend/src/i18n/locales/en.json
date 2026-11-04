@@ -518,9 +518,13 @@
     "closeImage": "Close image",
     "downloadSubtitles": "Download subtitles (SRT)",
     "audioTranscript": "Audio transcript or description",
+    "videoSubtitles": "Subtitles",
+    "videoTranscript": "Video transcript or text equivalent",
+    "videoUnauthorized": "Video access has expired or is no longer authorized. Retry to check access.",
+    "videoError": "Unable to play this video. Check your connection or renew access and retry.",
     "attachments": "Audio and materials",
-    "addAttachment": "Add audio or subtitles",
-    "attachmentFile": "MP3/WAV up to 20 MB; SRT up to 1 MB",
+    "addAttachment": "Add lesson media",
+    "attachmentFile": "MP3/WAV, MP4 (H.264/AAC), SRT or WebVTT; server upload limits apply",
     "attachmentLabel": "Material label",
     "attachmentCaption": "Caption",
     "attachmentProvenance": "Provenance and permissions",
@@ -881,5 +885,45 @@
       "assignment_approved": "Required practical assignment approved by an educator",
       "configured_requirements": "Completion requirements configured"
     }
+  },
+  "cinema": {
+    "eyebrow": "Practical AI. Human curiosity.",
+    "title": "From curiosity",
+    "titleAccent": "to capability.",
+    "description": "Learn how AI works, explore real examples and put your knowledge into practice. One course at a time.",
+    "howItWorks": "How learning works",
+    "scroll": "Explore the learning experience",
+    "overview": "Course overview",
+    "previewTitle": "A place to learn by doing",
+    "previewDescription": "Lessons, practical examples and knowledge checks, with formats that vary by course.",
+    "read": "Read",
+    "try": "Try",
+    "continue": "Continue",
+    "showcaseLabel": "Inside AI Courses",
+    "showcaseTitle": "Choose a direction. See where it leads.",
+    "showcaseDescription": "Explore actual courses from the public library. Select a course to see its overview before you start.",
+    "chooseCourse": "Choose a course to preview",
+    "closingTitle": "Your next idea starts here.",
+    "closingDescription": "Find a course that matches your interests. Read the curriculum and choose your next step."
+  },
+  "studioVisual": {
+    "navigation": "Sections",
+    "workspace": "Workspace",
+    "dashboardDescription": "Shape your learning materials, build the curriculum and continue work on your courses.",
+    "coursesDescription": "Your available courses: curriculum, materials and preparation for publication.",
+    "continueWork": "Continue working",
+    "viewAll": "All courses",
+    "quickActions": "Quick actions",
+    "reviewDescription": "Review student work and provide feedback",
+    "libraryDescription": "Curriculum, lessons and course settings",
+    "emptyDescription": "Create your first course or prepare materials with the existing DOCX import.",
+    "modules": "Modules",
+    "lessons": "Lessons"
+  },
+  "studentVisual": {
+    "onThisPage": "In this lesson",
+    "profileNavigation": "Your learning sections",
+    "activity": "Learning activity",
+    "authEyebrow": "Your AI Courses account"
   }
 }

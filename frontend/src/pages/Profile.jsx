@@ -11,7 +11,7 @@ import ProfileLearningActivity from '../components/ProfileLearningActivity'
 import MyCertificates from '../components/certificates/Certificates'
 import './Profile.css'
 
-function EnrollmentCard({ enrollment, index }) {
+export function EnrollmentCard({ enrollment, index = 0 }) {
   const { t, i18n } = useTranslation()
   const { id, course, total_lessons, completed_lessons, progress_percent, is_completed, next_lesson_id, next_lesson_title } = enrollment
   const titleId = `enrollment-course-${id}`
@@ -67,7 +67,7 @@ function EnrollmentCard({ enrollment, index }) {
 export function ProfileLearningSections({ enrollments }) {
   const { t } = useTranslation()
   return <>
-    <section aria-labelledby="profile-courses-title">
+    <section id="profile-learning" aria-labelledby="profile-courses-title">
       <div className="profile-courses-heading">
         <h2 id="profile-courses-title">{t('profile.coursesTitle')}</h2>
         <p>{t('profile.coursesDescription')}</p>
@@ -132,6 +132,12 @@ export default function Profile() {
           </div>
         )}
       </Reveal>
+      {account && <nav className="profile-section-navigation" aria-label={t('studentVisual.profileNavigation')}>
+        <a href="#profile-learning">{t('profile.coursesTitle')}</a>
+        <a href="#profile-activity-title">{t('studentVisual.activity')}</a>
+        <a href="#my-certificates-title">{t('certificates.myTitle')}</a>
+        <a href="#profile-applications-title">{t('enrollment.applicationsTitle')}</a>
+      </nav>}
       <ProfileLearningActivity key={retry} />
       {error ? (
         <div className="catalog-state" role="alert">

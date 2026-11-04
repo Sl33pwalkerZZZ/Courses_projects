@@ -6,3 +6,12 @@
 .lesson-attachment-transcript h4 { margin: 0 0 .5rem; }
 .lesson-attachment-transcript p { white-space: pre-wrap; }
 .lesson-attachment :focus-visible { outline: 3px solid var(--v2-link); outline-offset: 3px; }
+.lesson-video video { display: block; width: 100%; max-width: 100%; max-height: 75vh; aspect-ratio: 16 / 9; background: #111; object-fit: contain; border-radius: var(--v2-radius-md, 12px); }
+
+/* Native controls and protected URLs are untouched; separate controls from prose. */
+.lesson-reading-area .lesson-attachment { padding: 24px; border-radius: 16px; border-top: 2px solid var(--v2-border); background: var(--v2-surface-raised); }
+.lesson-reading-area .lesson-attachment h3 { font-size: 18px; line-height: 1.5; }
+.lesson-reading-area .lesson-attachment-transcript { padding-top: 20px; margin-top: 24px; border-top: 1px solid var(--v2-border); }
+.lesson-reading-area .lesson-attachment-transcript p { font-size: 15px; line-height: 1.8; }
+.lesson-reading-area .lesson-attachment [role="alert"] { padding: 16px; border-inline-start: 3px solid var(--v2-danger); border-radius: 8px; background: var(--v2-surface); }
+@media(max-width:600px) { .lesson-reading-area .lesson-attachment { padding: 20px 16px; } }

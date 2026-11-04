@@ -11,7 +11,10 @@ import LearningWorkflow from '../components/LearningWorkflow'
 import SignalStory from '../components/motion/SignalStory'
 import DiscoveryDirections from '../components/motion/DiscoveryDirections'
 import AnimatedText from '../components/motion/AnimatedText'
+import LearningShowcase from '../components/landing/LearningShowcase'
+import ClosingInvitation from '../components/landing/ClosingInvitation'
 import './CourseCatalog.css'
+import '../styles/cinematic-landing.css'
 
 export default function CourseCatalog() {
   const { t, i18n } = useTranslation()
@@ -55,9 +58,9 @@ export default function CourseCatalog() {
   }
 
   return (
-    <div className="catalog-page v2-scope">
-      <HomeHero />
-      <SignalStory />
+    <div className="catalog-page v2-scope cinematic-landing">
+      <HomeHero courses={courses} failed={Boolean(error)} />
+      <LearningShowcase courses={courses} failed={Boolean(error)} />
       <section id="course-library" className="course-library" aria-labelledby="library-title" aria-busy={!courses && !error}>
         <div className="library-heading studio-section-heading">
           <div><p className="studio-eyebrow">{t('studio.libraryLabel')}</p><h2 id="library-title"><AnimatedText text={t('studio.libraryTitle')} /></h2>
@@ -84,7 +87,9 @@ export default function CourseCatalog() {
           </div>
         )}
       </section>
+      <SignalStory />
       <LearningWorkflow />
+      <ClosingInvitation />
     </div>
   )
 }

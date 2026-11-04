@@ -3,9 +3,14 @@ import { useTranslation } from 'react-i18next'
 import api from '../../api'
 import { useAuthSession } from '../../hooks/useAuth'
 import { downloadAttachment, loadLessonAttachment } from '../../utils/lessonAttachments'
+import LessonVideo from './LessonVideo'
 import './lessonAttachments.css'
 
 export default function LessonAttachment({ asset }) {
+  return asset.kind === 'video' ? <LessonVideo asset={asset} /> : asset.kind === 'vtt' ? null : <LoadedAttachment asset={asset} />
+}
+
+function LoadedAttachment({ asset }) {
   const { generation } = useAuthSession()
   const { id: assetId, kind, filename } = asset
   const [result, setResult] = useState(null), [requested, setRequested] = useState({ count: 0, generation, id: assetId })

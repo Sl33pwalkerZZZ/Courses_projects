@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { revokeVideoGrant } from './utils/lessonVideo.js'
 import { createAuthSessionStore, readToken, tokenIsCurrent } from './utils/authSession.js'
 
 const API_URL = import.meta.env?.VITE_API_URL || 'http://127.0.0.1:8000/api'
@@ -111,7 +112,16 @@ api.interceptors.request.use((config) => {
 }, (error) => { throw error }, { synchronous: true })
 
 api.interceptors.response.use((response) => {
-  requireRequestSession(response.config)
+  try {
+    requireRequestSession(response.config)
+  } catch (error) {
+    // Revoke obsolete grants without using a replacement account's JWT.
+    const config = response.config
+    const match = config.method === 'post' && config.baseURL === '/api'
+      && /^\/lesson-attachments\/([1-9]\d*)\/playback-grant\/$/.exec(config.url)
+    if (axios.isCancel(error) && match) revokeVideoGrant(Number(match[1]), response.data?.revoke_token)
+    throw error
+  }
   return response
 }, async (error) => {
   const config = error.config

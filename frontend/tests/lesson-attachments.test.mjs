@@ -54,7 +54,7 @@ test('attachments stay inline by exact anchor, unknown anchors use materials fal
  const html=renderToStaticMarkup(createElement(I18nextProvider,{i18n:instances.get('en')},createElement(Material,{lesson:value})))
  assert.equal((html.match(/Fixture narration/g)||[]).length,1)
  assert.ok(html.indexOf('Theory')<html.indexOf('Fixture narration'))
- assert.ok(html.indexOf('Original written equivalent')<html.indexOf('Next'))
+ assert.ok(html.indexOf('Original written equivalent')<html.indexOf('>Next</h2>'))
 })
 
 function harness(asset=audio,client={get:async()=>({data:new Blob(['fixture'],{type:'audio/wav'})})}){

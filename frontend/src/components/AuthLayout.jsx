@@ -18,7 +18,7 @@ export default function AuthLayout({ mode, children }) {
       <div className="auth-grid">
         <aside className="auth-intro" aria-labelledby="auth-welcome">
           <ParticleField />
-          <Badge className="auth-eyebrow">{t('studio.eyebrow')}</Badge>
+          <Badge className="auth-eyebrow">{t('studentVisual.authEyebrow')}</Badge>
           <h2 id="auth-welcome">{t(`auth.${mode}Welcome`)}</h2>
           <p className="auth-intro-description">{t(`auth.${mode}Description`)}</p>
           <div className="auth-illustration" aria-hidden="true"><AICompanion /></div>

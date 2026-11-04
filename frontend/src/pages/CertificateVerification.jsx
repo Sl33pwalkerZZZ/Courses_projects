@@ -8,7 +8,7 @@ export function VerificationDetails({ certificate }) {
   const { t, i18n } = useTranslation()
   const valid = certificate.status === 'valid'
   return <>
-    <p role="status"><strong>{t(valid ? 'certificates.valid' : 'certificates.revoked')}</strong></p>
+    <p role="status" data-certificate-status={certificate.status}><strong>{t(valid ? 'certificates.valid' : 'certificates.revoked')}</strong></p>
     <dl>
       <div><dt>{t('certificates.learner')}</dt><dd>{certificate.learner_initials}</dd></div>
       <div><dt>{t('certificates.course')}</dt><dd>{certificate.course_title}</dd></div>
