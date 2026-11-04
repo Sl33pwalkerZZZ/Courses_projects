@@ -1,0 +1,4 @@
+file,origin,evidence,status,attribution
+f1-paper-diagram.svg,original code-drawn educational diagram,../../originals/f1-paper-diagram.svg,created locally; author review pending,AI Courses educational production
+f1-notepad-diagram.svg,original code-drawn educational diagram,../../originals/f1-notepad-diagram.svg,created locally; author review pending,AI Courses educational production
+narration-preview.wav,Silero CIS Base synthetic voice,../../narration-provenance.json,draft listening review pending,Silero Team; LICENSE_CIS
