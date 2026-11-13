@@ -29,14 +29,47 @@ export async function loadEnrollmentProgress(client, slug) {
 }
 
 export async function loadCourseOutline(client, slug, preview = false) {
-  if (preview) {
-    const { data } = await client.get(`/instructor/courses/${encodeURIComponent(slug)}/preview/`)
-    return { course: { ...data, modules: orderCurriculum(data.modules) }, enrollment: null }
+  const path = preview ? `/instructor/courses/${encodeURIComponent(slug)}/preview/` : `/courses/${encodeURIComponent(slug)}/`
+  const { data } = await client.get(path)
+  return { course: { ...data, modules: orderCurriculum(data.modules) }, enrollment: null }
+}
+
+export function lessonCourseErrorKey(error, resource) {
+  if (error?.response?.status === 401) return 'lessonWorkspace.signIn'
+  if (error?.response?.status === 403) return 'lessonWorkspace.accessDenied'
+  return resource === 'outline' ? 'lessonWorkspace.outlineError' : 'lessonWorkspace.progressError'
+}
+
+// Each resource publishes as soon as it settles. Retries retain confirmed data
+// and only request that resource; disposal also guards React StrictMode/unmount.
+export function loadLessonCourse(client, slug, preview, { onOutline, onProgress }) {
+  let active = true
+  const states = { outline: { data: null }, progress: { data: null } }
+  const flights = {}
+  function load(resource, read, publish) {
+    if (!active) return Promise.resolve()
+    if (flights[resource]) return flights[resource]
+    states[resource] = { ...states[resource], loading: true, error: null }
+    publish(states[resource])
+    flights[resource] = Promise.resolve().then(() => active ? read() : undefined).then(data => {
+      if (!active) return
+      states[resource] = { data, loading: false, error: null }
+      publish(states[resource])
+    }).catch(error => {
+      // The API client cancels responses from obsolete sessions. Never turn
+      // those cancellations into empty course/progress data or visible errors.
+      if (!active || error?.code === 'ERR_CANCELED') return
+      const denied = [401, 403].includes(error?.response?.status)
+      states[resource] = { ...states[resource], data: denied ? null : states[resource].data, loading: false, error }
+      publish(states[resource])
+    }).finally(() => { flights[resource] = null })
+    return flights[resource]
   }
-  const [response, enrollment] = await Promise.all([
-    client.get(`/courses/${encodeURIComponent(slug)}/`), loadEnrollmentProgress(client, slug),
-  ])
-  return { course: { ...response.data, modules: orderCurriculum(response.data.modules) }, enrollment }
+  const retryOutline = () => load('outline', async () => (await loadCourseOutline(client, slug, preview)).course, onOutline)
+  const refreshProgress = () => preview ? Promise.resolve()
+    : load('progress', () => loadEnrollmentProgress(client, slug), onProgress)
+  const ready = Promise.allSettled([retryOutline(), refreshProgress()])
+  return { ready, retryOutline, refreshProgress, dispose() { active = false } }
 }
 
 export async function saveLessonCompletion(client, lessonId) {

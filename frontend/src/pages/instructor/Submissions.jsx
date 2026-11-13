@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { Link, useOutletContext, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import api from '../../api'
 import Button from '../../components/ui/Button'
 import { Input, Select, Notice, ResourceState } from '../../components/instructor/StudioShared'
 import { useStudioAction, useStudioResource } from '../../components/instructor/useStudio'
-import { studioList } from '../../utils/instructorStudio'
+import { rubricCriteria, studioList, validateRubricScores } from '../../utils/instructorStudio'
 
 export default function Submissions() {
   const { course, identity } = useOutletContext(), { t } = useTranslation()
@@ -43,11 +43,22 @@ export function ReadAnswer({ value, field }) {
 export function SubmissionCard({ submission, viewerId, onSaved }) {
   const { t, i18n } = useTranslation(), action = useStudioAction()
   const [note, setNote] = useState(submission.reviewer_comment || '')
+  const [rubric, setRubric] = useState(submission.rubric_scores || { completeness: 0, application: 0, quality: 0, documentation: 0 })
+  const rubricRef = useRef(null), rubricId = useId()
+  const finalProject = submission.assignment_learning_activity === 'final_media_project'
+  const { scores, invalid } = validateRubricScores(rubric)
   const self = viewerId != null && String(viewerId) === String(submission.student?.id || submission.student)
   const reviewable = submission.status === 'pending' && !self && submission.can_review !== false
   const review = status => {
-    if (!reviewable || !window.confirm(t('instructorStudio.reviewConfirm'))) return
-    action.run(signal => api.post(`/studio/submissions/${submission.id}/review/`, { revision: submission.revision, status, reviewer_comment: note }, { signal }), onSaved, 'instructorStudio.assignmentReview.saved')
+    if (!reviewable) return
+    if (finalProject && invalid.length) {
+      rubricRef.current?.querySelector('[aria-invalid="true"]')?.focus()
+      return
+    }
+    if (!window.confirm(t('instructorStudio.reviewConfirm'))) return
+    const payload = { revision: submission.revision, status, reviewer_comment: note }
+    if (finalProject) payload.rubric_scores = scores
+    action.run(signal => api.post(`/studio/submissions/${submission.id}/review/`, payload, { signal }), onSaved, 'instructorStudio.assignmentReview.saved')
   }
   return <article className="instructor-panel">
     <h3>{submission.student?.username || submission.student_username} — {submission.lesson_title}</h3>
@@ -55,17 +66,30 @@ export function SubmissionCard({ submission, viewerId, onSaved }) {
     <p className="instructor-badge">{t(`instructorStudio.statuses.${submission.status}`, { defaultValue: submission.status })}</p>
     {submission.submitted_at && <p>{t('instructorStudio.assignmentReview.submitted')}: <time dateTime={submission.submitted_at}>{new Date(submission.submitted_at).toLocaleString(i18n.resolvedLanguage)}</time></p>}
     <details><summary>{t('instructorStudio.assignmentReview.instructions')}</summary><p className="instructor-answer">{submission.assignment_description}</p></details>
-    <details><summary>{t('instructorStudio.assignmentReview.open')}</summary><div className="instructor-answer">{submission.content && <p>{submission.content}</p>}{submission.payload && <ReadAnswer value={submission.payload} />}</div>{submission.file_available && <SubmissionAttachment id={submission.id} />}</details>
-    {reviewable ? <><Input multiline label={t('instructorStudio.feedback')} value={note} onChange={event => setNote(event.target.value)} /><p>{t('instructorStudio.assignmentReview.evidence')}</p><Notice {...action} /><div className="instructor-actions"><Button disabled={action.busy} onClick={() => review('approved')}>{t('instructorStudio.approve')}</Button><Button variant="secondary" disabled={action.busy || !note.trim()} onClick={() => review('rejected')}>{t('instructorStudio.reject')}</Button></div></> : <>{self && submission.status === 'pending' && <p role="note">{t('instructorStudio.assignmentReview.selfReview')}</p>}{submission.reviewer_comment && <section><h4>{t('instructorStudio.feedback')}</h4><p className="instructor-answer">{submission.reviewer_comment}</p></section>}{submission.reviewed_at && <p>{t('instructorStudio.reviewed')}: <time dateTime={submission.reviewed_at}>{new Date(submission.reviewed_at).toLocaleString(i18n.resolvedLanguage)}</time>{submission.reviewer_username && ` · ${submission.reviewer_username}`}</p>}{submission.status === 'approved' && <p>{t(submission.review_is_verifiable ? 'instructorStudio.assignmentReview.verified' : 'instructorStudio.assignmentReview.legacy')}</p>}</>}
+    <details><summary>{t('instructorStudio.assignmentReview.open')}</summary><div className="instructor-answer">{submission.content && <p>{submission.content}</p>}{submission.payload && <ReadAnswer value={submission.payload} />}</div>{submission.file_available && <SubmissionAttachment id={submission.id} />}{submission.attachments?.map(file => <SubmissionAttachment key={file.id} submissionId={submission.id} attachment={file} />)}</details>
+    {reviewable ? <><Input multiline label={t('instructorStudio.feedback')} value={note} onChange={event => setNote(event.target.value)} />{finalProject && <fieldset ref={rubricRef} className="instructor-rubric"><legend>{t('instructorStudio.assignmentReview.rubricTitle')}</legend>{rubricCriteria.map(key => {
+      const errorId = `${rubricId}-${key}-error`, hasError = invalid.includes(key)
+      return <label key={key}>{t(`instructorStudio.assignmentReview.rubric.${key}`)}<input type="number" required min="0" max="25" step="1" value={rubric[key] ?? ''} aria-invalid={hasError || undefined} aria-describedby={hasError ? errorId : undefined} onChange={event => setRubric(current => ({ ...current, [key]: event.target.value }))} />{hasError && <small id={errorId} className="instructor-error" role="alert">{t('instructorStudio.assignmentReview.rubricScoreError')}</small>}</label>
+    })}{scores && <p>{t('instructorStudio.assignmentReview.rubricTotal', { total: Object.values(scores).reduce((sum, value) => sum + value, 0) })}</p>}</fieldset>}<p>{t('instructorStudio.assignmentReview.evidence')}</p><Notice {...action} /><div className="instructor-actions"><Button disabled={action.busy} onClick={() => review('approved')}>{t('instructorStudio.approve')}</Button><Button variant="secondary" disabled={action.busy || !note.trim()} onClick={() => review('rejected')}>{t('instructorStudio.reject')}</Button></div></> : <>{self && submission.status === 'pending' && <p role="note">{t('instructorStudio.assignmentReview.selfReview')}</p>}{submission.reviewer_comment && <section><h4>{t('instructorStudio.feedback')}</h4><p className="instructor-answer">{submission.reviewer_comment}</p></section>}{submission.rubric_scores && <p>{t('instructorStudio.assignmentReview.rubricTotal', { total: Object.values(submission.rubric_scores).reduce((sum, value) => sum + value, 0) })}</p>}{submission.reviewed_at && <p>{t('instructorStudio.reviewed')}: <time dateTime={submission.reviewed_at}>{new Date(submission.reviewed_at).toLocaleString(i18n.resolvedLanguage)}</time>{submission.reviewer_username && ` · ${submission.reviewer_username}`}</p>}{submission.status === 'approved' && <p>{t(submission.review_is_verifiable ? 'instructorStudio.assignmentReview.verified' : 'instructorStudio.assignmentReview.legacy')}</p>}</>}
+    {submission.can_reopen && <Button variant="secondary" disabled={action.busy} onClick={() => {
+      if (!window.confirm(t('instructorStudio.assignmentReview.reopenConfirm'))) return
+      action.run(signal => api.post(`/studio/submissions/${submission.id}/reopen/`, {}, { signal }), onSaved, 'instructorStudio.assignmentReview.reopened')
+    }}>{t('instructorStudio.assignmentReview.reopen')}</Button>}
+    <Notice {...action} />
   </article>
 }
-function SubmissionAttachment({ id }) {
+function SubmissionAttachment({ id, submissionId, attachment }) {
   const { t } = useTranslation(), action = useStudioAction()
-  const download = () => action.run(signal => api.get(`/studio/submissions/${id}/file/`, { signal, responseType: 'blob' }), blob => {
+  const finishDownload = (blob, filename) => {
     const url = URL.createObjectURL(blob), link = document.createElement('a')
-    link.href = url; link.download = `submission-${id}`
+    link.href = url; link.download = filename
     document.body.appendChild(link); link.click(); link.remove()
     setTimeout(() => URL.revokeObjectURL(url), 1000)
+  }
+  const download = () => action.run(signal => api.get(`/studio/submissions/${id}/file/`, { signal, responseType: 'blob' }), blob => {
+    finishDownload(blob, `submission-${id}`)
   }, '')
+  const downloadAttachment = () => action.run(signal => api.get(`/studio/submissions/${submissionId}/files/${attachment.id}/`, { signal, responseType: 'blob' }), blob => finishDownload(blob, attachment.filename), '')
+  if (attachment) return <div><Button variant="secondary" disabled={action.busy} onClick={downloadAttachment}>{t('instructorStudio.download')} — {attachment.filename}</Button><Notice {...action} /></div>
   return <div><p>{t('instructorStudio.privateFileNotice')}</p><Button variant="secondary" disabled={action.busy} onClick={download}>{t('instructorStudio.download')}</Button><Notice {...action} /></div>
 }

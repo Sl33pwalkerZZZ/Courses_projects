@@ -60,3 +60,7 @@
 .instructor-source p { white-space:pre-wrap; overflow-wrap:anywhere; }
 @media(max-width:767px) { .instructor-courses,.instructor-grid,.instructor-stats { grid-template-columns:minmax(0,1fr); } .instructor-navigation a,.instructor-tabs a { padding:8px 10px; } .instructor-choice { grid-template-columns:minmax(0,1fr) auto; } .instructor-choice>.instructor-field { grid-column:1/-1; } .instructor-panel { border-radius:12px; } .instructor-form fieldset { padding:12px; } }
 @media(prefers-reduced-motion:reduce) { .instructor-studio * { transition:none!important; animation:none!important; } }
+.instructor-rubric { display: grid; gap: .6rem; margin: 1rem 0; padding: 1rem; border: 1px solid var(--v2-border); border-radius: 12px; }
+.instructor-rubric label { display: grid; grid-template-columns: minmax(0, 1fr) 5rem; gap: .75rem; align-items: center; }
+.instructor-rubric input { width: 5rem; min-height: 2.25rem; padding: .35rem .5rem; border: 1px solid var(--v2-border); border-radius: 8px; background: var(--v2-surface-raised); color: var(--v2-text); }
+.instructor-rubric p { margin: .25rem 0 0; color: var(--v2-text-muted); }

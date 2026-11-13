@@ -8,7 +8,7 @@ import AnimatedText from '../components/motion/AnimatedText'
 import ProgressRing from '../components/playground/ProgressRing'
 import EnrollmentApplications from '../components/EnrollmentApplications'
 import ProfileLearningActivity from '../components/ProfileLearningActivity'
-import MyCertificates from '../components/certificates/Certificates'
+import MyCertificates, { CertificateNameConfirmation } from '../components/certificates/Certificates'
 import './Profile.css'
 
 export function EnrollmentCard({ enrollment, index = 0 }) {
@@ -64,7 +64,7 @@ export function EnrollmentCard({ enrollment, index = 0 }) {
   )
 }
 
-export function ProfileLearningSections({ enrollments }) {
+export function ProfileLearningSections({ enrollments, isStudent = false }) {
   const { t } = useTranslation()
   return <>
     <section id="profile-learning" aria-labelledby="profile-courses-title">
@@ -85,6 +85,7 @@ export function ProfileLearningSections({ enrollments }) {
       )}
     </section>
     <EnrollmentApplications />
+    {isStudent && <CertificateNameConfirmation />}
     <MyCertificates />
   </>
 }
@@ -135,6 +136,7 @@ export default function Profile() {
       {account && <nav className="profile-section-navigation" aria-label={t('studentVisual.profileNavigation')}>
         <a href="#profile-learning">{t('profile.coursesTitle')}</a>
         <a href="#profile-activity-title">{t('studentVisual.activity')}</a>
+        {account.user.role === 'student' && <a href="#certificate-name-title">{t('certificates.nameTitle')}</a>}
         <a href="#my-certificates-title">{t('certificates.myTitle')}</a>
         <a href="#profile-applications-title">{t('enrollment.applicationsTitle')}</a>
       </nav>}
@@ -147,7 +149,7 @@ export default function Profile() {
           <Link className="profile-sign-in" to="/login">{t('header.login')}</Link>
         </div>
       ) : !account ? <p className="profile-loading" role="status">{t('common.loading')}</p> : <>
-        <ProfileLearningSections enrollments={account.enrollments} />
+        <ProfileLearningSections enrollments={account.enrollments} isStudent={account.user.role === 'student'} />
       </>}
     </section>
   )

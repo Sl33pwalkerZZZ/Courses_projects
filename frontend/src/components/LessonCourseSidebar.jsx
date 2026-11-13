@@ -4,9 +4,44 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'motion/react'
 import { useReducedMotion } from '../hooks/useMotionPreferences'
-import { orderCurriculum } from '../utils/lessons'
+import { lessonCourseErrorKey, orderCurriculum } from '../utils/lessons'
 
-export default function LessonCourseSidebar({ course, lessonId, completedIds = [], enrollment, preview = false, progressLoading, progressError, onRefresh }) {
+function LessonCourseProgress({ enrollment, preview, progressLoading, progressError, onRefresh, courseTitle }) {
+  const { t, i18n } = useTranslation()
+  const percent = enrollment ? new Intl.NumberFormat(i18n.resolvedLanguage, {
+    style: 'percent', maximumFractionDigits: 1,
+  }).format(enrollment.progress_percent / 100) : null
+  return <div className="lesson-outline-progress" aria-busy={progressLoading}>
+    {enrollment ? <>
+      <div className="lesson-outline-progress-label"><span>{t('profile.progress')}</span><strong>{percent}</strong></div>
+      <progress max={100} value={enrollment.progress_percent} aria-label={t('profile.progressLabel', { course: courseTitle || enrollment.course.title })} />
+      <p>{t('profile.lessonsCompleted', { completed: enrollment.completed_lessons, total: enrollment.total_lessons })}</p>
+    </> : !progressLoading && !progressError && <p>{t('lessonWorkspace.previewOnly')}</p>}
+    {!preview && progressLoading && <p role="status">{t('lessonWorkspace.updatingProgress')}</p>}
+    {enrollment && progressError && <p>{t('lessonWorkspace.progressLastConfirmed')}</p>}
+    {progressError && <div className="lesson-outline-progress-error" role="alert">
+      <p>{t(lessonCourseErrorKey(progressError, 'progress'))}</p>
+      <button className="lesson-text-button" type="button" aria-label={t('lessonWorkspace.retryProgress')} onClick={onRefresh} disabled={progressLoading}>{t('common.retry')}</button>
+    </div>}
+  </div>
+}
+
+export default function LessonCourseSidebar(props) {
+  const { t } = useTranslation()
+  if (props.course) return <CourseCurriculum {...props} />
+  const { outlineError, outlineLoading, onRetryOutline, courseSlug, preview } = props
+  const courseLink = preview ? `/instructor/courses/${encodeURIComponent(courseSlug)}/preview` : `/courses/${encodeURIComponent(courseSlug)}`
+  return <aside className="lesson-course-sidebar lesson-outline-state" aria-label={t('lessonWorkspace.outline')}>
+    <BookOpen size={22} aria-hidden="true" />
+    {outlineError ? <div role="alert"><p>{t(lessonCourseErrorKey(outlineError, 'outline'))}</p>
+      <button className="lesson-text-button" type="button" aria-label={t('lessonWorkspace.retryOutline')} onClick={onRetryOutline} disabled={outlineLoading}>{t('common.retry')}</button></div>
+      : <p role="status">{t('common.loading')}</p>}
+    <LessonCourseProgress {...props} />
+    <Link to={courseLink}>{t('lessonWorkspace.backToCourse')}</Link>
+  </aside>
+}
+
+function CourseCurriculum({ course, lessonId, completedIds = [], enrollment, preview = false, progressLoading, progressError, onRefresh }) {
   const { t, i18n } = useTranslation()
   const reducedMotion = useReducedMotion()
   const outlineId = useId()
@@ -18,9 +53,6 @@ export default function LessonCourseSidebar({ course, lessonId, completedIds = [
   const [outlineOpen, setOutlineOpen] = useState(false)
   const completed = new Set(completedIds)
   const number = new Intl.NumberFormat(i18n.resolvedLanguage, { minimumIntegerDigits: 2 })
-  const percent = enrollment ? new Intl.NumberFormat(i18n.resolvedLanguage, {
-    style: 'percent', maximumFractionDigits: 1,
-  }).format(enrollment.progress_percent / 100) : null
 
   useEffect(() => {
     const media = window.matchMedia('(max-width: 900px)')
@@ -53,18 +85,8 @@ export default function LessonCourseSidebar({ course, lessonId, completedIds = [
             <ArrowLeft size={15} aria-hidden="true" />{t('lessonWorkspace.backToCourse')}
           </Link>
         </div>
-        <div className="lesson-outline-progress" aria-busy={progressLoading}>
-          {enrollment ? <>
-            <div className="lesson-outline-progress-label"><span>{t('profile.progress')}</span><strong>{percent}</strong></div>
-            <progress max={100} value={enrollment.progress_percent} aria-label={t('profile.progressLabel', { course: course.title })} />
-            <p>{t('profile.lessonsCompleted', { completed: enrollment.completed_lessons, total: enrollment.total_lessons })}</p>
-          </> : <p>{t('lessonWorkspace.previewOnly')}</p>}
-          {progressLoading && <p role="status">{t('lessonWorkspace.updatingProgress')}</p>}
-          {progressError && <div className="lesson-outline-progress-error" role="alert">
-            <p>{t('lessonWorkspace.progressError')}</p>
-            <button className="lesson-text-button" type="button" onClick={onRefresh} disabled={progressLoading}>{t('common.retry')}</button>
-          </div>}
-        </div>
+        <LessonCourseProgress enrollment={enrollment} preview={preview} progressLoading={progressLoading}
+          progressError={progressError} onRefresh={onRefresh} courseTitle={course.title} />
         <nav className="lesson-outline-modules" aria-label={t('lessonWorkspace.outline')}>
           {modules.map((module, index) => {
             const isExpanded = expanded.has(module.id)
@@ -85,7 +107,8 @@ export default function LessonCourseSidebar({ course, lessonId, completedIds = [
                     const isCompleted = completed.has(lesson.id)
                     return <li key={lesson.id}><Link className={`lesson-outline-link${isCompleted ? ' is-completed' : ''}`}
                       to={`/lessons/${lesson.id}`} state={{ courseSlug: course.slug, preview }} aria-current={isCurrent ? 'page' : undefined}>
-                      {isCompleted ? <CircleCheck size={17} aria-hidden="true" /> : <Circle size={15} aria-hidden="true" />}
+                      {isCompleted ? <CircleCheck size={17} aria-hidden="true" /> : enrollment ? <Circle size={15} aria-hidden="true" />
+                        : <><span aria-hidden="true">—</span><span className="sr-only">{t('lessonWorkspace.progressUnknown')}</span></>}
                       <span><span className="lesson-outline-lesson-number">{number.format(lesson.order ?? lessonIndex + 1)}</span>{lesson.title}</span>
                       {isCompleted && <span className="sr-only">{t('lessonWorkspace.completedLesson')}</span>}
                     </Link></li>

@@ -294,7 +294,8 @@ test('failed refresh allows exactly one anonymous public read retry', async () =
   assert.equal(auth.isAuthenticated(), false)
 })
 
-for (const url of ['/courses/?search=ai', '/courses/ai-fundamentals-work-study/']) {
+// The catalog stays anonymous. Course detail may now include enrolled drafts.
+for (const url of ['/courses/?search=ai']) {
   for (const method of ['get', 'head']) {
     test(`public ${method.toUpperCase()} ${url} never attaches JWTs or refreshes`, async () => {
       const auth = await setup(credentials(1, -30), (config) => {
@@ -324,6 +325,194 @@ for (const url of ['/courses/?search=ai', '/courses/ai-fundamentals-work-study/'
     assert.equal((await pending).data.title, 'Public course content')
     assert.equal(auth.calls.length, 1)
     assert.equal(auth.storage.get('access'), accountB.access)
+  })
+}
+
+for (const status of [200, 401, 500]) {
+  test(`pending authenticated course response ${status} is canceled after account A switches to B`, async () => {
+    const started = deferred(), release = deferred(), pairA = credentials(1)
+    const auth = await setup(pairA, async config => {
+      assert.equal(config.headers.Authorization, `Bearer ${pairA.access}`)
+      started.resolve()
+      await release.promise
+      if (status !== 200) fail(config, status)
+      return response(config, { title: 'Account A enrolled draft' })
+    })
+    const rejected = assert.rejects(auth.api.get('/courses/enrolled-draft/'), canceled)
+    await started.promise
+    const pairB = auth.otherTabLogin(2)
+    release.resolve()
+    await rejected
+    assert.equal(auth.calls.length, 1)
+    assert.equal(auth.storage.get('access'), pairB.access)
+    assert.equal(auth.isAuthenticated(), true)
+  })
+}
+
+test('a course request queued before an account switch never uses the replacement credentials', async () => {
+  const release = deferred(), pairA = credentials(1)
+  const auth = await setup(pairA, async config => {
+    assert.equal(config.headers.Authorization, `Bearer ${pairA.access}`)
+    await release.promise
+    return response(config, { title: 'Draft' })
+  })
+  const rejected = assert.rejects(auth.api.get('/courses/enrolled-draft/'), canceled)
+  const pairB = auth.otherTabLogin(2)
+  release.resolve()
+  await rejected
+  assert.ok(auth.calls.every(call => call.authorization !== `Bearer ${pairB.access}`))
+  assert.equal(auth.storage.get('access'), pairB.access)
+})
+
+for (const method of ['get', 'head']) {
+  test(`authenticated course ${method.toUpperCase()} preserves same-session draft access without a refresh`, async () => {
+    const pair = credentials(1)
+    const auth = await setup(pair, config => {
+      assert.equal(config.headers.Authorization, `Bearer ${pair.access}`)
+      return response(config, { title: 'Enrolled draft', modules: Array.from({ length: 6 }, (_, id) => ({ id })) })
+    })
+    const before = auth.getAuthSession()
+    assert.equal((await auth.api[method]('/courses/enrolled-draft/')).data.modules.length, 6)
+    assert.equal(auth.getAuthSession(), before)
+    assert.equal(auth.calls.length, 1)
+  })
+}
+
+test('an anonymous course request stays anonymous and usable when another tab signs in', async () => {
+  const started = deferred(), release = deferred()
+  const auth = await setup({}, async config => {
+    assert.equal(config.headers.Authorization, undefined)
+    started.resolve()
+    await release.promise
+    return response(config, { title: 'Public course' })
+  })
+  const pending = auth.api.get('/courses/published-course/')
+  await started.promise
+  const pairB = auth.otherTabLogin(2)
+  release.resolve()
+  assert.equal((await pending).data.title, 'Public course')
+  assert.equal(auth.calls.length, 1)
+  assert.equal(auth.storage.get('access'), pairB.access)
+})
+
+for (const succeeds of [true, false]) {
+  test(`refresh-only course recovery ${succeeds ? 'success' : 'failure'} cannot restore or reuse account A after switching to B`, async () => {
+    const started = deferred(), release = deferred()
+    const auth = await setup({ refresh: token(1, 3600) }, async config => {
+      assert.equal(config.url, '/auth/token/refresh/')
+      started.resolve()
+      await release.promise
+      if (!succeeds) fail(config)
+      return response(config, { access: token(1) })
+    })
+    const rejected = assert.rejects(auth.api.get('/courses/enrolled-draft/'), canceled)
+    await started.promise
+    const pairB = auth.otherTabLogin(2)
+    release.resolve()
+    await rejected
+    assert.equal(auth.calls.length, 1)
+    assert.equal(auth.storage.get('access'), pairB.access)
+    assert.equal(auth.storage.get('refresh'), pairB.refresh)
+  })
+}
+
+for (const action of ['switch', 'logout']) {
+  test(`a queued refresh-only course request is canceled on ${action} before credentials are used`, async () => {
+    const auth = await setup({ refresh: token(1, 3600) })
+    const rejected = assert.rejects(auth.api.get('/courses/enrolled-draft/'), canceled)
+    if (action === 'switch') auth.otherTabLogin(2)
+    else auth.logout()
+    await rejected
+    assert.equal(auth.calls.length, 0)
+    assert.equal(auth.isAuthenticated(), action === 'switch')
+  })
+}
+
+test('failed refresh retries public course detail anonymously once', async () => {
+  const auth = await setup(credentials(1, -30), config => {
+    if (config.url === '/auth/token/refresh/' || config.headers.Authorization) fail(config)
+    return response(config, { title: 'Published course' })
+  })
+  assert.equal((await auth.api.get('/courses/published-course/')).data.title, 'Published course')
+  assert.deepEqual(auth.calls.map(call => call.url), ['/courses/published-course/', '/auth/token/refresh/', '/courses/published-course/'])
+  assert.equal(auth.calls.at(-1).authorization, undefined)
+  assert.equal(auth.isAuthenticated(), false)
+  assert.equal(auth.storage.size, 0)
+})
+
+test('refresh-only course access recovers before requesting an enrolled draft', async () => {
+  const fresh = token(1)
+  const auth = await setup({ refresh: token(1, 3600) }, config => {
+    if (config.url === '/auth/token/refresh/') return response(config, { access: fresh })
+    assert.equal(config.headers.Authorization, `Bearer ${fresh}`)
+    return response(config, { title: 'Enrolled draft' })
+  })
+  const before = auth.getAuthSession()
+  assert.equal((await auth.api.get('/courses/enrolled-draft/')).data.title, 'Enrolled draft')
+  assert.deepEqual(auth.calls.map(call => call.url), ['/auth/token/refresh/', '/courses/enrolled-draft/'])
+  assert.equal(auth.getAuthSession(), before)
+})
+
+test('concurrent refresh-only course requests share one recovery', async () => {
+  const started = deferred(), release = deferred(), fresh = token(1)
+  const auth = await setup({ refresh: token(1, 3600) }, async config => {
+    if (config.url === '/auth/token/refresh/') {
+      started.resolve()
+      await release.promise
+      return response(config, { access: fresh })
+    }
+    assert.equal(config.headers.Authorization, `Bearer ${fresh}`)
+    return response(config, { title: 'Enrolled draft' })
+  })
+  const pending = Promise.all([auth.api.get('/courses/draft-a/'), auth.api.get('/courses/draft-b/')])
+  const checked = pending.catch(() => {})
+  // Race also lets this regression terminate if the broken client never refreshes.
+  await Promise.race([started.promise, checked])
+  release.resolve()
+  await pending
+  assert.equal(auth.calls.filter(call => call.url === '/auth/token/refresh/').length, 1)
+  assert.equal(auth.calls.length, 3)
+})
+
+for (const url of ['/courses/published-course/', '/my/enrollments/']) {
+  test(`rejected refresh-only session handles ${url} without sending stale credentials`, async () => {
+    const auth = await setup({ refresh: token(1, 3600) }, config => {
+      if (config.url === '/auth/token/refresh/') fail(config)
+      assert.equal(config.headers.Authorization, undefined)
+      if (url === '/my/enrollments/') fail(config)
+      return response(config, { public: true })
+    })
+    if (url.startsWith('/courses/')) assert.equal((await auth.api.get(url)).data.public, true)
+    else await assert.rejects(auth.api.get(url))
+    assert.equal(auth.isAuthenticated(), false)
+    assert.equal(auth.storage.size, 0)
+    assert.equal(auth.calls.filter(call => call.url === '/auth/token/refresh/').length, 1)
+    assert.equal(auth.calls.filter(call => call.url === url).length, url.startsWith('/courses/') ? 1 : 0)
+  })
+}
+
+test('course detail retries are bounded even when refresh succeeds but access is rejected', async () => {
+  const auth = await setup(credentials(1, -30), config => {
+    if (config.url === '/auth/token/refresh/') return response(config, { access: token(1) })
+    fail(config)
+  })
+  await assert.rejects(auth.api.get('/courses/published-course/'), error => error.response?.status === 401)
+  assert.equal(auth.calls.filter(call => call.url === '/auth/token/refresh/').length, 1)
+  assert.equal(auth.calls.filter(call => call.url === '/courses/published-course/').length, 3)
+  assert.equal(auth.calls.at(-1).authorization, undefined)
+  assert.equal(auth.isAuthenticated(), false)
+})
+
+for (const refresh of [undefined, 'malformed-refresh', token(1, -30)]) {
+  test(`anonymous course detail works with ${refresh === undefined ? 'missing' : refresh === 'malformed-refresh' ? 'malformed' : 'expired'} refresh`, async () => {
+    const auth = await setup(refresh ? { refresh } : {}, config => {
+      assert.equal(config.url, '/courses/published-course/')
+      assert.equal(config.headers.Authorization, undefined)
+      return response(config, { public: true })
+    })
+    assert.equal((await auth.api.get('/courses/published-course/')).data.public, true)
+    assert.equal(auth.calls.length, 1)
+    assert.equal(auth.storage.size, 0)
   })
 }
 
@@ -496,4 +685,19 @@ test('obsolete playback grant is revoked without returning it to the replacement
     assert.deepEqual(JSON.parse(revoked[0].options.body), { revoke_token: 'fixture-revocation-proof' })
     assert.equal(revoked[0].options.headers.Authorization, undefined)
   } finally { globalThis.fetch = originalFetch }
+})
+
+
+test('certificate list recovers expired access with same-account refresh and remains protected', async () => {
+  const pair = credentials(1)
+  const auth = await setup({ access: token(1, -10), refresh: pair.refresh }, config => {
+    if (config.url === '/auth/token/refresh/') return response(config, pair)
+    assert.equal(config.url, '/my/certificates/')
+    if (config.headers.Authorization !== `Bearer ${pair.access}`) fail(config, 401)
+    assert.equal(config.headers.Authorization, `Bearer ${pair.access}`)
+    return response(config, [{ course_id: 8, verification_code: 'synthetic-certificate' }])
+  })
+  const result = await auth.api.get('/my/certificates/')
+  assert.equal(result.data.length, 1)
+  assert.equal(auth.calls.filter(call => call.url === '/auth/token/refresh/').length, 1)
 })

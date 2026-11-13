@@ -8,7 +8,7 @@ import { I18nextProvider } from 'react-i18next'
 import { createInstance } from 'i18next'
 import { createTestServer } from './helpers/vite.mjs'
 import course8Source from './fixtures/course8Source.json' with { type: 'json' }
-import { lessonErrorKey, lessonNavigation, loadCourseOutline, loadEnrollmentProgress, orderCurriculum, saveLessonCompletion } from '../src/utils/lessons.js'
+import { lessonCourseErrorKey, lessonErrorKey, lessonNavigation, loadCourseOutline, loadEnrollmentProgress, loadLessonCourse, orderCurriculum, saveLessonCompletion } from '../src/utils/lessons.js'
 
 const modules = [
   { id: 2, title: 'Later module', order: 20, lessons: [
@@ -98,17 +98,32 @@ test('first, last, missing, and empty lessons have safe navigation boundaries', 
   assert.equal(lessonNavigation(modules, 'invalid'), null)
 })
 
-test('outline restores only the current course enrollment and backend completion IDs', async () => {
+test('outline and progress loaders read only their own endpoint and preserve backend completion IDs', async () => {
   const calls = []
   const client = { async get(path) {
     calls.push(path)
     return { data: path === '/my/enrollments/' ? [{ course: { slug: 'another' } }, enrollment] : course }
   } }
   const result = await loadCourseOutline(client, course.slug)
-  assert.equal(result.enrollment, enrollment)
-  assert.deepEqual(result.enrollment.completed_lesson_ids, [11])
+  assert.deepEqual(calls, ['/courses/existing-course/'])
+  const progress = await loadEnrollmentProgress(client, course.slug)
+  assert.equal(progress, enrollment)
+  assert.deepEqual(progress.completed_lesson_ids, [11])
   assert.deepEqual(result.course.modules.map((module) => module.id), [1, 2])
   assert.deepEqual(calls.sort(), ['/courses/existing-course/', '/my/enrollments/'])
+})
+
+test('structured lesson contents renders one named on-page navigation', () => {
+  const lesson = {
+    title: 'Structured lesson',
+    text_content: '1. First section\n\nFirst explanation.\n\n2. Second section\n\nSecond explanation.',
+    learning_content: { content_language: 'ru', source_sections: ['1. First section', '2. Second section'], objectives: [], interactions: [] },
+    images: [], assignments: [],
+  }
+  const html = render(Material, { lesson })
+  assert.equal((html.match(/class="lesson-section-navigation"/g) || []).length, 1)
+  assert.match(html, /1\. First section/)
+  assert.match(html, /2\. Second section/)
 })
 
 test('missing enrollment never becomes a made-up student progress record', async () => {
@@ -118,8 +133,196 @@ test('missing enrollment never becomes a made-up student progress record', async
 test('failed progress requests remain errors rather than zero-progress results', async () => {
   for (const status of [401, 403, 500]) {
     const error = failure(status)
-    await assert.rejects(loadCourseOutline({ get: async () => { throw error } }, course.slug), (caught) => caught === error)
+    await assert.rejects(loadEnrollmentProgress({ get: async () => { throw error } }, course.slug), (caught) => caught === error)
   }
+})
+
+function courseLoader(client, preview = false) {
+  const updates = { outline: [], progress: [] }
+  const request = loadLessonCourse(client, course.slug, preview, {
+    onOutline: state => updates.outline.push(state), onProgress: state => updates.progress.push(state),
+  })
+  return { ...request, updates }
+}
+
+for (const outlineFails of [false, true]) {
+  for (const progressFails of [false, true]) {
+    test(`independent outline/progress results: outline ${outlineFails ? 'fails' : 'succeeds'}, progress ${progressFails ? 'fails' : 'succeeds'}`, async () => {
+      const error = failure(500)
+      const loader = courseLoader({ get: async path => {
+        const progress = path === '/my/enrollments/'
+        if (progress ? progressFails : outlineFails) throw error
+        return { data: progress ? [enrollment] : course }
+      } })
+      await loader.ready
+      const outline = loader.updates.outline.at(-1), progress = loader.updates.progress.at(-1)
+      assert.equal(outline.loading, false)
+      assert.equal(progress.loading, false)
+      assert.equal(outline.error, outlineFails ? error : null)
+      assert.equal(progress.error, progressFails ? error : null)
+      assert.equal(outline.data?.slug || null, outlineFails ? null : course.slug)
+      assert.equal(progress.data, progressFails ? null : enrollment)
+    })
+  }
+}
+
+test('a slow progress request never delays publication of the real outline', async () => {
+  let releaseProgress, outlineLoaded
+  const pending = new Promise(resolve => { releaseProgress = resolve })
+  const outlined = new Promise(resolve => { outlineLoaded = resolve })
+  const states = []
+  const request = loadLessonCourse({ get: async path => ({ data: path === '/my/enrollments/' ? await pending : course }) }, course.slug, false, {
+    onOutline: state => { if (state.data) outlineLoaded(state) }, onProgress: state => states.push(state),
+  })
+  assert.equal((await outlined).data.slug, course.slug)
+  assert.equal(states.at(-1).loading, true)
+  assert.equal(states.at(-1).data, null)
+  releaseProgress([enrollment])
+  await request.ready
+  assert.equal(states.at(-1).data, enrollment)
+})
+
+test('progress retry does not reload the curriculum, coalesces clicks, and retains confirmed progress on later failure', async () => {
+  const calls = []
+  let broken = true
+  const loader = courseLoader({ get: async path => {
+    calls.push(path)
+    if (path === '/my/enrollments/' && broken) throw failure(500)
+    return { data: path === '/my/enrollments/' ? [enrollment] : course }
+  } })
+  await loader.ready
+  broken = false
+  const retry = loader.refreshProgress()
+  assert.equal(loader.refreshProgress(), retry)
+  assert.equal(loader.updates.progress.at(-1).loading, true)
+  await retry
+  assert.equal(loader.updates.progress.at(-1).data, enrollment)
+  broken = true
+  await loader.refreshProgress()
+  assert.equal(loader.updates.progress.at(-1).data, enrollment)
+  assert.equal(loader.updates.progress.at(-1).error.response.status, 500)
+  assert.equal(calls.filter(path => path === '/courses/existing-course/').length, 1)
+  assert.equal(calls.filter(path => path === '/my/enrollments/').length, 3)
+})
+
+test('outline retry preserves independently loaded progress and only retries the outline', async () => {
+  const calls = []
+  let broken = true
+  const loader = courseLoader({ get: async path => {
+    calls.push(path)
+    if (path !== '/my/enrollments/' && broken) throw failure(500)
+    return { data: path === '/my/enrollments/' ? [enrollment] : course }
+  } })
+  await loader.ready
+  broken = false
+  const retry = loader.retryOutline()
+  assert.equal(loader.retryOutline(), retry)
+  await retry
+  assert.equal(loader.updates.outline.at(-1).data.slug, course.slug)
+  assert.equal(loader.updates.progress.at(-1).data, enrollment)
+  assert.equal(calls.filter(path => path === '/my/enrollments/').length, 1)
+  assert.equal(calls.length, 3)
+})
+
+test('disposed account A loaders cannot publish into account B state', async () => {
+  let release
+  const pending = new Promise(resolve => { release = resolve })
+  const old = courseLoader({ get: async path => { await pending; return { data: path === '/my/enrollments/' ? [enrollment] : course } } })
+  await Promise.resolve()
+  old.dispose()
+  const current = courseLoader({ get: async path => ({ data: path === '/my/enrollments/' ? [] : { ...course, title: 'Account B course' } }) })
+  await current.ready
+  release()
+  await old.ready
+  assert.equal(old.updates.outline.length, 1)
+  assert.equal(old.updates.progress.length, 1)
+  assert.equal(current.updates.outline.at(-1).data.title, 'Account B course')
+  assert.equal(current.updates.progress.at(-1).data, null)
+})
+
+test('session cancellations do not publish empty results or error states', async () => {
+  const loader = courseLoader({ get: async () => { throw { code: 'ERR_CANCELED' } } })
+  await loader.ready
+  assert.equal(loader.updates.outline.length, 1)
+  assert.equal(loader.updates.progress.length, 1)
+})
+
+for (const status of [401, 403]) {
+  test(`authorization failure ${status} stays an explicit error rather than an empty course`, async () => {
+    const loader = courseLoader({ get: async () => { throw failure(status) } })
+    await loader.ready
+    for (const resource of ['outline', 'progress']) {
+      const state = loader.updates[resource].at(-1)
+      assert.equal(state.data, null)
+      assert.equal(state.error.response.status, status)
+      assert.equal(lessonCourseErrorKey(state.error, resource), `lessonWorkspace.${status === 401 ? 'signIn' : 'accessDenied'}`)
+    }
+  })
+  test(`authorization failure ${status} on retry removes stale access data`, async () => {
+    let denied = false
+    const loader = courseLoader({ get: async path => {
+      if (denied) throw failure(status)
+      return { data: path === '/my/enrollments/' ? [enrollment] : course }
+    } })
+    await loader.ready
+    denied = true
+    await Promise.all([loader.retryOutline(), loader.refreshProgress()])
+    assert.equal(loader.updates.outline.at(-1).data, null)
+    assert.equal(loader.updates.progress.at(-1).data, null)
+    assert.equal(loader.updates.progress.at(-1).error.response.status, status)
+  })
+}
+
+test('instructor preview loads only its authorized outline and never queries learner progress', async () => {
+  const calls = []
+  const loader = courseLoader({ get: async path => { calls.push(path); return { data: course } } }, true)
+  await loader.ready
+  await loader.refreshProgress()
+  assert.deepEqual(calls, ['/instructor/courses/existing-course/preview/'])
+  assert.equal(loader.updates.progress.length, 0)
+})
+
+test('unpublished six-module curriculum is complete without enrollment progress in RU/KK/EN', async () => {
+  let id = 0
+  const draft = { ...course, is_published: false, modules: Array.from({ length: 6 }, (_, moduleIndex) => ({
+    id: moduleIndex + 1, order: moduleIndex + 1, title: `Module ${moduleIndex + 1}`,
+    lessons: Array.from({ length: moduleIndex === 5 ? 1 : 3 }, (_, lessonIndex) => ({ id: ++id, order: lessonIndex + 1, title: `Lesson ${id}` })),
+  })).reverse() }
+  const loader = courseLoader({ get: async path => {
+    if (path === '/my/enrollments/') throw failure(500)
+    return { data: draft }
+  } })
+  await loader.ready
+  for (const language of ['ru', 'kk', 'en']) {
+    const html = render(Sidebar, { course: loader.updates.outline.at(-1).data, lessonId: 1, progressError: failure(500) }, language)
+    assert.equal((html.match(/class="lesson-outline-module"/g) || []).length, 6)
+    assert.equal((html.match(/class="lesson-outline-link"/g) || []).length, 16)
+    assert.ok(html.indexOf('Module 1') < html.indexOf('Module 6'))
+    assert.doesNotMatch(html, /<progress|0%|is-completed|lucide-circle /)
+    assert.ok(html.includes(translations.get(language).t('lessonWorkspace.progressError')))
+    assert.ok(html.includes(translations.get(language).t('lessonWorkspace.progressUnknown')))
+  }
+})
+
+test('outline failure preserves visible confirmed progress; both failures offer separate retries', () => {
+  const progressHtml = render(Sidebar, { course: null, courseSlug: course.slug, outlineError: failure(500), enrollment })
+  assert.match(progressHtml, /25%/)
+  assert.doesNotMatch(progressHtml, /lesson-outline-modules/)
+  const bothHtml = render(Sidebar, { course: null, courseSlug: course.slug, outlineError: failure(500), progressError: failure(500) })
+  assert.equal((bothHtml.match(/<button/g) || []).length, 2)
+  assert.doesNotMatch(bothHtml, /<progress|0%|lesson-outline-modules/)
+  assert.ok(bothHtml.includes(translations.get('en').t('lessonWorkspace.outlineError')))
+  assert.ok(bothHtml.includes(translations.get('en').t('lessonWorkspace.progressError')))
+  assert.ok(bothHtml.includes(translations.get('en').t('lessonWorkspace.retryProgress')))
+  assert.ok(bothHtml.includes(translations.get('en').t('lessonWorkspace.retryOutline')))
+})
+
+test('loading progress shows a loading state without invented progress or enrollment advice', () => {
+  const html = render(Sidebar, { course, lessonId: 11, progressLoading: true })
+  assert.match(html, /aria-busy="true"/)
+  assert.doesNotMatch(html, /<progress|0%/)
+  assert.ok(html.includes(translations.get('en').t('lessonWorkspace.updatingProgress')))
+  assert.ok(!html.includes(translations.get('en').t('lessonWorkspace.previewOnly')))
 })
 
 test('completion uses the existing endpoint and requires confirmation for the requested lesson', async () => {
@@ -172,7 +375,8 @@ test('progress refresh errors offer retry and keep the last confirmed summary', 
   const html = render(Sidebar, { course, lessonId: 21, enrollment, progressError: true, onRefresh: () => {} })
   assert.match(html, /25%/)
   assert.match(html, /role="alert"/)
-  assert.match(html, /could not be refreshed/)
+  assert.ok(html.includes(translations.get('en').t('lessonWorkspace.progressError')))
+  assert.ok(html.includes(translations.get('en').t('lessonWorkspace.progressLastConfirmed')))
   assert.ok(html.includes(translations.get('en').t('common.retry')))
 })
 

@@ -48,3 +48,16 @@ export function teachingEntryChange(entry, text) {
 export function prepareLearningContent(content) {
   return { ...content, objectives: (content.objectives || []).map(text => text.trim()).filter(Boolean) }
 }
+
+// Matches the existing final-project review contract; raw input stays untouched.
+export const rubricCriteria = ['completeness', 'application', 'quality', 'documentation']
+export function validateRubricScores(values) {
+  const scores = {}, invalid = []
+  for (const key of rubricCriteria) {
+    const raw = values?.[key]
+    const value = typeof raw === 'number' || typeof raw === 'string' && raw.trim() !== '' ? Number(raw) : NaN
+    if (!Number.isInteger(value) || value < 0 || value > 25) invalid.push(key)
+    else scores[key] = value
+  }
+  return { scores: invalid.length ? null : scores, invalid }
+}

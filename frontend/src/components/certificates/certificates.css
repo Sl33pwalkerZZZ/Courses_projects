@@ -23,4 +23,21 @@
 .profile-page .certificate-section { padding: 32px; background: var(--v2-surface); border-radius: 20px; }
 .profile-page .certificate-card { padding: 24px; background: var(--v2-surface-raised); }
 .profile-page .certificate-actions > * { max-width: 100%; overflow-wrap: anywhere; }
+.profile-page .certificate-name-section { scroll-margin-top: calc(var(--v2-header-height) + 24px); }
+.certificate-name-section > p { max-width: 72ch; color: var(--v2-text-muted); }
+.certificate-name-status { padding: 12px 14px; border-inline-start: 3px solid var(--v2-link); background: var(--v2-surface-raised); }
+.certificate-name-form { display: grid; justify-items: start; gap: 10px; max-width: 38rem; margin-top: 22px; }
+.certificate-name-form > label { font-size: .9rem; font-weight: 600; }
+.certificate-name-form > input { width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid var(--v2-border); border-radius: 10px; background: var(--v2-surface-raised); color: var(--v2-text); font: inherit; }
+.certificate-name-form > input:focus-visible, .certificate-name-confirm-label input:focus-visible { outline: 3px solid var(--v2-link); outline-offset: 3px; }
+.certificate-name-form > p { margin: 0 0 6px; color: var(--v2-text-muted); font-size: .82rem; line-height: 1.7; }
+.certificate-name-confirmation { display: grid; justify-items: start; gap: 12px; max-width: 38rem; margin-top: 24px; padding: 20px; border: 1px solid var(--v2-border); border-radius: 14px; background: var(--v2-surface-raised); }
+.certificate-name-confirmation > p { margin: 0; }
+.certificate-name-preview { color: var(--v2-text); font-size: 1.15rem; font-weight: 650; overflow-wrap: anywhere; }
+.certificate-name-confirm-label { display: flex; align-items: flex-start; gap: 10px; line-height: 1.6; }
+.certificate-name-confirm-label input { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 2px; accent-color: var(--v2-link); }
+.certificate-name-section [role="alert"] { color: var(--v2-danger); }
 @media(max-width:600px) { .certificate-verification { width: 100%; margin-block: 24px; padding: 24px 20px; border-radius: 20px; } .certificate-verification dl { grid-template-columns: minmax(0,1fr); } .profile-page .certificate-section, .profile-page .certificate-card { padding: 24px 20px; } }
+
+.certificate-preview { margin-top: 1rem; }
+.certificate-preview iframe { display: block; width: 100%; height: min(70vh, 44rem); margin-top: .75rem; border: 1px solid var(--v2-border); border-radius: .5rem; background: var(--v2-surface); }

@@ -30,13 +30,14 @@ function requireSession(generation, allowMixed = false) {
 }
 
 function requireRequestSession(config) {
-  if (config._publicCourseRead) return sessions.read()
-  return requireSession(config._sessionGeneration, config._anonymous && isPublicRead(config))
+  // Only requests actually sent without credentials are independent of account.
+  if (config._anonymous && isPublicRead(config)) return sessions.read()
+  return requireSession(config._sessionGeneration)
 }
 
-function isPublicCourseRead(config) {
+function isPublicCatalogRead(config) {
   return ['get', 'head'].includes(config.method)
-    && /^\/courses\/(?:[^/]+\/)?$/.test(config.url.split('?')[0])
+    && config.url.split('?')[0] === '/courses/'
 }
 
 function isPublicRead(config) {
@@ -87,22 +88,59 @@ async function refreshAccessToken(generation) {
   return refreshFlight.promise
 }
 
+function anonymizePublicRead(config) {
+  if (!isPublicRead(config)) throw sessionChanged()
+  config._anonymous = true
+  config._sessionGeneration = getAuthSession().generation
+  delete config.headers.Authorization
+  return config
+}
+
+// Axios runs request interceptors in reverse registration order, so this runs
+// after the synchronous session/header capture below, only for refresh-only
+// requests. Recover before sending: anonymous draft details return 404, not 401.
+api.interceptors.request.use(async (config) => {
+  let current = requireRequestSession(config)
+  if (!current.access) {
+    config._retried = true
+    try {
+      await refreshAccessToken(config._sessionGeneration)
+      current = requireSession(config._sessionGeneration)
+    } catch (error) {
+      if (axios.isCancel(error) || sessions.read().snapshot.authenticated) throw sessionChanged()
+      if (!isPublicRead(config)) throw sessionChanged()
+      return anonymizePublicRead(config)
+    }
+  }
+  config.headers.Authorization = `Bearer ${current.access}`
+  return config
+}, undefined, { runWhen(config) {
+  const current = sessions.read()
+  if (config._anonymous || isPublicCatalogRead(config) || current.access || !current.snapshot.authenticated) return false
+  // runWhen is evaluated immediately, before an async interceptor is queued.
+  // Capture here too so a queued refresh-only request cannot adopt account B.
+  config._sessionGeneration ??= current.snapshot.generation
+  return true
+} })
+
 api.interceptors.request.use((config) => {
-  // These serializers contain only public metadata. Reviews remain session-bound
-  // because their response also includes the current user's own review.
-  config._publicCourseRead = isPublicCourseRead(config)
-  if (config._publicCourseRead) config._anonymous = true
+  if (config._sessionGeneration !== undefined) requireRequestSession(config)
   let current = sessions.read()
+  // Catalog responses are public. Detail/reviews carry the current session,
+  // including access to enrolled drafts and the current user's own review.
+  if (isPublicCatalogRead(config) || (!current.snapshot.authenticated && isPublicRead(config))) {
+    config._anonymous = true
+  }
   if (current.mixedAccounts) {
     if (!isPublicRead(config)) throw sessionChanged()
     // Public browsing can continue anonymously during a partially replaced pair.
     // Do not erase credentials another tab may still be committing.
     config._anonymous = true
   }
-  if (config._sessionGeneration !== undefined) requireRequestSession(config)
   if (!current.mixedAccounts && !current.snapshot.authenticated && (current.access || current.refresh)) {
     logout()
     current = sessions.read()
+    config._sessionGeneration = current.snapshot.generation
   }
   // Synchronous capture also protects requests queued just before a new login.
   config._sessionGeneration ??= current.snapshot.generation
@@ -128,9 +166,10 @@ api.interceptors.response.use((response) => {
   if (!config) throw error
   requireRequestSession(config)
   if (error.response?.status !== 401) throw error
-  if (config._publicCourseRead) throw error
+  if (config._anonymous) throw error
   if (config._retried) {
     if (config.headers.Authorization === `Bearer ${sessions.read().access}`) logout()
+    if (isPublicRead(config) && !sessions.read().snapshot.authenticated) return api(anonymizePublicRead(config))
     throw error
   }
   config._retried = true
@@ -145,8 +184,7 @@ api.interceptors.response.use((response) => {
     if (axios.isCancel(refreshError) || sessions.read().snapshot.authenticated) throw sessionChanged()
     if (!isPublicRead(config)) throw error
     // Failed refresh ended the session: only a public read can retry anonymously.
-    config._anonymous = true
-    config._sessionGeneration = getAuthSession().generation
+    anonymizePublicRead(config)
   }
   return api(config)
 })
