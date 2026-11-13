@@ -1,0 +1,5 @@
+# These two approved subtitle assets are pinned by Lesson114 integration,
+# production manifests and existing protected attachments. Preserve exact bytes.
+# Ignore only their terminal blank line; all other whitespace checks stay enabled.
+/video-production/lesson-114-production/content/m5-l14-v2-narration-balance-quality-v2.vtt whitespace=-blank-at-eof
+/video-production/lesson-114-production/content/m5-l14-v3-caption-review-quality-v2.vtt whitespace=-blank-at-eof

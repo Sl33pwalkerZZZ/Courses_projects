@@ -1,0 +1,22 @@
+# Storyboard — m5-l15-v2-vertical-adaptation
+
+**Title:** Вертикальная версия без потери смысла
+**Anchor:** after Lesson 115 section 5, `Адаптация 16:9 в 9:16`
+**Duration target:** 115 s; planned cut, not measured recording/caption timing.
+**Primary footage:** genuine CapCut Desktop capture showing the actual project-copy, aspect-ratio and reframing workflow available in the recorded build.
+**Delivery frame:** the instructional screen-recording remains landscape 16:9; the edit being demonstrated is 9:16.
+
+| Planned time | Screen source and visible material | Actual operation/action | Russian narration | Graphics and verification |
+|---|---|---|---|---|
+| 00–12 | **REAL — CapCut capture.** Existing horizontal F1 project and clear project name. | Verify the original is saved. Use the real build's supported method to create a separate working copy; if no such method is verified, stop rather than claim a duplicate exists. | “Вертикальную версию подготовим отдельно, сохранив горизонтальный проект. Сначала проверим, как в установленной версии CapCut безопасно создать отдельную рабочую копию.” | Remotion opening labels “Исходная 16:9” and “Отдельная версия” outside the app, not as fake project panels. Verify original is not overwritten. |
+| 12–31 | **REAL — CapCut capture.** Actual aspect-ratio control if present. | Change the working copy to 9:16 using the interface operation observed in the installed version. Show the crop/reframing consequences. | “Переведём композицию из 16:9 в 9:16 с помощью реально доступного в этой версии управления соотношением сторон. Посмотрим, какая часть исходного кадра оказалась за границей.” | Remotion may show a separate 16:9/9:16 frame diagram from the same fictional artwork; label “Схема кадрирования”. Never recreate CapCut's controls. |
+| 31–53 | **REAL — CapCut capture.** Actual canvas and selected F1 image/clip. | Reposition/scale using real controls; preserve proportions. If side-by-side items do not fit, adjust shot order only if the actual project supports the edit. | “Перестроим композицию вручную: сохраним важный предмет целиком, не будем растягивать изображение по одной оси. Если элементы не помещаются рядом, покажем их последовательно.” | Optional Remotion overlay uses a clean before/after crop of cleared art, distinct from the app recording. Check no distortion or hidden teaching content. |
+| 53–76 | **REAL — CapCut capture.** Actual titles, labels and captions in the working edit. | Move/rebuild text in the real project. Preserve the “Вымышленный учебный пример Ф1” disclosure; keep labels away from important objects. | “Перенесём заголовок, пояснения и субтитры так, чтобы они не закрывали объект и оставались читаемыми. Пометка «Вымышленный учебный пример Ф1» должна сохраниться.” | Remotion may demonstrate text-safe margins in a separate labeled diagram. No universal platform-safe zone claim. |
+| 76–96 | **REAL — CapCut capture.** Timeline and several different scenes. | Review every scene and the actual caption placement. If auto-reframe exists, show its real result and the manual correction/check. | “Проверим все сцены, а не только первый кадр. Автоматическое кадрирование, если оно есть в этой версии, рассматриваем как подсказку и проверяем вручную.” | No feature is named/claimed unless present. Show first, middle and last content, including smaller notes. |
+| 96–115 | **REAL — CapCut capture**, then actual exported vertical file in a player. | Export under a distinct version name if the real export path allows it; open the actual output and compare it with the saved landscape source. | “Сохраним вертикальный вариант отдельно и сравним его с горизонтальным по смыслу и читаемости. Мы не делаем выводов о просмотрах или эффективности публикации.” | Remotion end card may show two clearly labeled aspect-ratio outlines using real lesson art. No performance metrics. |
+
+## Cut and truth rules
+
+- Confirm the exact project-copy and aspect-ratio operations in the recorded CapCut version before narration lock. If the workflow differs, update this storyboard after human review.
+- Do not claim a universal “safe zone”; assess visible text against the actual frame and the intended platform's current documented requirements only if separately sourced.
+- No horizontal stretching, fake crop handles or simulated app panels. The final course asset remains 1920×1080-style landscape screen capture unless the manifest is explicitly revised through an approved task.

@@ -1,0 +1,200 @@
+{
+  "status": "local_candidate_pending_human_listening_and_author_approval",
+  "track": {
+    "title": "Minimal Tech Ambient — original AI Courses theme",
+    "creator": "AI Courses project, procedurally synthesized",
+    "local_source_asset": "audio/music/minimal-tech-ambient-v1-theme-64s.wav",
+    "original_source_asset": "video-production/lesson-113-production/out/audio-preview/minimal-tech-ambient-v1-theme-64s.wav",
+    "source_sha256": "bb3a3d45fc3820a18a087c2791de0139c7cc3459456749071a3ed4ac7ebbb489",
+    "composer_source": "video-production/lesson-113-production/scripts/prepare_music_preview.py",
+    "composer_source_sha256": "2206444d87b370ac9257ca6cfca76a88ee3f37949543a2246e56c207a4882300",
+    "method": "Original deterministic Python standard-library additive synthesis with procedural filtered noise; no downloaded recordings, samples, lyrics, pretrained model or external music API.",
+    "score": "72 BPM; Dmaj9 → Bm7 → Gmaj9 → Aadd9; sparse sine pads, original bell motif and soft pulse; same score continued at native tempo for each full video duration.",
+    "license_and_use": "No third-party audio or third-party license terms are present. This project-created composition was previously approved by the course owner for the AI Courses video series. No broader sublicense or ownership claim is made here; confirm with the rights holder if use outside this project is planned."
+  },
+  "configuration": {
+    "music_reference_gap_db_below_active_narration": 22.0,
+    "duck_max_db": 6.0,
+    "duck_attack_seconds": 0.2,
+    "duck_release_seconds": 1.0,
+    "speech_activity_threshold_dbfs": -48.0,
+    "fade_in_seconds": 1.2,
+    "fade_out_seconds": 2.0,
+    "fade_method": "Existing composer raised-cosine gain envelope.",
+    "looping_or_stretching": "None. The existing score generator composes each complete duration at native tempo; the harmonic phrase continues without a loop boundary.",
+    "music_sample_rate_hz": 48000,
+    "channels": 2,
+    "music_pcm_format": "PCM signed 24-bit WAV",
+    "sfx_and_narration": "Existing voice+SFX PCM16 mix is used unchanged as the foreground input; the separate voice stem only controls music ducking. No VTT timing is rewritten.",
+    "processing": "Linear music gain and smooth duck envelope, additive float mix, PCM24 WAV output; no compressor, limiter or time stretch."
+  },
+  "videos": [
+    {
+      "id": "m5-l15-v1-export-check",
+      "duration_seconds": 94.53333333333333,
+      "active_narration_rms_median_dbfs": -30.77,
+      "unattenuated_music_rms_median_in_speech_windows_dbfs": -23.58,
+      "music_gain_db": -29.18,
+      "baseline_music_gap_db": -22.0,
+      "max_duck_reached_db": 6.0,
+      "speech_active_blocks": 3255,
+      "music_to_voice_median_db_during_speech_after_duck": -27.76,
+      "music_to_voice_min_max_db_during_speech_after_duck": [
+        -41.22,
+        -6.39
+      ],
+      "mixed_sample_peak_dbfs": -6.29,
+      "inputs": {
+        "foreground_mix": {
+          "path": "out/audio-sentence/m5-l15-v1-export-check-mix.wav",
+          "sha256": "f9898896d779d1983c2380ca811b36124725a6afb8d4d449cb9315e36712eb83"
+        },
+        "voice_control": {
+          "path": "out/audio-sentence/m5-l15-v1-export-check-voice.wav",
+          "sha256": "41f8ca2357d44dd6f5d3327a25e74db6004b36ffdca28616faa1e1733fce70ed"
+        }
+      },
+      "outputs": {
+        "music_base": {
+          "path": "out/audio-bgm/m5-l15-v1-export-check-music-base.wav",
+          "sha256": "0722b2ea830208599295fe71ee528225839b9090d6fb57ecbbdc37179ae5b008"
+        },
+        "music_bed": {
+          "path": "out/audio-bgm/m5-l15-v1-export-check-music.wav",
+          "sha256": "f7e14dd846385205278e1b112c661d54e80ee1c13064971d7a2d60a8157dffc2"
+        },
+        "mix": {
+          "path": "out/audio-bgm/m5-l15-v1-export-check-bgm-mix.wav",
+          "sha256": "153fdeff00fe9828b65bf96131898c28c4d275583163f31fdf82b60bd32d34dd"
+        }
+      },
+      "vtt": {
+        "path": "out/final-sentence/m5-l15-v1-export-check.vtt",
+        "sha256": "f21a0c05a5de5b080b4abb53ae1358ae140ec640c4b9a1ae84bb5b242ea3a613"
+      }
+    },
+    {
+      "id": "m5-l15-v2-vertical-adaptation",
+      "duration_seconds": 80.73333333333333,
+      "active_narration_rms_median_dbfs": -30.72,
+      "unattenuated_music_rms_median_in_speech_windows_dbfs": -23.57,
+      "music_gain_db": -29.15,
+      "baseline_music_gap_db": -22.0,
+      "max_duck_reached_db": 6.0,
+      "speech_active_blocks": 2883,
+      "music_to_voice_median_db_during_speech_after_duck": -27.78,
+      "music_to_voice_min_max_db_during_speech_after_duck": [
+        -41.77,
+        -6.75
+      ],
+      "mixed_sample_peak_dbfs": -5.64,
+      "inputs": {
+        "foreground_mix": {
+          "path": "out/audio-sentence/m5-l15-v2-vertical-adaptation-mix.wav",
+          "sha256": "95248dbf8d5cb8754490005a799dbdb6371a3e721e1855080b1364640d8aa1d8"
+        },
+        "voice_control": {
+          "path": "out/audio-sentence/m5-l15-v2-vertical-adaptation-voice.wav",
+          "sha256": "1a34d982f75d3cf6986199e270af46b6316b07bbbcfaab858f47ba2731256538"
+        }
+      },
+      "outputs": {
+        "music_base": {
+          "path": "out/audio-bgm/m5-l15-v2-vertical-adaptation-music-base.wav",
+          "sha256": "312293b35b4d89ed7ae16c63bbbd61b82c22ebbcc4e79e909999dfde53cc9792"
+        },
+        "music_bed": {
+          "path": "out/audio-bgm/m5-l15-v2-vertical-adaptation-music.wav",
+          "sha256": "0534a6fee7f6829e409ef98c85cdde75c8168a5abdbf015fe05cad69479fd377"
+        },
+        "mix": {
+          "path": "out/audio-bgm/m5-l15-v2-vertical-adaptation-bgm-mix.wav",
+          "sha256": "3c632eceef447e33547ebf6b767891cc76a94d6b4bb0559320c43af415cd4699"
+        }
+      },
+      "vtt": {
+        "path": "out/final-sentence/m5-l15-v2-vertical-adaptation.vtt",
+        "sha256": "3e20267339626e465de13ded4405222954a65bb763cbdade8fe5ae4261d90eb1"
+      }
+    },
+    {
+      "id": "m5-l15-v3-final-review",
+      "duration_seconds": 79.16666666666667,
+      "active_narration_rms_median_dbfs": -30.24,
+      "unattenuated_music_rms_median_in_speech_windows_dbfs": -23.62,
+      "music_gain_db": -28.62,
+      "baseline_music_gap_db": -22.0,
+      "max_duck_reached_db": 6.0,
+      "speech_active_blocks": 2733,
+      "music_to_voice_median_db_during_speech_after_duck": -27.74,
+      "music_to_voice_min_max_db_during_speech_after_duck": [
+        -40.77,
+        -7.31
+      ],
+      "mixed_sample_peak_dbfs": -5.11,
+      "inputs": {
+        "foreground_mix": {
+          "path": "out/audio-sentence/m5-l15-v3-final-review-mix.wav",
+          "sha256": "7cda7f9fb49a3f7f41e9f6bd06a53a41c1e2e0aa518f4bd439f26b1f2345fe0e"
+        },
+        "voice_control": {
+          "path": "out/audio-sentence/m5-l15-v3-final-review-voice.wav",
+          "sha256": "5aad3ffc4518a0f93ff0afcf7a51c4ec385ca1b8b756f09f1d4c2f2a7461a0dc"
+        }
+      },
+      "outputs": {
+        "music_base": {
+          "path": "out/audio-bgm/m5-l15-v3-final-review-music-base.wav",
+          "sha256": "8f03cdd68ccdbb9ce4cb075d14c0342cadc07c781d19a0f8a309eb1c17888997"
+        },
+        "music_bed": {
+          "path": "out/audio-bgm/m5-l15-v3-final-review-music.wav",
+          "sha256": "5e15348e89a0f121c14d0462b7141f00e320ac9e431662c7f7a1f4a7d96982ed"
+        },
+        "mix": {
+          "path": "out/audio-bgm/m5-l15-v3-final-review-bgm-mix.wav",
+          "sha256": "766d9695ea7bd087a6d57c88a4b5d052224b01c113196232a4a80727767b0697"
+        }
+      },
+      "vtt": {
+        "path": "out/final-sentence/m5-l15-v3-final-review.vtt",
+        "sha256": "4bfb3ff35028e7193ecd7007ef15164d04255842d129b7eda4c7dc5b9d5cc419"
+      }
+    }
+  ],
+  "candidate_mp4": {
+    "path": "out/final-sentence/m5-l15-v1-bgm-candidate.mp4",
+    "sha256": "22a00b5d27549f993ef9c1c2d8205fbdf6ba28cbbe76e68ad547dcf0f4ae059f",
+    "original_v1_sha256_before_and_after": "9c9b6dadb755734a8e23f8d5579651e68b4b7dc6e3962659f877e756cd9f3653",
+    "ffmpeg_command": [
+      "ffmpeg",
+      "-v",
+      "error",
+      "-nostdin",
+      "-n",
+      "-i",
+      "/home/almas/Desktop/courses/Courses_projects/video-production/lesson-115-production/out/final-sentence/m5-l15-v1-export-check.mp4",
+      "-i",
+      "/home/almas/Desktop/courses/Courses_projects/video-production/lesson-115-production/out/audio-bgm/m5-l15-v1-export-check-bgm-mix.wav",
+      "-map",
+      "0:v:0",
+      "-map",
+      "1:a:0",
+      "-c:v",
+      "copy",
+      "-c:a",
+      "aac",
+      "-b:a",
+      "320k",
+      "-ar",
+      "48000",
+      "-ac",
+      "2",
+      "-shortest",
+      "-movflags",
+      "+faststart",
+      "/home/almas/Desktop/courses/Courses_projects/video-production/lesson-115-production/out/final-sentence/m5-l15-v1-bgm-candidate.mp4"
+    ],
+    "video_stream": "Copied from original V1 with -c:v copy; no Remotion render or video re-encode."
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "ai-courses-lesson-113-production",
+  "version": "1.0.0",
+  "description": "Three text-led schematic Lesson 113 tutorials",
+  "repository": {},
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "^20.19.0 || ^22.13.0 || >=24"
+  },
+  "private": true,
+  "dependencies": {
+    "@remotion/cli": "4.0.540",
+    "@remotion/fonts": "4.0.540",
+    "@remotion/media": "4.0.540",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.540"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.540",
+    "@types/react": "19.3.0",
+    "@types/web": "0.0.166",
+    "eslint": "10.12.0",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
+  },
+  "scripts": {
+    "dev": "remotion studio",
+    "lint": "eslint src && tsc",
+    "build": "remotion bundle",
+    "render:previews": "node scripts/render-package.mjs --preview",
+    "render:finals": "node scripts/render-package.mjs --final",
+    "verify": "python3 -B scripts/verify_package.py"
+  },
+  "allowScripts": {
+    "esbuild": false
+  }
+}

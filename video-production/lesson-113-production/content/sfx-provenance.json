@@ -1,0 +1,46 @@
+{
+  "origin": "Original reproducible procedural synthesis; no external recordings or AI models.",
+  "method": "Python stdlib; deterministic filtered noise, damped sinusoidal transients and two-note completion cue.",
+  "distribution": "Original assets authored for AI Courses educational videos; no third-party sound sample licenses.",
+  "sample_rate": 48000,
+  "channels": 1,
+  "format": "WAV PCM16",
+  "generator": "scripts/prepare_package.py",
+  "files": {
+    "click.wav": {
+      "duration": 0.075,
+      "samples": 3600,
+      "peak": 0.46,
+      "rms": 0.08597285776517533,
+      "sha256": "5e51740c798309c5c5604e85a3e25301e1b4e0d1a1044e95ff083487d0e118a7"
+    },
+    "whoosh.wav": {
+      "duration": 0.42,
+      "samples": 20160,
+      "peak": 0.46,
+      "rms": 0.075394462349974,
+      "sha256": "afd294f6345bb386359596d6f3583d1585decb1fc105dac9b00ff44590ff5672"
+    },
+    "pop.wav": {
+      "duration": 0.18,
+      "samples": 8640,
+      "peak": 0.46,
+      "rms": 0.12449695192250004,
+      "sha256": "b53aae7af8b953e5e3ec4fdc7492932e9340e69e931c9c312746a655c6129822"
+    },
+    "drop.wav": {
+      "duration": 0.14,
+      "samples": 6720,
+      "peak": 0.46,
+      "rms": 0.08181998547807678,
+      "sha256": "6e5a0f916dba3a04ee3de661e4260a6647123933a32947d2261b3126bc31463f"
+    },
+    "complete.wav": {
+      "duration": 0.65,
+      "samples": 31200,
+      "peak": 0.46,
+      "rms": 0.1120550044316697,
+      "sha256": "ae0b14e40ef462383a67010659accac37ced261deb1a0d1f96f2c0586e3723ad"
+    }
+  }
+}

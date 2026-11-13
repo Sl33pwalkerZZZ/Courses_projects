@@ -1,0 +1,82 @@
+{
+  "status": "READY_FOR_AUTHOR_REVIEW_NOT_UPLOADED",
+  "course_id": 10,
+  "module_id": 39,
+  "lesson_id": 114,
+  "batch_importer_compatible": false,
+  "assets": [
+    {
+      "kind": "video",
+      "mime_type": "video/mp4",
+      "file": "out/final/m5-l14-v1-rough-cut-quality-v2.mp4",
+      "sha256": "398bccbc15ee19f4fdb1158809aafedcd1d73fc1354b8f3383633eda54a56bb1",
+      "seconds": 54,
+      "metadata": {
+        "label": "Ф1: черновой монтаж",
+        "caption": "Учебная схема, не запись CapCut Desktop. Ф1 — вымышленный пример. Без диктора; инструкции на экране.",
+        "transcript": "Учебная схема, не запись CapCut Desktop. Ф1 — вымышленный пример. Без диктора и речевого примера.\n1. Библиотека условных исходников показана до размещения. Импорт и размещение — разные действия.\n2. Условный временной клип сокращается с 12до 10секунд; это не неподвижная фотография.\n3. Клип 10с разделён в 3и 5с: действие 3с, пауза 2с, действие 5с.\n4. Исчезает только фрагмент 3–5с; видимый разрыв пока остаётся.\n5. Правая часть вручную сдвигается с 5сна 3с, получается 8с без пустоты.\n6. Возврат к неподвижным схемам Ф 1: сначала исправляется порядок, затем лист 5с→7с. Не выдавать их за снятое действие.\n7. Курсор проходит стык листа и проверки; предпросмотр меняется на границе. Эффекты не добавляются.\n",
+        "provenance": "Original AI Courses schematic diagrams/music; approved QualityV2 tokens/theme/tonal effects reused. No real CapCut recording. ",
+        "after_section": "3. Черновая сборка и ритм кадров"
+      },
+      "preview": {
+        "file": "out/previews/m5-l14-v1-rough-cut-quality-v2.mp4",
+        "sha256": "4de75aebc1ffbf663caaf13958c27bb089233f9783315acb59655d72fdc7fc75",
+        "width": 960,
+        "height": 540
+      },
+      "optional_vtt": null
+    },
+    {
+      "kind": "video",
+      "mime_type": "video/mp4",
+      "file": "out/final/m5-l14-v2-narration-balance-quality-v2.mp4",
+      "sha256": "0d4171604271e3c62a122e41590be221a9cdec6b84184e8006a811dca513b8df",
+      "seconds": 60,
+      "metadata": {
+        "label": "Ф1: озвучка и баланс",
+        "caption": "Учебная схема, не запись CapCut Desktop. Ф1 — вымышленный пример. Короткая учебная речь Silero CIS Base ru_roman, MIT; инструкции на экране. Одинаковый голос; в сравнении изменён только уровень фона.",
+        "transcript": "Учебная схема, не запись CapCut Desktop. Ф1 — вымышленный пример. Инструкции на экране; короткая синтезированная речь Ф1 — настоящий разрешённый пример Silero MIT, не диктор урока.\n1. Существующая одобренная запись 8.5625с, не новый диктор урока.\n2. Голос начинается в 0с проектной шкалы; кадры покрывают всю реплику, волна получена из настоящего WAV.\n3. Настоящая полная запись звучит без музыки; курсор и подпись следуют времени исходника.\n4. Та же запись и её уровень сохранены; громче только копия исходной темы в сравнении.\n5. Фон плавно уменьшается; голос не нормализуется повторно и не меняет уровень.\n6. Полная запись снова звучит поверх тихой темы; положение изображения согласовано с репликой.\n7. Показаны мягкие края музыки, слова не режутся. Проверьте всю сцену при удобной громкости.\n",
+        "provenance": "Original AI Courses schematic diagrams/music; approved QualityV2 tokens/theme/tonal effects reused. No real CapCut recording. Existing approved Module4 speech reused unchanged; no ASR execution.\n\nSilero Team; v5_cis_base_nostress, speaker ru_roman. Official checkpoint: https://models.silero.ai/models/tts/ru/v5_cis_base_nostress.pt; SHA-256: 0405777e332906f0644e08a680f7cfdc2137ea864090079c1fdd30a43c1b8761. MIT License\n\nCopyright (c) 2025-present Silero Team\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+        "after_section": "5. Озвучка, паузы и баланс звука"
+      },
+      "preview": {
+        "file": "out/previews/m5-l14-v2-narration-balance-quality-v2.mp4",
+        "sha256": "046617c89aea675fc6dcc6978cec94eb1986fe60c9895e9b98b6dfda2c5d7458",
+        "width": 960,
+        "height": 540
+      },
+      "optional_vtt": {
+        "file": "content/m5-l14-v2-narration-balance-quality-v2.vtt",
+        "sha256": "0f23a05e719d13ae7b4715d8cb78730f772545789fb5117ee0395dd485eb1620",
+        "kind": "vtt",
+        "after_section": "5. Озвучка, паузы и баланс звука"
+      }
+    },
+    {
+      "kind": "video",
+      "mime_type": "video/mp4",
+      "file": "out/final/m5-l14-v3-caption-review-quality-v2.mp4",
+      "sha256": "266c7770ac8fe56fa73061a055548e2ba7a0dc7e838e53eec3763560a0342ad2",
+      "seconds": 60,
+      "metadata": {
+        "label": "Ф1: проверка субтитров",
+        "caption": "Учебная схема, не запись CapCut Desktop. Ф1 — вымышленный пример. Короткая учебная речь Silero CIS Base ru_roman, MIT; инструкции на экране. Ошибка распознавания специально смоделирована, ASR не запускалась.",
+        "transcript": "Учебная схема, не запись CapCut Desktop. Ф1 — вымышленный пример. Инструкции на экране; короткая синтезированная речь Ф1 — настоящий разрешённый пример Silero MIT, не диктор урока.\n1. Обычная схема речь→черновик без притворного запуска сервиса; источник — разрешённая запись.\n2. Настоящая запись звучит полностью, показаны исходные проверенные реплики с точными временами.\n3. В полном последнем блоке показана ошибочная версия «а измерение экономии»; подпись моделирования видна постоянно.\n4. Сначала восстанавливается не, затем запятая после бумаги и точка; действия разделены по времени.\n5. Условно преждевременный блок 5.8–7.5с сдвигается к настоящим границам 6.425–8.312с.\n6. Показаны одинаковая реплика/время с корректными запятой/точкой и заголовкомWEBVTT; это не готовые дорожки к ролику.\n7. Вся настоящая запись повторяется с проверенными тремя блоками, без заявления о запуске ASR.\n",
+        "provenance": "Original AI Courses schematic diagrams/music; approved QualityV2 tokens/theme/tonal effects reused. No real CapCut recording. Existing approved Module4 speech reused unchanged; no ASR execution.\n\nSilero Team; v5_cis_base_nostress, speaker ru_roman. Official checkpoint: https://models.silero.ai/models/tts/ru/v5_cis_base_nostress.pt; SHA-256: 0405777e332906f0644e08a680f7cfdc2137ea864090079c1fdd30a43c1b8761. MIT License\n\nCopyright (c) 2025-present Silero Team\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+        "after_section": "7. Субтитры и ответственное использование ИИ"
+      },
+      "preview": {
+        "file": "out/previews/m5-l14-v3-caption-review-quality-v2.mp4",
+        "sha256": "3a5a524b55a2f38837223729078e0ca88aebbae766c2d7c92e7edc59eaab3f76",
+        "width": 960,
+        "height": 540
+      },
+      "optional_vtt": {
+        "file": "content/m5-l14-v3-caption-review-quality-v2.vtt",
+        "sha256": "52f8083248c0739db35e7cb2af6c399d385983429da73659185aaf01f49e3ac2",
+        "kind": "vtt",
+        "after_section": "7. Субтитры и ответственное использование ИИ"
+      }
+    }
+  ]
+}

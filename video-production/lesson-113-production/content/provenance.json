@@ -1,0 +1,23 @@
+{
+  "course_id": 10,
+  "module_id": 39,
+  "lesson_id": 113,
+  "language": "ru",
+  "mode": "text-led schematic tutorials; no narrated speech",
+  "source_files": {
+    "courses/management/media_module_5.json": "8e1003838194901cd780bd1ef61d0cd25ef2840a6e0845115d301c73734f3670",
+    "docs/courses/media-module-5-storyboards.json": "b1b6171b27a6ad7c2ac7907329a9479d4ce942f78816f49f4c0329847288084f",
+    "docs/courses/media-module-5-assets.json": "fee40f0d833a0dcc53797d787765a5076daf8693d7b338ae660f44b5a408f228",
+    "course_assets/module_5/m5-l13-v1-production/originals/f1-paper-diagram.svg": "b992f37e03f902295ed357e1945773fa48fa41c9267f2f6aedc9e47d93c68f24",
+    "course_assets/module_5/m5-l13-v1-production/originals/f1-notepad-diagram.svg": "79c84cedb4371b50e06578aac950ab7f73cf5ab45ee87f3ea99d94cbfb8f599b"
+  },
+  "approved_visual_reference": "video-production/module-5-style-test",
+  "font_provenance": "Existing local Noto Sans; SIL OFL notice retained",
+  "original_illustrations": "Copied unchanged from original fictional F1 teaching package",
+  "limitations": [
+    "No verified CapCut screen footage",
+    "No claim of actual import/save/reopening in installed CapCut",
+    "No course-manifest update or attachment",
+    "No fabricated spoken subtitles; reading transcripts only"
+  ]
+}

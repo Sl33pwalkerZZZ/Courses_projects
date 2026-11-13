@@ -1,0 +1,488 @@
+{
+  "m5-l15-v1-export-check": {
+    "durationFrames": 2836,
+    "durationSeconds": 94.53333333333333,
+    "scenes": [
+      {
+        "kind": "project-file",
+        "startFrame": 0,
+        "durationFrames": 488,
+        "startSample": 0,
+        "endSample": 780800,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 87,
+            "text": "Сначала различим проект и готовое видео."
+          },
+          {
+            "startFrame": 116,
+            "durationFrames": 173,
+            "text": "Проект нужен, чтобы продолжить монтаж; экспортированный файл — чтобы посмотреть результат."
+          },
+          {
+            "startFrame": 301,
+            "durationFrames": 154,
+            "text": "Перед экспортом проверим конец последовательности и уберём случайный пустой хвост."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-01-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-01-cue-02.wav",
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-01-cue-03.wav"
+        ]
+      },
+      {
+        "kind": "file-name",
+        "startFrame": 488,
+        "durationFrames": 475,
+        "startSample": 780800,
+        "endSample": 1540800,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 200,
+            "text": "В учебной схеме обозначим папку для экспорта и понятное имя, например, первая горизонтальная версия."
+          },
+          {
+            "startFrame": 229,
+            "durationFrames": 83,
+            "text": "Проект и исходники сохраняйте отдельно."
+          },
+          {
+            "startFrame": 324,
+            "durationFrames": 119,
+            "text": "Публикацию и отправку в социальные сети здесь не выполняем."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-02-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-02-cue-02.wav",
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-02-cue-03.wav"
+        ]
+      },
+      {
+        "kind": "container-codec",
+        "startFrame": 963,
+        "durationFrames": 691,
+        "startSample": 1540800,
+        "endSample": 2646400,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 171,
+            "text": "Подбирайте размер кадра и частоту под подготовленную последовательность и доступные настройки."
+          },
+          {
+            "startFrame": 199,
+            "durationFrames": 283,
+            "text": "Профиль одна тысяча девятьсот двадцать на одна тысяча восемьдесят и тридцать кадров в секунду используйте, только если он соответствует исходнику и доступен."
+          },
+          {
+            "startFrame": 495,
+            "durationFrames": 163,
+            "text": "Эм-пэ-четыре — контейнер, эйч двести шестьдесят четыре — кодек; это разные свойства."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-03-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-03-cue-02.wav",
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-03-cue-03.wav"
+        ]
+      },
+      {
+        "kind": "export-flow",
+        "startFrame": 1654,
+        "durationFrames": 320,
+        "startSample": 2646400,
+        "endSample": 3158400,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 137,
+            "text": "В учебной последовательности покажем локальный экспорт и его завершение."
+          },
+          {
+            "startFrame": 166,
+            "durationFrames": 122,
+            "text": "Ожидание сокращено и не показывает реальную скорость программы."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-04-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-04-cue-02.wav"
+        ]
+      },
+      {
+        "kind": "player-check",
+        "startFrame": 1974,
+        "durationFrames": 401,
+        "startSample": 3158400,
+        "endSample": 3800000,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 123,
+            "text": "После экспорта откройте именно созданный файл в обычном плеере."
+          },
+          {
+            "startFrame": 151,
+            "durationFrames": 90,
+            "text": "Проверьте начало, середину, звук и конец."
+          },
+          {
+            "startFrame": 253,
+            "durationFrames": 114,
+            "text": "Предпросмотр редактора не заменяет проверку отдельного файла."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-05-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-05-cue-02.wav",
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-05-cue-03.wav"
+        ]
+      },
+      {
+        "kind": "metadata-check",
+        "startFrame": 2375,
+        "durationFrames": 461,
+        "startSample": 3800000,
+        "endSample": 4537600,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 113,
+            "text": "Преподаватель может отдельно проверить свойства файла с помощью ffprobe."
+          },
+          {
+            "startFrame": 142,
+            "durationFrames": 145,
+            "text": "Сверьте фактические потоки, размер кадра и частоту с требованиями курса."
+          },
+          {
+            "startFrame": 299,
+            "durationFrames": 129,
+            "text": "Если файл не подходит, исправьте подготовку и повторите проверку."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-06-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-06-cue-02.wav",
+          "audio/narration_sentences/m5-l15-v1-export-check/scene-06-cue-03.wav"
+        ]
+      }
+    ]
+  },
+  "m5-l15-v2-vertical-adaptation": {
+    "durationFrames": 2422,
+    "durationSeconds": 80.73333333333333,
+    "scenes": [
+      {
+        "kind": "separate-version",
+        "startFrame": 0,
+        "durationFrames": 374,
+        "startSample": 0,
+        "endSample": 598400,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 103,
+            "text": "Сначала сохраните исходную горизонтальную версию."
+          },
+          {
+            "startFrame": 132,
+            "durationFrames": 209,
+            "text": "Вертикальную подготовьте как отдельный вариант, чтобы исходный монтаж оставался доступен для продолжения и сравнения."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-01-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-01-cue-02.wav"
+        ]
+      },
+      {
+        "kind": "aspect-ratio",
+        "startFrame": 374,
+        "durationFrames": 495,
+        "startSample": 598400,
+        "endSample": 1390400,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 153,
+            "text": "В схеме покажем переход от формата шестнадцать на девять к формату девять на шестнадцать."
+          },
+          {
+            "startFrame": 182,
+            "durationFrames": 149,
+            "text": "Доступные способы изменения кадра зависят от установленной версии программы."
+          },
+          {
+            "startFrame": 343,
+            "durationFrames": 119,
+            "text": "Сравните вертикальные границы с исходным горизонтальным кадром."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-02-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-02-cue-02.wav",
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-02-cue-03.wav"
+        ]
+      },
+      {
+        "kind": "reframe",
+        "startFrame": 869,
+        "durationFrames": 416,
+        "startSample": 1390400,
+        "endSample": 2056000,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 224,
+            "text": "Перестройте композицию вручную: сохраните важный предмет целиком и не растягивайте изображение по одной оси."
+          },
+          {
+            "startFrame": 252,
+            "durationFrames": 131,
+            "text": "Если элементы не помещаются рядом, показывайте их последовательно."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-03-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-03-cue-02.wav"
+        ]
+      },
+      {
+        "kind": "text-safe",
+        "startFrame": 1285,
+        "durationFrames": 354,
+        "startSample": 2056000,
+        "endSample": 2622400,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 201,
+            "text": "Разместите заголовок, пояснения и субтитры так, чтобы они не закрывали объект и оставались читаемыми."
+          },
+          {
+            "startFrame": 229,
+            "durationFrames": 92,
+            "text": "Сохраните пометку «Вымышленный учебный пример Ф1»."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-04-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-04-cue-02.wav"
+        ]
+      },
+      {
+        "kind": "scene-review",
+        "startFrame": 1639,
+        "durationFrames": 393,
+        "startSample": 2622400,
+        "endSample": 3251200,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 98,
+            "text": "Проверьте каждую сцену, а не только первый кадр."
+          },
+          {
+            "startFrame": 126,
+            "durationFrames": 234,
+            "text": "Автоматическое кадрирование, если оно доступно в вашей версии, используйте как подсказку и перепроверьте результат вручную."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-05-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-05-cue-02.wav"
+        ]
+      },
+      {
+        "kind": "compare-ratios",
+        "startFrame": 2032,
+        "durationFrames": 390,
+        "startSample": 3251200,
+        "endSample": 3875200,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 175,
+            "text": "Сохраните вертикальный вариант отдельно и сравните его с горизонтальным по смыслу и читаемости."
+          },
+          {
+            "startFrame": 204,
+            "durationFrames": 153,
+            "text": "По этому примеру нельзя делать выводы о просмотрах или эффективности публикации."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-06-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v2-vertical-adaptation/scene-06-cue-02.wav"
+        ]
+      }
+    ]
+  },
+  "m5-l15-v3-final-review": {
+    "durationFrames": 2375,
+    "durationSeconds": 79.16666666666667,
+    "scenes": [
+      {
+        "kind": "version-identity",
+        "startFrame": 0,
+        "durationFrames": 374,
+        "startSample": 0,
+        "endSample": 598400,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 75,
+            "text": "Проверяйте конкретную версию файла."
+          },
+          {
+            "startFrame": 103,
+            "durationFrames": 237,
+            "text": "Разделите техническое качество, достоверность содержания и права: успешный экспорт не отвечает сразу на все три вопроса."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-01-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-01-cue-02.wav"
+        ]
+      },
+      {
+        "kind": "playback-check",
+        "startFrame": 374,
+        "durationFrames": 391,
+        "startSample": 598400,
+        "endSample": 1224000,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 87,
+            "text": "Просмотрите изображение и прослушайте речь."
+          },
+          {
+            "startFrame": 116,
+            "durationFrames": 91,
+            "text": "Проверьте стыки, начало, середину и конец."
+          },
+          {
+            "startFrame": 219,
+            "durationFrames": 139,
+            "text": "Если обнаружите дефект, исправьте проект и снова проверьте результат."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-02-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-02-cue-02.wav",
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-02-cue-03.wav"
+        ]
+      },
+      {
+        "kind": "claim-review",
+        "startFrame": 765,
+        "durationFrames": 353,
+        "startSample": 1224000,
+        "endSample": 1788800,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 147,
+            "text": "В учебной карточке оставим неподтверждённое утверждение об экономии без числа."
+          },
+          {
+            "startFrame": 176,
+            "durationFrames": 144,
+            "text": "Расчёта нет, поэтому его нужно убрать, а не подбирать убедительную цифру."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-03-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-03-cue-02.wav"
+        ]
+      },
+      {
+        "kind": "rights-check",
+        "startFrame": 1118,
+        "durationFrames": 415,
+        "startSample": 1788800,
+        "endSample": 2452800,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 178,
+            "text": "Сверьте изображения, голос, музыку и шрифты с документированными условиями использования."
+          },
+          {
+            "startFrame": 206,
+            "durationFrames": 176,
+            "text": "Ссылка на автора сама по себе не подтверждает разрешение; условия проверяет ответственный."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-04-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-04-cue-02.wav"
+        ]
+      },
+      {
+        "kind": "caption-check",
+        "startFrame": 1533,
+        "durationFrames": 361,
+        "startSample": 2452800,
+        "endSample": 3030400,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 79,
+            "text": "Проверьте субтитры и вариант без звука."
+          },
+          {
+            "startFrame": 108,
+            "durationFrames": 95,
+            "text": "Важная оговорка должна читаться и без аудио."
+          },
+          {
+            "startFrame": 215,
+            "durationFrames": 113,
+            "text": "Мелкий или слишком быстрый текст нельзя считать доступным."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-05-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-05-cue-02.wav",
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-05-cue-03.wav"
+        ]
+      },
+      {
+        "kind": "handoff",
+        "startFrame": 1894,
+        "durationFrames": 481,
+        "startSample": 3030400,
+        "endSample": 3800000,
+        "captions": [
+          {
+            "startFrame": 16,
+            "durationFrames": 149,
+            "text": "Передайте конкретный файл с заметкой о версии, проверках и открытых вопросах."
+          },
+          {
+            "startFrame": 178,
+            "durationFrames": 107,
+            "text": "Решение о публикации принимает ответственный редактор."
+          },
+          {
+            "startFrame": 297,
+            "durationFrames": 152,
+            "text": "Это видео не является оцениваемым заданием или основанием для сертификата."
+          }
+        ],
+        "voice_segments": [
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-06-cue-01.wav",
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-06-cue-02.wav",
+          "audio/narration_sentences/m5-l15-v3-final-review/scene-06-cue-03.wav"
+        ]
+      }
+    ]
+  }
+}

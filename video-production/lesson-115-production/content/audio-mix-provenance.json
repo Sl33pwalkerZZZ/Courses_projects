@@ -1,0 +1,390 @@
+{
+  "status": "local_production_candidates_not_yet_author_approved",
+  "music": "None; no continuous bed, loop or stretch.",
+  "voice": "Silero v5_cis_base_nostress ru_roman; source files and MIT model provenance are in content/narration-provenance.json and audio/LICENSE_CIS.",
+  "mix": "PCM 48 kHz stereo. Source narration is resampled from 24 kHz mono by FFmpeg; fixed common per-video voice peak gain; procedural original Lesson 113 select/place/finish SFX only, copied and checksum recorded. No loudness normalizer, compressor, music or application audio.",
+  "subtitles": "Generated from the exact discrete synthesis segment boundaries; cue text matches the narration input. This is segment-aligned, not phoneme-level forced alignment.",
+  "outputs": [
+    {
+      "video": "m5-l15-v1-export-check",
+      "duration_frames": 2662,
+      "duration_seconds": 88.73333333333333,
+      "sample_rate": 48000,
+      "channels": 2,
+      "voice_gain_db": 0.0,
+      "mixed_sample_peak_dbfs": -6.388,
+      "voice_segments": [
+        {
+          "path": "audio/narration/m5-l15-v1-export-check/scene-01.wav",
+          "sha256": "c5784cccac62ecbc4b503ed5d1b803ec417d72b49672f74d9db2efe1ce277cae"
+        },
+        {
+          "path": "audio/narration/m5-l15-v1-export-check/scene-02.wav",
+          "sha256": "fbfba09f05ce276df6c26f3880f7332907b0a5d72060c05745eeaddb374ba2a1"
+        },
+        {
+          "path": "audio/narration/m5-l15-v1-export-check/scene-03.wav",
+          "sha256": "ab806dcb2268468489f4f5594a5b4a16ce0156f86df83c4ddc6fd9fc588b07a8"
+        },
+        {
+          "path": "audio/narration/m5-l15-v1-export-check/scene-04.wav",
+          "sha256": "591d7a1a126e5faee87020c71c264098a025f1ce1d7fc67243df9036ddab04ca"
+        },
+        {
+          "path": "audio/narration/m5-l15-v1-export-check/scene-05.wav",
+          "sha256": "26f9fb5faed6554ddb8e5a9390c305f0a755b3247045bc82e37a922a09fb5237"
+        },
+        {
+          "path": "audio/narration/m5-l15-v1-export-check/scene-06.wav",
+          "sha256": "0304cfe536a4655ad1693bf0e1b74de93c5f4c560ef6aac3baa859046d4bb04a"
+        }
+      ],
+      "voice_cues": [
+        {
+          "start": "00:00:00.550",
+          "end": "00:00:14.275",
+          "text": "Сначала различим проект и готовое видео. Проект нужен, чтобы продолжить монтаж; экспортированный файл — чтобы посмотреть результат. Перед экспортом проверим конец последовательности и уберём случайный пустой хвост."
+        },
+        {
+          "start": "00:00:15.950",
+          "end": "00:00:27.762",
+          "text": "В учебной схеме обозначим папку для экспорта и понятное имя, например, f1-horizontal-v01. Проект и исходники сохраняйте отдельно. Публикацию и отправку в социальные сети здесь не выполняем."
+        },
+        {
+          "start": "00:00:29.416",
+          "end": "00:00:50.066",
+          "text": "Подбирайте размер кадра и частоту под подготовленную последовательность и доступные настройки. Профиль одна тысяча девятьсот двадцать на одна тысяча восемьдесят и тридцать кадров в секунду используйте, только если он соответствует исходнику и доступен. Эм-пэ-четыре — контейнер, эйч двести шестьдесят четыре — кодек; это разные свойства."
+        },
+        {
+          "start": "00:00:51.716",
+          "end": "00:01:00.391",
+          "text": "В учебной последовательности покажем локальный экспорт и его завершение. Ожидание сокращено и не показывает реальную скорость программы."
+        },
+        {
+          "start": "00:01:02.050",
+          "end": "00:01:13.087",
+          "text": "После экспорта откройте именно созданный файл в обычном плеере. Проверьте начало, середину, звук и конец. Предпросмотр редактора не заменяет проверку отдельного файла."
+        },
+        {
+          "start": "00:01:14.750",
+          "end": "00:01:27.625",
+          "text": "Преподаватель может отдельно проверить свойства файла с помощью ffprobe. Сверьте фактические потоки, размер кадра и частоту с требованиями курса. Если файл не подходит, исправьте подготовку и повторите проверку."
+        }
+      ],
+      "sfx_events": [
+        {
+          "sample": 103200,
+          "seconds": 2.15,
+          "name": "select",
+          "gain": 0.8,
+          "source": "public/sfx/select.wav",
+          "source_sha256": "bf79b2cc66baeceac50a7e180c1c8aaa1d43a610b68f642874a948d8da222a33"
+        },
+        {
+          "sample": 842400,
+          "seconds": 17.55,
+          "name": "place",
+          "gain": 0.8,
+          "source": "public/sfx/place.wav",
+          "source_sha256": "4c5465a958ebd8c83296b06a22ec921d45a26ac91abba8ba79649396e4bf7dd0"
+        },
+        {
+          "sample": 1488800,
+          "seconds": 31.017,
+          "name": "select",
+          "gain": 0.8,
+          "source": "public/sfx/select.wav",
+          "source_sha256": "bf79b2cc66baeceac50a7e180c1c8aaa1d43a610b68f642874a948d8da222a33"
+        },
+        {
+          "sample": 2559200,
+          "seconds": 53.317,
+          "name": "place",
+          "gain": 0.8,
+          "source": "public/sfx/place.wav",
+          "source_sha256": "4c5465a958ebd8c83296b06a22ec921d45a26ac91abba8ba79649396e4bf7dd0"
+        },
+        {
+          "sample": 3055200,
+          "seconds": 63.65,
+          "name": "select",
+          "gain": 0.8,
+          "source": "public/sfx/select.wav",
+          "source_sha256": "bf79b2cc66baeceac50a7e180c1c8aaa1d43a610b68f642874a948d8da222a33"
+        },
+        {
+          "sample": 3664800,
+          "seconds": 76.35,
+          "name": "finish",
+          "gain": 0.8,
+          "source": "public/sfx/finish.wav",
+          "source_sha256": "61226947411b575a1b92233163b20f34720f0401aa631bab2bc29cfd6e0476af"
+        }
+      ],
+      "mix_path": "out/audio/m5-l15-v1-export-check-mix.wav",
+      "mix_sha256": "67a023fcf902ec7902b688c12fec247711b22925f18cb0dfdb5ab21ce4fe6bd4",
+      "voice_stem": "out/audio/m5-l15-v1-export-check-voice.wav",
+      "voice_stem_sha256": "9d195f0a3dd5457f8687e58e59019dfd140eed78ebb738eb541211ac9c5afc5e",
+      "sfx_stem": "out/audio/m5-l15-v1-export-check-sfx.wav",
+      "sfx_stem_sha256": "5b4b1274593e20fad7b5f8b11bbaa47d0c36c73bb32d24024b17e677232f7784",
+      "vtt_path": "out/final/m5-l15-v1-export-check.vtt",
+      "vtt_sha256": "9bb06c0852a9070950c06a7dd0f2e47935955a6308c1f3822efde44246a7c3a2",
+      "transcript_path": "out/final/m5-l15-v1-export-check.ru.md",
+      "transcript_sha256": "0b871667746812364d4e04f01dbcfd703421b31269c27f8014ed2a82b1679079"
+    },
+    {
+      "video": "m5-l15-v2-vertical-adaptation",
+      "duration_frames": 2345,
+      "duration_seconds": 78.16666666666667,
+      "sample_rate": 48000,
+      "channels": 2,
+      "voice_gain_db": 0.0,
+      "mixed_sample_peak_dbfs": -5.603,
+      "voice_segments": [
+        {
+          "path": "audio/narration/m5-l15-v2-vertical-adaptation/scene-01.wav",
+          "sha256": "73876bec519d68e1c03110946c78b072ad6a497259cb242966b62dcad4d5a9c7"
+        },
+        {
+          "path": "audio/narration/m5-l15-v2-vertical-adaptation/scene-02.wav",
+          "sha256": "32d52bfaa7aff9a6225b495d44077c9dbed91af3ded02cdda2cad6a05353400c"
+        },
+        {
+          "path": "audio/narration/m5-l15-v2-vertical-adaptation/scene-03.wav",
+          "sha256": "acb9aa2d56726436d6a13d6efe30dfb7b6729b7a5badb18582b14942f24717be"
+        },
+        {
+          "path": "audio/narration/m5-l15-v2-vertical-adaptation/scene-04.wav",
+          "sha256": "eb7d3268b5af75c7830ab64bb896c1cbe05030e3102dc511ae78b319718a08e1"
+        },
+        {
+          "path": "audio/narration/m5-l15-v2-vertical-adaptation/scene-05.wav",
+          "sha256": "799e376e98bd7228d4aa7cef994ca170c5ecce980c65a1e370392de513709ab7"
+        },
+        {
+          "path": "audio/narration/m5-l15-v2-vertical-adaptation/scene-06.wav",
+          "sha256": "af1d97ed77f03f2fe3deaf8dd0bb4fe0f7183e843b681b3ea97281ffa3d695b6"
+        }
+      ],
+      "voice_cues": [
+        {
+          "start": "00:00:00.550",
+          "end": "00:00:10.912",
+          "text": "Сначала сохраните исходную горизонтальную версию. Вертикальную подготовьте как отдельный вариант, чтобы исходный монтаж оставался доступен для продолжения и сравнения."
+        },
+        {
+          "start": "00:00:12.583",
+          "end": "00:00:26.695",
+          "text": "В схеме покажем переход от формата шестнадцать на девять к формату девять на шестнадцать. Доступные способы изменения кадра зависят от установленной версии программы. Сравните вертикальные границы с исходным горизонтальным кадром."
+        },
+        {
+          "start": "00:00:28.350",
+          "end": "00:00:40.150",
+          "text": "Перестройте композицию вручную: сохраните важный предмет целиком и не растягивайте изображение по одной оси. Если элементы не помещаются рядом, показывайте их последовательно."
+        },
+        {
+          "start": "00:00:41.816",
+          "end": "00:00:51.541",
+          "text": "Разместите заголовок, пояснения и субтитры так, чтобы они не закрывали объект и оставались читаемыми. Сохраните пометку «Вымышленный учебный пример Ф1»."
+        },
+        {
+          "start": "00:00:53.216",
+          "end": "00:01:04.291",
+          "text": "Проверьте каждую сцену, а не только первый кадр. Автоматическое кадрирование, если оно доступно в вашей версии, используйте как подсказку и перепроверьте результат вручную."
+        },
+        {
+          "start": "00:01:05.950",
+          "end": "00:01:17.037",
+          "text": "Сохраните вертикальный вариант отдельно и сравните его с горизонтальным по смыслу и читаемости. По этому примеру нельзя делать выводы о просмотрах или эффективности публикации."
+        }
+      ],
+      "sfx_events": [
+        {
+          "sample": 103200,
+          "seconds": 2.15,
+          "name": "select",
+          "gain": 0.8,
+          "source": "public/sfx/select.wav",
+          "source_sha256": "bf79b2cc66baeceac50a7e180c1c8aaa1d43a610b68f642874a948d8da222a33"
+        },
+        {
+          "sample": 680800,
+          "seconds": 14.183,
+          "name": "place",
+          "gain": 0.8,
+          "source": "public/sfx/place.wav",
+          "source_sha256": "4c5465a958ebd8c83296b06a22ec921d45a26ac91abba8ba79649396e4bf7dd0"
+        },
+        {
+          "sample": 1437600,
+          "seconds": 29.95,
+          "name": "place",
+          "gain": 0.8,
+          "source": "public/sfx/place.wav",
+          "source_sha256": "4c5465a958ebd8c83296b06a22ec921d45a26ac91abba8ba79649396e4bf7dd0"
+        },
+        {
+          "sample": 2084000,
+          "seconds": 43.417,
+          "name": "select",
+          "gain": 0.8,
+          "source": "public/sfx/select.wav",
+          "source_sha256": "bf79b2cc66baeceac50a7e180c1c8aaa1d43a610b68f642874a948d8da222a33"
+        },
+        {
+          "sample": 2631200,
+          "seconds": 54.817,
+          "name": "place",
+          "gain": 0.8,
+          "source": "public/sfx/place.wav",
+          "source_sha256": "4c5465a958ebd8c83296b06a22ec921d45a26ac91abba8ba79649396e4bf7dd0"
+        },
+        {
+          "sample": 3242400,
+          "seconds": 67.55,
+          "name": "finish",
+          "gain": 0.8,
+          "source": "public/sfx/finish.wav",
+          "source_sha256": "61226947411b575a1b92233163b20f34720f0401aa631bab2bc29cfd6e0476af"
+        }
+      ],
+      "mix_path": "out/audio/m5-l15-v2-vertical-adaptation-mix.wav",
+      "mix_sha256": "ca36de321d3fc71f89c9f9e112d640af2312e0ad05555819817faf17c9d14bc0",
+      "voice_stem": "out/audio/m5-l15-v2-vertical-adaptation-voice.wav",
+      "voice_stem_sha256": "e5397ef21aad4f078e6c0338ee6f11fb56151df363abc53697f628b6012c7774",
+      "sfx_stem": "out/audio/m5-l15-v2-vertical-adaptation-sfx.wav",
+      "sfx_stem_sha256": "661da22d4862f16645e2c341f6e1bc7b3e77682230934867e544f40a783f0625",
+      "vtt_path": "out/final/m5-l15-v2-vertical-adaptation.vtt",
+      "vtt_sha256": "9fa5d0d20d95fb9eb29858624aeeab4c3b1537d26849274ceada4216d06cd112",
+      "transcript_path": "out/final/m5-l15-v2-vertical-adaptation.ru.md",
+      "transcript_sha256": "f87f62744a003bf7abed222425b3ea4800b3e6b9ba447b1feda3af16a104c756"
+    },
+    {
+      "video": "m5-l15-v3-final-review",
+      "duration_frames": 2274,
+      "duration_seconds": 75.8,
+      "sample_rate": 48000,
+      "channels": 2,
+      "voice_gain_db": 0.0,
+      "mixed_sample_peak_dbfs": -5.794,
+      "voice_segments": [
+        {
+          "path": "audio/narration/m5-l15-v3-final-review/scene-01.wav",
+          "sha256": "a3b5f3328eca61fa81b9ffa7def67a30414dbc76f19a1c5ed867e088939b72d6"
+        },
+        {
+          "path": "audio/narration/m5-l15-v3-final-review/scene-02.wav",
+          "sha256": "ef89527a5215d471e5037a9d84fc55d922b99f81963db4a75ddf1b999fb5ebfd"
+        },
+        {
+          "path": "audio/narration/m5-l15-v3-final-review/scene-03.wav",
+          "sha256": "9ae53b391faca2abe257a0545ac19749817687642eaee454feb1f51f79f217d7"
+        },
+        {
+          "path": "audio/narration/m5-l15-v3-final-review/scene-04.wav",
+          "sha256": "bf14d02a97a32694a28178613749cf06f7253328be56bf882019ea3e96987d17"
+        },
+        {
+          "path": "audio/narration/m5-l15-v3-final-review/scene-05.wav",
+          "sha256": "67f699ad6fabc3e0ebcb00d90348d9de63cd154b2df06147fb8bfca46ec8b587"
+        },
+        {
+          "path": "audio/narration/m5-l15-v3-final-review/scene-06.wav",
+          "sha256": "27df9fd31b921c474e606e7de7d967f8d32f091979bd0eb6772ac3d1e8c930a2"
+        }
+      ],
+      "voice_cues": [
+        {
+          "start": "00:00:00.550",
+          "end": "00:00:10.925",
+          "text": "Проверяйте конкретную версию файла. Разделите техническое качество, достоверность содержания и права: успешный экспорт не отвечает сразу на все три вопроса."
+        },
+        {
+          "start": "00:00:12.583",
+          "end": "00:00:23.233",
+          "text": "Просмотрите изображение и прослушайте речь. Проверьте стыки, начало, середину и конец. Если обнаружите дефект, исправьте проект и снова проверьте результат."
+        },
+        {
+          "start": "00:00:24.883",
+          "end": "00:00:34.820",
+          "text": "В учебной карточке оставим неподтверждённое утверждение об экономии без числа. Расчёта нет, поэтому его нужно убрать, а не подбирать убедительную цифру."
+        },
+        {
+          "start": "00:00:36.483",
+          "end": "00:00:48.120",
+          "text": "Сверьте изображения, голос, музыку и шрифты с документированными условиями использования. Ссылка на автора сама по себе не подтверждает разрешение; условия проверяет ответственный."
+        },
+        {
+          "start": "00:00:49.783",
+          "end": "00:00:59.345",
+          "text": "Проверьте субтитры и вариант без звука. Важная оговорка должна читаться и без аудио. Мелкий или слишком быстрый текст нельзя считать доступным."
+        },
+        {
+          "start": "00:01:01.016",
+          "end": "00:01:14.679",
+          "text": "Передайте конкретный файл с заметкой о версии, проверках и открытых вопросах. Решение о публикации принимает ответственный редактор. Это видео не является оцениваемым заданием или основанием для сертификата."
+        }
+      ],
+      "sfx_events": [
+        {
+          "sample": 103200,
+          "seconds": 2.15,
+          "name": "select",
+          "gain": 0.8,
+          "source": "public/sfx/select.wav",
+          "source_sha256": "bf79b2cc66baeceac50a7e180c1c8aaa1d43a610b68f642874a948d8da222a33"
+        },
+        {
+          "sample": 680800,
+          "seconds": 14.183,
+          "name": "place",
+          "gain": 0.8,
+          "source": "public/sfx/place.wav",
+          "source_sha256": "4c5465a958ebd8c83296b06a22ec921d45a26ac91abba8ba79649396e4bf7dd0"
+        },
+        {
+          "sample": 1271200,
+          "seconds": 26.483,
+          "name": "select",
+          "gain": 0.8,
+          "source": "public/sfx/select.wav",
+          "source_sha256": "bf79b2cc66baeceac50a7e180c1c8aaa1d43a610b68f642874a948d8da222a33"
+        },
+        {
+          "sample": 1828000,
+          "seconds": 38.083,
+          "name": "place",
+          "gain": 0.8,
+          "source": "public/sfx/place.wav",
+          "source_sha256": "4c5465a958ebd8c83296b06a22ec921d45a26ac91abba8ba79649396e4bf7dd0"
+        },
+        {
+          "sample": 2466400,
+          "seconds": 51.383,
+          "name": "select",
+          "gain": 0.8,
+          "source": "public/sfx/select.wav",
+          "source_sha256": "bf79b2cc66baeceac50a7e180c1c8aaa1d43a610b68f642874a948d8da222a33"
+        },
+        {
+          "sample": 3005600,
+          "seconds": 62.617,
+          "name": "finish",
+          "gain": 0.8,
+          "source": "public/sfx/finish.wav",
+          "source_sha256": "61226947411b575a1b92233163b20f34720f0401aa631bab2bc29cfd6e0476af"
+        }
+      ],
+      "mix_path": "out/audio/m5-l15-v3-final-review-mix.wav",
+      "mix_sha256": "9e1efe396cadcf9343cba1c0df961258b36586a9cbe5e6b5a5367f9f90edc8d3",
+      "voice_stem": "out/audio/m5-l15-v3-final-review-voice.wav",
+      "voice_stem_sha256": "ac4bb9c0f3a1e72ab4ca48db96c7954678e65a3d92f04ecc9353c0e4fdabd153",
+      "sfx_stem": "out/audio/m5-l15-v3-final-review-sfx.wav",
+      "sfx_stem_sha256": "f922654b08073d39c69afdf5f1f78185ee949289443205e0182754650bf71c1f",
+      "vtt_path": "out/final/m5-l15-v3-final-review.vtt",
+      "vtt_sha256": "bd2b917b3524cce898074817fd2ab774a6319baa74876f0f556a2cfaf5c3deac",
+      "transcript_path": "out/final/m5-l15-v3-final-review.ru.md",
+      "transcript_sha256": "fb0c0f2c59ac084e43a6a5e1e9dd15cd6d3e1495f3fdf2f889c0a30fc4bea26e"
+    }
+  ]
+}

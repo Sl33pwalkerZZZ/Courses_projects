@@ -1,0 +1,288 @@
+{
+  "source-organization": [
+    {
+      "frame": 27,
+      "duration": 6,
+      "sound": "pop",
+      "gain": 0.65,
+      "scene": "brief",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 214,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "folders",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 246,
+      "duration": 6,
+      "sound": "pop",
+      "gain": 0.65,
+      "scene": "folders",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 454,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "copies",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 513,
+      "duration": 5,
+      "sound": "drop",
+      "gain": 0.65,
+      "scene": "copies",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 694,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "rights",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 753,
+      "duration": 3,
+      "sound": "click",
+      "gain": 0.65,
+      "scene": "rights",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 934,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "approved",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 993,
+      "duration": 3,
+      "sound": "click",
+      "gain": 0.65,
+      "scene": "approved",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 1144,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "ready",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 1203,
+      "duration": 20,
+      "sound": "complete",
+      "gain": 0.65,
+      "scene": "ready",
+      "sync": "Visual actionAt marker"
+    }
+  ],
+  "project-import": [
+    {
+      "frame": 63,
+      "duration": 3,
+      "sound": "click",
+      "gain": 0.65,
+      "scene": "create",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 244,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "workspace",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 276,
+      "duration": 6,
+      "sound": "pop",
+      "gain": 0.65,
+      "scene": "workspace",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 484,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "import",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 543,
+      "duration": 5,
+      "sound": "drop",
+      "gain": 0.65,
+      "scene": "import",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 724,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "ratio",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 783,
+      "duration": 3,
+      "sound": "click",
+      "gain": 0.65,
+      "scene": "ratio",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 964,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "entities",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 996,
+      "duration": 6,
+      "sound": "pop",
+      "gain": 0.65,
+      "scene": "entities",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 1174,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "place",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 1233,
+      "duration": 5,
+      "sound": "drop",
+      "gain": 0.65,
+      "scene": "place",
+      "sync": "Visual actionAt marker"
+    }
+  ],
+  "timeline-reopen": [
+    {
+      "frame": 63,
+      "duration": 5,
+      "sound": "drop",
+      "gain": 0.65,
+      "scene": "arrange",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 244,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "trim",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 303,
+      "duration": 5,
+      "sound": "drop",
+      "gain": 0.65,
+      "scene": "trim",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 484,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "cut",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 543,
+      "duration": 3,
+      "sound": "click",
+      "gain": 0.65,
+      "scene": "cut",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 694,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "zoom",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 753,
+      "duration": 3,
+      "sound": "click",
+      "gain": 0.65,
+      "scene": "zoom",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 874,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "reopen",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 933,
+      "duration": 3,
+      "sound": "click",
+      "gain": 0.65,
+      "scene": "reopen",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 1114,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "links",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 1173,
+      "duration": 3,
+      "sound": "click",
+      "gain": 0.65,
+      "scene": "links",
+      "sync": "Visual actionAt marker"
+    },
+    {
+      "frame": 1384,
+      "duration": 13,
+      "sound": "whoosh",
+      "gain": 0.32,
+      "scene": "finish",
+      "sync": "Scene entrance"
+    },
+    {
+      "frame": 1443,
+      "duration": 20,
+      "sound": "complete",
+      "gain": 0.65,
+      "scene": "finish",
+      "sync": "Visual actionAt marker"
+    }
+  ]
+}
