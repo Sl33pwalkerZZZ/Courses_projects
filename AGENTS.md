@@ -2,7 +2,28 @@
 
 This is an existing Django REST/SQLite + React/Vite educational platform.
 Preserve JWT, enrollment approval, protected lessons, independent lesson/quiz
-completion, Profile activity, reviews, RU/KK/EN, and dark/light Neo-Academic UI.
+completion, Profile activity, reviews, RU/KK/EN, and light/dark themes. The
+current approved frontend direction is Amethyst Motion/Cinematic (redesign
+Phases 1–3); Neo-Academic references describe the earlier visual direction
+unless a task explicitly asks to restore it.
+
+## Project memory
+
+- Before development, read `docs/project-memory/CURRENT_STATE.md` and check
+  `git status`. Consult the relevant project-memory pages and linked audit
+  reports; treat database/runtime details as dated snapshots and verify them
+  before acting on current-state assumptions.
+- Preserve all existing uncommitted and untracked work. Never reset, clean,
+  restore or discard it without explicit authorization.
+- Follow canonical course sources and conflict checks. Do not alter course
+  content or database records unless the task explicitly authorizes it. Keep
+  Course 10 unpublished unless explicitly authorized.
+- Use isolated test databases. Never assume the development SQLite database is
+  disposable or point tests at it unintentionally.
+- After substantial development work, update `CURRENT_STATE.md`; record durable
+  architectural decisions in `DECISIONS.md`.
+- Never expose secrets, credentials, tokens, learner records or backup contents
+  in project documentation or reports.
 
 ## Delegation
 
