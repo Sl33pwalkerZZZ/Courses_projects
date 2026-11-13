@@ -54,7 +54,7 @@ def review_enrollment_request(*, application_id, reviewer, approve, note=""):
 
 
 @transaction.atomic
-def review_assignment_submission(*, submission_id, reviewer, revision, status, comment=""):
+def review_assignment_submission(*, submission_id, reviewer, revision, status, comment="", rubric_scores=None):
     """One auditable decision path shared by instructor review clients."""
     from studio.permissions import instructor, moderator
     from .models import AssignmentSubmission
@@ -79,13 +79,53 @@ def review_assignment_submission(*, submission_id, reviewer, revision, status, c
         raise ValidationError({"status": "Only pending submissions can be reviewed."})
     if revision != submission.revision:
         raise ValidationError({"revision": "Submission changed. Reload before reviewing."}, code="revision_conflict")
+    if submission.assignment.learning_activity == "final_media_project":
+        expected = {"completeness", "application", "quality", "documentation"}
+        if not isinstance(rubric_scores, dict) or set(rubric_scores) != expected:
+            raise ValidationError({"rubric_scores": "Score all four final-project criteria."})
+        if any(type(value) is not int or value < 0 or value > 25 for value in rubric_scores.values()):
+            raise ValidationError({"rubric_scores": "Each criterion must be scored from 0 to 25."})
+    rubric_scores = dict(rubric_scores) if rubric_scores is not None else None
     submission.status = status
     submission.reviewer_comment = comment.strip()
     submission.reviewed_at = timezone.now()
     submission.revision += 1
-    submission.review_history = submission.review_history + [{
+    event = {
         "reviewer_id": reviewer.pk, "status": status, "comment": submission.reviewer_comment,
         "reviewed_at": submission.reviewed_at.isoformat(), "revision": submission.revision,
-    }]
+    }
+    if rubric_scores is not None:
+        event["rubric_scores"] = rubric_scores
+    submission.review_history = submission.review_history + [event]
     submission.save(update_fields=["status", "reviewer_comment", "reviewed_at", "revision", "review_history"])
     return submission
+
+
+@transaction.atomic
+def reopen_assignment_submission(*, submission_id, reviewer):
+    """Create an auditable new draft after approval; never edit the approved record."""
+    from studio.permissions import instructor, moderator
+    from .models import AssignmentSubmission
+
+    if not instructor(reviewer):
+        raise PermissionDenied("Instructor access required.")
+    initial = AssignmentSubmission.objects.select_related("assignment__lesson__module__course").get(pk=submission_id)
+    course = initial.assignment.lesson.module.course
+    if not moderator(reviewer) and course.author_id != reviewer.pk:
+        raise PermissionDenied("Only the course owner can reopen this submission.")
+    if initial.student_id == reviewer.pk:
+        raise PermissionDenied("You cannot reopen your own submission.")
+    Course.objects.select_for_update().get(pk=course.pk)
+    submission = AssignmentSubmission.objects.select_for_update().select_related("assignment").get(pk=submission_id)
+    if submission.is_structured:
+        raise ValidationError("Structured submissions use their existing resubmission workflow.")
+    if submission.status != "approved":
+        raise ValidationError({"status": "Only approved submissions can be reopened."})
+    if hasattr(submission, "next_revision"):
+        raise ValidationError({"status": "This submission has already been reopened."})
+    now = timezone.now()
+    return AssignmentSubmission.objects.create(
+        assignment=submission.assignment, student_id=submission.student_id, status="draft",
+        previous_submission=submission,
+        review_history=[{"action": "reopened", "reviewer_id": reviewer.pk, "reopened_at": now.isoformat()}],
+    )

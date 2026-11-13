@@ -100,6 +100,11 @@ class AssignmentSubmission(models.Model):
     review_history = models.JSONField(default=list, blank=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
     reviewed_at = models.DateTimeField(null=True, blank=True)
+    # Generic revisions are immutable records linked into a single history chain.
+    # The opt-in structured Course 8 activity keeps its established single-row flow.
+    previous_submission = models.OneToOneField(
+        "self", null=True, blank=True, related_name="next_revision", on_delete=models.CASCADE,
+    )
 
     class Meta:
         constraints = [
@@ -107,7 +112,39 @@ class AssignmentSubmission(models.Model):
                 fields=["student", "assignment"], condition=models.Q(is_structured=True),
                 name="one_structured_assignment_per_student",
             ),
+            models.UniqueConstraint(
+                fields=["student", "assignment"],
+                condition=models.Q(status="pending", is_structured=False),
+                name="one_pending_generic_assignment_per_student",
+            ),
         ]
 
     def __str__(self):
         return f"{self.student} — {self.assignment} ({self.get_status_display()})"
+
+
+def assignment_submission_upload_to(instance, filename):
+    # Never use a client filename as a path or storage key.
+    from uuid import uuid4
+    from pathlib import Path
+    suffix = Path(filename).suffix.lower()
+    return f"submissions/{uuid4().hex[:2]}/{uuid4().hex}{suffix}"
+
+
+class AssignmentSubmissionAttachment(models.Model):
+    submission = models.ForeignKey(AssignmentSubmission, on_delete=models.CASCADE, related_name="attachments")
+    file = models.FileField(upload_to=assignment_submission_upload_to, max_length=255)
+    original_filename = models.CharField(max_length=255)
+    detected_content_type = models.CharField(max_length=100)
+    size = models.PositiveBigIntegerField()
+    sha256 = models.CharField(max_length=64)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["pk"]
+        constraints = [
+            models.UniqueConstraint(fields=["submission", "sha256"], name="unique_assignment_submission_attachment_bytes"),
+        ]
+
+    def __str__(self):
+        return self.original_filename

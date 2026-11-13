@@ -23,7 +23,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from courses.models import Assignment, Course, CourseImport, Direction, Lesson, LessonImage, LessonLearningContent, Module
 from progress.models import AssignmentSubmission, EnrollmentRequest
-from progress.services import review_enrollment_request, review_assignment_submission
+from progress.services import review_enrollment_request, review_assignment_submission, reopen_assignment_submission
 from quizzes.models import Quiz, QuizChoice, QuizQuestion
 from .models import CourseSettings, ImportPreview, LessonImageDescription, PublicationEvent, PublicationRequest
 from .permissions import InstructorPermission, effective_permissions, moderator
@@ -363,9 +363,32 @@ class SubmissionReviewView(StudioView):
             raise PermissionDenied('You cannot review your own submission.')
         submission = review_assignment_submission(
             submission_id=pk, reviewer=request.user, revision=data['revision'],
-            status=data['status'], comment=data['reviewer_comment'],
+            status=data['status'], comment=data['reviewer_comment'], rubric_scores=data.get('rubric_scores'),
         )
         return Response(submission_data(submission))
+
+
+class SubmissionReopenView(StudioView):
+    @transaction.atomic
+    def post(self, request, pk):
+        initial = get_object_or_404(
+            AssignmentSubmission.objects.select_related('assignment__lesson__module__course'),
+            pk=pk, assignment__lesson__module__course__in=owned_courses(request.user),
+        )
+        course_for(request.user, initial.assignment.lesson.module.course_id, lock=True)
+        draft = reopen_assignment_submission(submission_id=pk, reviewer=request.user)
+        return Response(submission_data(draft), status=201)
+
+
+class SubmissionAttachmentFileView(StudioView):
+    def get(self, request, submission_pk, attachment_pk):
+        from progress.assignment_views import private_submission_attachment
+        submission = get_object_or_404(
+            AssignmentSubmission.objects.filter(assignment__lesson__module__course__in=owned_courses(request.user)),
+            pk=submission_pk,
+        )
+        attachment = get_object_or_404(submission.attachments, pk=attachment_pk)
+        return private_submission_attachment(request, submission, attachment)
 
 
 class PublicationView(StudioView):

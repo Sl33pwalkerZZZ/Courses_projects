@@ -9,7 +9,7 @@ from courses.models import Assignment, Course, Direction, Lesson, Module
 from progress.models import AssignmentSubmission, Enrollment, LessonProgress
 from quizzes.models import Quiz, QuizAttempt
 from .models import Certificate, CourseCertificatePolicy
-from .services import eligibility, issue_certificate, revoke_certificate
+from .services import eligibility, issue_certificate, revoke_certificate, valid_name
 
 
 @override_settings(CERTIFICATES_ENABLED=True)
@@ -19,6 +19,9 @@ class CertificateTests(TestCase):
         self.admin = User.objects.create_user(username='administrator', role='admin')
         self.author = User.objects.create_user(username='author', role='author')
         self.student = User.objects.create_user(username='student', first_name='Айгерім', last_name='Әбілова')
+        self.student.certificate_name = 'Айгерім Әбілова'
+        self.student.certificate_name_confirmed_at = timezone.now()
+        self.student.save(update_fields=['certificate_name', 'certificate_name_confirmed_at'])
         self.other = User.objects.create_user(username='other')
         self.course = Course.objects.create(title='Курс ИИ', slug='course', author=self.author, direction=Direction.objects.create(name='AI', slug='ai'), is_published=True)
         self.lesson = Lesson.objects.create(module=Module.objects.create(course=self.course, title='Module', order=0), title='Lesson', order=0)
@@ -34,7 +37,7 @@ class CertificateTests(TestCase):
         self.client = APIClient()
 
     def issue(self):
-        return issue_certificate(administrator=self.admin, student=self.student, course_id=self.course.pk, learner_name=self.student.get_full_name())
+        return issue_certificate(administrator=self.admin, student=self.student, course_id=self.course.pk)
 
     def test_eligible_atomic_idempotent_and_opaque(self):
         self.assertTrue(eligibility(self.student, self.course)['eligible'])
@@ -61,6 +64,76 @@ class CertificateTests(TestCase):
         self.attempt.save()
         LessonProgress.objects.update(completed_at=None)
         self.assertFalse(eligibility(self.student, self.course)['eligible'])
+
+    def test_empty_scope_preserves_all_lessons_behavior(self):
+        additional = Lesson.objects.create(module=self.lesson.module, title='Another required lesson', order=1)
+        result = eligibility(self.student, self.course)
+        self.assertFalse(result['eligible'])
+        self.assertIn({'key': 'all_lessons', 'met': False}, result['requirements'])
+
+        LessonProgress.objects.create(enrollment=self.enrollment, lesson=additional, completed_at=timezone.now())
+        self.assertTrue(eligibility(self.student, self.course)['eligible'])
+
+    def test_explicit_scope_requires_each_selected_lesson_but_ignores_unselected(self):
+        selected = Lesson.objects.create(module=self.lesson.module, title='Selected lesson', order=1)
+        unselected = Lesson.objects.create(module=self.lesson.module, title='Unselected assessment lesson', order=2)
+        self.policy.required_lessons.add(self.lesson, selected)
+        LessonProgress.objects.create(enrollment=self.enrollment, lesson=selected, completed_at=timezone.now())
+
+        result = eligibility(self.student, self.course)
+        self.assertTrue(result['eligible'])
+        self.assertIn({'key': 'required_lessons', 'met': True}, result['requirements'])
+        self.assertNotIn({'key': 'all_lessons', 'met': False}, result['requirements'])
+        self.assertNotIn(unselected.pk, result['evidence']['required_lesson_ids'])
+
+        LessonProgress.objects.filter(enrollment=self.enrollment, lesson=selected).update(completed_at=None)
+        result = eligibility(self.student, self.course)
+        self.assertFalse(result['eligible'])
+        self.assertIn({'key': 'required_lessons', 'met': False}, result['requirements'])
+
+    def test_fifteen_instructional_lessons_can_exclude_future_assessment_lesson(self):
+        instructional = [self.lesson]
+        for order in (1, 2):
+            instructional.append(Lesson.objects.create(module=self.lesson.module, title=f'Instructional {order}', order=order))
+        for module_order in range(1, 5):
+            module = Module.objects.create(course=self.course, title=f'Instructional module {module_order + 1}', order=module_order)
+            for lesson_order in range(3):
+                instructional.append(Lesson.objects.create(module=module, title=f'Module {module_order + 1} lesson {lesson_order + 1}', order=lesson_order))
+        assessment_module = Module.objects.create(course=self.course, title='Final assessment', order=5)
+        assessment_lesson = Lesson.objects.create(module=assessment_module, title='Assessment lesson', order=0)
+        for lesson in instructional[1:]:
+            LessonProgress.objects.create(enrollment=self.enrollment, lesson=lesson, completed_at=timezone.now())
+        self.policy.required_lessons.add(*instructional)
+
+        result = eligibility(self.student, self.course)
+        self.assertTrue(result['eligible'])
+        self.assertEqual(len(result['evidence']['required_lesson_ids']), 15)
+        self.assertNotIn(assessment_lesson.pk, result['evidence']['required_lesson_ids'])
+        self.assertNotIn({'key': 'all_lessons', 'met': False}, result['requirements'])
+
+    def test_foreign_lesson_scope_is_rejected_and_fails_closed(self):
+        foreign = Course.objects.create(title='Other', slug='foreign-lessons', author=self.author, direction=self.course.direction)
+        foreign_lesson = Lesson.objects.create(
+            module=Module.objects.create(course=foreign, title='Foreign module', order=0),
+            title='Foreign lesson', order=0,
+        )
+        self.policy.required_lessons.add(foreign_lesson)
+
+        with self.assertRaises(ModelValidationError) as error:
+            self.policy.full_clean()
+        self.assertIn('required_lessons', error.exception.message_dict)
+        self.assertFalse(eligibility(self.student, self.course)['eligible'])
+
+    def test_duplicate_and_deleted_lesson_references_are_safe(self):
+        selected = Lesson.objects.create(module=self.lesson.module, title='Selected lesson', order=1)
+        self.policy.required_lessons.add(selected, selected)
+        self.assertEqual(self.policy.required_lessons.count(), 1)
+
+        selected.delete()
+        self.assertEqual(self.policy.required_lessons.count(), 0)
+        # With the legacy all-lessons switch on, removal of the relation safely
+        # falls back to the remaining lessons in the course.
+        self.assertTrue(eligibility(self.student, self.course)['eligible'])
 
     def test_enrollment_and_published_quiz_required(self):
         self.quiz.is_published = False
@@ -100,18 +173,23 @@ class CertificateTests(TestCase):
         self.client.force_authenticate(self.other)
         self.assertEqual(self.client.get(f'/api/certificates/{certificate.verification_code}/download/').status_code,404)
 
-    def test_name_must_match_profile_and_issuer_approved(self):
-        with self.assertRaises(ValidationError):
-            issue_certificate(administrator=self.admin,student=self.student,course_id=self.course.pk,learner_name='Different Name')
+    def test_issuance_uses_confirmed_name_instead_of_profile_and_requires_approved_issuer(self):
+        self.student.certificate_name = 'Әлия Қасымқызы'
+        self.student.certificate_name_confirmed_at = timezone.now()
+        self.student.save(update_fields=['certificate_name', 'certificate_name_confirmed_at'])
+        certificate, created = self.issue()
+        self.assertTrue(created)
+        self.assertEqual(certificate.learner_name, 'Әлия Қасымқызы')
         self.policy.issuer_approved = False
         self.policy.save()
         self.assertFalse(eligibility(self.student,self.course)['eligible'])
 
     @override_settings(CERTIFICATES_ENABLED=False)
-    def test_disabled_feature_has_no_certificate_queries(self):
+    def test_disabled_issuance_keeps_private_reads_but_not_public_verification(self):
         self.client.force_authenticate(self.student)
-        with self.assertNumQueries(0):
-            self.assertEqual(self.client.get('/api/my/certificates/').status_code,404)
+        response = self.client.get('/api/my/certificates/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, [])
         with self.assertNumQueries(0):
             self.assertEqual(self.client.get('/api/certificates/verify/unknown/').status_code,404)
 
@@ -132,7 +210,7 @@ class CertificateTests(TestCase):
     def test_malformed_name_and_stale_review_audit_block(self):
         for name in ['', 'One', 123, 'Injected <name>']:
             with self.assertRaises(ValidationError):
-                issue_certificate(administrator=self.admin,student=self.student,course_id=self.course.pk,learner_name=name)
+                valid_name(name)
         self.submission.revision += 1
         self.submission.save()
         self.assertFalse(eligibility(self.student,self.course)['eligible'])
@@ -178,13 +256,132 @@ class CertificateTests(TestCase):
         self.assertEqual(response.status_code,200)
         self.assertTrue(response.data['revoked'])
 
-    def test_owner_download_requires_trusted_origin(self):
+    def test_owner_download_omits_optional_verification_without_trusted_origin(self):
         certificate,_=self.issue()
         self.client.force_authenticate(self.student)
         with self.settings(CERTIFICATE_PUBLIC_ORIGIN=''):
-            self.assertEqual(self.client.get(f'/api/certificates/{certificate.verification_code}/download/').status_code,403)
+            self.assertEqual(self.client.get(f'/api/certificates/{certificate.verification_code}/download/').status_code,200)
 
     def test_wrong_reviewer_cannot_establish_evidence(self):
         self.submission.review_history[-1]['reviewer_id']=self.other.pk
         self.submission.save()
         self.assertFalse(eligibility(self.student,self.course)['eligible'])
+
+    def test_unconfirmed_certificate_name_blocks_eligibility_and_issuance(self):
+        self.student.certificate_name_confirmed_at = None
+        self.student.save(update_fields=['certificate_name_confirmed_at'])
+        result = eligibility(self.student, self.course)
+        self.assertFalse(result['eligible'])
+        self.assertIn({'key': 'certificate_name_confirmed', 'met': False}, result['requirements'])
+        with self.assertRaises(ValidationError):
+            self.issue()
+        self.assertFalse(Certificate.objects.exists())
+
+    def test_certificate_snapshot_survives_later_confirmed_name_change(self):
+        certificate, _ = self.issue()
+        original_name = certificate.learner_name
+        self.student.certificate_name = 'Жанар Әбілова'
+        self.student.certificate_name_confirmed_at = None
+        self.student.save(update_fields=['certificate_name', 'certificate_name_confirmed_at'])
+        self.assertFalse(eligibility(self.student, self.course)['eligible'])
+        self.student.certificate_name_confirmed_at = timezone.now()
+        self.student.save(update_fields=['certificate_name_confirmed_at'])
+        certificate.refresh_from_db()
+        self.assertEqual(certificate.learner_name, original_name)
+
+    def test_student_certificate_name_api_confirms_normalized_value_and_resets_on_change(self):
+        self.client.force_authenticate(self.student)
+        response = self.client.get('/api/my/certificate-name/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.data['confirmed'])
+        self.assertEqual(response.data['learner_name'], 'Айгерім Әбілова')
+
+        # This decomposed spelling is normalized to NFC and whitespace is collapsed.
+        response = self.client.put('/api/my/certificate-name/', {
+            'learner_name': '  Jose\u0301   Garci\u0301a  ',
+            'user_id': self.other.pk,
+            'certificate_name_confirmed_at': '2099-01-01T00:00:00Z',
+        }, format='json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['learner_name'], 'José García')
+        self.assertFalse(response.data['confirmed'])
+        self.assertIsNone(response.data['confirmed_at'])
+        self.student.refresh_from_db()
+        self.other.refresh_from_db()
+        self.assertEqual(self.student.certificate_name, 'José García')
+        self.assertEqual(self.other.certificate_name, '')
+        self.assertIsNone(self.student.certificate_name_confirmed_at)
+
+        response = self.client.post('/api/my/certificate-name/', {
+            'learner_name': 'Jose\u0301 Garci\u0301a', 'confirmation': True,
+            'confirmed_at': '2099-01-01T00:00:00Z',
+        }, format='json')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.data['confirmed'])
+        self.assertEqual(response.data['learner_name'], 'José García')
+        self.assertIsNotNone(response.data['confirmed_at'])
+        self.assertNotEqual(str(response.data['confirmed_at']), '2099-01-01T00:00:00Z')
+
+        response = self.client.put('/api/my/certificate-name/', {'learner_name': 'Әлия Қасымқызы'}, format='json')
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.data['confirmed'])
+        self.assertIsNone(response.data['confirmed_at'])
+
+    def test_certificate_name_api_rejects_missing_invalid_or_unconfirmed_data(self):
+        self.student.certificate_name = ''
+        self.student.certificate_name_confirmed_at = None
+        self.student.save(update_fields=['certificate_name', 'certificate_name_confirmed_at'])
+        self.client.force_authenticate(self.student)
+        for payload in ({}, {'learner_name': ''}, {'learner_name': 'One'}, {'learner_name': 'Name <script>'}, {'learner_name': 123}):
+            with self.subTest(payload=payload):
+                self.assertEqual(self.client.put('/api/my/certificate-name/', payload, format='json').status_code, 400)
+        for payload in (
+            {'confirmation': True}, {'learner_name': '', 'confirmation': True},
+            {'learner_name': 'Әлия Қасымқызы', 'confirmation': False},
+            {'learner_name': 'Әлия Қасымқызы', 'confirmation': True},
+        ):
+            with self.subTest(payload=payload):
+                self.assertEqual(self.client.post('/api/my/certificate-name/', payload, format='json').status_code, 400)
+        self.student.refresh_from_db()
+        self.assertIsNone(self.student.certificate_name_confirmed_at)
+
+    def test_certificate_name_api_authentication_and_ownership(self):
+        self.client.force_authenticate(None)
+        self.assertEqual(self.client.get('/api/my/certificate-name/').status_code, 401)
+        self.assertEqual(self.client.put('/api/my/certificate-name/', {'learner_name': 'Other Name'}).status_code, 401)
+
+        self.client.force_authenticate(self.author)
+        self.assertEqual(self.client.get('/api/my/certificate-name/').status_code, 403)
+        self.assertEqual(self.client.put('/api/my/certificate-name/', {'learner_name': 'Other Name'}).status_code, 403)
+
+        self.client.force_authenticate(self.other)
+        me = self.client.get('/api/auth/me/')
+        self.assertEqual(me.status_code, 200)
+        self.assertNotIn('certificate_name', me.data)
+        self.assertNotIn('certificate_name_confirmed_at', me.data)
+        response = self.client.put('/api/my/certificate-name/', {'learner_name': 'Other Student'}, format='json')
+        self.assertEqual(response.status_code, 200)
+        self.other.refresh_from_db()
+        self.student.refresh_from_db()
+        self.assertEqual(self.other.certificate_name, 'Other Student')
+        self.assertEqual(self.student.certificate_name, 'Айгерім Әбілова')
+
+    def test_admin_issue_api_rejects_certificate_name_override(self):
+        self.client.force_authenticate(self.admin)
+        response = self.client.post('/api/certificates/admin/issue/', {
+            'student_id': self.student.pk, 'course_id': self.course.pk,
+            'learner_name': 'Administrator Override', 'confirmation': True,
+        }, format='json')
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(Certificate.objects.exists())
+
+    def test_admin_issue_api_snapshots_only_the_confirmed_student_name(self):
+        self.student.certificate_name = 'Әлия Қасымқызы'
+        self.student.certificate_name_confirmed_at = timezone.now()
+        self.student.save(update_fields=['certificate_name', 'certificate_name_confirmed_at'])
+        self.client.force_authenticate(self.admin)
+        response = self.client.post('/api/certificates/admin/issue/', {
+            'student_id': self.student.pk, 'course_id': self.course.pk, 'confirmation': True,
+        }, format='json')
+        self.assertEqual(response.status_code, 201, response.data)
+        self.assertEqual(response.data['learner_name'], 'Әлия Қасымқызы')

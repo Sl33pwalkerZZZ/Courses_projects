@@ -166,11 +166,16 @@ class SelectionMapTests(APITestCase):
         self.assertEqual(response.data["reviewer_comment"], "")
         self.assertEqual(response.data["review_history"][0]["reviewer_comment"], "Explain privacy controls")
 
-    def test_legacy_multiple_submissions_and_defaults_unchanged(self):
-        for _ in range(2):
-            submission = AssignmentSubmission.objects.create(assignment=self.assignment, student=self.student, content="Legacy")
-            self.assertEqual(submission.status, "pending")
-            self.assertFalse(submission.is_structured)
+    def test_legacy_history_and_defaults_remain_but_only_one_pending_generic_submission_is_allowed(self):
+        submission = AssignmentSubmission.objects.create(assignment=self.assignment, student=self.student, content="Legacy")
+        self.assertEqual(submission.status, "pending")
+        self.assertFalse(submission.is_structured)
+        historical = AssignmentSubmission.objects.create(
+            assignment=self.assignment, student=self.student, content="Previous legacy version", status="rejected",
+        )
+        self.assertEqual(historical.status, "rejected")
+        with self.assertRaises(IntegrityError), transaction.atomic():
+            AssignmentSubmission.objects.create(assignment=self.assignment, student=self.student, content="Duplicate pending")
         self.assertEqual(self.save().status_code, 200)
         self.assertEqual(AssignmentSubmission.objects.count(), 3)
         with self.assertRaises(IntegrityError), transaction.atomic():

@@ -15,6 +15,9 @@ class CourseCertificatePolicy(models.Model):
     course = models.OneToOneField(Course, on_delete=models.CASCADE, related_name='certificate_policy')
     enabled = models.BooleanField(default=False)
     require_all_lessons = models.BooleanField(default=True)
+    required_lessons = models.ManyToManyField(
+        'courses.Lesson', blank=True, related_name='certificate_policies',
+    )
     final_quiz = models.ForeignKey('quizzes.Quiz', null=True, blank=True, on_delete=models.PROTECT)
     required_assignments = models.ManyToManyField('courses.Assignment', blank=True)
     issuer_name = models.CharField(max_length=200, blank=True)
@@ -24,6 +27,8 @@ class CourseCertificatePolicy(models.Model):
         super().clean()
         if self.final_quiz_id and self.final_quiz.lesson.module.course_id != self.course_id:
             raise ValidationError({'final_quiz': 'Select an assessment belonging to this course.'})
+        if self.pk and self.course_id and self.required_lessons.exclude(module__course_id=self.course_id).exists():
+            raise ValidationError({'required_lessons': 'Select lessons belonging to this course.'})
         if self.enabled and (not self.issuer_approved or not self.issuer_name.strip()):
             raise ValidationError('Approve an explicit issuer identity before enabling certificates.')
 

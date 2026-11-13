@@ -1,10 +1,12 @@
-"""Admin configuration is available independently of the issuance switch."""
+"""Admin reads remain available while disabled-mode mutations are blocked."""
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, TestCase, override_settings
+from django.utils import timezone
 from django.urls import reverse
 
-from courses.models import Course, Direction
+from courses.models import Course, Direction, Lesson, Module
+from .admin import IssueForm, PolicyForm
 from .models import Certificate, CourseCertificatePolicy
 
 
@@ -55,10 +57,11 @@ class CertificateAdminTests(TestCase):
                     'add': False, 'change': False, 'delete': False, 'view': True,
                 })
                 self.assertEqual(models['CourseCertificatePolicy']['perms'], {
-                    'add': True, 'change': True, 'delete': False, 'view': True,
+                    'add': False, 'change': False, 'delete': False, 'view': True,
                 })
                 self.client.force_login(user)
                 self.assertEqual(self.client.get('/admin/').status_code, 200)
+                self.assertNotContains(self.client.get(reverse('admin:certificates_certificate_changelist')), reverse('admin:certificates_certificate_issue'))
                 for name in ('certificate', 'coursecertificatepolicy'):
                     url = reverse(f'admin:certificates_{name}_changelist')
                     self.assertEqual(self.client.get(url).status_code, 200)
@@ -86,6 +89,7 @@ class CertificateAdminTests(TestCase):
         self.certificate.refresh_from_db()
         self.assertIsNone(self.certificate.revoked_at)
 
+    @override_settings(CERTIFICATES_ENABLED=True)
     def test_policy_creation_editing_and_safe_defaults(self):
         self.client.force_login(self.administrator)
         add = reverse('admin:certificates_coursecertificatepolicy_add')
@@ -112,6 +116,23 @@ class CertificateAdminTests(TestCase):
         self.assertTrue(policy.issuer_approved)
         self.assertFalse(policy.enabled)
 
+    def test_policy_form_rejects_required_lessons_from_another_course(self):
+        foreign = Course.objects.create(
+            title='Foreign course', slug='foreign-admin-course', author=self.author,
+            direction=self.course.direction,
+        )
+        foreign_lesson = Lesson.objects.create(
+            module=Module.objects.create(course=foreign, title='Foreign module', order=0),
+            title='Foreign lesson', order=0,
+        )
+        form = PolicyForm(data={
+            'course': self.course.pk,
+            'required_lessons': [foreign_lesson.pk],
+            'issuer_name': 'Test issuer',
+        })
+        self.assertFalse(form.is_valid())
+        self.assertIn('required_lessons', form.errors)
+
     def test_superuser_can_only_view_existing_certificates_not_add_or_change(self):
         self.client.force_login(self.superuser)
         detail = reverse('admin:certificates_certificate_change', args=[self.certificate.pk])
@@ -130,17 +151,31 @@ class CertificateAdminTests(TestCase):
 
     def test_validated_issue_form_remains_gated_by_issuance_switch(self):
         self.client.force_login(self.superuser)
+        self.author.certificate_name = 'Автор Тексері'
+        self.author.certificate_name_confirmed_at = timezone.now()
+        self.author.save(update_fields=['certificate_name', 'certificate_name_confirmed_at'])
         url = reverse('admin:certificates_certificate_issue')
-        self.assertEqual(self.client.get(url).status_code, 200)
-        # Valid form input still cannot issue while the service is disabled.
+        self.assertEqual(self.client.get(url).status_code, 403)
+        # Even direct form POST is denied while issuance is disabled.
         response = self.client.post(url, {
             'student': self.author.pk, 'course': self.course.pk,
             'learner_name': 'Test Learner', 'confirmation': 'on',
         })
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context['form'].non_field_errors())
+        self.assertEqual(response.status_code, 403)
         self.assertEqual(Certificate.objects.count(), 1)
 
+    def test_issue_form_uses_read_only_student_confirmed_name(self):
+        self.author.certificate_name = 'Автор Тексері'
+        self.author.certificate_name_confirmed_at = timezone.now()
+        self.author.save(update_fields=['certificate_name', 'certificate_name_confirmed_at'])
+        form = IssueForm(data={
+            'student': self.author.pk, 'course': self.course.pk,
+            'learner_name': 'Administrator Override', 'confirmation': 'on',
+        })
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data['learner_name'], 'Автор Тексері')
+
+    @override_settings(CERTIFICATES_ENABLED=True)
     def test_revocation_action_available_without_manual_change_permission(self):
         self.client.force_login(self.administrator)
         model_admin = admin.site._registry[Certificate]

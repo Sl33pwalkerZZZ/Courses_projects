@@ -120,6 +120,20 @@ class AssignmentReviewWorkflowTests(APITestCase):
         result = self.client.get('/api/studio/submissions/')
         self.assertFalse(result.data[0]['review_is_verifiable'])
 
+    def test_final_project_review_requires_and_persists_four_criterion_rubric(self):
+        final = Assignment.objects.create(lesson=self.lesson, description='Final project', type='text', learning_activity='final_media_project')
+        submission = AssignmentSubmission.objects.create(assignment=final, student=self.student, status='pending', content='Project explanation', revision=1)
+        self.client.force_authenticate(self.owner)
+        url = f'/api/studio/submissions/{submission.pk}/review/'
+        missing = self.client.post(url, {'revision': 1, 'status': 'approved', 'reviewer_comment': 'Reviewed'}, format='json')
+        self.assertEqual(missing.status_code, 400)
+        rubric = {'completeness': 25, 'application': 25, 'quality': 25, 'documentation': 25}
+        response = self.client.post(url, {'revision': 1, 'status': 'approved', 'reviewer_comment': 'Reviewed', 'rubric_scores': rubric}, format='json')
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data['rubric_scores'], rubric)
+        submission.refresh_from_db()
+        self.assertEqual(submission.review_history[-1]['rubric_scores'], rubric)
+
     def test_admin_is_readonly_ownership_scoped_and_drafts_private(self):
         submission = self.create_submission()
         model_admin = admin.site._registry[AssignmentSubmission]

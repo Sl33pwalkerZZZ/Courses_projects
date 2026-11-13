@@ -145,10 +145,19 @@ class ReviewWriteSerializer(serializers.Serializer):
     revision = serializers.IntegerField(min_value=0)
     status = serializers.ChoiceField(choices=['approved', 'rejected'])
     reviewer_comment = serializers.CharField(max_length=10000, allow_blank=True, required=False, default='')
+    rubric_scores = serializers.DictField(required=False)
 
     def validate(self, attrs):
         if attrs['status'] == 'rejected' and not attrs['reviewer_comment'].strip():
             raise serializers.ValidationError({'reviewer_comment': 'Explain what the student should improve.'})
+        if 'rubric_scores' in attrs:
+            expected = {'completeness', 'application', 'quality', 'documentation'}
+            if set(attrs['rubric_scores']) != expected:
+                raise serializers.ValidationError({'rubric_scores': 'Provide all four rubric criteria.'})
+            if any(type(value) is not int or value < 0 or value > 25 for value in attrs['rubric_scores'].values()):
+                raise serializers.ValidationError({'rubric_scores': 'Each rubric score must be an integer from 0 to 25.'})
+            if sum(attrs['rubric_scores'].values()) > 100:
+                raise serializers.ValidationError({'rubric_scores': 'Rubric scores cannot exceed 100 points.'})
         return attrs
 
 

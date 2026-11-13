@@ -10,7 +10,7 @@ urlpatterns = [
     path('lessons/<int:pk>/', views.LessonDetailView.as_view()), path('lessons/<int:pk>/quiz/', views.LessonQuizView.as_view()),
     path('lessons/<int:pk>/assignments/', views.LessonAssignmentsView.as_view()), path('assignments/<int:pk>/', views.AssignmentDetailView.as_view()), path('lessons/<int:pk>/images/', views.LessonImagesView.as_view()),
     path('submissions/', views.SubmissionsView.as_view()),
-    path('courses/<int:pk>/submissions/', views.CourseSubmissionsView.as_view()), path('submissions/<int:pk>/review/', views.SubmissionReviewView.as_view()), path('submissions/<int:pk>/file/', views.SubmissionFileView.as_view()),
+    path('courses/<int:pk>/submissions/', views.CourseSubmissionsView.as_view()), path('submissions/<int:pk>/review/', views.SubmissionReviewView.as_view()), path('submissions/<int:pk>/reopen/', views.SubmissionReopenView.as_view()), path('submissions/<int:pk>/file/', views.SubmissionFileView.as_view()), path('submissions/<int:submission_pk>/files/<int:attachment_pk>/', views.SubmissionAttachmentFileView.as_view()),
     path('courses/<int:pk>/publication/', views.PublicationView.as_view()), path('reviews/', views.ReviewsView.as_view()), path('reviews/<int:pk>/decision/', views.ReviewDecisionView.as_view()),
     path('instructors/', views.InstructorsView.as_view()), path('instructors/<int:pk>/', views.InstructorRoleView.as_view()),
     path('enrollment-requests/', views.EnrollmentRequestsView.as_view()),

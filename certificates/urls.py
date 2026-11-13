@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('my/certificate-name/', views.MyCertificateName.as_view(), name='my-certificate-name'),
     path('courses/<int:pk>/certificate-status/', views.CourseCertificateStatus.as_view()),
     path('my/certificates/', views.MyCertificates.as_view()),
     path('certificates/verify/<str:code>/', views.VerifyCertificate.as_view()),

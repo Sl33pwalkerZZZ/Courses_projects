@@ -14,7 +14,7 @@ class CertificatePDFUnavailable(RuntimeError):
 _font_lock = Lock()
 
 
-def render_certificate(certificate, verification_url):
+def render_certificate(certificate, verification_url=None):
     """Return a branded PDF for an issued, non-revoked snapshot.
 
     Authorization belongs to the calling view. Fonts must cover Cyrillic and
@@ -23,9 +23,10 @@ def render_certificate(certificate, verification_url):
     if getattr(certificate, 'revoked_at', None):
         raise ValueError('Revoked certificates cannot be downloaded.')
     from urllib.parse import urlsplit
-    parsed = urlsplit(verification_url)
-    if parsed.scheme not in ('http', 'https') or not parsed.netloc or parsed.username or parsed.password:
-        raise ValueError('A public HTTP(S) verification URL is required.')
+    if verification_url is not None:
+        parsed = urlsplit(verification_url)
+        if parsed.scheme not in ('http', 'https') or not parsed.netloc or parsed.username or parsed.password:
+            raise ValueError('A public HTTP(S) verification URL is required.')
     try:
         from reportlab.pdfgen import canvas
         from reportlab.pdfbase import pdfmetrics
@@ -56,7 +57,7 @@ def render_certificate(certificate, verification_url):
         if not isinstance(value, str) or not value.strip():
             raise ValueError('Complete certificate snapshots are required.')
     output = BytesIO()
-    page = canvas.Canvas(output, pagesize=(842, 595), pageCompression=1)
+    page = canvas.Canvas(output, pagesize=(842, 595), pageCompression=1, invariant=1)
     page.setTitle('AI Courses — Course completion certificate')
     page.setAuthor(certificate.issuer_name)
     ink, purple, muted = map(HexColor, ('#20172F', '#7045B8', '#625B70'))
@@ -86,17 +87,20 @@ def render_certificate(certificate, verification_url):
     text(certificate.course_title, 54, 295, 720, 19, True, max_height=80)
     text(certificate.issuer_name, 54, 194, 555, 12, True, max_height=34)
     text(certificate.issued_at.strftime('%d.%m.%Y'), 54, 151, 555, 11, color=muted)
-    text('Проверка подлинности / Verify authenticity', 54, 125, 555, 10, color=muted)
-    text(verification_url, 54, 105, 555, 9, color=purple, max_height=45)
-    page.linkURL(verification_url, (54, 58, 610, 111), relative=0)
-    widget = QrCodeWidget(verification_url, barLevel='M')
-    x0, y0, x1, y1 = widget.getBounds()
-    dimension = 104
-    drawing = Drawing(dimension, dimension,
-                      transform=[dimension/(x1-x0), 0, 0, dimension/(y1-y0), -x0, -y0])
-    drawing.add(widget)
-    renderPDF.draw(drawing, page, 670, 70)
-    page.linkURL(verification_url, (670, 70, 774, 174), relative=0)
+    if verification_url:
+        text('Проверка подлинности / Verify authenticity', 54, 125, 555, 10, color=muted)
+        text(verification_url, 54, 105, 555, 9, color=purple, max_height=45)
+        page.linkURL(verification_url, (54, 58, 610, 111), relative=0)
+        widget = QrCodeWidget(verification_url, barLevel='M')
+        x0, y0, x1, y1 = widget.getBounds()
+        dimension = 104
+        drawing = Drawing(dimension, dimension,
+                          transform=[dimension/(x1-x0), 0, 0, dimension/(y1-y0), -x0, -y0])
+        drawing.add(widget)
+        renderPDF.draw(drawing, page, 670, 70)
+        page.linkURL(verification_url, (670, 70, 774, 174), relative=0)
+    else:
+        text('Публичная ссылка проверки не добавлена.', 54, 105, 720, 10, color=muted)
     text('Не является документом о высшем образовании или аккредитации.', 54, 48, 720, 8, color=muted, max_height=15)
     page.showPage()
     page.save()

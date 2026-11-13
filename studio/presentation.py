@@ -67,14 +67,23 @@ def submission_data(submission, reviewer=None):
     from certificates.services import approved_submission
     course = submission.assignment.lesson.module.course
     last = submission.review_history[-1] if submission.review_history else {}
+    rubric_scores = last.get('rubric_scores') if isinstance(last, dict) else None
     reviewer_name = get_user_model().objects.filter(pk=last.get('reviewer_id')).values_list('username', flat=True).first() if isinstance(last, dict) else None
     verifiable = approved_submission(submission.student, submission.assignment) if submission.status == 'approved' else None
+    attachments = list(submission.attachments.all())
     return {'course_id': course.pk, 'course_title': course.title, 'lesson_id': submission.assignment.lesson_id,
             'student_username': submission.student.username, 'reviewer_username': reviewer_name,
             'can_review': submission.status == 'pending' and reviewer is not None and reviewer.pk != submission.student_id,
             'review_is_verifiable': bool(verifiable and verifiable.pk == submission.pk),
-            'id': submission.pk, 'assignment': submission.assignment_id, 'assignment_description': submission.assignment.description,
+            'id': submission.pk, 'assignment': submission.assignment_id, 'assignment_learning_activity': submission.assignment.learning_activity,
+            'assignment_description': submission.assignment.description,
             'lesson_title': submission.assignment.lesson.title, 'student': {'id': submission.student_id, 'username': submission.student.username},
             'status': submission.status, 'payload': submission.payload, 'content': submission.content, 'revision': submission.revision,
             'reviewer_comment': submission.reviewer_comment, 'submitted_at': submission.submitted_at, 'reviewed_at': submission.reviewed_at,
-            'review_history': submission.review_history, 'is_structured': submission.is_structured, 'file_available': bool(submission.file)}
+            'review_history': submission.review_history, 'rubric_scores': rubric_scores, 'is_structured': submission.is_structured, 'file_available': bool(submission.file),
+            'attachments': [{'id': item.pk, 'filename': item.original_filename, 'size': item.size,
+                             'content_type': item.detected_content_type} for item in attachments],
+            'has_next_revision': hasattr(submission, 'next_revision'),
+            'can_reopen': bool(submission.status == 'approved' and not submission.is_structured
+                               and reviewer is not None and reviewer.pk != submission.student_id
+                               and not hasattr(submission, 'next_revision'))}

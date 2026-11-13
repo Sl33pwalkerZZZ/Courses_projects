@@ -77,3 +77,22 @@ class CertificatePDFRenderingTests(SimpleTestCase):
         with patch('reportlab.graphics.barcode.qr.QrCodeWidget', side_effect=qr):
             render_certificate(sample_certificate(), url)
         self.assertEqual(observed, [url])
+
+    def test_optional_verification_produces_readable_pdf_without_qr_or_url(self):
+        from unittest.mock import patch
+        with patch('reportlab.graphics.barcode.qr.QrCodeWidget') as qr:
+            first = render_certificate(sample_certificate())
+            second = render_certificate(sample_certificate())
+        self.assertEqual(first, second)
+        qr.assert_not_called()
+        self.assertNotIn(b'/URI', first)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'without-verification.pdf'
+            path.write_bytes(first)
+            if shutil.which('pdftotext'):
+                text = subprocess.check_output(['pdftotext', str(path), '-'], text=True)
+                self.assertIn('Әлия Қасымқызы', text)
+                self.assertIn('Публичная ссылка проверки не добавлена.', text)
+            if shutil.which('pdftoppm'):
+                subprocess.run(['pdftoppm', '-scale-to', '800', '-png', '-singlefile', str(path), directory+'/preview'], check=True, capture_output=True)
+                self.assertTrue(Path(directory+'/preview.png').is_file())

@@ -83,6 +83,32 @@ class MyEnrollmentProgressTests(APITestCase):
         self.assertEqual(data["next_lesson_id"], self.first_lesson.id)
         self.assertEqual(data["next_lesson_title"], self.first_lesson.title)
 
+    def test_enrolled_draft_exposes_all_six_modules_and_progress_without_publication(self):
+        draft = Course.objects.create(title="Draft curriculum", slug="draft-curriculum",
+            direction=self.direction, author=self.author, is_published=False)
+        ordered_lessons = []
+        for module_order in range(1, 7):
+            module = Module.objects.create(course=draft, title=f"Module {module_order}", order=module_order)
+            for lesson_order in range(1, 2 if module_order == 6 else 4):
+                ordered_lessons.append(Lesson.objects.create(module=module, title=f"Lesson {module_order}-{lesson_order}", order=lesson_order))
+        enrollment = Enrollment.objects.create(student=self.student, course=draft)
+        self.complete(ordered_lessons[0], enrollment)
+        url = reverse("course-detail", args=[draft.slug])
+        detail = self.client.get(url)
+        self.assertEqual(detail.status_code, 200)
+        self.assertEqual([m["order"] for m in detail.data["modules"]], [1, 2, 3, 4, 5, 6])
+        self.assertEqual([l["id"] for m in detail.data["modules"] for l in m["lessons"]], [l.pk for l in ordered_lessons])
+        progress = self.enrollment_data(enrollment)
+        self.assertEqual(progress["total_lessons"], 16)
+        self.assertEqual(progress["completed_lesson_ids"], [ordered_lessons[0].pk])
+        self.assertEqual(progress["progress_percent"], 6.25)
+        self.client.force_authenticate(self.other_student)
+        self.assertEqual(self.client.get(url).status_code, 404)
+        self.assertEqual(self.client.get(reverse("lesson-detail", args=[ordered_lessons[0].pk])).status_code, 403)
+        self.assertNotIn(draft.pk, [r["course"]["id"] for r in self.client.get(self.url).data])
+        draft.refresh_from_db()
+        self.assertFalse(draft.is_published)
+
     def test_only_completed_rows_in_this_enrollment_and_course_are_counted(self):
         self.complete(self.first_lesson)
         LessonProgress.objects.create(enrollment=self.enrollment, lesson=self.second_lesson)

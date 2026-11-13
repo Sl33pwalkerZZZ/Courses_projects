@@ -2,7 +2,7 @@ from pathlib import Path
 from django.conf import settings
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Q
 from django.utils.cache import patch_vary_headers
 from rest_framework import generics, permissions
 from rest_framework.authentication import SessionAuthentication
@@ -14,6 +14,7 @@ from reviews.summaries import with_review_summary
 
 from .media import private_lesson_file
 from .models import Course, Lesson, LessonImage
+from progress.models import Enrollment
 from .permissions import can_access_lesson, can_preview_course
 from .serializers import CourseDetailSerializer, RatedCourseListSerializer, LessonDetailSerializer
 
@@ -26,11 +27,31 @@ class CourseListView(generics.ListAPIView):
 
 class CourseDetailView(generics.RetrieveAPIView):
     queryset = with_review_summary(
-        Course.objects.filter(is_published=True).select_related("direction", "author", "content_import", "studio_settings").prefetch_related("modules__lessons")
+        Course.objects.select_related("direction", "author", "content_import", "studio_settings").prefetch_related("modules__lessons")
     )
     serializer_class = CourseDetailSerializer
     permission_classes = [permissions.AllowAny]
     lookup_field = "slug"
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        response = super().finalize_response(request, response, *args, **kwargs)
+        # The same URL can expose an enrolled learner's unpublished curriculum.
+        # Vary anonymous responses too, so public and authenticated variants differ.
+        patch_vary_headers(response, ["Authorization", "Cookie"])
+        if request.user.is_authenticated or response.status_code >= 400:
+            response["Cache-Control"] = "private, no-store"
+        return response
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_authenticated and self.request.user.is_active:
+            enrolled_course_ids = Enrollment.objects.filter(
+                student=self.request.user
+            ).values("course_id")
+            return queryset.filter(
+                Q(is_published=True) | Q(pk__in=enrolled_course_ids)
+            ).distinct()
+        return queryset.filter(is_published=True)
 
 
 class LessonDetailView(generics.RetrieveAPIView):

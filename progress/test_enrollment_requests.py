@@ -306,6 +306,14 @@ class EnrollmentRequestTests(APITestCase):
         self.assertNotIn("Protected lesson body", response.content.decode())
         self.assertNotIn("Protected assignment", response.content.decode())
 
+    def test_enrolled_student_can_load_unpublished_course_outline(self):
+        self.course.is_published = False
+        self.course.save(update_fields=["is_published"])
+        Enrollment.objects.create(student=self.student, course=self.course)
+        response = self.client.get(reverse("course-detail", args=[self.course.slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["modules"][0]["lessons"][0]["id"], self.lesson.id)
+
     def test_admin_change_form_approves_and_reuses_enrollment(self):
         application = self.application()
         enrollment = Enrollment.objects.create(student=self.student, course=self.course)
