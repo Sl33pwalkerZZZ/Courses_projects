@@ -29,9 +29,9 @@ TITLES = [
     'Экспорт, адаптация и подготовка видео к публикации',
 ]
 CONTENT_PATH = Path(__file__).resolve().parents[1] / 'media_module_5.json'
-# Pin the prepared Phase 5B artifact. A later editorial revision requires review
-# and an intentional checksum update, never silent changes to existing lessons.
-SOURCE_SHA256 = '8e1003838194901cd780bd1ef61d0cd25ef2840a6e0845115d301c73734f3670'
+# Pin the reviewed source, including the Phase 5I/5K Lesson 113/114 text synchronization.
+# Later revisions require review and a checksum update; never overwrite existing lessons.
+SOURCE_SHA256 = '9c77dfeb012fed2a9530c083952ebb7178fe7e0b91f0edfc7c18bd9b7aeab0b4'
 
 
 def load_content():

@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "scope": "Course 10, Module 5, Lesson 15 only",
+  "expected": {
+    "course": {
+      "id": 10,
+      "slug": "ai-media-content",
+      "title": "ИИ для создания медиаконтента: от идеи до публикации",
+      "is_published": false,
+      "module_orders": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "lesson_ids_in_module_5": [
+        113,
+        114,
+        115
+      ],
+      "total_lessons": 15
+    },
+    "module": {
+      "id": 39,
+      "order": 5,
+      "title": "Создание и монтаж видео в CapCut Desktop"
+    },
+    "lesson": {
+      "id": 115,
+      "order": 3,
+      "title": "Экспорт, адаптация и подготовка видео к публикации",
+      "text_sha256": "6477f56eda6bb46d3eb9871acf8460183e8534e6347b616b2ae5ae62e5c86040"
+    },
+    "learning_content": {
+      "id": 22,
+      "content_language": "ru",
+      "objectives": [
+        "Выбирать параметры экспорта по задаче и различать размер кадра, частоту, кодек и битрейт.",
+        "Адаптировать композицию к другой форме кадра, сохраняя смысл, читаемость и доступность.",
+        "Проверять готовый файл, права и достоверность перед передачей на публикацию."
+      ],
+      "source_sections": [
+        "1. Сохранение проекта и экспорт — разные задачи",
+        "2. Размер кадра, частота, кодек и битрейт",
+        "3. Экспорт проверочной версии в CapCut Desktop",
+        "4. Субтитры в видео и отдельные дорожки",
+        "5. Адаптация 16:9 в 9:16",
+        "6. Просмотр и устранение технических ошибок",
+        "7. Редакторская проверка перед публикацией",
+        "8. Типичные ошибки и итоги урока",
+        "9. Самостоятельная практика без оценки"
+      ],
+      "interactions": []
+    },
+    "attachment_count": 0
+  },
+  "placement_sections": [
+    "3. Экспорт проверочной версии в CapCut Desktop",
+    "5. Адаптация 16:9 в 9:16",
+    "7. Редакторская проверка перед публикацией"
+  ],
+  "assets": [
+    {
+      "key": "m5-l15-v1-export-check",
+      "kind": "video",
+      "filename": "m5-l15-v1-export-check.mp4",
+      "path": "video-production/lesson-115-production/out/final-bgm/m5-l15-v1-export-check.mp4",
+      "sha256": "22a00b5d27549f993ef9c1c2d8205fbdf6ba28cbbe76e68ad547dcf0f4ae059f",
+      "mime_type": "video/mp4",
+      "after_section": "3. Экспорт проверочной версии в CapCut Desktop",
+      "metadata": {
+        "label": "Видео 1. Локальный экспорт и проверка файла",
+        "caption": "Учебная анимированная схема, не запись интерфейса CapCut Desktop. Ф1 — вымышленный пример. Озвучка: Silero ru_roman (v5_cis_base_nostress, MIT); музыкальная тема Minimal Tech Ambient создана для AI Courses.",
+        "transcript": "Сначала различим проект и готовое видео. Проект нужен, чтобы продолжить монтаж; экспортированный файл — чтобы посмотреть результат. Перед экспортом проверим конец последовательности и уберём случайный пустой хвост. В учебной схеме обозначим папку для экспорта и понятное имя, например, первая горизонтальная версия. Проект и исходники сохраняйте отдельно. Публикацию и отправку в социальные сети здесь не выполняем. Подбирайте размер кадра и частоту под подготовленную последовательность и доступные настройки. Профиль одна тысяча девятьсот двадцать на одна тысяча восемьдесят и тридцать кадров в секунду используйте, только если он соответствует исходнику и доступен. Эм-пэ-четыре — контейнер, эйч двести шестьдесят четыре — кодек; это разные свойства. В учебной последовательности покажем локальный экспорт и его завершение. Ожидание сокращено и не показывает реальную скорость программы. После экспорта откройте именно созданный файл в обычном плеере. Проверьте начало, середину, звук и конец. Предпросмотр редактора не заменяет проверку отдельного файла. Преподаватель может отдельно проверить свойства файла с помощью ffprobe. Сверьте фактические потоки, размер кадра и частоту с требованиями курса. Если файл не подходит, исправьте подготовку и повторите проверку.",
+        "provenance": "Оригинальная учебная анимация Remotion 4.0.540; схемы не являются записью CapCut Desktop. Русская речь синтезирована Silero v5_cis_base_nostress, голос ru_roman, MIT; лицензионное уведомление: video-production/lesson-115-production/audio/LICENSE_CIS. Оригинальная музыка Minimal Tech Ambient создана для AI Courses; утверждённый микс: целевой разрыв 22 dB, duck до 6 dB, attack 0.2 s, release 1.0 s; звуковые эффекты сохранены. Тайминг VTT сформирован из фразовых границ реальной дорожки речи; интерфейс CapCut не записывался.",
+        "after_section": "3. Экспорт проверочной версии в CapCut Desktop"
+      },
+      "pair_key": "m5-l15-v1-export-check",
+      "video_key": "m5-l15-v1-export-check",
+      "duration_seconds": 94.533333,
+      "duration_frames": 2836
+    },
+    {
+      "key": "m5-l15-v1-export-check-subtitles",
+      "kind": "vtt",
+      "filename": "m5-l15-v1-export-check.vtt",
+      "path": "video-production/lesson-115-production/out/final-bgm/m5-l15-v1-export-check.vtt",
+      "sha256": "f21a0c05a5de5b080b4abb53ae1358ae140ec640c4b9a1ae84bb5b242ea3a613",
+      "mime_type": "text/vtt",
+      "after_section": "3. Экспорт проверочной версии в CapCut Desktop",
+      "metadata": {
+        "label": "Субтитры WebVTT. Видео 1: Локальный экспорт и проверка файла",
+        "caption": "Синхронизированные WebVTT субтитры к видео 1; можно включить в плеере.",
+        "transcript": "",
+        "provenance": "WebVTT для m5-l15-v1-export-check; cue text/timestamps сохранены без изменений и проверяются относительно MP4.",
+        "after_section": "3. Экспорт проверочной версии в CapCut Desktop"
+      },
+      "pair_key": "m5-l15-v1-export-check",
+      "video_key": "m5-l15-v1-export-check"
+    },
+    {
+      "key": "m5-l15-v2-vertical-adaptation",
+      "kind": "video",
+      "filename": "m5-l15-v2-vertical-adaptation.mp4",
+      "path": "video-production/lesson-115-production/out/final-bgm/m5-l15-v2-vertical-adaptation.mp4",
+      "sha256": "704519231eaf4dbc9733f1b4aa2c3fd57630ab63d4ce6601bd056885c031a2ae",
+      "mime_type": "video/mp4",
+      "after_section": "5. Адаптация 16:9 в 9:16",
+      "metadata": {
+        "label": "Видео 2. Вертикальная версия без потери смысла",
+        "caption": "Учебная анимированная схема, не запись интерфейса CapCut Desktop. Ф1 — вымышленный пример. Озвучка: Silero ru_roman (v5_cis_base_nostress, MIT); музыкальная тема Minimal Tech Ambient создана для AI Courses.",
+        "transcript": "Сначала сохраните исходную горизонтальную версию. Вертикальную подготовьте как отдельный вариант, чтобы исходный монтаж оставался доступен для продолжения и сравнения. В схеме покажем переход от формата шестнадцать на девять к формату девять на шестнадцать. Доступные способы изменения кадра зависят от установленной версии программы. Сравните вертикальные границы с исходным горизонтальным кадром. Перестройте композицию вручную: сохраните важный предмет целиком и не растягивайте изображение по одной оси. Если элементы не помещаются рядом, показывайте их последовательно. Разместите заголовок, пояснения и субтитры так, чтобы они не закрывали объект и оставались читаемыми. Сохраните пометку «Вымышленный учебный пример Ф1». Проверьте каждую сцену, а не только первый кадр. Автоматическое кадрирование, если оно доступно в вашей версии, используйте как подсказку и перепроверьте результат вручную. Сохраните вертикальный вариант отдельно и сравните его с горизонтальным по смыслу и читаемости. По этому примеру нельзя делать выводы о просмотрах или эффективности публикации.",
+        "provenance": "Оригинальная учебная анимация Remotion 4.0.540; схемы не являются записью CapCut Desktop. Русская речь синтезирована Silero v5_cis_base_nostress, голос ru_roman, MIT; лицензионное уведомление: video-production/lesson-115-production/audio/LICENSE_CIS. Оригинальная музыка Minimal Tech Ambient создана для AI Courses; утверждённый микс: целевой разрыв 22 dB, duck до 6 dB, attack 0.2 s, release 1.0 s; звуковые эффекты сохранены. Тайминг VTT сформирован из фразовых границ реальной дорожки речи; интерфейс CapCut не записывался.",
+        "after_section": "5. Адаптация 16:9 в 9:16"
+      },
+      "pair_key": "m5-l15-v2-vertical-adaptation",
+      "video_key": "m5-l15-v2-vertical-adaptation",
+      "duration_seconds": 80.733333,
+      "duration_frames": 2422
+    },
+    {
+      "key": "m5-l15-v2-vertical-adaptation-subtitles",
+      "kind": "vtt",
+      "filename": "m5-l15-v2-vertical-adaptation.vtt",
+      "path": "video-production/lesson-115-production/out/final-bgm/m5-l15-v2-vertical-adaptation.vtt",
+      "sha256": "3e20267339626e465de13ded4405222954a65bb763cbdade8fe5ae4261d90eb1",
+      "mime_type": "text/vtt",
+      "after_section": "5. Адаптация 16:9 в 9:16",
+      "metadata": {
+        "label": "Субтитры WebVTT. Видео 2: Вертикальная версия без потери смысла",
+        "caption": "Синхронизированные WebVTT субтитры к видео 2; можно включить в плеере.",
+        "transcript": "",
+        "provenance": "WebVTT для m5-l15-v2-vertical-adaptation; cue text/timestamps сохранены без изменений и проверяются относительно MP4.",
+        "after_section": "5. Адаптация 16:9 в 9:16"
+      },
+      "pair_key": "m5-l15-v2-vertical-adaptation",
+      "video_key": "m5-l15-v2-vertical-adaptation"
+    },
+    {
+      "key": "m5-l15-v3-final-review",
+      "kind": "video",
+      "filename": "m5-l15-v3-final-review.mp4",
+      "path": "video-production/lesson-115-production/out/final-bgm/m5-l15-v3-final-review.mp4",
+      "sha256": "f8a08dc12683c102036e38e9627b14689b69e27567117315c2229a273ce298f3",
+      "mime_type": "video/mp4",
+      "after_section": "7. Редакторская проверка перед публикацией",
+      "metadata": {
+        "label": "Видео 3. Проверка файла перед передачей редактору",
+        "caption": "Учебная анимированная схема, не запись интерфейса CapCut Desktop. Ф1 — вымышленный пример. Озвучка: Silero ru_roman (v5_cis_base_nostress, MIT); музыкальная тема Minimal Tech Ambient создана для AI Courses.",
+        "transcript": "Проверяйте конкретную версию файла. Разделите техническое качество, достоверность содержания и права: успешный экспорт не отвечает сразу на все три вопроса. Просмотрите изображение и прослушайте речь. Проверьте стыки, начало, середину и конец. Если обнаружите дефект, исправьте проект и снова проверьте результат. В учебной карточке оставим неподтверждённое утверждение об экономии без числа. Расчёта нет, поэтому его нужно убрать, а не подбирать убедительную цифру. Сверьте изображения, голос, музыку и шрифты с документированными условиями использования. Ссылка на автора сама по себе не подтверждает разрешение; условия проверяет ответственный. Проверьте субтитры и вариант без звука. Важная оговорка должна читаться и без аудио. Мелкий или слишком быстрый текст нельзя считать доступным. Передайте конкретный файл с заметкой о версии, проверках и открытых вопросах. Решение о публикации принимает ответственный редактор. Это видео не является оцениваемым заданием или основанием для сертификата.",
+        "provenance": "Оригинальная учебная анимация Remotion 4.0.540; схемы не являются записью CapCut Desktop. Русская речь синтезирована Silero v5_cis_base_nostress, голос ru_roman, MIT; лицензионное уведомление: video-production/lesson-115-production/audio/LICENSE_CIS. Оригинальная музыка Minimal Tech Ambient создана для AI Courses; утверждённый микс: целевой разрыв 22 dB, duck до 6 dB, attack 0.2 s, release 1.0 s; звуковые эффекты сохранены. Тайминг VTT сформирован из фразовых границ реальной дорожки речи; интерфейс CapCut не записывался.",
+        "after_section": "7. Редакторская проверка перед публикацией"
+      },
+      "pair_key": "m5-l15-v3-final-review",
+      "video_key": "m5-l15-v3-final-review",
+      "duration_seconds": 79.166667,
+      "duration_frames": 2375
+    },
+    {
+      "key": "m5-l15-v3-final-review-subtitles",
+      "kind": "vtt",
+      "filename": "m5-l15-v3-final-review.vtt",
+      "path": "video-production/lesson-115-production/out/final-bgm/m5-l15-v3-final-review.vtt",
+      "sha256": "4bfb3ff35028e7193ecd7007ef15164d04255842d129b7eda4c7dc5b9d5cc419",
+      "mime_type": "text/vtt",
+      "after_section": "7. Редакторская проверка перед публикацией",
+      "metadata": {
+        "label": "Субтитры WebVTT. Видео 3: Проверка файла перед передачей редактору",
+        "caption": "Синхронизированные WebVTT субтитры к видео 3; можно включить в плеере.",
+        "transcript": "",
+        "provenance": "WebVTT для m5-l15-v3-final-review; cue text/timestamps сохранены без изменений и проверяются относительно MP4.",
+        "after_section": "7. Редакторская проверка перед публикацией"
+      },
+      "pair_key": "m5-l15-v3-final-review",
+      "video_key": "m5-l15-v3-final-review"
+    }
+  ],
+  "backup_source_paths": [
+    "courses/management/media_module_5.json",
+    "docs/courses/media-module-5-assets.json",
+    "video-production/lesson-115-production/content/videos.json",
+    "video-production/lesson-115-production/content/timings-sentence.json",
+    "video-production/lesson-115-production/content/audio-bgm-provenance.json",
+    "courses/management/lesson115_final_video_integration.json"
+  ]
+}
