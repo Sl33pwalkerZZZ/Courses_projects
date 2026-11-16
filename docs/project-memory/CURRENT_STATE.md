@@ -1,5 +1,13 @@
 # Current Project State
 
+## Latest implementation — Instructor Studio S4.1 attachment moves (2026-11-16)
+
+- From `1a6894a` on `feat/studio-course-authoring`: existing attachment manager shows saved placement/unresolved anchors and each video's unique linked WebVTT. Eligible video/audio/SRT can move to saved student-renderable sections; video+VTT move atomically, direct VTT moves and ambiguous groups/destinations reject.
+- New owned unpublished lesson attachment placement PATCH checks saved ordered headings, expected source and subtitle ID. Only after_section changes; IDs/files remain. S2.1/S3 retained; moves block pending title renames/lesson saves, media refresh preserves unsaved text. No migrations or live data changes.
+-41 isolated Django tests,38/38 frontend test files, lint/build/check/whitespace passed. Actual isolated Chromium observed pair move/reopen/student preview+same track, dirty preservation, pending rename guard and localized errors at EN1440dark/RU390light/KK320dark without overflow. Mock API only; real authenticated flow remains manual. Native frontend/security reviewers ran read-only.
+- SQLite/settings hashes unchanged, Course10 unpublished, Course8/live media preserved, index empty; no stage/commit/push. Exact files/API/limitations: `docs/instructor-studio/s4-1-attachment-placement.md`.
+
+
 ## Latest implementation — Instructor Studio S3 section inventory/rename (2026-11-16)
 
 - On `feat/studio-course-authoring`, starting at `2050986`: existing lesson sections now show ordered media including video/VTT and unresolved anchors; plain-text lessons retain fallback. Only existing heading renaming is added, no add/delete/reorder.

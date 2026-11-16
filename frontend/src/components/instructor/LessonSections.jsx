@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Input } from './StudioShared'
 import { renameSection, sectionInventory } from '../../utils/studioSections'
 
-export default function LessonSections({ form, lesson, setForm }) {
+export default function LessonSections({ form, lesson, setForm, disabled = false }) {
   const { t } = useTranslation()
   const [error, setError] = useState('')
   const errorId = useId()
@@ -16,7 +16,7 @@ export default function LessonSections({ form, lesson, setForm }) {
     {!sections.length && <p>{t('instructorStudio.noStructuredSections')}</p>}
     {showError && <p id={errorId} role="alert">{t('instructorStudio.ambiguousSectionRename')}</p>}
     <ol>{sections.map((section, index) => <li key={index}>
-      <Input label={`${t('instructorStudio.sectionHeading')} ${index + 1}`} value={form.section_inputs?.[index] ?? section.heading} maxLength={255} disabled={!section.valid} aria-invalid={!!form.section_inputs && form.section_inputs[index].trim() !== section.heading} aria-describedby={showError ? errorId : undefined} onChange={event => {
+      <Input label={`${t('instructorStudio.sectionHeading')} ${index + 1}`} value={form.section_inputs?.[index] ?? section.heading} maxLength={255} disabled={disabled || !section.valid} aria-invalid={!!form.section_inputs && form.section_inputs[index].trim() !== section.heading} aria-describedby={showError ? errorId : undefined} onChange={event => {
         const raw = event.target.value
         const section_inputs = [...(form.section_inputs || form.learning_content.source_sections)]
         section_inputs[index] = raw

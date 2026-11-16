@@ -613,3 +613,21 @@ class LessonAttachmentsView(StudioView):
                 storage.delete(name)
             raise
         return Response(result, status=201 if created else 200)
+
+
+class LessonAttachmentPlacementView(StudioView):
+    @transaction.atomic
+    def patch(self, request, pk, attachment_pk):
+        from courses.models import LessonAttachment
+        from courses.serializers import lesson_attachments
+        from .attachment_placement import AttachmentPlacementSerializer, placement_ids
+        lesson, course = lesson_for(request.user, pk)
+        if course.is_published:
+            raise ValidationError({'placement_error': 'locked'})
+        asset = get_object_or_404(LessonAttachment, pk=attachment_pk, lesson=lesson)
+        data = validated(AttachmentPlacementSerializer, request.data)
+        ids = placement_ids(lesson, asset, data)
+        if data['after_section'] != asset.after_section:
+            editable(course)
+            LessonAttachment.objects.filter(lesson=lesson, pk__in=ids).update(after_section=data['after_section'])
+        return Response(lesson_attachments(lesson))

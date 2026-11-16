@@ -67,3 +67,5 @@
 
 .instructor-lesson-sections { min-width: 0; }
 .instructor-lesson-sections li { overflow-wrap: anywhere; }
+
+.instructor-attachment-placement { margin-block: 1rem; overflow-wrap: anywhere; }

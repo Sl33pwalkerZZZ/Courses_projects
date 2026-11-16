@@ -8,6 +8,8 @@ export function moveStudioItem(items, index, direction) {
 }
 export function studioError(error, fallback, translate) {
   if (!error?.response?.data) return fallback
+  const placement = error.response.data.placement_error
+  if (translate && ['invalid', 'stale', 'track', 'ambiguous', 'locked'].includes(placement)) return translate(`instructorStudio.placement.${placement}`)
   const missing = publicationProblems(error.response.data)
   if (missing.length && translate) return missing.map(item => translate(`instructorStudio.requirements.${item.key}`, { defaultValue: item.label || item.key })).join(' · ')
   const values = []

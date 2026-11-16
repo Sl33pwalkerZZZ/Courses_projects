@@ -626,6 +626,19 @@
     "loadError": "Preview could not be loaded. Check your staff permissions or retry."
   },
   "instructorStudio": {
+    "placement": {
+      "current": "Current placement",
+      "captions": "Linked WebVTT",
+      "noTrack": "No linked track",
+      "destination": "Move after section",
+      "move": "Move attachment",
+      "renamePending": "Save or discard section-title edits before moving media. Wait for an active lesson save to finish.",
+      "invalid": "Choose a valid, unique saved section.",
+      "stale": "The saved headings, placement or caption link changed. Refresh the workspace and retry.",
+      "track": "WebVTT tracks move only with their uniquely linked video.",
+      "ambiguous": "Video/caption placement is ambiguous. Choose a section without another video or WebVTT track.",
+      "locked": "Published lesson media cannot be moved."
+    },
     "lessonSections": "Lesson sections and media",
     "sectionRenameHint": "Renaming updates this heading and its media anchors on Save draft. Adding, removing and reordering sections is not supported here.",
     "noStructuredSections": "No structured sections. Continue using the text editor.",
