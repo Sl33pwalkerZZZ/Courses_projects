@@ -1,5 +1,22 @@
 # Current Project State
 
+## Latest implementation — Instructor Studio S3 section inventory/rename (2026-11-16)
+
+- On `feat/studio-course-authoring`, starting at `2050986`: existing lesson sections now show ordered media including video/VTT and unresolved anchors; plain-text lessons retain fallback. Only existing heading renaming is added, no add/delete/reorder.
+- Exact title anchors remain the model contract. Explicit rename intents are validated and applied through the existing atomic lesson PATCH, updating body/source sections/image placements/all matching attachment anchors together, preserving media IDs/files. Stale/ambiguous/colliding references reject; owner/published locks retained. No migrations.
+- S2.1 drafts/dirty confirmation/save races preserved, including raw invalid title input and newer renames while saving. Display-only stale-prop aliases are attachment-ID scoped; reused headings cannot redirect another asset.
+-32 isolated Django tests,37/37 frontend test files, lint/build/system/whitespace checks passed. Actual isolated Chromium observed rename/refresh/stay/failed save/pending save/reopen/student video+VTT placement/plain fallback; EN1440dark/RU390light/KK320dark without page overflow. Mock API only; no real authenticated Studio verification. Native frontend/security read-only reviews ran.
+- Working SQLite/settings checksums unchanged, Course10 unpublished, Course8/live media/data untouched. No stage/commit/push. Details/files/manual checks: `docs/instructor-studio/s3-section-renaming.md`.
+
+
+## Latest implementation — Instructor Studio S2.1 (2026-11-16)
+
+- Current branch `feat/studio-course-authoring` was created during S1 from local checkpoint e669aaa (five P1O commits complete). Existing local settings/untracked assets preserved. S1 discovery is in chat; no source changes were made during that audit.
+- S2.1 retains same-course/path/session workspace data during background refresh, preserving keyed lesson drafts while outline/media props update; refresh errors offer retry. Initial load/permission/session boundaries retained.
+- Lesson saves acknowledge submitted baseline only: failed saves retain edits; newer typing during PATCH stays dirty. Localized close/switch/router leave confirmation and beforeunload added. Early inert POP dispatcher in main.jsx is required before BrowserRouter; see DECISIONS and `docs/instructor-studio/s2-1-draft-stability.md`.
+-36/36 frontend test files, lint(no warnings), build and whitespace checks passed. Actual isolated Chromium fixture reproduced before loss and passed after flows (refresh/upload/reorder/stay/discard/save races/Back; EN1440,RU390,KK390). Mocked API only; real authenticated Studio/backend flow and native prompt appearance remain manual. MCPFirefox unavailable. No backend/DB/settings/course/media/assessment changes, staging, commit or push.
+
+
 ## Latest checkpoint update — P1M whitespace safety (2026-11-13)
 
 - P1L staged272 approved files but final cached whitespace check found25 findings in13 files. P1M removes only whitespace from11 unpinned source/docs/transcript/storyboard files; preserves2 Lesson114 VTT byte-for-byte because integration/production manifests and protected attachments pin their hashes.

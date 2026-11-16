@@ -626,6 +626,15 @@
     "loadError": "Preview could not be loaded. Check your staff permissions or retry."
   },
   "instructorStudio": {
+    "lessonSections": "Lesson sections and media",
+    "sectionRenameHint": "Renaming updates this heading and its media anchors on Save draft. Adding, removing and reordering sections is not supported here.",
+    "noStructuredSections": "No structured sections. Continue using the text editor.",
+    "sectionHeading": "Section heading",
+    "ambiguousSectionRename": "Use a unique, nonempty heading. A missing, repeated or conflicting anchor cannot be renamed.",
+    "noSectionMedia": "No media placed after this section.",
+    "unresolvedPlacements": "Unresolved media placements",
+    "noPlacement": "No section anchor",
+
     "discardLessonChanges": "Discard unsaved lesson changes and leave the editor?",
     "refreshingWorkspace": "Refreshing course…",
     "assignmentReview": {

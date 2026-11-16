@@ -12,7 +12,7 @@ export function useLessonDraft(lesson, language) {
     updateForm(current.current)
   }
   const acceptSave = (submitted, response) => {
-    const next = savedDraft(current.current, submitted, response, language)
+    const next = savedDraft(current.current, submitted, response, language, lesson)
     setBaseline(next.baseline)
     setForm(next.form)
   }

@@ -1,5 +1,12 @@
 # Architectural and Project Decisions
 
+## 2026-11-16 — Studio drafts and BrowserRouter leave guards
+
+- Workspace resource retention is opt-in, scoped to API path plus auth generation. It must preserve editor subtree during refresh but clear private data on permission/session change. No draft persistence in localStorage.
+- A successful save advances only the submitted baseline; newer edits remain dirty. Keep form controls editable during pending saves and preserve keyed lesson identity.
+- BrowserRouter requires an early, otherwise inert POP dispatcher before its listener, plus an active Studio editor guard. Late listeners failed in actual Chromium. The implementation uses UNSAFE_NavigationContext/numeric history idx; upgrades require route/Back/reload regression checks. Existing native localized confirm pattern retained; no router migration or API change.
+
+
 **Evidence review date:** 2026-11-09. This records decisions supported by project instructions, source and audit reports. It is not a reconstruction of undocumented conversations; unknown rationale is labeled.
 
 ## D-01 — Preserve Course 10 as the single media-course curriculum; do not publish by default
@@ -106,3 +113,8 @@ Public verification and course eligibility/status retain the global gate. Issuan
 ## P1I — Optional public verification does not block authenticated PDF reads (2026-11-13)
 
 Owner-approved: an issued valid snapshot can render as an authenticated private PDF without CERTIFICATE_PUBLIC_ORIGIN. The renderer omits QR/link if public verification is disabled or explicit origin is absent/invalid; it never uses request Host. Existing public verification route and issuance gate remain unchanged. Same API supports inline preview and attachment download, with identical snapshot metadata and no record mutation. Profile hides unavailable public verification and keeps preview Blob URLs session-scoped. This supersedes only P1G's origin-as-download-prerequisite; it does not authorize public verification or issuance. Evidence: `docs/courses/certificate-pdf-p1i.md`.
+
+
+## 2026-11-16 — Studio section renaming preserves title anchors atomically
+
+Existing source_sections are title strings, not synthetic immutable IDs. S3 uses explicit expected-old/new intents on the existing owned unpublished lesson PATCH. Validate unique body headings/ordered source titles and reject collisions; save text, image-placement references and all matching attachment anchors in one transaction. Move video/VTT together by their existing shared anchor, retaining IDs/files; never infer pairing from filenames or repair existing orphan anchors. Refresh lesson state after obtaining the course lock. Editor-only invalid inputs remain dirty; save acknowledgements rebase newer intents. Any stale-prop display alias must be scoped to attachment ID and expected old anchor, never historical title alone (freed titles can be reused). See `docs/instructor-studio/s3-section-renaming.md`. No schema change, public-media change or live-data update.

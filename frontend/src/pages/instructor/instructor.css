@@ -64,3 +64,6 @@
 .instructor-rubric label { display: grid; grid-template-columns: minmax(0, 1fr) 5rem; gap: .75rem; align-items: center; }
 .instructor-rubric input { width: 5rem; min-height: 2.25rem; padding: .35rem .5rem; border: 1px solid var(--v2-border); border-radius: 8px; background: var(--v2-surface-raised); color: var(--v2-text); }
 .instructor-rubric p { margin: .25rem 0 0; color: var(--v2-text-muted); }
+
+.instructor-lesson-sections { min-width: 0; }
+.instructor-lesson-sections li { overflow-wrap: anywhere; }

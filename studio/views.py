@@ -65,6 +65,7 @@ def editable(course):
 def lesson_for(user, pk):
     lesson = get_object_or_404(Lesson.objects.select_related('module__course'), pk=pk, module__course__in=owned_courses(user))
     course = course_for(user, lesson.module.course_id, lock=True)
+    lesson.refresh_from_db()
     return lesson, course
 
 
@@ -191,6 +192,7 @@ class LessonReorderView(ReorderView):
 
 def save_lesson(lesson, data):
     learning = data.pop('learning_content', None)
+    renames = data.pop('section_renames', [])
     for key, value in data.items():
         setattr(lesson, key, value)
     # A lesson may be assembled in stages; publication still requires its body.
@@ -198,6 +200,9 @@ def save_lesson(lesson, data):
     lesson.save()
     if learning is not None:
         LessonLearningContent.objects.update_or_create(lesson=lesson, defaults=learning)
+    # The enclosing lesson PATCH transaction covers headings and all video/VTT/audio/SRT anchors.
+    for rename in renames:
+        lesson.attachments.filter(after_section=rename['from']).update(after_section=rename['to'])
     # Reverse one-to-one caches must reflect a just-created/updated learning record.
     lesson.refresh_from_db()
     return lesson

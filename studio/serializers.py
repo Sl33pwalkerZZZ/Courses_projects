@@ -73,19 +73,37 @@ class LearningContentSerializer(serializers.Serializer):
         return value
 
 
+class SectionRenameSerializer(serializers.Serializer):
+    from_title = serializers.CharField(max_length=255, source="from")
+    to_title = serializers.CharField(max_length=255, source="to")
+
+    def to_internal_value(self, data):
+        if isinstance(data, dict) and set(data) - {'from_title', 'to_title'}:
+            raise serializers.ValidationError('Unknown section rename field.')
+        return super().to_internal_value(data)
+
+
 class LessonWriteSerializer(serializers.ModelSerializer):
     learning_content = LearningContentSerializer(required=False)
+    section_renames = SectionRenameSerializer(many=True, required=False, max_length=100, write_only=True)
 
     def validate(self, attrs):
+        from .section_renames import validate_section_renames
+        validate_section_renames(self.instance, attrs)
         learning = attrs.get('learning_content', {})
-        placements = [i for i in learning.get('interactions', []) if i.get('type') == 'image_placement']
+        existing = getattr(getattr(self.instance, 'learning_content', None), 'interactions', []) if self.instance else []
+        all_placements = [i for i in learning.get('interactions', []) if i.get('type') == 'image_placement']
+        if len({i['image_id'] for i in all_placements}) != len(all_placements):
+            raise serializers.ValidationError('Duplicate image placement.')
+        placements = [i for i in learning.get('interactions', []) if i.get('type') == 'image_placement' and i not in existing]
         if placements:
             ids = [i['image_id'] for i in placements]
             allowed = set(self.instance.images.values_list('pk', flat=True)) if self.instance else set()
             current = getattr(self.instance, 'learning_content', None) if self.instance else None
             sections = learning.get('source_sections', getattr(current, 'source_sections', []))
             body = attrs.get('text_content', getattr(self.instance, 'text_content', ''))
-            paragraphs = body.split('\n\n')
+            import re
+            paragraphs = [p.strip() for p in re.split(r'\n\s*\n', body) if p.strip()]
             if (len(ids) != len(set(ids)) or not set(ids).issubset(allowed)
                     or any(i['after_section'] not in sections or paragraphs.count(i['after_section']) != 1 for i in placements)):
                 raise serializers.ValidationError('Image placements must reference this lesson and unique existing section anchors.')
@@ -93,7 +111,7 @@ class LessonWriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = ['title', 'text_content', 'learning_content']
+        fields = ['title', 'text_content', 'learning_content', 'section_renames']
         extra_kwargs = {'text_content': {'allow_blank': True}}
 
 

@@ -40,7 +40,7 @@ test('refresh fixture keeps editor content with current outline/media, including
 
 test('save baseline uses submitted version, not edits typed while PATCH was pending', async () => {
   const initial = lessonDraft(lesson)
-  const submitted = draftPayload({ ...initial, text_content: 'Submitted body' })
+  const submitted = { ...initial, text_content: 'Submitted body' }
   let resolve
   const pending = new Promise(done => { resolve = done })
   const newer = { ...submitted, text_content: 'Newer unsaved body' }
