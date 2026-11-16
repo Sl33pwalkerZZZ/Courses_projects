@@ -10,6 +10,9 @@ import './styles/v2-tokens.css'
 import './styles/playground.css'
 import './styles/amethyst-motion.css'
 import App from './App.jsx'
+import { installStudioPopGuard } from './utils/studioNavigation'
+
+installStudioPopGuard(window)
 
 document.documentElement.dataset.theme = getPreferredTheme()
 

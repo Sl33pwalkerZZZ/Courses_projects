@@ -626,6 +626,8 @@
     "loadError": "Preview could not be loaded. Check your staff permissions or retry."
   },
   "instructorStudio": {
+    "discardLessonChanges": "Discard unsaved lesson changes and leave the editor?",
+    "refreshingWorkspace": "Refreshing course…",
     "assignmentReview": {
       "answerLabels": {"service": "Service", "result": "Result"},
       "intro": "Review submitted practical work for your courses. Drafts remain private to students.",

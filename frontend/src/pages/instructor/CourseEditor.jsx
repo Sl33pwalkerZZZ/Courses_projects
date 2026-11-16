@@ -27,7 +27,7 @@ export function CourseWorkspace() {
   const { id } = useParams()
   const { identity } = useOutletContext()
   const { t } = useTranslation()
-  const resource = useStudioResource(`/studio/courses/${id}/`)
+  const resource = useStudioResource(`/studio/courses/${id}/`, { retainData: true })
   return <ResourceState resource={resource}>{course => <><div className="instructor-section-heading"><div><span className="instructor-badge">{t(`instructorStudio.${course.is_published ? 'published' : 'draft'}`)}</span><h2>{course.title}</h2></div><Button to={`/instructor/courses/${course.slug}/preview`} variant="secondary">{t('instructorStudio.preview')}</Button></div><nav className="instructor-tabs" aria-label={t('instructorStudio.courseNavigation')}>{['edit', 'curriculum', 'assessment', 'submissions', 'publication'].map(tab => <NavLink key={tab} to={`/instructor/courses/${id}/${tab}`}>{t(`instructorStudio.${tab}`)}</NavLink>)}</nav><Outlet context={{ course, reload: resource.reload, identity }} /></>}</ResourceState>
 }
 export function CourseForm({ initial, onSaved, onPrepared }) {

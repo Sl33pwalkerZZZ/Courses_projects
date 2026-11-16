@@ -4,9 +4,11 @@ import Button from '../ui/Button'
 
 export function ResourceState({ resource, children }) {
   const { t } = useTranslation()
-  if (resource.loading) return <p role="status">{t('common.loading')}</p>
-  if (resource.error) return <div role="alert"><p>{resource.error}</p><Button variant="secondary" onClick={resource.reload}>{t('common.retry')}</Button></div>
-  return children(resource.data)
+  const hasData = resource.data !== null && resource.data !== undefined
+  if (resource.loading && !hasData) return <p role="status">{t('common.loading')}</p>
+  const error = resource.error && <div role="alert"><p>{resource.error}</p><Button variant="secondary" onClick={resource.reload}>{t('common.retry')}</Button></div>
+  if (resource.error && !hasData) return error
+  return <>{error}{resource.refreshing && <p role="status">{t('instructorStudio.refreshingWorkspace')}</p>}{children(resource.data)}</>
 }
 export function Field({ label, children, hint }) {
   const id = useId()
