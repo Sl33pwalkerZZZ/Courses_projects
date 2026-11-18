@@ -1,5 +1,11 @@
 # Current Project State
 
+## Latest implementation — Instructor Studio S6 publication readiness (2026-11-18)
+
+- Continued from5f370ee on feat/studio-course-authoring. Publication shows real saved status, existing seven server checks, actionable Studio links and existing student-preview route; recommendations are explicitly nonblocking. Moderator review link remains role-gated. Pending/stale-request guidance explains reject/resubmit; no server publication rules or API changes.
+-24 isolated Django tests and41/41 frontend files passed; final focused file4cases passed after test-only update. Lint/build/check/whitespace passed. Actual Chromium fixture verified blocker→quiz save→preview→request→moderator approval→published UI, with in-memory API only. Server workflow verified separately on synthetic Django records; no real authenticated publication browser test.
+- Course10 read-only: unpublished,6modules/16lessons; content/quiz gates pass, source/assessment acknowledgements absent. SQLite/settings hashes unchanged, Course8/live media/certificates preserved. No stage/commit/push. Exact files/evidence: docs/instructor-studio/s6-publication-readiness.md.
+
 ## Latest implementation — Instructor Studio S5.2 quiz authoring (2026-11-18)
 
 - Continued from S5.1 checkpoint9a4386b on feat/studio-course-authoring. Existing quiz API/validation/attempt locks reused; no backend functionality or schema changes. Integer0–100 threshold, existing question/choice caps, per-editor radio groups, RU/KK/EN grading/disclosure guidance and same-scope refresh retention added.
