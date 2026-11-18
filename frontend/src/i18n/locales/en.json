@@ -626,6 +626,12 @@
     "loadError": "Preview could not be loaded. Check your staff permissions or retry."
   },
   "instructorStudio": {
+    "quizAuthoring": {
+      "invalidPassing": "Passing percentage must be a whole number from 0 to 100.",
+      "single": "Select exactly one correct choice.",
+      "multiple": "Select all correct choices (at least one). Only an exact set match earns credit.",
+      "answerPolicy": "Keys and explanations are hidden before submission. After submission, students see feedback for their own attempt. Published quizzes and quizzes with attempts cannot be edited."
+},
     "assignmentAuthoring": {
       "activityLabel": "Assignment format",
       "descriptionHint": "The assignment name and instructions are saved together. Start with the assignment name; students see the complete text.",

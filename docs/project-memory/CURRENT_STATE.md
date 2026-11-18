@@ -1,5 +1,11 @@
 # Current Project State
 
+## Latest implementation — Instructor Studio S5.2 quiz authoring (2026-11-18)
+
+- Continued from S5.1 checkpoint9a4386b on feat/studio-course-authoring. Existing quiz API/validation/attempt locks reused; no backend functionality or schema changes. Integer0–100 threshold, existing question/choice caps, per-editor radio groups, RU/KK/EN grading/disclosure guidance and same-scope refresh retention added.
+-72 isolated Django tests and40/40 frontend test files passed; lint/build/system/whitespace passed. Actual Chromium in-memory fixture verified edit/key/threshold, failed-save retention, retry, refresh and reopen. No real authenticated course editing/student submission performed. Existing attempt snapshots and key visibility verified separately in isolated backend tests.
+- SQLite/settings hashes unchanged; Course8/10/live media/certificates preserved and Course10 unpublished. No stage/commit/push. Exact files/evidence/manual follow-up: docs/instructor-studio/s5-2-quiz-authoring.md.
+
 ## Latest implementation — Instructor Studio S5.1 final assignments (2026-11-18)
 
 - Resumed existing WIP on feat/studio-course-authoring from f2c4b87. Studio can now select/save/reopen final_media_project using existing description/type/learning_activity; no separate title field or new schema. Description is explicitly name+instructions; actual text/files policies are explained in RU/KK/EN.

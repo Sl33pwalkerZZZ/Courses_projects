@@ -27,10 +27,10 @@ export function newStudioQuestion() {
 export function quizProblems(quiz) {
   const problems = []
   if (!quiz.title?.trim()) problems.push('title')
-  if (!Number.isFinite(Number(quiz.passing_percentage)) || Number(quiz.passing_percentage) < 0 || Number(quiz.passing_percentage) > 100) problems.push('passing')
-  if (!quiz.questions?.length) problems.push('questions')
+  if (String(quiz.passing_percentage ?? '').trim() === '' || !Number.isInteger(Number(quiz.passing_percentage)) || Number(quiz.passing_percentage) < 0 || Number(quiz.passing_percentage) > 100) problems.push('passing')
+  if (!quiz.questions?.length || quiz.questions.length > 100) problems.push('questions')
   quiz.questions?.forEach((q, i) => {
-    if (!q.text?.trim() || !['single', 'multiple'].includes(q.type) || q.choices.length < 2 || q.choices.some(c => !c.text?.trim())) problems.push(`question ${i + 1}`)
+    if (!q.text?.trim() || !['single', 'multiple'].includes(q.type) || q.choices.length < 2 || q.choices.length > 20 || q.choices.some(c => !c.text?.trim())) problems.push(`question ${i + 1}`)
     const correct = q.choices.filter(c => c.is_correct).length
     if (q.type === 'single' ? correct !== 1 : correct < 1) problems.push(`answers ${i + 1}`)
   })
