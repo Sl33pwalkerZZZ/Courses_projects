@@ -622,7 +622,8 @@
   "instructorPreview": {
     "title": "Draft course preview",
     "notice": "Authorized instructor preview. This does not publish the course or create student progress.",
-    "quiz": "Draft quizzes are reviewed in Django Admin. Students cannot access them until publication.",
+    "quiz": "Edit questions and answer keys in Instructor Studio. Draft quizzes remain unavailable to students until publication.",
+    "editQuiz": "Open the Studio quiz editor",
     "loadError": "Preview could not be loaded. Check your staff permissions or retry."
   },
   "instructorStudio": {
@@ -664,8 +665,24 @@
       "locked": "Published lesson media cannot be moved."
     },
     "lessonSections": "Lesson sections and media",
-    "sectionRenameHint": "Renaming updates this heading and its media anchors on Save draft. Adding, removing and reordering sections is not supported here.",
-    "noStructuredSections": "No structured sections. Continue using the text editor.",
+    "sectionCreation": {
+      "title": "New section",
+      "heading": "New section heading",
+      "text": "New section text",
+      "add": "Add section to lesson",
+      "hint": "The section is appended to the lesson. Save the draft before linking media to it. Removing and reordering sections is not supported here.",
+      "existingText": "The first heading will be inserted before your existing text. That text stays in the first section; the new text below is added after it.",
+      "pending": "Add the pending section to the lesson or clear both fields before saving.",
+      "errors": {
+            "heading": "Enter a unique, nonempty single-line heading up to 255 characters. It must not match a standalone paragraph or unresolved media anchor.",
+            "text": "Enter section text. The first section can use the existing lesson text.",
+            "structure": "Resolve heading errors first. For legacy section identifiers or teaching blocks, continue using the existing text editor.",
+            "limit": "A lesson can contain at most 100 sections.",
+            "server": "Section not saved: check unique ordered headings, section text and media anchors."
+      }
+},
+    "sectionRenameHint": "Renaming updates this heading and its media anchors on Save draft. Add new sections below.",
+    "noStructuredSections": "No structured sections. Add the first section or keep editing plain text.",
     "sectionHeading": "Section heading",
     "ambiguousSectionRename": "Use a unique, nonempty heading. A missing, repeated or conflicting anchor cannot be renamed.",
     "noSectionMedia": "No media placed after this section.",
@@ -904,7 +921,7 @@
       "description": "Course description",
       "curriculum": "Modules and lessons",
       "lesson_content": "Lesson content complete",
-      "assessment": "Valid assessments",
+      "assessment": "A quiz exists; all quizzes pass validation",
       "source_reviewed": "Source reviewed",
       "assessment_reviewed": "Assessment reviewed"
     },

@@ -1,3 +1,4 @@
+import QuizPreviewNotice from '../components/instructor/QuizPreviewNotice'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useParams } from 'react-router-dom'
@@ -208,7 +209,7 @@ function LessonWorkspace({ id, courseSlug, preview }) {
         <ReadingProgress />
         {preview && <p className="learning-source-note">{t('instructorPreview.notice')}</p>}
         <LessonMaterial lesson={lesson} preview={preview} />
-        {preview && <p>{t('instructorPreview.quiz')}</p>}
+        {preview && <QuizPreviewNotice courseId={outline.data?.id} />}
         {progress.data && <LessonQuiz key={lesson.id} lessonId={lesson.id} />}
 
         <section className="lesson-completion" aria-label={t('lessonWorkspace.completion')} aria-busy={completing}>

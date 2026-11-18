@@ -88,8 +88,9 @@ class LessonWriteSerializer(serializers.ModelSerializer):
     section_renames = SectionRenameSerializer(many=True, required=False, max_length=100, write_only=True)
 
     def validate(self, attrs):
-        from .section_renames import validate_section_renames
+        from .section_renames import validate_section_additions, validate_section_renames
         validate_section_renames(self.instance, attrs)
+        validate_section_additions(self.instance, attrs)
         learning = attrs.get('learning_content', {})
         existing = getattr(getattr(self.instance, 'learning_content', None), 'interactions', []) if self.instance else []
         all_placements = [i for i in learning.get('interactions', []) if i.get('type') == 'image_placement']

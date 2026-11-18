@@ -1,5 +1,11 @@
 # Current Project State
 
+## Latest implementation — Studio lesson section creation (2026-11-18)
+
+- Continued from101848f on feat/studio-course-authoring. Existing lesson editor can append heading+text using text_content/source_sections and the same atomic PATCH; first heading explicitly wraps existing plain text. Local pending fields participate in dirty guards, are excluded from API, and preserve newer input/save-race renames. New anchor validation rejects empty/ambiguous/orphan collisions; legacy plain/teaching-block editing retained, no schema changes.
+- Preview now links to the Studio quiz editor; publication gate label accurately says a quiz exists and all quizzes validate. RU/KK/EN updated.46 isolated Django tests,42/42 frontend files, lint/build/check/whitespace passed.
+- Actual Chromium with real isolated Django/SQLite verified course→lesson→two UI-created sections→save/reopen→SRT placement→student preview/download, rename/move regression, dirty confirmation, blank/duplicate rejection and390px no horizontal overflow. No manual API metadata creation or mocks. Test course stayed unpublished; servers stopped.117 working DB/settings/media hashes unchanged. No stage/commit/push. Exact files/evidence: docs/instructor-studio/section-creation-101848f.md.
+
 ## Latest implementation — Instructor Studio S6 publication readiness (2026-11-18)
 
 - Continued from5f370ee on feat/studio-course-authoring. Publication shows real saved status, existing seven server checks, actionable Studio links and existing student-preview route; recommendations are explicitly nonblocking. Moderator review link remains role-gated. Pending/stale-request guidance explains reject/resubmit; no server publication rules or API changes.

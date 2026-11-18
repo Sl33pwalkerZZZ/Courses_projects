@@ -1,3 +1,4 @@
+import QuizPreviewNotice from '../components/instructor/QuizPreviewNotice'
 import { useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -29,6 +30,6 @@ function Preview({ slug }) {
     <p lang={course.content_language || undefined}>{course.description}</p>
     {orderCurriculum(course.modules).map(module => <section key={module.id} lang={course.content_language || undefined}><h2>{module.title}</h2>
       <ol>{module.lessons.map(lesson => <li key={lesson.id}><Link to={`/lessons/${lesson.id}`} state={{ courseSlug: course.slug, preview: true }}>{lesson.title}</Link></li>)}</ol></section>)}
-    <p>{t('instructorPreview.quiz')}</p>
+    <QuizPreviewNotice courseId={course.id} />
   </article>
 }

@@ -128,3 +128,8 @@ Keep the existing title-anchor pairing contract until an explicit video/track re
 ## 2026-11-18 — Studio final assignments reuse the existing contract
 
 S5.1 supports existing final_media_project in the Studio selector and assignment serializer, with text/file submission types. The model has no title field: use description for the full assignment name+instructions without inventing a new persisted title or rewriting content. A shared safe-text component preserves line breaks in Studio/student instruction previews. Existing four review criteria remain fixed at integer0–25 and are displayed read-only; rubric configuration, quiz editing and certificate rules are separate work. Existing-submission and published-content locks remain authoritative. See docs/instructor-studio/s5-1-assignment-authoring.md.
+
+
+## Studio section creation uses existing title anchors (2026-11-18)
+
+Creation appends source_sections and exact standalone heading paragraphs in text_content through the existing lesson PATCH, without another section model or API field. First-section creation explicitly places a chosen heading before existing plain text, preserving that text inside the section to satisfy the current renderer's first-heading rule. Legacy teaching-block/identifier lessons retain their existing editor until an explicit conversion workflow exists. New anchor validation protects orphan media from accidental reassociation; unchanged legacy metadata is not normalized retroactively. Pending creation fields are local dirty state only, never persisted as competing content. See docs/instructor-studio/section-creation-101848f.md.

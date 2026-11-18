@@ -1,13 +1,14 @@
-import { remainingRenames } from './studioSections.js'
+import { hasPendingSection, remainingRenames } from './studioSections.js'
 import { prepareLearningContent } from './instructorStudio.js'
 
 export function lessonDraft(lesson, language = 'ru') {
-  return { section_inputs: [...(lesson.learning_content?.source_sections || [])], section_renames: [], title: lesson.title, text_content: lesson.text_content || '', learning_content: {
+  return { section_new: { title: '', text: '' }, section_inputs: [...(lesson.learning_content?.source_sections || [])], section_renames: [], title: lesson.title, text_content: lesson.text_content || '', learning_content: {
     content_language: language, source_sections: [], objectives: [], interactions: [], ...lesson.learning_content,
   } }
 }
 export function draftPayload(form) {
-  const { section_inputs, section_aliases: _aliases, ...payload } = form
+  const { section_new: _new, section_inputs, section_aliases: _aliases, ...payload } = form
+  if (hasPendingSection(form)) throw new Error('Add the pending section before saving')
   if (section_inputs?.some((title, i) => !title.trim() || title.trim() !== form.learning_content.source_sections[i])) throw new Error('Invalid section heading')
   return { ...payload, learning_content: prepareLearningContent(form.learning_content) }
 }
@@ -25,6 +26,17 @@ export function savedDraft(current, submitted, response, language, lesson = {}) 
     if (saved && saved.after_section !== asset.after_section) aliases.push({ id: asset.id, from_title: asset.after_section, to_title: saved.after_section })
   }
   const next = draftEqual(current, submitted) ? baseline : { ...current, section_renames: remainingRenames(current, submitted) }
+  // A newly appended heading can be renamed while its first save is pending.
+  // Once acknowledged it is a saved anchor and needs a normal rename intent.
+  if (!draftEqual(current, submitted)) {
+    const oldCount = lesson.learning_content?.source_sections?.length || 0
+    submitted.learning_content.source_sections.slice(oldCount).forEach((heading, offset) => {
+      const target = current.learning_content.source_sections[oldCount + offset]
+      if (target && target !== heading && !next.section_renames.some(item => item.from_title === heading)) {
+        next.section_renames = [...next.section_renames, { from_title: heading, to_title: target }]
+      }
+    })
+  }
   return { baseline, form: { ...next, section_aliases: aliases } }
 }
 

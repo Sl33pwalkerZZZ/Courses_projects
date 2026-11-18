@@ -8,6 +8,7 @@ export function moveStudioItem(items, index, direction) {
 }
 export function studioError(error, fallback, translate) {
   if (!error?.response?.data) return fallback
+  if (translate && error.response.data.section_additions) return translate('instructorStudio.sectionCreation.errors.server')
   const placement = error.response.data.placement_error
   if (translate && ['invalid', 'stale', 'track', 'ambiguous', 'locked'].includes(placement)) return translate(`instructorStudio.placement.${placement}`)
   const missing = publicationProblems(error.response.data)
