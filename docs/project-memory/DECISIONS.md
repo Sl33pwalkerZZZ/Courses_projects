@@ -123,3 +123,8 @@ Existing source_sections are title strings, not synthetic immutable IDs. S3 uses
 ## 2026-11-16 — Studio S4.1 moves preserve implicit video/WebVTT groups
 
 Keep the existing title-anchor pairing contract until an explicit video/track relation is separately designed. The owned unpublished lesson placement PATCH accepts expected saved headings/source/subtitle ID, moves a uniquely linked video/VTT together atomically and rejects conflicting destination video/VTT. Direct VTT moves are deferred; audio/SRT stay independent. Only expose inline targets accepted by the student section resolver. Pending local title renames and active lesson saves block movement; media refresh must retain dirty lesson fields. Attachment IDs/files/order and private delivery remain unchanged. See `docs/instructor-studio/s4-1-attachment-placement.md`.
+
+
+## 2026-11-18 — Studio final assignments reuse the existing contract
+
+S5.1 supports existing final_media_project in the Studio selector and assignment serializer, with text/file submission types. The model has no title field: use description for the full assignment name+instructions without inventing a new persisted title or rewriting content. A shared safe-text component preserves line breaks in Studio/student instruction previews. Existing four review criteria remain fixed at integer0–25 and are displayed read-only; rubric configuration, quiz editing and certificate rules are separate work. Existing-submission and published-content locks remain authoritative. See docs/instructor-studio/s5-1-assignment-authoring.md.

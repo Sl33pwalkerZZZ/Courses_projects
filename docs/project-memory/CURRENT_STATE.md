@@ -1,5 +1,13 @@
 # Current Project State
 
+## Latest implementation — Instructor Studio S5.1 final assignments (2026-11-18)
+
+- Resumed existing WIP on feat/studio-course-authoring from f2c4b87. Studio can now select/save/reopen final_media_project using existing description/type/learning_activity; no separate title field or new schema. Description is explicitly name+instructions; actual text/files policies are explained in RU/KK/EN.
+- Four fixed0–25 rubric criteria are read-only in Studio and shared student instructions. Existing review, submission, published/ownership locks and selection-map behavior retained. Failed saves retain draft; same-list refresh keeps forms; create success resets only submitted fields.
+-42 isolated Django tests and39/39 frontend test files passed, plus lint/build/check/whitespace. Actual isolated Chromium observed create/edit/rejected save/retry/reopen/student preview with exact multiline instructions and ordinary assignment preservation; EN1440dark/RU390light/KK320dark without overflow or uncaught page errors. In-memory API only; real authorized account flow remains manual. Native frontend/security read-only reviews ran across initial/resumed work.
+- Working SQLite/settings hashes unchanged, Course10 unpublished, Course8/live media/data untouched. No migrations/stage/commit/push. Exact files/evidence: docs/instructor-studio/s5-1-assignment-authoring.md. Quiz editing and certificate settings remain out of scope.
+
+
 ## Latest implementation — Instructor Studio S4.1 attachment moves (2026-11-16)
 
 - From `1a6894a` on `feat/studio-course-authoring`: existing attachment manager shows saved placement/unresolved anchors and each video's unique linked WebVTT. Eligible video/audio/SRT can move to saved student-renderable sections; video+VTT move atomically, direct VTT moves and ambiguous groups/destinations reject.

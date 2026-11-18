@@ -626,6 +626,24 @@
     "loadError": "Preview could not be loaded. Check your staff permissions or retry."
   },
   "instructorStudio": {
+    "assignmentAuthoring": {
+      "activityLabel": "Assignment format",
+      "descriptionHint": "The assignment name and instructions are saved together. Start with the assignment name; students see the complete text.",
+      "titleInstructions": "Assignment title and instructions",
+      "required": "Enter the assignment name and meaningful instructions.",
+      "finalProject": "Final practical project (four-criterion rubric)",
+      "submissionOptions": "Supported submission options",
+      "text": "Text and/or files",
+      "file": "Files required; text optional",
+      "quiz": "Existing quiz placeholder",
+      "textHint": "Students may submit text, files, or both. At least one meaningful component is required.",
+      "fileHint": "Students must attach at least one permitted file; explanatory text is optional.",
+      "quizHint": "This existing placeholder does not use the practical submission form. Quiz editing is separate.",
+      "structured": "Selection maps use their existing structured text workflow, not the generic upload form.",
+      "fixedRubric": "The review workflow fixes four criteria at 0–25 whole-number points each (100 total). These values are read-only here.",
+      "preview": "Student instructions preview",
+      "scoreRange": "0–25 points (whole numbers)"
+    },
     "placement": {
       "current": "Current placement",
       "captions": "Linked WebVTT",

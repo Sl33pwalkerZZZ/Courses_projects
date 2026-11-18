@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react'
 import { useTranslation } from 'react-i18next'
 import api, { getAuthSession, subscribeAuth } from '../../api'
+import AssignmentInstructions from './AssignmentInstructions'
 import { formatSubmissionTimestamps } from '../../utils/assignmentSubmissionDates'
 
 const ACCEPTED = '.pdf,.docx,.pptx,.xlsx,.csv,.txt,.png,.jpg,.jpeg,.webp,.mp4'
@@ -100,7 +101,7 @@ function AssignmentSubmissionForm({ assignment, preview = false }) {
 
   return <section className="assignment-submission" aria-labelledby={`${id}-title`} aria-busy={busy}>
     <h3 id={`${id}-title`}>{t('assignmentSubmission.title')}</h3>
-    <p>{assignment.description}</p>
+    <AssignmentInstructions assignment={assignment} />
     {preview ? <p role="note">{t('assignmentSubmission.preview')}</p> : <>
       {!data && !error && <p role="status">{t('common.loading')}</p>}
       {error === 'load' && <p role="alert">{t('assignmentSubmission.loadError')} <button type="button" onClick={load}>{t('common.retry')}</button></p>}

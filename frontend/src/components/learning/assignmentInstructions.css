@@ -1,0 +1,5 @@
+.assignment-instructions { min-width: 0; overflow-wrap: anywhere; }
+.assignment-instructions-text { white-space: pre-wrap; }
+.assignment-instructions-rubric { display: grid; gap: .6rem; }
+.assignment-instructions-rubric > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; }
+.assignment-instructions-rubric dd { margin: 0; font-variant-numeric: tabular-nums; }

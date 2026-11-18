@@ -121,7 +121,7 @@ class AssignmentWriteSerializer(serializers.ModelSerializer):
         fields = ['type', 'description', 'learning_activity']
 
     def validate_learning_activity(self, value):
-        if value not in ('', 'ai_selection_map'):
+        if value not in ('', 'ai_selection_map', 'final_media_project'):
             raise serializers.ValidationError('Unsupported learning activity.')
         return value
 
@@ -130,6 +130,8 @@ class AssignmentWriteSerializer(serializers.ModelSerializer):
         assignment_type = data.get('type', getattr(self.instance, 'type', 'text'))
         if activity == 'ai_selection_map' and assignment_type != 'text':
             raise serializers.ValidationError('Selection maps use text assignments.')
+        if activity == 'final_media_project' and assignment_type not in ('text', 'file'):
+            raise serializers.ValidationError('Final projects use text or file submissions.')
         return data
 
 
