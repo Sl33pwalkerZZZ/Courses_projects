@@ -1,5 +1,11 @@
 # Current Project State
 
+## Latest verification — Course 10 C1 editorial corrections (2026-11-23)
+
+- From c7f9aa7 on feat/studio-course-authoring: historical Module1 DOCX is preserved; explicit C1 source overlay replaces lesson102 grading with ungraded self-checks. Module6 canonical lesson116 and final project now share required materials, optional adaptation (absence cannot reduce any criterion), four existing0–25 explanations and a temporary certificate-issuance-disabled notice. Quiz JSON and review algorithm unchanged.
+- New correct_course10_editorial defaults to preview; exact before/after conflict checks, verified SQLite backup and atomic apply change only102text/section metadata,116text,and existing assignment description. Rehearsed on /tmp SQLite copy;4fields only, idempotent, real Studio/student API instructions agree.79isolated Django tests,system check and whitespace pass; no new GUI test/frontend changes.
+- Working SQLite/settings/DOCX hashes unchanged; Course10 unpublished, no marks/policies/publication/quiz/live writes. Quiz5 published with0attempts; existing Studio lock prevents safe normal editing. Separate C2 should preserve IDs/keys/history through an explicitly approved order-only operation; not implemented here. No stage/commit/push. Exact wording, commands and limitations: docs/courses/course10-editorial-c1.md.
+
 ## Latest implementation — Studio lesson section creation (2026-11-18)
 
 - Continued from101848f on feat/studio-course-authoring. Existing lesson editor can append heading+text using text_content/source_sections and the same atomic PATCH; first heading explicitly wraps existing plain text. Local pending fields participate in dirty guards, are excluded from API, and preserve newer input/save-race renames. New anchor validation rejects empty/ambiguous/orphan collisions; legacy plain/teaching-block editing retained, no schema changes.

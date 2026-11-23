@@ -54,12 +54,17 @@ class MediaModuleTests(TestCase):
             self.assertEqual(len(lesson.learning_content.objectives), 3)
         self.assertIn('обычную автоматизацию', lessons[0].text_content)
         self.assertIn('Пример улучшенного запроса', lessons[1].text_content)
-        self.assertIn('7 из 10', lessons[2].text_content)
+        self.assertNotIn('7 из 10', lessons[2].text_content)
+        self.assertIn('Самопроверка без оценки', lessons[2].text_content)
         self.assertIn('https://', lessons[2].text_content)
         from studio.word import parse_docx
         path = Path(settings.BASE_DIR) / 'course_sources/media_module_1.docx'
         source = parse_docx(path.read_bytes(), path.name)
         combined = '\n'.join(l.text_content + '\n' + '\n'.join(l.learning_content.objectives) for l in lessons)
+        from courses.management.course10_editorial import load_corrections
+        edit = load_corrections()['lessons'][0]
+        self.assertEqual(lessons[2].text_content, edit['after']['text_content'])
+        changed_paragraphs = set(edit['before']['text_content'].split('\n\n')) - set(edit['after']['text_content'].split('\n\n'))
         started = False
         for block in source['blocks']:
             text = block.get('text', '')
@@ -69,11 +74,19 @@ class MediaModuleTests(TestCase):
             if not started or text == 'Цели урока':
                 continue
             if block['type'] == 'table':
+                if block['headers'] == ['Критерий', 'Баллы']:
+                    # Historical graded table is deliberately replaced by C1 self-checks.
+                    for row in block['rows']:
+                        self.assertIn(f'Критерий: {row[0]}; Баллы: {row[1]}', edit['before']['text_content'])
+                    continue
                 for row in [block['headers'], *block['rows']]:
                     for cell in row:
                         self.assertIn(cell, combined)
             else:
-                self.assertIn(text, combined)
+                if text in changed_paragraphs:
+                    self.assertIn(text, edit['before']['text_content'])
+                else:
+                    self.assertIn(text, combined)
         snapshot = curriculum_snapshot(course)
         self.assertIn('no-op', self.run_import('--apply'))
         self.assertEqual(backup.call_count, 1)

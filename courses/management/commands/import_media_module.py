@@ -16,6 +16,7 @@ from courses.management.first_course_document import plain_text
 from studio.models import CourseSettings
 from studio.permissions import instructor
 from studio.word import parse_docx
+from courses.management.course10_editorial import apply_module1_overlay
 
 SOURCE_HASH = '2c263201dabc9975c044761ff762247350e726c616bbae1c03407841f6a69e81'
 TITLE = 'ИИ для создания медиаконтента: от идеи до публикации'
@@ -56,6 +57,7 @@ def source_plan(path):
         text = plain_text(readable)
         lessons.append({'title': TITLES[n], 'order': n + 1, 'text_content': text,
                         'objectives': objectives, 'source_sections': [b['text'] for b in body if b['type'] == 'heading']})
+    lessons[2] = apply_module1_overlay(lessons[2])
     return {'description': '\n\n'.join(b['text'] for b in blocks[:starts[0]]
                                       if b.get('text', '').startswith(('Результат модуля:', 'Ориентир по времени:'))),
             'lessons': lessons}
