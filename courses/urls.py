@@ -8,6 +8,8 @@ from .video import PlaybackGrantView, PlaybackView
 
 urlpatterns = [
     path('lesson-attachments/<int:pk>/playback-grant/', PlaybackGrantView.as_view(), name='lesson-playback-grant'),
+    path('lesson-attachments/<int:pk>/playback/<int:grant_pk>/', PlaybackView.as_view(), name='lesson-playback-scoped'),
+    # Read-only compatibility for previously issued, unexpired legacy cookies.
     path('lesson-attachments/<int:pk>/playback/', PlaybackView.as_view(), name='lesson-playback'),
     path("lesson-attachments/<int:pk>/", LessonAttachmentView.as_view(), name="lesson-attachment"),
     path("instructor/courses/<slug:slug>/preview/", InstructorCoursePreviewView.as_view(), name="instructor-course-preview"),

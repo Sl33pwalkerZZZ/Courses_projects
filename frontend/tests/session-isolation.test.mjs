@@ -675,7 +675,7 @@ test('obsolete playback grant is revoked without returning it to the replacement
   const pending = deferred(), originalFetch = globalThis.fetch, revoked = []
   globalThis.fetch = async (url, options) => { revoked.push({ url, options }); return { ok: true } }
   try {
-    const auth = await setup(credentials(1), async config => { await pending.promise; return response(config, { url: '/api/lesson-attachments/8/playback/', revoke_token: 'fixture-revocation-proof' }) })
+    const auth = await setup(credentials(1), async config => { await pending.promise; return response(config, { url: '/api/lesson-attachments/8/playback/29/', revoke_token: 'fixture-revocation-proof' }) })
     const request = auth.api.post('/lesson-attachments/8/playback-grant/', {}, { baseURL: '/api' })
     await Promise.resolve()
     auth.otherTabLogin(2)

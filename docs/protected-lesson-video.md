@@ -46,18 +46,23 @@ HH:MM:SS.mmm cues and no embedded markup. SRT remains a separate download format
    `/api/lesson-attachments/{id}/playback-grant/`.
 2. Django checks existing lesson/enrollment/author/admin preview permissions.
    It creates an unpredictable nonce, stores only its hash with user, attachment,
-   expiry and revocation state, and sends a signed, attachment-scoped HttpOnly
-   SameSite=Strict cookie. The cookie is Secure on HTTPS.
+   expiry and revocation state, and sends a signed, per-grant HttpOnly
+   SameSite=Strict cookie. The cookie is Secure on HTTPS. Its name includes the
+   attachment and grant IDs; Path is the exact returned playback path.
 3. The JSON response contains a plain playback path, expiry and a separately
-   signed **revocation-only** capability. No JWT or playback secret is in a URL.
+   signed **revocation-only** capability. The path is
+   `/api/lesson-attachments/{attachment_id}/playback/{grant_id}/`. The grant ID
+   is a non-secret selector, not an access capability. No JWT/nonce/proof is in a URL.
 4. Native `<video>` GET/HEAD requests send the scoped cookie automatically. Every
    request checks signature, nonce record, expiry, revocation, attachment/hash,
-   active account, password auth hash and current lesson access again.
+   active account, password auth hash and current lesson access again. The signed
+   grant ID must match both the route selector and the server-side grant row.
 5. Unmount/logout/account changes revoke exact grants by DELETE to the grant
    endpoint with `{ "revoke_token": "..." }`. Revocation needs this proof, not a
    JWT from a possibly different account. A stale grant response is revoked in
    the API interceptor and remains canceled. Revoking A cannot revoke B's newer
-   grant. The old scoped cookie can remain until expiry, but it is unusable.
+   grant. DELETE expires only that grant's cookie name and Path, even when repeated.
+   A delayed response for A cannot overwrite B's cookie slot.
 
 The Vite dev proxy routes `/api` to Django on 127.0.0.1:8000. Restart Vite after
 the config change. Production **must** serve frontend and `/api` on the same HTTPS
@@ -99,8 +104,15 @@ are hardcoded in React. The same reader/player works in authorized draft preview
   Never delete enrollments, learner records or certificate evidence as part of it.
 - Avoid logging Authorization, Cookie, Set-Cookie and grant response/revocation
   bodies. Ordinary URL access logs contain no user token.
-- Same-attachment simultaneous tabs share a browser cookie; each cleanup revokes
-  only its own nonce. Retry obtains a fresh grant if another tab's grant expires.
+- Same-attachment players/tabs use independent grant cookie slots. Revoking or
+  expiring one does not invalidate another. Native errors still use manual Retry.
+- Legacy `/playback/` remains read-only for previously signed cookies without a
+  grant-ID field, bounded by original expiry and all current access checks. New
+  grants never issue legacy cookies. Legacy/scoped cookies cannot cross namespaces.
+- Ship backend and frontend assets together: the new frontend accepts both URL
+  versions, but a cached pre-C3.1 bundle rejects new numeric paths in its strict
+  URL validator. Refresh that bundle; do not add an anonymous/public fallback.
+  Already-open legacy playback remains protected and works until its original TTL.
 
 ## Manual verification after approval/setup
 

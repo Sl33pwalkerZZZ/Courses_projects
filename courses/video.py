@@ -27,8 +27,9 @@ from .media import private_lesson_file
 
 SALT = 'courses.video-playback.v1'
 
-def cookie_name(pk):
-    return f'lesson_playback_{pk}'
+def cookie_name(pk, grant_pk=None):
+    # Distinct names also prevent a legacy parent-path cookie shadowing a new one.
+    return f'lesson_playback_{pk}' if grant_pk is None else f'lesson_playback_{pk}_{grant_pk}'
 
 def ttl():
     return min(900, max(30, int(getattr(settings, 'LESSON_VIDEO_GRANT_SECONDS', 300))))
@@ -95,11 +96,15 @@ class PlaybackGrantView(APIView):
             digest = hashlib.sha256(nonce.encode()).hexdigest()
         except (signing.BadSignature, TypeError, AttributeError):
             raise PermissionDenied('Invalid revocation proof.')
-        LessonPlaybackGrant.objects.filter(token_hash=digest, attachment_id=pk, revoked_at=None).update(revoked_at=timezone.now())
+        grant = LessonPlaybackGrant.objects.filter(token_hash=digest, attachment_id=pk).first()
+        if grant:
+            LessonPlaybackGrant.objects.filter(pk=grant.pk, revoked_at=None).update(revoked_at=timezone.now())
         response = Response(status=204)
-        # The playback-scoped cookie is not sent to this endpoint. Do not clear
-        # it unconditionally: a newer account/tab may have replaced it already.
-        # Revoking the exact server-side nonce makes the old cookie unusable.
+        # Only this grant's slot is cleared, even for an already-revoked nonce.
+        # Never clear the legacy shared cookie: another old player may own it.
+        if grant:
+            response.delete_cookie(cookie_name(pk, grant.pk),
+                                   path=reverse('lesson-playback-scoped', args=[pk, grant.pk]), samesite='Strict')
         response['Cache-Control'] = 'private, no-store'
         return response
 
@@ -108,7 +113,6 @@ class PlaybackGrantView(APIView):
         row = attachment(pk)
         if not can_access_lesson(request.user, row.lesson):
             raise PermissionDenied('No access to this lesson.')
-        path = reverse('lesson-playback', args=[pk])
         lifetime = ttl()
         if request.auth is not None and hasattr(request.auth, 'get'):
             lifetime = min(lifetime, max(0, int(request.auth.get('exp', 0))-int(time.time())))
@@ -116,11 +120,12 @@ class PlaybackGrantView(APIView):
             raise PermissionDenied('Session expired.')
         expires = int(time.time()) + lifetime
         nonce = secrets.token_urlsafe(32)
-        LessonPlaybackGrant.objects.create(token_hash=hashlib.sha256(nonce.encode()).hexdigest(), user=request.user, attachment=row, expires_at=datetime.fromtimestamp(expires, datetime_timezone.utc))
-        value = signing.dumps({'nonce': nonce, 'uid': request.user.pk, 'pk': pk, 'sha': row.sha256,
+        grant = LessonPlaybackGrant.objects.create(token_hash=hashlib.sha256(nonce.encode()).hexdigest(), user=request.user, attachment=row, expires_at=datetime.fromtimestamp(expires, datetime_timezone.utc))
+        path = reverse('lesson-playback-scoped', args=[pk, grant.pk])
+        value = signing.dumps({'gid': grant.pk, 'nonce': nonce, 'uid': request.user.pk, 'pk': pk, 'sha': row.sha256,
                                'exp': expires, 'auth': request.user.get_session_auth_hash()}, salt=SALT)
         response = Response({'url': path, 'expires_in': lifetime, 'expires_at': expires, 'revoke_token': signing.dumps(nonce, salt=SALT+'.revoke')})
-        response.set_cookie(cookie_name(pk), value, max_age=lifetime, httponly=True,
+        response.set_cookie(cookie_name(pk, grant.pk), value, max_age=lifetime, httponly=True,
                             secure=request.is_secure(), samesite='Strict', path=path)
         response['Cache-Control'] = 'private, no-store'
         return response
@@ -131,15 +136,19 @@ class PlaybackView(APIView):
     def finalize_response(self, request, response, *args, **kwargs):
         return self.media_headers(super().finalize_response(request, response, *args, **kwargs))
 
-    def head(self, request, pk):
-        return self.get(request, pk)
-    def get(self, request, pk):
+    def head(self, request, pk, grant_pk=None):
+        return self.get(request, pk, grant_pk)
+    def get(self, request, pk, grant_pk=None):
         grants_ready()
         row = attachment(pk)
         try:
-            data = signing.loads(request.COOKIES.get(cookie_name(pk), ''), salt=SALT, max_age=ttl())
+            data = signing.loads(request.COOKIES.get(cookie_name(pk, grant_pk), ''), salt=SALT, max_age=ttl())
             user = get_user_model().objects.get(pk=data['uid'], is_active=True)
-            valid = (LessonPlaybackGrant.objects.filter(token_hash=hashlib.sha256(data['nonce'].encode()).hexdigest(), user=user, attachment=row, revoked_at=None, expires_at__gt=timezone.now()).exists() and data['exp'] > time.time() and data['pk'] == pk and data['sha'] == row.sha256 and
+            grants = LessonPlaybackGrant.objects.all()
+            if grant_pk is not None:
+                grants = grants.filter(pk=grant_pk)
+            slot_matches = data.get('gid') == grant_pk
+            valid = (slot_matches and grants.filter(token_hash=hashlib.sha256(data['nonce'].encode()).hexdigest(), user=user, attachment=row, revoked_at=None, expires_at__gt=timezone.now()).exists() and data['exp'] > time.time() and data['pk'] == pk and data['sha'] == row.sha256 and
                      constant_time_compare(data['auth'], user.get_session_auth_hash()))
         except (signing.BadSignature, KeyError, ValueError, TypeError, get_user_model().DoesNotExist):
             valid = False

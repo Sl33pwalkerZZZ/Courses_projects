@@ -1,5 +1,11 @@
 # Architectural and Project Decisions
 
+## 2026-11-23 — Per-grant protected playback cookie slots
+
+- Native playback uses /lesson-attachments/<attachment>/playback/<grant_pk>/ with a distinct HttpOnly cookie name and exact Path per grant. Numeric PK is a selector, not a capability; signed gid plus server PK/nonce/user/file/access/TTL checks remain mandatory. DELETE clears only its nonce's slot. This prevents obsolete responses overwriting an active grant, including same-attachment tabs.
+- Legacy /playback/ remains bounded read-only compatibility for signed payloads withoutgid; no new shared cookies. New/legacy namespaces cannot cross-authorize. New frontend accepts both; an old cached bundle needs refresh when backend/frontend are upgraded together. No schema changes or permission weakening; manual expiry Retry remains.
+- Evidence: docs/courses/video-playback-c31.md (41Django/64frontend tests and real isolated Chromium). Working DB/media/settings untouched.
+
 ## 2026-11-23 — C2 pinned published-quiz order exception
 
 - Owner-authorized Quiz5 order correction is an explicit operator-only management command, not an expansion of Studio edit permissions. Normal PUT deletes/recreates choices, so it must not be used for ID-preserving reorder.

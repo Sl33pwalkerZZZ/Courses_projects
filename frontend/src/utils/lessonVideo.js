@@ -1,6 +1,6 @@
 // Only same-origin API paths returned by the grant endpoint reach native media.
 export function safePlaybackPath(value) {
-  return typeof value === 'string' && /^\/api\/lesson-attachments\/[1-9]\d*\/playback\/(?:poster\/|subtitles\/)?$/.test(value) ? value : null
+  return typeof value === 'string' && /^\/api\/lesson-attachments\/[1-9]\d*\/playback\/(?:[1-9]\d*\/)?(?:poster\/|subtitles\/)?$/.test(value) ? value : null
 }
 
 export function revokeVideoGrant(id, token) {

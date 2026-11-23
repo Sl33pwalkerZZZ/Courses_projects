@@ -59,7 +59,9 @@ class VideoPlaybackTests(TestCase):
         self.play=f'/api/lesson-attachments/{self.row.pk}/playback/'
     def authorize(self):
         self.client.force_authenticate(self.owner)
-        self.assertEqual(self.client.post(self.grant).status_code,200)
+        response = self.client.post(self.grant)
+        self.assertEqual(response.status_code,200)
+        self.play = response.data['url']
         browser = APIClient()
         browser.cookies = self.client.cookies
         self.client = browser
@@ -83,7 +85,9 @@ class VideoPlaybackTests(TestCase):
         self.client.force_authenticate(self.student)
         self.assertEqual(self.client.post(self.grant).status_code,403)
         enrollment=Enrollment.objects.create(student=self.student,course=self.course)
-        self.assertEqual(self.client.post(self.grant).status_code,200)
+        response = self.client.post(self.grant)
+        self.assertEqual(response.status_code,200)
+        self.play = response.data['url']
         browser = APIClient()
         browser.cookies = self.client.cookies
         self.client = browser
@@ -106,7 +110,9 @@ class VideoPlaybackTests(TestCase):
     def test_exact_revocation_without_authentication(self):
         self.client.force_authenticate(self.owner)
         first=self.client.post(self.grant).data['revoke_token']
-        second=self.client.post(self.grant).data['revoke_token']
+        response=self.client.post(self.grant)
+        second=response.data['revoke_token']
+        self.play=response.data['url']
         browser=APIClient(); browser.cookies=self.client.cookies; self.client=browser
         self.assertEqual(self.client.delete(self.grant, {'revoke_token':first},format='json').status_code,204)
         self.assertEqual(self.client.get(self.play).status_code,200)
@@ -134,6 +140,104 @@ class VideoPlaybackTests(TestCase):
         self.assertEqual(self.client.get(self.play).status_code,404)
         self.path.mkdir()
         self.assertEqual(self.client.get(self.play).status_code,404)
+
+    def test_late_a_response_and_revocation_cannot_break_b(self):
+        self.client.force_authenticate(self.owner)
+        a = self.client.post(self.grant)
+        b = self.client.post(self.grant)
+        self.assertNotEqual(a.data['url'], b.data['url'])
+        self.assertNotIn('nonce', a.data['url'])
+        browser = APIClient()
+        browser.cookies.update(b.cookies)  # B arrives first.
+        browser.cookies.update(a.cookies)  # Late A cannot replace B's slot.
+        names = [next(iter(r.cookies)) for r in (a, b)]
+        self.assertNotEqual(*names)
+        for r, name in zip((a, b), names):
+            cookie = r.cookies[name]
+            self.assertEqual(cookie['path'], r.data['url'])
+            self.assertTrue(cookie['httponly'])
+            self.assertEqual(cookie['samesite'], 'Strict')
+        revoked = browser.delete(self.grant, {'revoke_token': a.data['revoke_token']}, format='json')
+        self.assertEqual(revoked.status_code, 204)
+        self.assertEqual(set(revoked.cookies), {names[0]})
+        self.assertEqual(revoked.cookies[names[0]]['path'], a.data['url'])
+        self.assertEqual(revoked.cookies[names[0]]['max-age'], 0)
+        response = browser.get(b.data['url'], HTTP_RANGE='bytes=2-4')
+        self.assertEqual(response.status_code, 206)
+        self.assertEqual(b''.join(response.streaming_content), b'234')
+        self.assertEqual(browser.get(a.data['url']).status_code, 403)
+        self.assertEqual(browser.delete(self.grant, {'revoke_token': a.data['revoke_token']}, format='json').status_code, 204)
+        self.assertEqual(browser.head(b.data['url']).status_code, 200)
+
+    def test_selector_cookie_and_attachment_replay_are_denied(self):
+        self.client.force_authenticate(self.owner)
+        a = self.client.post(self.grant)
+        b = self.client.post(self.grant)
+        browser = APIClient()
+        browser.cookies.update(a.cookies)
+        name_a, name_b = next(iter(a.cookies)), next(iter(b.cookies))
+        browser.cookies[name_a] = b.cookies[name_b].value
+        self.assertEqual(browser.get(a.data['url']).status_code, 403)
+        other = LessonAttachment.objects.create(lesson=self.lesson, kind='video', file=self.row.file.name,
+            filename='other.mp4', mime_type='video/mp4', sha256='b'*64, label='Other', provenance='synthetic')
+        browser.cookies.update(b.cookies)
+        self.assertEqual(browser.get(b.data['url'].replace(f'/{self.row.pk}/playback/', f'/{other.pk}/playback/')).status_code, 403)
+        self.assertEqual(APIClient().get(b.data['url']).status_code, 403)
+
+    def test_https_cookie_flags_and_file_binding_remain_enforced(self):
+        self.client.force_authenticate(self.owner)
+        response = self.client.post(self.grant, secure=True)
+        cookie = next(iter(response.cookies.values()))
+        self.assertTrue(cookie['secure'])
+        self.assertTrue(cookie['httponly'])
+        self.assertNotIn('?', response.data['url'])
+        browser = APIClient()
+        browser.cookies.update(response.cookies)
+        self.row.sha256 = 'f' * 64
+        self.row.save(update_fields=['sha256'])
+        self.assertEqual(browser.get(response.data['url'], secure=True).status_code, 403)
+
+    def test_legacy_cookie_remains_protected_and_cannot_cross_namespaces(self):
+        from django.core import signing
+        from courses.video import SALT, cookie_name
+        self.client.force_authenticate(self.owner)
+        response = self.client.post(self.grant)
+        scoped_name = next(iter(response.cookies))
+        value = response.cookies[scoped_name].value
+        data = signing.loads(value, salt=SALT)
+        data.pop('gid')
+        legacy_value = signing.dumps(data, salt=SALT)
+        legacy_path = f'/api/lesson-attachments/{self.row.pk}/playback/'
+        browser = APIClient()
+        browser.cookies[cookie_name(self.row.pk)] = legacy_value
+        result = browser.get(legacy_path, HTTP_RANGE='bytes=1-2')
+        self.assertEqual(result.status_code, 206)
+        self.assertEqual(b''.join(result.streaming_content), b'12')
+        browser.cookies[scoped_name] = legacy_value
+        self.assertEqual(browser.get(response.data['url']).status_code, 403)
+        browser.cookies[cookie_name(self.row.pk)] = value
+        self.assertEqual(browser.get(legacy_path).status_code, 403)
+        browser.cookies[cookie_name(self.row.pk)] = legacy_value
+        browser.delete(self.grant, {'revoke_token': response.data['revoke_token']}, format='json')
+        self.assertEqual(browser.get(legacy_path).status_code, 403)
+
+    def test_legacy_expired_or_revoked_access_is_not_a_fallback(self):
+        from django.core import signing
+        from courses.video import SALT, cookie_name
+        self.client.force_authenticate(self.owner)
+        response = self.client.post(self.grant)
+        data = signing.loads(next(iter(response.cookies.values())).value, salt=SALT)
+        data.pop('gid')
+        browser = APIClient()
+        browser.cookies[cookie_name(self.row.pk)] = signing.dumps(data, salt=SALT)
+        path = f'/api/lesson-attachments/{self.row.pk}/playback/'
+        self.owner.is_active = False
+        self.owner.save()
+        self.assertEqual(browser.get(path).status_code, 403)
+        self.owner.is_active = True
+        self.owner.save()
+        with patch('courses.video.time.time', return_value=10**11):
+            self.assertEqual(browser.get(path).status_code, 403)
 
 
 class AsyncVideoStreamingTests(SimpleTestCase):

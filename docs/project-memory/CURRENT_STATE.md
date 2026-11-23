@@ -1,5 +1,17 @@
 # Current Project State
 
+## Latest implementation — C3.1 per-grant playback cookies (2026-11-23)
+
+- From76710ba on feat/studio-course-authoring: grant-specific numeric selector URL, distinct cookie name+exact Path, signed gid/DB PK/nonce binding and exact-cookie DELETE fix overlapping A/B response collision. Legacy route accepts only old signed cookies withoutgid with all original access/TTL checks; no schema changes. Frontend accepts both protected URL versions, P0 cleanup/StrictMode retained; old cached JS requires refresh when deploying both sides.
+-41Django and64frontend tests,lint/build/check/whitespace passed. Actual isolated Django/SQLite/media+Chromium:33active113 playback/seek checks as student/Studio author, repeated/fast navigation, delayed A afterB; A revoked403/B Range206; outsider denied. Two tabs and114VTT native9/6cues passed. Original active-player403 no longer reproduced; intentionally revoked/disposed requests still deny.
+-117working SQLite/settings/media hashes unchanged;Course10 draft,C1/C2/Course8/certificates preserved. Test servers stopped; no staging/commit/push. Native security reviewer no blockers. Details/compatibility limits/exact files: docs/courses/video-playback-c31.md.
+
+## Latest diagnosis — lesson113 intermittent playback403 C3 (2026-11-23)
+
+- From76710ba on feat/studio-course-authoring: real isolated Django/SQLite/media+Chromium with synthetic student/author reproduced early403 without delay and with controlled old-response delay. Two overlapping same-attachment grant responses share a cookie; late obsolete Set-Cookie overwrites active cookie, cleanup revokes it, next Range denies revoked grant despite valid user/access/hash and unexpired TTL. Reopen can recover. Fresh outsider denied lesson/grant/file.
+-36Django and61frontend existing tests pass; lint/build/check/whitespace pass. Additional temporary race regression intentionally fails1assertion, confirming missing coverage/fix. No production source fix made: user asked diagnosis/proposal. Proposed robust fix is per-grant cookie/path isolation retaining authorization/revocation/P0; requires follow-up implementation and green regressions.
+-117working SQLite/settings/media files hashes unchanged,Course10 unpublished,C1/C2 intact,no migrations/staging/commit/push. Isolated servers stopped. Exact request/response/server booleans, reproduction and limitations: docs/courses/video-playback-c3.md.
+
 ## Latest verification — Course 10 C2 choice order (2026-11-23)
 
 - From4bf1338 on feat/studio-course-authoring: Quiz5 read-only published/70%/15questions/60choices/0attempts; Course10 draft. C1 preserved.
