@@ -1,5 +1,11 @@
 # Architectural and Project Decisions
 
+## 2026-11-23 — C2 pinned published-quiz order exception
+
+- Owner-authorized Quiz5 order correction is an explicit operator-only management command, not an expansion of Studio edit permissions. Normal PUT deletes/recreates choices, so it must not be used for ID-preserving reorder.
+- Only existing QuizChoice.order may change, with exact pinned IDs/text/keys/links/metadata and a fully before/after permutation. Any attempts before transition require renewed review; later attempts do not prevent a no-write KEEP. No unpublishing, regrading or historical snapshot rewrites. SQLite IMMEDIATE + verified backup + atomic updates preserve scope. Source JSON carries the same future-import ordering.
+- Verified only on isolated databases; working apply still requires separate approval. See docs/courses/course10-quiz-order-c2.md.
+
 ## 2026-11-16 — Studio drafts and BrowserRouter leave guards
 
 - Workspace resource retention is opt-in, scoped to API path plus auth generation. It must preserve editor subtree during refresh but clear private data on permission/session change. No draft persistence in localStorage.

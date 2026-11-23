@@ -1,5 +1,11 @@
 # Current Project State
 
+## Latest verification — Course 10 C2 choice order (2026-11-23)
+
+- From4bf1338 on feat/studio-course-authoring: Quiz5 read-only published/70%/15questions/60choices/0attempts; Course10 draft. C1 preserved.
+- New pinned reorder_course10_quiz5 changes only32 QuizChoice.order in place, balanced correct positions4/4/4/3; exact before/after checks, attempts-before-transition STOP, verified backup and SQLite IMMEDIATE transaction. Canonical Module6 quiz choices reordered identically; texts/keys/IDs/history/statuses unchanged. Normal Studio locks retained.
+- Isolated SQLite copy/primitives rehearsal and real student API confirm ID/key preservation, new order and identical10/15fail vs11/15pass. KEEP preserves later synthetic history.69isolated tests/check/whitespace passed; independent native security review no blockers. No CLI apply/live writes; SQLite/settings hashes unchanged; no migrations/media/frontend/staging/commit/push. Details and future commands: docs/courses/course10-quiz-order-c2.md.
+
 ## Latest verification — Course 10 C1 editorial corrections (2026-11-23)
 
 - From c7f9aa7 on feat/studio-course-authoring: historical Module1 DOCX is preserved; explicit C1 source overlay replaces lesson102 grading with ungraded self-checks. Module6 canonical lesson116 and final project now share required materials, optional adaptation (absence cannot reduce any criterion), four existing0–25 explanations and a temporary certificate-issuance-disabled notice. Quiz JSON and review algorithm unchanged.

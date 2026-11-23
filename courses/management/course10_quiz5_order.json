@@ -1,0 +1,797 @@
+{
+  "course_id": 10,
+  "slug": "ai-media-content",
+  "module_order": 6,
+  "lesson_order": 1,
+  "lesson_id": 116,
+  "quiz": {
+    "id": 5,
+    "title": "Итоговый тест по созданию медиаконтента с ИИ",
+    "instructions": "Выберите один правильный ответ в каждом вопросе. Для зачёта нужно минимум 11 правильных ответов из 15.",
+    "passing_percentage": 70,
+    "is_published": 1,
+    "lesson_id": 116
+  },
+  "questions": [
+    {
+      "question": {
+        "id": 34,
+        "text": "Какое действие остаётся за человеком при использовании генеративного ИИ в медиапроекте?",
+        "type": "single",
+        "order": 1,
+        "explanation": "ИИ может предлагать вариант, но ответственность за проверку и публикацию несёт человек.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 131,
+            "text": "Проверить факты, права и уместность результата",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 34
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 132,
+            "text": "Считать любой ответ ИИ подтверждённым источником",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 34
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 133,
+            "text": "Публиковать без просмотра",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 34
+          },
+          "after_order": 3
+        },
+        {
+          "before": {
+            "id": 134,
+            "text": "Передать ответственность модели",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 34
+          },
+          "after_order": 4
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 35,
+        "text": "Какой элемент брифа помогает выбрать подходящий ИИ-инструмент?",
+        "type": "single",
+        "order": 2,
+        "explanation": "Инструмент выбирают под задачу, аудиторию и требуемый результат.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 135,
+            "text": "Цель и ожидаемый результат",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 35
+          },
+          "after_order": 4
+        },
+        {
+          "before": {
+            "id": 136,
+            "text": "Случайный популярный сервис",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 35
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 137,
+            "text": "Только цвет интерфейса",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 35
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 138,
+            "text": "Количество эффектов",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 35
+          },
+          "after_order": 3
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 36,
+        "text": "Как корректно сообщить об использовании ИИ в учебном медиаматериале?",
+        "type": "single",
+        "order": 3,
+        "explanation": "Прозрачность означает ясно отделять созданное или изменённое ИИ от подтверждённых фактов.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 139,
+            "text": "Указать применение ИИ там, где это важно для понимания материала",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 36
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 140,
+            "text": "Скрыть применение ИИ всегда",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 36
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 141,
+            "text": "Назвать иллюстрацию документальной фотографией",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 36
+          },
+          "after_order": 3
+        },
+        {
+          "before": {
+            "id": 142,
+            "text": "Заменить проверку фактов подписью об ИИ",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 36
+          },
+          "after_order": 4
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 37,
+        "text": "Что прежде всего ограничивает хороший промпт для сценария?",
+        "type": "single",
+        "order": 4,
+        "explanation": "Контекст, аудитория, цель и проверяемые границы делают запрос управляемым.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 143,
+            "text": "Аудитория, цель, формат и проверяемые ограничения",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 37
+          },
+          "after_order": 3
+        },
+        {
+          "before": {
+            "id": 144,
+            "text": "Только просьба сделать текст длиннее",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 37
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 145,
+            "text": "Название случайного инструмента",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 37
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 146,
+            "text": "Максимальное число прилагательных",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 37
+          },
+          "after_order": 4
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 38,
+        "text": "Как адаптировать сообщение для другой платформы без искажения фактов?",
+        "type": "single",
+        "order": 5,
+        "explanation": "Меняют форму и длину, но сохраняют подтверждённый смысл и источник.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 147,
+            "text": "Сохранить проверяемый смысл и изменить форму подачи",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 38
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 148,
+            "text": "Добавить более впечатляющие неподтверждённые результаты",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 38
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 149,
+            "text": "Убрать все оговорки о неизвестных данных",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 38
+          },
+          "after_order": 3
+        },
+        {
+          "before": {
+            "id": 150,
+            "text": "Заменить источники догадками",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 38
+          },
+          "after_order": 4
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 39,
+        "text": "Зачем сценарий связывают с раскадровкой?",
+        "type": "single",
+        "order": 6,
+        "explanation": "Так видно, что зритель увидит и услышит в каждой части материала.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 151,
+            "text": "Чтобы согласовать изображение, речь и подписи",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 39
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 152,
+            "text": "Чтобы увеличить число переходов",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 39
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 153,
+            "text": "Чтобы не проверять последовательность",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 39
+          },
+          "after_order": 3
+        },
+        {
+          "before": {
+            "id": 154,
+            "text": "Чтобы заменить исходники",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 39
+          },
+          "after_order": 4
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 40,
+        "text": "Какой признак указывает на читаемую информационную графику?",
+        "type": "single",
+        "order": 7,
+        "explanation": "Иерархия помогает сначала увидеть главное, затем детали.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 155,
+            "text": "Контрастная иерархия текста и проверяемых данных",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 40
+          },
+          "after_order": 4
+        },
+        {
+          "before": {
+            "id": 156,
+            "text": "Мелкий текст на пёстром фоне",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 40
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 157,
+            "text": "Декоративные цифры без источника",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 40
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 158,
+            "text": "Одинаковый вес всех элементов",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 40
+          },
+          "after_order": 3
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 41,
+        "text": "Как следует относиться к изображению, созданному ИИ, в информационном материале?",
+        "type": "single",
+        "order": 8,
+        "explanation": "Оно может быть иллюстрацией, но не доказательством события без независимого подтверждения.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 159,
+            "text": "Обозначить как иллюстрацию и не выдавать за документальное доказательство",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 41
+          },
+          "after_order": 3
+        },
+        {
+          "before": {
+            "id": 160,
+            "text": "Использовать как подтверждение любого события",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 41
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 161,
+            "text": "Удалить все подписи",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 41
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 162,
+            "text": "Считать права проверенными автоматически",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 41
+          },
+          "after_order": 4
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 42,
+        "text": "Что поддерживает единый визуальный стиль проекта?",
+        "type": "single",
+        "order": 9,
+        "explanation": "Повторяемые правила для палитры, типографики и композиции делают серию узнаваемой.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 163,
+            "text": "Краткий style guide с палитрой, шрифтами и правилами композиции",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 42
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 164,
+            "text": "Случайная смена шрифтов в каждом кадре",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 42
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 165,
+            "text": "Отказ от контраста",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 42
+          },
+          "after_order": 3
+        },
+        {
+          "before": {
+            "id": 166,
+            "text": "Копирование чужих брендов",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 42
+          },
+          "after_order": 4
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 43,
+        "text": "Что важно проверить перед использованием синтезированной озвучки?",
+        "type": "single",
+        "order": 10,
+        "explanation": "Нужно проверить естественность, смысл, происхождение голоса и разрешение на использование.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 167,
+            "text": "Текст, естественность звучания и происхождение голоса",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 43
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 168,
+            "text": "Только громкость первого слова",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 43
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 169,
+            "text": "Что голос похож на реального человека",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 43
+          },
+          "after_order": 3
+        },
+        {
+          "before": {
+            "id": 170,
+            "text": "Что файл создан без сценария",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 43
+          },
+          "after_order": 4
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 44,
+        "text": "Какой признак у качественных субтитров?",
+        "type": "single",
+        "order": 11,
+        "explanation": "Они соответствуют речи, не перекрываются и остаются читаемыми в кадре.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 171,
+            "text": "Синхронность с речью и проверенный текст",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 44
+          },
+          "after_order": 3
+        },
+        {
+          "before": {
+            "id": 172,
+            "text": "Произвольные фразы без времени",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 44
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 173,
+            "text": "Скрытые субтитры без возможности включения",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 44
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 174,
+            "text": "Текст, который перекрывает важные элементы",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 44
+          },
+          "after_order": 4
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 45,
+        "text": "Как честно описать обычную DSP-обработку шума?",
+        "type": "single",
+        "order": 12,
+        "explanation": "Обычная фильтрация не должна выдаваться за нейросетевое шумоподавление.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 175,
+            "text": "Как обычную цифровую обработку сигнала",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 45
+          },
+          "after_order": 4
+        },
+        {
+          "before": {
+            "id": 176,
+            "text": "Как ИИ-модель без проверки",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 45
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 177,
+            "text": "Как доказательство качества записи",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 45
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 178,
+            "text": "Как замену прослушиванию",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 45
+          },
+          "after_order": 3
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 46,
+        "text": "Почему исходники и проект монтажа нужно хранить отдельно от экспорта?",
+        "type": "single",
+        "order": 13,
+        "explanation": "Экспорт — готовый файл, а проект сохраняет структуру для дальнейшего редактирования.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 179,
+            "text": "Чтобы проект можно было открыть и отредактировать повторно",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 46
+          },
+          "after_order": 3
+        },
+        {
+          "before": {
+            "id": 180,
+            "text": "Потому что экспорт заменяет все исходники",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 46
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 181,
+            "text": "Чтобы не знать, какие материалы использованы",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 46
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 182,
+            "text": "Чтобы убрать сведения о правах",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 46
+          },
+          "after_order": 4
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 47,
+        "text": "Что следует проверить после интеллектуального инструмента в монтаже?",
+        "type": "single",
+        "order": 14,
+        "explanation": "Автоматический результат требует человеческой проверки смысла, границ и ошибок.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 183,
+            "text": "Точность результата и его соответствие исходному материалу",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 47
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 184,
+            "text": "Только наличие кнопки применения",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 47
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 185,
+            "text": "Скорость анимации интерфейса",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 47
+          },
+          "after_order": 3
+        },
+        {
+          "before": {
+            "id": 186,
+            "text": "Количество автоматических эффектов",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 47
+          },
+          "after_order": 4
+        }
+      ]
+    },
+    {
+      "question": {
+        "id": 48,
+        "text": "Какой финальный шаг наиболее уместен перед публикацией экспорта?",
+        "type": "single",
+        "order": 15,
+        "explanation": "Проверка воспроизведения, формата, читаемости, субтитров, фактов и прав предотвращает типичные ошибки.",
+        "quiz_id": 5
+      },
+      "choices": [
+        {
+          "before": {
+            "id": 187,
+            "text": "Просмотреть экспорт и пройти финальный чек-лист",
+            "order": 1,
+            "is_correct": 1,
+            "question_id": 48
+          },
+          "after_order": 1
+        },
+        {
+          "before": {
+            "id": 188,
+            "text": "Публиковать первый файл без просмотра",
+            "order": 2,
+            "is_correct": 0,
+            "question_id": 48
+          },
+          "after_order": 2
+        },
+        {
+          "before": {
+            "id": 189,
+            "text": "Удалить проект сразу после экспорта",
+            "order": 3,
+            "is_correct": 0,
+            "question_id": 48
+          },
+          "after_order": 3
+        },
+        {
+          "before": {
+            "id": 190,
+            "text": "Считать адаптацию формата автоматической",
+            "order": 4,
+            "is_correct": 0,
+            "question_id": 48
+          },
+          "after_order": 4
+        }
+      ]
+    }
+  ]
+}
