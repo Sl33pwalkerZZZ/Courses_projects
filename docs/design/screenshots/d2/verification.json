@@ -1,0 +1,684 @@
+{
+  "date": "2026-11-24",
+  "browser": "Existing Chromium headless shell, real DOM/CDP, no mocked API",
+  "fixture": "frontend/tests/fixtures/design-system/index.html",
+  "matrix": {
+    "matrix": [
+      {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "lang": "ru",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "lang": "kk",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "lang": "en",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "lang": "ru",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "lang": "kk",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "lang": "en",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "lang": "ru",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "lang": "kk",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "lang": "en",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "lang": "ru",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "lang": "kk",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "lang": "en",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "lang": "ru",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "lang": "kk",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "lang": "en",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "lang": "ru",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "lang": "kk",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "lang": "en",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "lang": "ru",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "lang": "kk",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "lang": "en",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "lang": "ru",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "lang": "kk",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "lang": "en",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 320,
+        "scrollWidth": 320,
+        "lang": "ru",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 320,
+        "scrollWidth": 320,
+        "lang": "kk",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 320,
+        "scrollWidth": 320,
+        "lang": "en",
+        "theme": "light",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(167, 47, 50)",
+        "disabled": "rgb(86, 99, 79)",
+        "overflow": []
+      },
+      {
+        "width": 320,
+        "scrollWidth": 320,
+        "lang": "ru",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 320,
+        "scrollWidth": 320,
+        "lang": "kk",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      },
+      {
+        "width": 320,
+        "scrollWidth": 320,
+        "lang": "en",
+        "theme": "dark",
+        "font": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primary": "rgb(196, 245, 106)",
+        "invalid": "rgb(255, 180, 169)",
+        "disabled": "rgb(176, 186, 170)",
+        "overflow": []
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Noto Sans",
+        "postScriptName": "NotoSans-Regular",
+        "isCustomFont": true,
+        "glyphCount": 49
+      },
+      {
+        "familyName": "IBM Plex Mono",
+        "postScriptName": "IBMPlexMono-Regular",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    "buttonStates": {
+      "hover": "rgb(211, 255, 134)",
+      "active": "rgb(176, 222, 87)"
+    },
+    "keyboard": {
+      "visible": true,
+      "outline": "3px"
+    },
+    "dialogEscape": true,
+    "tabKeyboard": true,
+    "reducedMotion": "0s"
+  },
+  "compatibility": [
+    {
+      "name": "home",
+      "title": "От интересаОт интересак умению.к умению.",
+      "overflow": false,
+      "videos": 0,
+      "buttons": 10,
+      "forms": 0
+    },
+    {
+      "name": "course",
+      "title": "ИИ для создания медиаконтента: от идеи до публикацииИИ для создания медиаконтента: от идеи до публикации",
+      "overflow": false,
+      "videos": 0,
+      "buttons": 13,
+      "forms": 0
+    },
+    {
+      "name": "lesson",
+      "title": "Экспорт, адаптация и подготовка видео к публикации",
+      "overflow": false,
+      "videos": 3,
+      "buttons": 13,
+      "forms": 0
+    },
+    {
+      "playback": {
+        "time": 1.782703,
+        "error": null,
+        "tracks": 1
+      }
+    },
+    {
+      "name": "assessment",
+      "title": "Итоговая аттестация по курсу",
+      "overflow": false,
+      "videos": 0,
+      "buttons": 35,
+      "forms": 0
+    },
+    {
+      "name": "profile",
+      "title": "ПрофильПрофиль",
+      "overflow": false,
+      "videos": 0,
+      "buttons": 372,
+      "forms": 0
+    },
+    {
+      "name": "studio",
+      "title": "Студия преподавателя",
+      "overflow": false
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "docs/design/screenshots/d2/after-components-1024-dark-en.jpg",
+      "sha256": "9584ce7a5461d399d22b1031cb689606b8a81e370a94f0763f75d2ef9fdfcdd8",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-1024-dark-kk.jpg",
+      "sha256": "81cab549cbfd8a8c53aac8f49d076a3eac42445cd5ae12364539c023d5cc0d92",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-1024-dark-ru.jpg",
+      "sha256": "2f6b78046513622653316122c1dc81710b2a71ae56c58f3972a9f0ec3482564c",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-1024-light-en.jpg",
+      "sha256": "99b0dbd2d0652ebea72e3021e8eb0fb268e6c375ca737af2fdb393ce6d59c3fb",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-1024-light-kk.jpg",
+      "sha256": "928804db31f12a7297bdab591c245b7596d8ceb9d9f5229eca97b88eb8949942",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-1024-light-ru.jpg",
+      "sha256": "93af43f7cb71ef3aeadb839054601431aaaf621b736f53e61e6f4489554ffd19",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-1440-dark-en.jpg",
+      "sha256": "b92053bc2cdd05a217a034dd068c97d8acc70ee3b4bf15dc8948642090ec885c",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-1440-dark-kk.jpg",
+      "sha256": "f86c7ed621e88aaf9aec96c71918466d9b3205d997cdf8b864b6f2384f4d7374",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-1440-dark-ru.jpg",
+      "sha256": "5db2c12b7acd209a974d12fd421445517b7e061aaac5cac9339b149f88b9ba77",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-1440-light-en.jpg",
+      "sha256": "087945f99255520ac69a0512a75f6a99fe9969b4b0947bfd48598baa266ee549",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-1440-light-kk.jpg",
+      "sha256": "cb6ce82100f33a0f993e44f5b5720175d029e16e81c475bdefd1118180cc580a",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-1440-light-ru.jpg",
+      "sha256": "27dd239d33d68821da5e4d5a5fc4722d10951b7e615546cb39f8e266b259c39c",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-320-dark-en.jpg",
+      "sha256": "88d303b2477dcc273c168485d04ee154035046fa38d62a285c864514fa8d68e7",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-320-dark-kk.jpg",
+      "sha256": "4a84745732a21adc4baea566813dae7e4846f5c15210d5a03e8ff4a2c937c912",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-320-dark-ru.jpg",
+      "sha256": "8dc6379d52e36d5f3dc69d1b6ce934462f18a0c03de956938a469866aba8cab7",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-320-light-en.jpg",
+      "sha256": "262be1bedc9b83150b8b44be0f3047191fee088915b438a2993bdaf88fb9fb95",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-320-light-kk.jpg",
+      "sha256": "94ec6f5ed1b0fbc70fd64d7bf7455275ad44581da4f72e6e21c3355abc1212f7",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-320-light-ru.jpg",
+      "sha256": "29b2eb4ad6fc2990ec5a6a0b060d0a158fe5b6cbb92e367d369086504c614f99",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-390-dark-en.jpg",
+      "sha256": "e9718c3323d6fc4cdad6b382a9777f88d46ac4ed14909cf8b75d4bca059739e5",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-390-dark-kk.jpg",
+      "sha256": "54907ad8ec1c04364ce075ac5c885220540c8af5c7507d2ab20616686958d8a1",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-390-dark-ru.jpg",
+      "sha256": "3575ab35ab2c7e70daec13e00150d2d3f3eca2a7dec18f341c33ed0ae8bf880d",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-390-light-en.jpg",
+      "sha256": "a20a1796089bf2df33a5b5ccd095ae7eeae39cf441dbe1457a41ec96a641aed5",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-390-light-kk.jpg",
+      "sha256": "ad88df4b35f9f8feb74c129c4f96e38e6218e6e3673a7444ac4158c0d2330b77",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-390-light-ru.jpg",
+      "sha256": "a0d58fec1da03efca86d677cebf996587fedde3cbfab1a12ef8e670a2a1494e3",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-768-dark-en.jpg",
+      "sha256": "b925c17cf778566f4164d5f2015c5da68dd3050fbc2e210e8e8e16353a9dec17",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-768-dark-kk.jpg",
+      "sha256": "a44f000fabd45e647bca015f3ad05d26de6e06c732b6088b8c4de2a14b8f4d69",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-768-dark-ru.jpg",
+      "sha256": "d6ea7e00993501e58c22a7caae4bf2f26d438729e71270225947860e3dac9e32",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-768-light-en.jpg",
+      "sha256": "dd674c81aa089a497632aa56cfcf2aba73762ccf2aa74f1c04b1165b1b4f0b48",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-768-light-kk.jpg",
+      "sha256": "1fdbb4d477f30023e6fd6c59c910fa35a525d2e9ae03e83d0b10033cdd21848c",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-components-768-light-ru.jpg",
+      "sha256": "beaa79d375959eadefbdeb87920592fa85e783c34743b5555196b5ddf0294e7c",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-dialog-dark.jpg",
+      "sha256": "d561ddf6d9a89f4ad47972ee40fa65a13f1432d31a908e23ab656208913ed863",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-states-1440-dark.jpg",
+      "sha256": "d75995587eb6d8d3f9bdf519426968832aee34136e4bc6b6b848fc739f502af8",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/after-states-1440-light.jpg",
+      "sha256": "654b08b382b9c2119680d294bc60fc5e5064ece49ddcf59709cc26cfa50559f6",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/before-components-1440-dark.jpg",
+      "sha256": "ffe67b29ea2c9641c88686d07b23a4a34b2b7066650bfb5b2060bbd512743833",
+      "role": "before",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/before-components-1440-light.jpg",
+      "sha256": "29db6b04a273202b3f51a2626f23af13edf8b774ff8d793ccdb9dff41eef4e74",
+      "role": "before",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/compat-assessment-1440.jpg",
+      "sha256": "f2fcdebfccf49cce78ad006515c3f831df48557f2792f2de3402de2761a5a0ce",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/compat-course-1440.jpg",
+      "sha256": "f45e4d6cb7d82f046d64a6d2c3f1328b40b6aeddc2bef09ac0c2b7635bf87189",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/compat-home-1440.jpg",
+      "sha256": "f4c42f0b194b4406d7644eca69328d83e93fd516619cf76b11fd9cc7d3f03b3a",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/compat-lesson-1440.jpg",
+      "sha256": "8b69a8740fb016a30b14ddf0fab95f827272b2ac6e7869992d44a0e83e0d4e22",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/compat-profile-1440.jpg",
+      "sha256": "63056744a7b1cf032739c4bf14247b854930d9c3247371c36f253fba6a83da5b",
+      "role": "after",
+      "note": ""
+    },
+    {
+      "path": "docs/design/screenshots/d2/compat-studio-1440.jpg",
+      "sha256": "4c18bb783ea86f03120d0eec45c08bbc8b9944139133b4009b1c48450a0838c8",
+      "role": "excluded-probe",
+      "note": "Test harness used slug where Studio requires numeric course ID; 404 probe, not a D2 regression."
+    },
+    {
+      "path": "docs/design/screenshots/d2/compat-studio-course-1440.jpg",
+      "sha256": "d604e7781afff811611d26b08d6bbb7111de5d37ddd5fee9bd143fe3771e9ffa",
+      "role": "excluded-probe",
+      "note": "Captured loading too early; replaced by compat-studio-loaded-1440.jpg, old probe preserved."
+    },
+    {
+      "path": "docs/design/screenshots/d2/compat-studio-loaded-1440.jpg",
+      "sha256": "78aa995da67631a43b2eecdcf93fd3a71daa936b621c7b9db5aa873095d923f2",
+      "role": "after",
+      "note": ""
+    }
+  ],
+  "limitations": [
+    "Component matrix is not every production page × locale × theme.",
+    "No full CRUD/assessment/certificate issuance E2E repeated.",
+    "Compatibility uses synthetic accounts and existing isolated SQLite/media only.",
+    "Expected draft-review and disabled-certificate 404 responses remain; neutral UI preserved."
+  ]
+}

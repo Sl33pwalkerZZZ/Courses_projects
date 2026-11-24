@@ -1,5 +1,16 @@
 # Roadmap
 
+## Design roadmap — D2 complete (2026-11-24)
+
+- D2 shared Graphite/Lime semantic tokens, accessible states, local multilingual font delivery, specimen and DESIGN.md completed. Evidence: docs/design/D2_DESIGN_SYSTEM.md. Existing page composition/feature behavior preserved.
+- Next separately authorized D3: homepage and one original ASCII Scroll. D4 theme transitions, D5 catalog/course, D6 learning/Profile, D7 Studio, D8 final isolated regression remain pending. Old D1/D0 notes below are historical. No automatic publication/certificate activation.
+
+## Design roadmap — D1 complete (2026-11-24)
+
+- D0 checkpoint888317e on design/graphite-lime; D1 actual-browser visual audit complete with no UI edits. Current redesign sequence D0–D8 lives in docs/design/REDESIGN_ROADMAP.md; evidence and limits in D1_VISUAL_AUDIT.md.
+- Next separate task D2: semantic Graphite/Lime system, multi-script font delivery, component states, both themes. D3: one original ASCII Scroll; D4: safe theme transitions; D5catalog/course; D6learning/profile; D7Studio; D8isolatedfinalverification.
+- Existing auth/access/media/assessment/business rules remain fixed. Content/publication/certificate decisions from C5 are independent; no automatic publication or issuance in redesign.
+
 ## Current priorities — C5 (2026-11-24)
 
 - C1–C4 and Lesson115/Module6 implementation are complete; older production priorities below are historical snapshots, not current blockers. C4 full isolated student workflow passed; C5 fixed neutral reviews404 and checked publication readiness.

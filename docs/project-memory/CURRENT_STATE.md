@@ -1,5 +1,19 @@
 # Current Project State
 
+## D2 design system — Graphite & Lime (2026-11-24)
+
+- Branch design/graphite-lime, HEAD888317e retained. D2 changes shared tokens/index/ui CSS only; all old v2 token names preserved. Local Noto Sans400–800 and IBM Plex Mono400 include OFL/provenance; tested RU/KK/EN cmap, Manrope evaluation rejected for missing Kazakh glyphs. DESIGN.md and .impeccable/design.json capture current foundation.
+- Isolated actual Chromium component matrix:30 combinations (1440/1024/768/390/320 × light/dark × RU/KK/EN); focus/tabs/dialog Escape/reduced-motion and custom font loading checked. Actual isolated Django smoke: login, course/lesson115/assessment116/Profile/Studio curriculum and protected video with VTT. No full assessment/CRUD E2E repeated. Two harness-only Studio probes preserved and excluded in screenshot manifest.
+- Full frontend431/431 tests passed, focused7/7 font/state checks, lint/build/check/whitespace passed. Manual Impeccable detector retains11 legacy page warnings/advisories, none in changed shared foundation files; no blanket suppressions. Native frontend_reviewer found no D2 blocker; demo worker prepared isolated fixture.
+-117 baseline hashes (SQLite/settings/media) unchanged; SQLite read-only integrity OK/FK0/Course10 unpublished. No backend/API/auth/route/content/media changes or staging/commit/push. Exact evidence: docs/design/D2_DESIGN_SYSTEM.md and screenshots/d2/verification.json. D3 not started; next separate authorization: homepage and ASCII Scroll.
+
+## D1 visual audit — Graphite & Lime (2026-11-24)
+
+- Branch design/graphite-lime,HEAD888317e (D0). Impeccable init/PRODUCT preserved. Independent native A(frontend_reviewer) and B(browser_qa detector/source) completed; main agent real isolated Django/Vite/Chromium captures. No UI/backend/workingDB/settings/media changes.
+-56JPEG baseline includes6test-infrastructure-outage states and restored mobile dark/happy states; manifest paths/hashes under docs/design/screenshots/d1/. Desktop1440/mobile390,320lesson,768home/KK/EN/reduced-motion spots; not all screen×locale combinations, no new fullCRUD/E2E.
+-Design27/40; tentative technical15/20; no confirmedP0/P1,4P2/1P3 (assignment wall oftext, Profile taskpriority/errorcopy, mobilequiz preamble, duplicate direction controls). Detector11stylistic signals not11bugs. Source font NotoSans is system-provided,delivery requiresD2decision.
+-Recommended singlehomepageeffect ASCII Scroll with native scrolling/staticfallback, no newdependencies. D2–D8 remain planning only. Reports: docs/design/D1_VISUAL_AUDIT.md and REDESIGN_ROADMAP.md. Course10 stays unpublished; next step separatelyauthorizeD2.
+
 ## Product context — Impeccable init (2026-11-24)
 
 - Owner confirmed broad beginner audience (students, educators, university staff, entrepreneurs, professionals), existing architecture/business rules/access/RU-KK-EN preserved. Root PRODUCT.md records durable product truth; .impeccable/config.json records owner-selected code-first workflow.

@@ -1,0 +1,68 @@
+{
+  "noto_sans": {
+    "family": "Noto Sans",
+    "css_source": "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400..800&display=swap",
+    "license_source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosans/OFL.txt",
+    "files": [
+      {
+        "file": "noto-sans-cyrillic-ext.woff2",
+        "source": "https://fonts.gstatic.com/s/notosans/v42/o-0bIpQlx3QUlC5A4PNB6Ryti20_6n1iPHjc5aPdu2ui.woff2",
+        "sha256": "82ff72b28e6610f2c62de49d0f295c160a157b2718fa814bb6c512ebfdebb31d",
+        "size": 70680,
+        "unicode_range": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F"
+      },
+      {
+        "file": "noto-sans-cyrillic.woff2",
+        "source": "https://fonts.gstatic.com/s/notosans/v42/o-0bIpQlx3QUlC5A4PNB6Ryti20_6n1iPHjc5ardu2ui.woff2",
+        "sha256": "6ab64433de6077ca5ad31b05420450ce986a616a4ea47b6ad16f3217055dafc3",
+        "size": 20080,
+        "unicode_range": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116"
+      },
+      {
+        "file": "noto-sans-latin-ext.woff2",
+        "source": "https://fonts.gstatic.com/s/notosans/v42/o-0bIpQlx3QUlC5A4PNB6Ryti20_6n1iPHjc5aDdu2ui.woff2",
+        "sha256": "6d5a79315528df191b9d86f97b0c4272a8b588fcb166773fe6588ac795de0613",
+        "size": 167960,
+        "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF"
+      },
+      {
+        "file": "noto-sans-latin.woff2",
+        "source": "https://fonts.gstatic.com/s/notosans/v42/o-0bIpQlx3QUlC5A4PNB6Ryti20_6n1iPHjc5a7duw.woff2",
+        "sha256": "51ca196f49a33e79e7870ff88ebd2829a3f627a51e7d690986618f0e7ad2b52d",
+        "size": 35820,
+        "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+      }
+    ],
+    "tested": "ӘәҒғҚқҢңӨөҰұҮүҺһІіАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюяABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+    "missing": [],
+    "license_file": "NotoSans-OFL.txt"
+  },
+  "ibm_plex_mono": {
+    "family": "ibmplexmono",
+    "revision": "431022a4eeb0e1009ba0126f41353d8ca2375a2a",
+    "files": [
+      {
+        "file": "IBMPlexMono-Regular.ttf",
+        "source": "https://raw.githubusercontent.com/google/fonts/431022a4eeb0e1009ba0126f41353d8ca2375a2a/ofl/ibmplexmono/IBMPlexMono-Regular.ttf",
+        "sha256": "6a3412f058c7d8dfd9170c41e85ade48e5156ecb89356110ca57a0a27734af46",
+        "size": 135580,
+        "local_file": "ibm-plex-mono-regular.ttf"
+      },
+      {
+        "file": "OFL.txt",
+        "source": "https://raw.githubusercontent.com/google/fonts/431022a4eeb0e1009ba0126f41353d8ca2375a2a/ofl/ibmplexmono/OFL.txt",
+        "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
+        "size": 4456,
+        "local_file": "IBMPlexMono-OFL.txt"
+      }
+    ],
+    "missing": [],
+    "tested": "ӘәҒғҚқҢңӨөҰұҮүҺһІіАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюяABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+  },
+  "manrope_evaluation": {
+    "source": "https://raw.githubusercontent.com/google/fonts/b31870aff700ab7a1d74fa0c6887d95beb9e0037/ofl/manrope/Manrope%5Bwght%5D.ttf",
+    "sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6",
+    "missing_required": "ӘәҒғҚқҢңҰұ",
+    "decision": "Not shipped: incomplete Kazakh coverage; avoid mixed fallback within words."
+  }
+}

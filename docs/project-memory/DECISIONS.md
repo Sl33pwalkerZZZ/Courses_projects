@@ -1,5 +1,17 @@
 # Architectural and Project Decisions
 
+## D2 semantic foundation and local typography (2026-11-24)
+
+- Owner-directed Graphite & Lime replaces the mandatory future Amethyst visual direction. Preserve existing --v2-* token compatibility and index aliases while introducing --color-* semantic roles; no wholesale page/layout migration in D2.
+- Use self-hosted OFL Noto Sans400–800 plus IBM Plex Mono400. Exact evaluated Manrope file lacks required Kazakh characters; do not rely on per-character system fallback. Keep licenses, source URLs, exact hashes and cmap regression coverage with fonts.
+- Lime fill always has dark ink; light links/focus/progress use deep green. Separate decorative and meaningful control borders. No new dependencies, public demo route, business-state changes or new motion loops. Future ASCII/theme transitions remain D3/D4.
+
+## 2026-11-24 — D1 redesign audit and proposed motion scope
+
+- User-approved Graphite & Lime replaces the old mandatory visual direction for future redesign, while product/functionality remains. D1 is analysis/screenshots/documentation only, not implementation of a new visual system.
+- D1 recommends one original educational ASCII Scroll scene for homepage, native scroll and static/reduced-motion/mobile fallback; no mandatory3D/slider/demo stack or newdependency. Final tokens/fonts and scene implementation are D2/D3 decisions.
+- Detector findings are stylistic candidates, not accessibility or release failures. Source/browser evidence and exact scope are recorded in docs/design/D1_VISUAL_AUDIT.md. No real course publication, Studio attestations, student state or certificate changes.
+
 ## 2026-11-24 — Draft-course review unavailability and publication separation
 
 - Reviews API stays published-only. Its404 within a loaded course overview is a neutral unavailable state, never a fabricated empty review list or authority to post.401 and other failures retain login/retry; success clears stale error. No backend access expansion.

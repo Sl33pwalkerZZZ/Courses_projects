@@ -1,38 +1,65 @@
+/* Operate/Read primitives. Feature-specific layout and handlers live with their pages. */
 .v2-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: var(--v2-space-8);
   min-height: var(--v2-control-height);
-  padding: 12px 20px;
+  max-width: 100%;
+  padding: 10px 18px;
   border: 1px solid transparent;
   border-radius: var(--v2-radius-control);
-  font: 600 14px/20px var(--v2-font-ui);
+  font: 600 var(--v2-type-label)/1.45 var(--v2-font-ui);
   text-align: center;
   text-decoration: none;
-  transition: background-color 120ms, border-color 120ms, color 120ms;
+  overflow-wrap: anywhere;
+  transition: background-color var(--v2-duration-fast) var(--v2-ease-out), border-color var(--v2-duration-fast) var(--v2-ease-out), color var(--v2-duration-fast) var(--v2-ease-out);
 }
 .v2-button svg { flex-shrink: 0; }
 .v2-button:hover { text-decoration: none; }
 .v2-button--primary { background: var(--v2-primary); color: var(--v2-on-primary); }
-.v2-button--primary:hover { background: var(--v2-primary-hover); }
+.v2-button--primary:hover:not(:disabled) { background: var(--v2-primary-hover); }
+.v2-button--primary:active:not(:disabled) { background: var(--v2-primary-active); }
 .v2-button--secondary { background: var(--v2-surface); color: var(--v2-text); border-color: var(--v2-control-border); }
-.v2-button--secondary:hover, .v2-button--ghost:hover { background: var(--v2-surface-raised); }
+.v2-button--secondary:hover:not(:disabled), .v2-button--ghost:hover:not(:disabled) { background: var(--v2-surface-raised); }
 .v2-button--ghost { background: transparent; color: var(--v2-text); }
-.v2-button--danger { background: var(--v2-danger); color: var(--v2-on-danger); }
-.v2-button--danger:hover { background: var(--v2-danger-hover); }
-.v2-button:disabled { color: var(--v2-text-muted); background: var(--v2-surface-raised); border-color: var(--v2-border); cursor: default; }
+.v2-button--secondary:active:not(:disabled), .v2-button--ghost:active:not(:disabled) { background: var(--v2-soft-accent); }
+.v2-button--danger { background: var(--v2-danger-fill); color: var(--v2-on-danger); }
+.v2-button--danger:hover:not(:disabled), .v2-button--danger:active:not(:disabled) { background: var(--v2-danger-fill-hover); }
+.v2-button:disabled { color: var(--v2-disabled-text); background: var(--v2-disabled-bg); border-color: var(--v2-border); cursor: not-allowed; }
 .v2-button:focus-visible, .v2-dialog :focus-visible { outline: 3px solid var(--v2-focus); outline-offset: 3px; }
 .v2-icon-button { width: 44px; min-width: 44px; min-height: 44px; padding: 10px; }
-.v2-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: var(--v2-radius-pill); font: 600 12px/18px var(--v2-font-ui); background: var(--v2-surface-raised); color: var(--v2-text-muted); }
-.v2-badge--success { color: var(--v2-success); }
-.v2-badge--pending { color: var(--v2-warning); }
-.v2-badge--error { color: var(--v2-danger); }
-.v2-dialog { border: 1px solid var(--v2-border); border-radius: var(--v2-radius-card); background: var(--v2-surface); color: var(--v2-text); padding: 24px; font-family: var(--v2-font-ui); box-shadow: var(--v2-shadow-overlay); }
+.v2-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: var(--v2-radius-small); font: 600 var(--v2-type-caption)/1.45 var(--v2-font-ui); background: var(--v2-surface-raised); color: var(--v2-text-muted); }
+.v2-badge--success { color: var(--v2-success); background: var(--v2-success-surface); }
+.v2-badge--pending, .v2-badge--warning { color: var(--v2-warning); background: var(--v2-warning-surface); }
+.v2-badge--error { color: var(--v2-danger); background: var(--v2-danger-surface); }
+.v2-badge--info { color: var(--v2-info); background: var(--v2-info-surface); }
+.v2-dialog { width: min(520px, calc(100vw - 32px)); max-height: calc(100svh - 48px); overflow: auto; border: 0; border-radius: var(--v2-radius-hero); background: var(--v2-surface); color: var(--v2-text); padding: clamp(20px, 4vw, 32px); font-family: var(--v2-font-ui); box-shadow: var(--v2-shadow-overlay); }
 .v2-dialog::backdrop { background: var(--v2-overlay); }
+.v2-dialog h2 { margin-top: 0; }
 .v2-surface { border: 1px solid var(--v2-border); border-radius: var(--v2-radius-card); background: var(--v2-surface); color: var(--v2-text); }
+.v2-surface--raised { background: var(--v2-surface-raised); }
+.v2-surface--inset { background: var(--v2-canvas); }
+/* Low-specificity fields preserve feature layout; shared state rules stay explicit. */
+:where(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]), select, textarea) { min-height: var(--v2-control-height); min-width: 0; padding: 10px 12px; border: 1px solid var(--v2-control-border); border-radius: var(--v2-radius-control); background: var(--v2-surface); color: var(--v2-text); font-family: var(--v2-font-ui); }
+:where(input, textarea)::placeholder { color: var(--v2-text-muted); opacity: 1; }
+:where(input, select, textarea):focus-visible { outline: 3px solid var(--v2-focus); outline-offset: 3px; }
+:where(input, select, textarea):disabled { background: var(--v2-disabled-bg); color: var(--v2-disabled-text); opacity: 1; cursor: not-allowed; }
+.instructor-field input[aria-invalid=true], .instructor-field select[aria-invalid=true], .instructor-field textarea[aria-invalid=true], [aria-invalid=true].v2-field { border-color: var(--v2-danger); }
+.instructor-field :is(input, select, textarea)[aria-invalid=true]:focus-visible { outline-color: var(--v2-danger); }
+:where(input[type=checkbox], input[type=radio]) { accent-color: var(--v2-link); }
+:where(progress) { height: 8px; border: 0; border-radius: var(--v2-radius-small); background: var(--v2-surface-raised); color: var(--v2-progress); }
+:where(progress)::-webkit-progress-bar { border-radius: var(--v2-radius-small); background: var(--v2-surface-raised); }
+:where(progress)::-webkit-progress-value { border-radius: var(--v2-radius-small); background: var(--v2-progress); }
+:where(progress)::-moz-progress-bar { border-radius: var(--v2-radius-small); background: var(--v2-progress); }
+.v2-button[role=tab] { border-radius: 0; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--v2-text-muted); }
+.v2-button[role=tab][aria-selected=true] { border-bottom-color: var(--v2-link); color: var(--v2-link); }
+.v2-button[role=tab]:hover { background: var(--v2-surface-raised); }
+.v2-notice, .instructor-error, .instructor-success { padding: 12px 16px; border-radius: var(--v2-radius-control); line-height: 1.6; }
+.v2-notice--warning { color: var(--v2-warning); background: var(--v2-warning-surface); }
+.v2-notice--info { color: var(--v2-info); background: var(--v2-info-surface); }
+.instructor-error, .v2-notice--error { color: var(--v2-danger); background: var(--v2-danger-surface); }
+.instructor-success, .v2-notice--success { color: var(--v2-success); background: var(--v2-success-surface); }
+.theme-toggle { display: inline-grid; place-items: center; flex-shrink: 0; min-width: 44px; min-height: 44px; padding: 10px; border: 1px solid var(--v2-control-border); border-radius: var(--v2-radius-control); background: var(--v2-surface); color: var(--v2-text); }
+.theme-toggle:hover { background: var(--v2-surface-raised); }
 @media (prefers-reduced-motion: reduce) { .v2-button { transition: none; } }
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .v2-button > svg { transition: transform 160ms; }
-  .v2-button:hover > svg { transform: translate(2px, -1px); }
-}

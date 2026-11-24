@@ -88,7 +88,7 @@ test('hero presents a real course when supplied and no fictitious progress', () 
   assert.doesNotMatch(html, /ai-companion|completed_lessons|progress_percent/)
 })
 
-test('effective Amethyst colors preserve text/control contrast in both themes and hero surfaces', async () => {
+test('effective Graphite & Lime colors preserve text/control contrast in both themes and hero surfaces', async () => {
   const css = await readFile(new URL('../src/styles/v2-tokens.css', import.meta.url), 'utf8')
   const luminance = (hex) => {
     const rgb = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
@@ -102,8 +102,8 @@ test('effective Amethyst colors preserve text/control contrast in both themes an
   const blocks = [css.split(':root {')[1].split('}')[0], css.split(':root[data-theme="light"] {')[1].split('}')[0]]
   for (const [index, block] of blocks.entries()) {
     const colors = Object.fromEntries([...block.matchAll(/--v2-([\w-]+): (#[0-9A-Fa-f]{6});/g)].map((match) => [match[1], match[2]]))
-    assert.equal(colors.primary, index ? '#722CC4' : '#955CF0')
-    assert.equal(colors.canvas.toLowerCase(), index ? '#faf7ff' : '#16181c')
+    assert.equal(colors.primary, '#C4F56A')
+    assert.equal(colors.canvas.toLowerCase(), index ? '#f4f5f0' : '#101210')
     for (const bg of ['canvas', 'surface', 'surface-raised']) {
       for (const fg of ['text', 'text-muted', 'link', 'accent', 'success', 'warning', 'danger']) {
         assert.ok(contrast(colors[fg], colors[bg]) >= 4.5, `${index}: ${fg}/${bg}`)
