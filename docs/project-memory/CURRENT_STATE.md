@@ -1,5 +1,11 @@
 # Current Project State
 
+## Product context — Impeccable init (2026-11-24)
+
+- Owner confirmed broad beginner audience (students, educators, university staff, entrepreneurs, professionals), existing architecture/business rules/access/RU-KK-EN preserved. Root PRODUCT.md records durable product truth; .impeccable/config.json records owner-selected code-first workflow.
+- Owner explicitly replaces Amethyst Motion/Cinematic as the mandatory future direction with planned Graphite & Lime: professional technological minimalism, expressive typography, monochrome ASCII, scroll motion and smooth theme transitions. Current UI is unchanged; this is authorization of direction, not a completed redesign. Older incumbent-style instructions are historical relative to this explicit owner decision.
+- Init only: no DESIGN.md, app/DB/media/settings changes, live injection/server, staging/commit/push. Live configuration targets frontend/index.html; detect-csp returned no policy signals. Screen scope and implementation are separate future tasks.
+
 ## Latest preparation — C5 publication readiness (2026-11-24)
 
 - HEAD30c310f, feat/studio-course-authoring. C4 real isolated API/Chromium verified6modules/16lessons,9videos/4audio/5VTT,10/15fail/11/15pass,projectreject/resubmit/approve92,progress16/16,disabledissuance; see docs/courses/course10-student-e2e-c4.md. Owner reports C1/C2 applied; current read-only dry-runs confirm KEEP.
