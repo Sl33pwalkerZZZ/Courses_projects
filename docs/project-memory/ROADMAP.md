@@ -1,5 +1,11 @@
 # Roadmap
 
+## Current priorities — C5 (2026-11-24)
+
+- C1–C4 and Lesson115/Module6 implementation are complete; older production priorities below are historical snapshots, not current blockers. C4 full isolated student workflow passed; C5 fixed neutral reviews404 and checked publication readiness.
+- Next: owner reviews sources/assessment and course-wide description, then separately authorizes Studio acknowledgement/request and administrator decision. Course10 remains unpublished; no requests submitted. See docs/courses/course10-publication-c5.md.
+- Certificates remain disabled: obtain issuer/global/policy/public-verification decisions, rehearse issuance on a fresh isolated copy, then separately authorize configuration and precise116notice update. Publishing course does not require enabling certificates.
+
 **Status snapshot:** 2026-11-09 (updated after Lesson 115 V1 technical QA). Derived from the latest audit reports, current git state and user-approved roadmap. Recheck before starting work.
 
 ## Completed or present

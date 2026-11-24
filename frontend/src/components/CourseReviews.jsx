@@ -4,6 +4,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import api from '../api'
 import useAuth from '../hooks/useAuth'
+import { reviewLoadErrorKey } from '../utils/courseReviews'
 import Reveal from './Reveal'
 import ReviewDeleteDialog from './ReviewDeleteDialog'
 import './CourseReviews.css'
@@ -50,6 +51,18 @@ function submissionErrorKey(error, fallback = 'reviews.submitError') {
   return fallback
 }
 
+export function ReviewsLoadState({ error, onRetry, disabled }) {
+  const { t } = useTranslation()
+  // The published-only reviews endpoint intentionally hides draft courses.
+  // A 404 means unavailable here, never an empty list or permission to post.
+  if (error === 'reviews.unavailable') return <p className="reviews-state" role="status">{t(error)}</p>
+  return <div className="reviews-load-error">
+    <p className="reviews-error" role="alert">{t(error)}</p>
+    <button className="reviews-retry" type="button" onClick={onRetry} disabled={disabled}>{t('common.retry')}</button>
+    {error === 'reviews.sessionExpired' && <Link to="/login">{t('header.login')}</Link>}
+  </div>
+}
+
 export default function CourseReviews({ slug, enrolled = false }) {
   const { t, i18n } = useTranslation()
   const formId = useId()
@@ -75,9 +88,12 @@ export default function CourseReviews({ slug, enrolled = false }) {
     let active = true
     const version = ++fetchVersion.current
     api.get(endpoint).then((response) => {
-      if (active && version === fetchVersion.current) setData(response.data)
+      if (active && version === fetchVersion.current) { setData(response.data); setLoadError('') }
     }).catch((error) => {
-      if (active && version === fetchVersion.current) setLoadError(error.response?.status === 401 ? 'reviews.sessionExpired' : 'reviews.loadError')
+      if (active && version === fetchVersion.current) {
+        if (error.response?.status === 404) setData(null)
+        setLoadError(reviewLoadErrorKey(error))
+      }
     }).finally(() => { if (active && version === fetchVersion.current) setLoading(false) })
     return () => { active = false }
   }, [endpoint, reload, authed])
@@ -180,11 +196,7 @@ export default function CourseReviews({ slug, enrolled = false }) {
           </div>}
         </div>
         {loading && !data && <p className="reviews-state" role="status">{t('common.loading')}</p>}
-        {loadError && <div className="reviews-load-error">
-          <p className="reviews-error" role="alert">{t(loadError)}</p>
-          <button className="reviews-retry" type="button" onClick={reloadReviews} disabled={loading || submitting || deleting}>{t('common.retry')}</button>
-          {loadError === 'reviews.sessionExpired' && <Link to="/login">{t('header.login')}</Link>}
-        </div>}
+        {loadError && <ReviewsLoadState error={loadError} onRetry={reloadReviews} disabled={loading || submitting || deleting} />}
         {data && <>
           <div className="reviews-list">
             {data.reviews.length ? data.reviews.map((review) => <ReviewEntry key={review.id} review={review} />) : (

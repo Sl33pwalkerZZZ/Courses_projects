@@ -1,5 +1,11 @@
 # Architectural and Project Decisions
 
+## 2026-11-24 — Draft-course review unavailability and publication separation
+
+- Reviews API stays published-only. Its404 within a loaded course overview is a neutral unavailable state, never a fabricated empty review list or authority to post.401 and other failures retain login/retry; success clears stale error. No backend access expansion.
+- Publication's two content-review acknowledgements remain human decisions, even after automated C1–C5 checks. Certificate activation/issuer/public-origin decisions are independent from publication; preserve disabled issuance and truthful116notice until separately authorized.
+- Evidence: docs/courses/course10-publication-c5.md; targeted isolated browser and publication/review/certificate regressions.
+
 ## 2026-11-23 — Per-grant protected playback cookie slots
 
 - Native playback uses /lesson-attachments/<attachment>/playback/<grant_pk>/ with a distinct HttpOnly cookie name and exact Path per grant. Numeric PK is a selector, not a capability; signed gid plus server PK/nonce/user/file/access/TTL checks remain mandatory. DELETE clears only its nonce's slot. This prevents obsolete responses overwriting an active grant, including same-attachment tabs.

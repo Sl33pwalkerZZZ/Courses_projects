@@ -1,5 +1,12 @@
 # Current Project State
 
+## Latest preparation — C5 publication readiness (2026-11-24)
+
+- HEAD30c310f, feat/studio-course-authoring. C4 real isolated API/Chromium verified6modules/16lessons,9videos/4audio/5VTT,10/15fail/11/15pass,projectreject/resubmit/approve92,progress16/16,disabledissuance; see docs/courses/course10-student-e2e-c4.md. Owner reports C1/C2 applied; current read-only dry-runs confirm KEEP.
+- C5 CourseReviews404 now neutral unavailable RU/KK/EN, no posting/retry; auth/network errors retained, published-only backend unchanged. Actual bug was enrolled draft overview; dedicated instructor preview has no reviews component. Targeted Chromium verified both using existing isolated copy.
+- Live read-only publication:5technical gates pass, source_reviewed/assessment_reviewed false,no requests,Course10 draft. Owner must acknowledge and administrator approve; none done. Description still summarizes onlyModule1: editorial recommendation, no text changed. Certificate global/policy/issuer disabled,origin absent; separate owner decisions, not publication gates.
+-87Django passed/1skipped;3frontend files passed,lint/build/check/whitespace passed. Working DB/settings/media preserved; no staging/commit/push. Exact paths, owner checklist, certificate rehearsal and116futuretext: docs/courses/course10-publication-c5.md.
+
 ## Latest implementation — C3.1 per-grant playback cookies (2026-11-23)
 
 - From76710ba on feat/studio-course-authoring: grant-specific numeric selector URL, distinct cookie name+exact Path, signed gid/DB PK/nonce binding and exact-cookie DELETE fix overlapping A/B response collision. Legacy route accepts only old signed cookies withoutgid with all original access/TTL checks; no schema changes. Frontend accepts both protected URL versions, P0 cleanup/StrictMode retained; old cached JS requires refresh when deploying both sides.

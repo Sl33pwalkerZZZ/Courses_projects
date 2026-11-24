@@ -340,6 +340,7 @@
     "dayDetails_other": "{{date}}: {{count}} lessons completed"
   },
   "reviews": {
+    "unavailable": "Reviews are currently unavailable. They are available only for published courses.",
     "title": "Reviews",
     "eyebrow": "LEARNING THROUGH EXPERIENCE",
     "rating": "Rating",
