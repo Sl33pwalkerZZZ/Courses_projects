@@ -1,0 +1,31 @@
+/* D3 only: landing composition. D2 primitives and other page layouts stay unchanged. */
+.v2-home .catalog-page.graphite-landing { max-width: 1440px; margin: auto; padding: 0 64px; }
+.graphite-landing h2 { font-size: clamp(2rem,3.8vw,3.5rem); font-weight: 600; letter-spacing: -.035em; line-height: 1.13; text-wrap: balance; }
+.gl-workflow { display: grid; grid-template-columns: 1fr 1fr; column-gap: 10%; padding: 112px 0; scroll-margin-top: calc(var(--v2-header-height) + 24px); border-bottom: 1px solid var(--v2-border); }
+.gl-workflow-intro h2 { margin: 0; max-width: 12ch; }
+.gl-workflow-intro > p { max-width: 37ch; color: var(--v2-text-muted); margin: 24px 0; }
+.gl-workflow-intro > a { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; color: var(--v2-link); font-size: .875rem; }
+.gl-workflow ol { padding: 0; list-style: none; margin: 0; }
+.gl-workflow li { display: grid; grid-template-columns: 32px 1fr; column-gap: 16px; padding: 28px 0; border-bottom: 1px solid var(--v2-border); }
+.gl-workflow li:first-child { padding-top: 0; }
+.gl-workflow li:last-child { border: 0; padding-bottom: 0; }
+.gl-step-number { display: grid; align-items: center; justify-content: center; width: 28px; height: 28px; border: 1px solid var(--v2-control-border); border-radius: 50%; font-size: .8125rem; font-variant-numeric: tabular-nums; }
+.gl-workflow h3 { margin: 0 0 12px; font-size: 1.125rem; font-weight: 600; letter-spacing: -.015em; }
+.gl-workflow li p { margin: 0; color: var(--v2-text-muted); max-width: 47ch; font-size: .9375rem; line-height: 1.7; }
+.v2-home .graphite-landing .course-library { padding: 112px 0; }
+.v2-home .graphite-landing .gl-library-heading { align-items: end; margin-bottom: 32px; }
+.gl-library-heading h2 { margin: 0; }
+.gl-library-heading .studio-section-description { max-width: 46ch; }
+.gl-library-count { flex-shrink: 0; color: var(--v2-text-muted); font-size: .875rem; margin: 0 0 4px; }
+.gl-closing { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 10%; padding: 64px 0 96px; border-top: 1px solid var(--v2-border); }
+.gl-closing h2 { margin: 0; max-width: 12ch; }
+.gl-closing > div > p { margin: 0 0 28px; color: var(--v2-text-muted); max-width: 42ch; }
+.gl-closing-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+/* A quieter header on this route only; existing role/auth/menu behavior is reused. */
+.site-header--landing { background: var(--v2-canvas); border-top: 0; }
+.site-header--landing .brand { font-family: var(--v2-font-ui); font-size: 19px; font-weight: 700; letter-spacing: -.035em; }
+.site-header--landing .brand > span { color: var(--v2-text-muted); }
+@media(max-width:1200px) { .v2-home .catalog-page.graphite-landing { padding-inline: 32px; } }
+@media(max-width:1023px) { .v2-home .catalog-page.graphite-landing { padding-inline: 24px; } .gl-workflow { column-gap: 6%; } }
+@media(max-width:767px) { .v2-home .catalog-page.graphite-landing { padding-inline: 20px; } .gl-workflow { grid-template-columns: 1fr; gap: 40px; padding-block: 64px; } .gl-workflow-intro h2 { max-width: 16ch; } .gl-workflow-intro > p { margin: 20px 0 12px; } .v2-home .graphite-landing .course-library { padding-block: 64px; } .gl-closing { grid-template-columns: 1fr; padding-block: 48px 64px; } .gl-closing h2 { max-width: 16ch; } .gl-library-count { margin: 0; } }
+@media(max-width:359px) { .v2-home .catalog-page.graphite-landing { padding-inline: 16px; } }

@@ -41,9 +41,9 @@ for (const lang of ['en', 'ru', 'kk']) {
     const html = render(HomeHero, {}, lang)
     const t = translations.get(lang).t.bind(translations.get(lang))
     assert.match(html, /<h1 id="hero-title">/)
-    assert.ok(html.includes(t('cinema.title')))
-    assert.ok(html.includes(t('cinema.titleAccent')))
-    assert.ok(html.includes(t('cinema.description')))
+    assert.ok(html.includes(t('landing.title')))
+    assert.ok(html.includes(t('landing.titleEnd')))
+    assert.ok(html.includes(t('landing.description')))
     assert.match(html, /href="#course-library"/)
     assert.match(html, /href="#learning-workflow"/)
     assert.doesNotMatch(html, /opacity:0|visibility:hidden|studio\.[a-zA-Z]/)
@@ -81,14 +81,15 @@ test('shared actions preserve native link, router-link and disabled button seman
   assert.match(button, /disabled=""/)
 })
 
-test('hero presents a real course when supplied and no fictitious progress', () => {
-  const html = render(HomeHero, { courses: [{ id: 41, slug: 'real-course', title: 'Actual public course', description: 'Real description', author: 'Author', level: 'beginner', direction: { name: 'Media', slug: 'media' } }] })
-  assert.match(html, /Actual public course/)
-  assert.match(html, /href="\/courses\/real-course"/)
-  assert.doesNotMatch(html, /ai-companion|completed_lessons|progress_percent/)
+test('hero is a readable learning proposition, not duplicate catalog or fabricated progress', () => {
+  const html = render(HomeHero)
+  assert.match(html, /class="gl-hero"/)
+  assert.match(html, /aria-hidden="true" data-ascii-mode="static"/)
+  assert.match(html, /href="#course-library"/)
+  assert.doesNotMatch(html, /cinema-orbit|particle-field|depth-surface|progress_percent|completed_lessons|\/courses\//)
 })
 
-test('effective Graphite & Lime colors preserve text/control contrast in both themes and hero surfaces', async () => {
+test('effective Obsidian / Frost / Aqua colors preserve text/control contrast in both themes and hero surfaces', async () => {
   const css = await readFile(new URL('../src/styles/v2-tokens.css', import.meta.url), 'utf8')
   const luminance = (hex) => {
     const rgb = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
@@ -102,8 +103,8 @@ test('effective Graphite & Lime colors preserve text/control contrast in both th
   const blocks = [css.split(':root {')[1].split('}')[0], css.split(':root[data-theme="light"] {')[1].split('}')[0]]
   for (const [index, block] of blocks.entries()) {
     const colors = Object.fromEntries([...block.matchAll(/--v2-([\w-]+): (#[0-9A-Fa-f]{6});/g)].map((match) => [match[1], match[2]]))
-    assert.equal(colors.primary, '#C4F56A')
-    assert.equal(colors.canvas.toLowerCase(), index ? '#f4f5f0' : '#101210')
+    assert.equal(colors.primary, index ? '#156B73' : '#78DCD5')
+    assert.equal(colors.canvas.toLowerCase(), index ? '#eef2f5' : '#0b1017')
     for (const bg of ['canvas', 'surface', 'surface-raised']) {
       for (const fg of ['text', 'text-muted', 'link', 'accent', 'success', 'warning', 'danger']) {
         assert.ok(contrast(colors[fg], colors[bg]) >= 4.5, `${index}: ${fg}/${bg}`)

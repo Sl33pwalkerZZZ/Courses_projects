@@ -1066,5 +1066,27 @@
     "profileNavigation": "Your learning sections",
     "activity": "Learning activity",
     "authEyebrow": "Your AI Courses account"
+  },
+  "landing": {
+    "title": "Learn AI.",
+    "titleEnd": "Make it useful.",
+    "description": "From your first prompt to purposeful work with AI. Understand the tools, try them in practice and build projects of your own.",
+    "how": "How learning works",
+    "note": "Choose a course and explore its curriculum. Access conditions are listed on each course page.",
+    "visualCaption": "Information takes shape. Knowledge becomes practice.",
+    "information": "Information",
+    "structure": "Knowledge",
+    "practice": "Practice",
+    "workflowTitle": "Go beyond watching. Understand. Make.",
+    "workflowIntro": "A clear path from a new subject to independent work, at your own pace.",
+    "libraryTitle": "Find your starting point.",
+    "libraryDescription": "Available courses on the platform. Explore the curriculum and choose a task to start with.",
+    "closingTitle": "Start with what interests you.",
+    "closingDescription": "Explore a course curriculum. When you are ready, create an account and follow its enrollment requirements."
+  },
+  "liquid": {
+    "visualCaption": "Learn. Explore. Put it into practice.",
+    "footerLearn": "Learning",
+    "footerAccount": "Your account"
   }
 }

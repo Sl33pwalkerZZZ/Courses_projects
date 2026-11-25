@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
 import useAuth from '../hooks/useAuth'
+import useInstructor from '../hooks/useInstructor'
 import './Footer.css'
 
-export function StudioFooter({ authed, home = true }) {
+export function StudioFooter({ authed, home = true, studioAllowed = false }) {
   const { t } = useTranslation()
   useEffect(() => {
     // Auth pages can link here before asynchronous course cards have loaded.
@@ -37,10 +38,14 @@ export function StudioFooter({ authed, home = true }) {
             <p>{t('footer.description')}</p>
           </div>
           <nav aria-label={t('footer.navigation')}>
-            <p className="studio-eyebrow">{t('studio.footerLabel')}</p>
+            <h2>{t('liquid.footerLearn')}</h2>
             <a href={`${home ? '' : '/'}#course-library`}>{t('header.catalog')}<ArrowUpRight size={16} aria-hidden="true" /></a>
             <a href={`${home ? '' : '/'}#learning-workflow`}>{t('studio.workflowTitle')}<ArrowUpRight size={16} aria-hidden="true" /></a>
+          </nav>
+          <nav aria-label={t('liquid.footerAccount')}><h2>{t('liquid.footerAccount')}</h2>
             <Link to={authed ? '/profile' : '/login'}>{t(authed ? 'header.profile' : 'header.login')}<ArrowUpRight size={16} aria-hidden="true" /></Link>
+            {!authed && <Link to="/register">{t('header.register')}</Link>}
+            {authed && studioAllowed && <Link to="/instructor">{t('instructorStudio.title')}</Link>}
           </nav>
         </div>
         <div className="studio-footer-bottom">
@@ -55,8 +60,9 @@ export function StudioFooter({ authed, home = true }) {
 export default function Footer({ studio = false, home = true }) {
   const { t } = useTranslation()
   const authed = useAuth()
+  const { identity } = useInstructor()
 
-  if (studio) return <StudioFooter authed={authed} home={home} />
+  if (studio) return <StudioFooter authed={authed} home={home} studioAllowed={Boolean(identity?.can_access_studio)} />
 
   return (
     <footer className="site-footer">

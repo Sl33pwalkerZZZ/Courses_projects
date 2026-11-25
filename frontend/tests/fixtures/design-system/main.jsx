@@ -11,6 +11,8 @@ import { Input, Select, Notice } from '../../../src/components/instructor/Studio
 import '../../../src/styles/v2-tokens.css'
 import '../../../src/index.css'
 import '../../../src/components/ui/ui.css'
+import '../../../src/styles/liquid-surfaces.css'
+import LiquidEnvironment from '../../../src/components/landing/LiquidEnvironment'
 import './demo.css'
 
 // Local fixture copy only. No course, account or API data is loaded here.
@@ -40,4 +42,4 @@ export function Demo() {
     {open && <Dialog labelledBy="ds-dialog-title" onClose={() => setOpen(false)}><h2 id="ds-dialog-title">{t.dialogTitle}</h2><p>{t.dialogText}</p><div className="ds-row"><Button variant="secondary" onClick={() => setOpen(false)}>{t.close}</Button><Button onClick={() => {setOpen(false);setNotice(true)}}>{t.confirm}</Button></div></Dialog>}
   </main>
 }
-createRoot(document.getElementById('root')).render(<ThemeProvider><Demo/></ThemeProvider>)
+createRoot(document.getElementById('root')).render(<ThemeProvider><LiquidEnvironment/><Demo/></ThemeProvider>)

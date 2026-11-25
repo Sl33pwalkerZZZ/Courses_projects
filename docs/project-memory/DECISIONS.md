@@ -1,5 +1,31 @@
 # Architectural and Project Decisions
 
+## D3.3 — selective optics and explicit fallback (2026-11-25)
+
+- Owner confirmed transparent shells/cards/navigation and dense reading/assessment/forms; preserve composition. A workspace38%, B panels48%, C small floating backplate28%, D reading96%. Nested Studio B panels tint one shared A backdrop rather than repeating filters.
+- Original deterministic edge-normal PNG + SVG displacement on header pseudo-element only; foreground is outside filter. Chromium desktop enhancement is conditional; Firefox/mobile/reduced use64/68% frosted fallback. No third-party code or dependencies.
+- Treat computed CSS as insufficient visual evidence. Chromium production-map pixel A/B confirmed refraction. Native Firefox143 headless SWGL does not demonstrate ordinary blur; document readable tint/edge fallback and require owner hardware-browser review. No sustainedFPS claim from computation microbenchmark.
+- Materials report and screenshots are review evidence, not owner approval. D4 starts only after separate owner approval.
+
+## D3.2 — shared authoring shell and bounded visual motion (2026-11-25)
+
+- Keep approved Obsidian/Frost/Aqua. Replace rigid SVG ribbons with original low-resolution Canvas light-field deformation. Continuous effects have hidden/reduced cleanup and explicit lower mobile budget; targetFPS is not measured performance guarantee.
+- OpticalCompanion uses pointer geometry only, never typed data. All Studio routes share a wide persistent shell with stable Outlet; no route remount keys added, no editor/API/permission rules changed. Main shell is brought forward from D7; D7 now means remaining refinement/finalverification.
+- Distinguish68/72% frosted layering from genuine optical refraction. Owner explicitly plans D3.3 for transparency, edge distortion/specular/material layering with Firefox/performance fallback. Referencefreefrontend fetch403 means no license/code reuse assumed.
+- Owner roadmap: D3.2,D3.3,D4–D8,F1metadata,F2certificates,F3Git/integration,F4ownerpublication,F5RAG+LLMtutor,F6production,F7HTTPSlaunch. Tutor may explain/source-ground/formatively guide, never expose assessment keys or replace instructor grades. Additional courses wait until v1.0 launch; infrastructure choices require limits/institutional-use/cost/security/reliability review. These are future stages, not executed decisions/configuration.
+
+## D3.1 owner-directed material and motion (2026-11-25)
+
+- Owner explicitly supersedes Graphite/Lime with Obsidian/Frost/Aqua and controlled Liquid Glass. Existing product truth, all access rules and course state remain fixed. Preserve semantic success/error colors; reader/form controls stay legible and predominantly opaque.
+- Original continuously rotating ASCII torus is anchored to hero; one separate bounded passive parallax supplies scroll continuity. SVG currents use transform animation, pause hidden, static reduced-motion fallback; no WebGL/new dependency or borrowed ASCII code.
+- Studio overview demonstrates sidebar/metrics hierarchy; deeper authoring and complete D7 redesign remain out of scope. Theme persistence unchanged; D4 transitions require separate approval.
+
+## D3 original ASCII and scoped composition (2026-11-25)
+
+- Reuse D2 typography/palette while replacing the landing topology; preserve separate catalog/card/business contracts for D5. Primary destination is available courses, confirmed by owner; no fabricated platform statistics/reviews or built-in AI generation claims.
+- Original seeded glyph geometry, event-driven Canvas, natural passive scrolling, static pre fallback for mobile/reduced-motion/no-canvas. No external ASCII art/code/WebGL packages; React Bits/ascii libraries used as references only after license inspection.
+- Normalize IBM Plex Mono OFL text line endings only, preserving wording and upstream license hash alongside normalized local hash; never alter font binaries to resolve whitespace.
+
 ## D2 semantic foundation and local typography (2026-11-24)
 
 - Owner-directed Graphite & Lime replaces the mandatory future Amethyst visual direction. Preserve existing --v2-* token compatibility and index aliases while introducing --color-* semantic roles; no wholesale page/layout migration in D2.

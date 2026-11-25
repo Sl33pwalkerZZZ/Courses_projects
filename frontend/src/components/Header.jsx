@@ -69,7 +69,7 @@ export default function Header() {
   return (
     <>
       <a className="skip-link v2-skip-link" href="#main-content">{t('header.skip')}</a>
-      <header ref={headerRef} className="site-header v2-scope">
+      <header ref={headerRef} className={`site-header v2-scope${pathname === '/' ? ' site-header--landing' : ''}`}>
         <div className="header-inner">
           <Link to="/" className="brand" aria-label={t('header.home')}>AI <span aria-hidden="true">/</span> COURSES</Link>
           <nav className="header-nav" aria-label={t('header.navigation')}>{navigation()}</nav>

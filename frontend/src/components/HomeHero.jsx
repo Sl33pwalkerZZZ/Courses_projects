@@ -1,34 +1,22 @@
-import { ArrowDown, ArrowUpRight, BookOpen, PencilLine, Route } from 'lucide-react'
+import { useRef } from 'react'
+import { ArrowDown, ArrowUpRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { motion } from 'motion/react'
-import { useReducedMotion } from '../hooks/useMotionPreferences'
 import Button from './ui/Button'
-import AnimatedText from './motion/AnimatedText'
-import ParticleField from './playground/ParticleField'
-import DepthSurface from './landing/DepthSurface'
-import LandingCoursePreview from './landing/LandingCoursePreview'
+import AsciiLearning from './landing/AsciiLearning'
+import useHeroDepth from '../hooks/useHeroDepth'
 import './HomeHero.css'
 
-export default function HomeHero({ courses = null, failed = false }) {
+export default function HomeHero() {
   const { t } = useTranslation()
-  const reduced = useReducedMotion()
-  return <section className="signal-hero cinema-hero" aria-labelledby="hero-title">
-    <div className="cinema-spatial-grid" aria-hidden="true" /><ParticleField />
-    <div className="signal-hero-copy">
-      <p className="cinema-kicker"><span aria-hidden="true" />{t('cinema.eyebrow')}</p>
-      <h1 id="hero-title"><AnimatedText text={t('cinema.title')} /><br /><AnimatedText className="signal-hero-title-accent" text={t('cinema.titleAccent')} /></h1>
-      <p className="signal-hero-description">{t('cinema.description')}</p>
-      <div className="signal-hero-actions">
-        <Button href="#course-library">{t('catalog.explore')}<ArrowDown size={18} aria-hidden="true" /></Button>
-        <Button href="#learning-workflow" variant="ghost">{t('cinema.howItWorks')}<ArrowUpRight size={18} aria-hidden="true" /></Button>
-      </div>
+  const section = useRef(null)
+  useHeroDepth(section)
+  return <section ref={section} className="gl-hero" aria-labelledby="hero-title">
+    <div className="gl-hero-heading"><h1 id="hero-title">{t('landing.title')}<span>{t('landing.titleEnd')}</span></h1></div>
+    <div className="gl-hero-visual"><AsciiLearning/><p className="gl-visual-caption">{t('liquid.visualCaption')}</p></div>
+    <div className="gl-hero-copy"><p className="gl-hero-description">{t('landing.description')}</p>
+      <div className="gl-hero-actions"><Button href="#course-library">{t('catalog.explore')}<ArrowUpRight size={18} aria-hidden="true"/></Button><a href="#learning-workflow">{t('landing.how')}<ArrowDown size={16} aria-hidden="true"/></a></div>
+      <p className="gl-hero-note">{t('landing.note')}</p>
     </div>
-    <motion.div className="cinema-hero-visual" initial={reduced ? false : { y: 24 }} animate={{ y: 0 }}
-      transition={{ duration: reduced ? 0 : .8, ease: [.2,.8,.2,1] }}>
-      <div className="cinema-orbit cinema-orbit-one" aria-hidden="true" /><div className="cinema-orbit cinema-orbit-two" aria-hidden="true" />
-      <DepthSurface><LandingCoursePreview course={courses?.[0]} loading={!courses && !failed} failed={failed} /></DepthSurface>
-      <div className="cinema-learning-strip"><span><BookOpen size={16} aria-hidden="true" />{t('cinema.read')}</span><span><PencilLine size={16} aria-hidden="true" />{t('cinema.try')}</span><span><Route size={16} aria-hidden="true" />{t('cinema.continue')}</span></div>
-    </motion.div>
-    <a className="cinema-scroll-cue" href="#learning-showcase"><ArrowDown size={16} aria-hidden="true" />{t('cinema.scroll')}</a>
+    <ol className="gl-hero-stages" aria-label={t('liquid.visualCaption')}><li>{t('landing.information')}</li><li>{t('landing.structure')}</li><li>{t('landing.practice')}</li></ol>
   </section>
 }

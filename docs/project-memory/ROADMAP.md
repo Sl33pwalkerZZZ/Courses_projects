@@ -1,5 +1,38 @@
 # Roadmap
 
+## Актуальный план D3.2–F7 (решение владельца,2026-11-25)
+
+Цель — публичный AI Courses v1.0 с двумя завершёнными курсами и встроенным AI Tutor. Новые курсы отложены до первого запуска. Это план, не разрешение автоматически выполнять последующие стадии. Course10 остаётся черновиком до отдельного решения владельца.
+
+| Этап | Содержание / граница |
+|---|---|
+| D3.2 | Завершить текущую UX/UI и motion реализацию и проверку; личная визуальная приёмка владельца |
+| D3.3 | Реализованы A/B/C/D материалы, выборочная оригинальная edge refraction Chromium и Firefox frost fallback; browser/tests завершены. Ожидается личная визуальная приёмка владельца; см. D33_LIQUID_GLASS_MATERIALS.md |
+| D4 | Анимированные light/dark transitions |
+| D5 | Каталог и страницы курсов |
+| D6 | Учебное пространство и профиль |
+| D7 | Оставшиеся Studio-specific уточнения и итоговая проверка; общая оболочка уже внедрена D3.2 |
+| D8 | Полная проверка дизайна, accessibility, performance и regressions |
+| F1 | Финализировать представление, описание и метаданные Course10 |
+| F2 | Настроить и проверить выдачу сертификатов по отдельному решению владельца |
+| F3 | Подготовить финальную Git-версию и план интеграции |
+| F4 | Явное одобрение владельца и публикация Course10 |
+| F5 | Встроенный AI Tutor: RAG + LLM API, объяснения в контексте курса, learning guidance, source-grounded ответы и formative feedback; не раскрывает ключи оценивания и не заменяет официальную проверку преподавателя |
+| F6 | Production infrastructure: persistent DB, protected media storage, security, backups, environment variables и deployment configuration |
+| F7 | Deploy и публичный запуск с HTTPS |
+
+Для F6 сначала оценить подходящие free tiers: лимиты, условия институционального использования, стоимость хранения/трафика, безопасность и надёжность. Провайдеры пока не выбраны. D3.2 не реализует D3.3/D4 или F1–F7; никаких публикаций и включения сертификатов в этом этапе.
+
+## Design roadmap — D3.1 complete, owner visual review required (2026-11-25)
+
+- D3 was implemented but not visually approved. D3.1 refines it to owner-directed Obsidian/Frost/Aqua with Liquid Glass, continuous ASCII, independent restrained parallax, auth/footer and Studio overview improvements.
+- Evidence: docs/design/D31_LIQUID_GLASS_REFINEMENT.md. Next action is owner review at isolated preview5199, then separate D4 authorization. Preserve D0–D8; no automatic publication or certificate activation.
+
+## Design roadmap — D3 complete, owner review next (2026-11-25)
+
+- D3 changes composition, not just palette: open asymmetric hero, one original scroll-linked ASCII sculpture, unboxed learning sequence, preserved real catalog and clear close. D3_LANDING_REDESIGN.md contains before/after monochrome evidence, Chromium matrix and limitations.
+- Await owner visual review of D3. D4 theme transitions remain separate; D5–D8 not started. No course publication or certificate activation authorized.
+
 ## Design roadmap — D2 complete (2026-11-24)
 
 - D2 shared Graphite/Lime semantic tokens, accessible states, local multilingual font delivery, specimen and DESIGN.md completed. Evidence: docs/design/D2_DESIGN_SYSTEM.md. Existing page composition/feature behavior preserved.

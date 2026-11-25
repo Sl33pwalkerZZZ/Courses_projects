@@ -1,0 +1,39 @@
+.gl-ascii {
+  position: relative;
+  container-type: size;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 1.14;
+  color: var(--v2-text);
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+.gl-ascii__fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--v2-font-code);
+  font-size: 9px;
+  font-size: min(1.88cqw, 1.72cqh);
+  font-weight: 400;
+  line-height: 1.2;
+  white-space: pre;
+}
+.gl-ascii__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.gl-ascii[data-ascii-ready="true"] .gl-ascii__fallback { visibility: hidden; }
+@media (max-width: 767px) {
+  .gl-ascii { max-width: 420px; margin-inline: auto; aspect-ratio: 1.14; }
+}

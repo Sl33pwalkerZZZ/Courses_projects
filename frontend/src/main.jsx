@@ -9,6 +9,8 @@ import './index.css'
 import './styles/v2-tokens.css'
 import './styles/playground.css'
 import './styles/amethyst-motion.css'
+import './styles/liquid-surfaces.css'
+import './styles/glass-materials.css'
 import App from './App.jsx'
 import { installStudioPopGuard } from './utils/studioNavigation'
 

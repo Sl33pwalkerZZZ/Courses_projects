@@ -51,9 +51,12 @@
       {
         "file": "OFL.txt",
         "source": "https://raw.githubusercontent.com/google/fonts/431022a4eeb0e1009ba0126f41353d8ca2375a2a/ofl/ibmplexmono/OFL.txt",
-        "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
-        "size": 4456,
-        "local_file": "IBMPlexMono-OFL.txt"
+        "sha256": "d741e57d5f865e294df801f96b7b5161a88b211df65887e4358d271c9fc5fb4f",
+        "size": 4362,
+        "local_file": "IBMPlexMono-OFL.txt",
+        "upstream_sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
+        "upstream_size": 4456,
+        "normalization": "CRLF to LF; trailing horizontal whitespace and excess terminal newlines removed; license wording unchanged."
       }
     ],
     "missing": [],

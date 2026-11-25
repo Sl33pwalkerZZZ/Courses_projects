@@ -85,7 +85,7 @@ for (const lang of ['en', 'ru', 'kk']) {
   test(`workflow explains conditional enrollment and public footer preserves navigation in ${lang}`, () => {
     const workflow = render(Workflow, {}, lang)
     assert.match(workflow, /id="learning-workflow"/)
-    assert.equal((workflow.match(/<li /g) || []).length, 3)
+    assert.equal((workflow.match(/<li(?:\s|>)/g) || []).length, 3)
     assert.ok(workflow.includes(translations.get(lang).t('studio.workflow.access.description')))
     const footer = render(StudioFooter, { authed: false }, lang)
     assert.match(footer, /href="#course-library"/)

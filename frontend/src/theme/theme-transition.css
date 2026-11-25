@@ -1,0 +1,29 @@
+/* D4: reveal only browser-owned snapshots, never clone or remount the application. */
+:root[data-theme-transition="reveal"]::view-transition-group(root) { animation:none; }
+:root[data-theme-transition="reveal"]::view-transition-old(root),
+:root[data-theme-transition="reveal"]::view-transition-new(root) { animation:none; mix-blend-mode:normal; }
+:root[data-theme-transition="reveal"]::view-transition-old(root) { z-index:1; }
+:root[data-theme-transition="reveal"]::view-transition-new(root) { z-index:2; }
+:root[data-theme-transition="reveal"]::view-transition { pointer-events:none; }
+/* Fallback interpolates real surfaces, not a full-page opacity fade. */
+:root[data-theme-transition="fallback"],
+:root[data-theme-transition="fallback"] body,
+:root[data-theme-transition="fallback"] #root :where(*, *::before, *::after) {
+ transition-property:background-color,color,border-color,box-shadow,fill,stroke;
+ transition-duration:420ms;
+ transition-timing-function:cubic-bezier(.16,1,.3,1);
+}
+.theme-liquid-ripple { position:fixed; width:64px; height:64px; margin:-32px; border-radius:43% 57% 54% 46% / 48% 42% 58% 52%; pointer-events:none; z-index:2147483646; border:1px solid var(--v2-accent); background:color-mix(in srgb,var(--v2-accent) 8%,transparent); animation:theme-liquid-ripple 420ms cubic-bezier(.16,1,.3,1) both; }
+@keyframes theme-liquid-ripple { from { transform:scale(.35) rotate(-12deg); opacity:.65; } to { transform:scale(3.5) rotate(12deg); opacity:0; } }
+.theme-toggle { position:relative; }
+.theme-toggle .theme-toggle-icon { display:grid; place-items:center; width:20px; height:20px; position:relative; }
+.theme-toggle-icon > svg { position:absolute; transition:transform 360ms cubic-bezier(.16,1,.3,1),opacity 220ms ease; }
+.theme-toggle-icon .theme-icon-sun { transform:rotate(-75deg) scale(.5); opacity:0; }
+.theme-toggle-icon .theme-icon-moon { transform:rotate(0) scale(1); opacity:1; }
+:root[data-theme="dark"] .theme-toggle-icon .theme-icon-sun { transform:rotate(0) scale(1); opacity:1; }
+:root[data-theme="dark"] .theme-toggle-icon .theme-icon-moon { transform:rotate(65deg) scale(.5); opacity:0; }
+@media(prefers-reduced-motion:reduce) {
+ .theme-liquid-ripple { display:none; }
+ .theme-toggle-icon > svg { transition:none; }
+ :root[data-theme-transition] #root :where(*,*::before,*::after) { transition-duration:0s; }
+}

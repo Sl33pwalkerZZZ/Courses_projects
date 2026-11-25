@@ -1,5 +1,34 @@
 # Current Project State
 
+## D3.3 — materials verified, owner visual approval pending (2026-11-25)
+
+- Preserved D3/D3.1/D3.2 WIP and composition. A38/B48/C28/D96 material hierarchy, original static edge-normal SVG on header backplate only; nested Studio filters removed. Reading/forms remain dense. No API/auth/content changes.
+- Chromium actual public/Studio/Profile/course/lesson and protected playback/captions inspected; Firefox143 native BiDi12public cases plus normal/reduced material lab. Firefox uses frost fallback; headless SWGL blur unproven, no cross-browser optical equivalence claim. Owner hardware Firefox review required.
+- Frontend452PASS, final focused23PASS, lint/build PASS; isolated Django36PASS/check0. Original filter pixel A/B difference13.816 light/13.844 dark; liquid computation median2.70ms/p954.10ms, not FPS.
+- Working SQLite/settings/media117hashes unchanged; integrityOK/FK0, Course10draft, indexempty/HEADbc05bef. Isolated preview http://127.0.0.1:5199/ (temporary API8199). Report docs/design/D33_LIQUID_GLASS_MATERIALS.md. D4–F7 remain future, not authorized execution.
+
+## D3.2 — implementation and resumed verification complete (2026-11-25)
+
+- Owner approved Obsidian/Frost/Aqua and optical-lens concept; D3/D3.1/D3.2 visual delivery still awaits manual acceptance. D3.2 extends existing WIP, not rollback. Original deforming Canvas light field, pointer/idle OpticalCompanion,68/72% glass hierarchy, all-route Studio sidebar and expanded workspace implemented; existing APIs/roles/draft/save/media contracts preserved.
+- Recovered448frontend PASS from pre-interruption; final focused22PASS after KK wrapping correction, lint/build PASS. New isolated Django run74PASS/check0; earlier sandbox async stall and timestamp-dependent existing DOCX fixture failure documented separately, not concealed by final pass.
+- Real Chromium54visits/assertions incl26Studio matrix cases+public/preview/Profile/dirty editor/assessment/media; independent18KKpubliccases and final13Studio-image review. Dirty draft survives actual workspace reload/stay; discard works.113play+seek and115VTTshowing verified. Firefox143 native BiDi prior8authcases and idlepixel/draw evidence retained; reduced-motion verifiedChromium only. Shared-headless observed8–13draws/s vs target24: no guaranteedFPS/low-power claim.
+- Report docs/design/D32_UX_UI_MOTION_REFINEMENT.md; screenshots/d32/verification.json and4.8sUI screencast. Working DB/settings/media117hashes unchanged, integrityOK/FK0/Course10draft, indexempty/HEADbc05bef. Preview5199/API8199 now use fresh /tmp/ai-d32-resume-ibi2xm6_ copy; no live writes. Enrollment evidence anonymized; private diagnostics retained outside docs.
+- Historical D3.2 handoff: D3.3 was next at this checkpoint; current D3.3 result is recorded above. Updated D3.2–D8,F1–F7 roadmap targets two-course v1.0 plus source-grounded RAG/LLM tutor, production/HTTPS; additional courses deferred until launch. No publication/issuance/deployment/newfeatures authorized by this entry.
+
+## D3.1 Liquid Glass refinement (2026-11-25)
+
+- Owner rejected D3 visuals; current replacement direction is Obsidian / Frost / Aqua, not mandatory Graphite/Lime or historical Amethyst. PRODUCT.md and DESIGN.md now describe the authorized direction. D3 work preserved and refined, no rollback.
+- Continuous original ASCII torus, independent bounded hero parallax, visibility-aware SVG liquid currents, selective frosted surfaces; recomposed auth, footer and Studio overview only. Existing contracts/routes/permissions unchanged; D4–D8 remain pending owner visual approval.
+- Actual Chromium against isolated Django/SQLite:64 page/size/theme/locale cases, no overflow; idle motion, scroll, reduced-motion, keyboard/password controls and synthetic-author Studio checked. 442 frontend tests, lint/build/check/whitespace pass. Native frontend_reviewer: ship, not owner approval. Report and exact evidence: docs/design/D31_LIQUID_GLASS_REFINEMENT.md and screenshots/d31/verification.json.
+- 117 protected DB/settings/media hashes unchanged; read-only integrity OK/FK0/Course10 draft; index empty, HEAD bc05bef. Preview http://127.0.0.1:5199/ with isolated API8199. Impeccable sidecar synchronized; remaining DESIGN size advisory documented, no auto-compaction or unrelated settings changes.
+
+## D3 landing composition complete (2026-11-25)
+
+- On design/graphite-lime from bc05bef: new open asymmetric HomeHero, original deterministic ASCII cube→folio scroll sculpture, three-step unboxed workflow, real catalog and compact closing. Old hero cards/orbits/particles/showcase/SignalStory disconnected from landing, files preserved. Existing CourseCard/API/filter/enrollment/nav/auth behavior unchanged; one existing direction selector retained. RU/KK/EN landing copy added.
+- Owner confirmed beginner→available-courses scenario and information→structure→practice metaphor. Actual Chromium + real Django/SQLite copy:24 size/theme/locale combinations (1440/768/390/320),6 scroll frames, reduced/static mobile fallback, idle/offscreen draw pause, focus/anchor/mobile dialog; real public API count1 matched rendered catalog. Independent native frontend_reviewer disposition ship, no material fixes; fine mobile glyphs remain non-blocking refinement.
+-438 frontend tests passed,0failed/skipped; lint/build/Django check/whitespace PASS. Original license wording preserved with LF/trailing-space normalization and upstream/local license hashes; five font binaries unchanged.117 protected baseline hashes unchanged; live integrity OK/FK0/Course10 draft. No DB/settings/media/content/auth/route/staging/commit/push changes.
+- Evidence and exact files: docs/design/D3_LANDING_REDESIGN.md, screenshots/d3/verification.json. D2 DESIGN.md and existing skill sidecar preserved; reported setup drift not repaired unasked. Temporary isolated preview5198/API8198 left for owner visual review. D4–D8 not started; next owner must personally assess D3 before authorizing D4.
+
 ## D2 design system — Graphite & Lime (2026-11-24)
 
 - Branch design/graphite-lime, HEAD888317e retained. D2 changes shared tokens/index/ui CSS only; all old v2 token names preserved. Local Noto Sans400–800 and IBM Plex Mono400 include OFL/provenance; tested RU/KK/EN cmap, Manrope evaluation rejected for missing Kazakh glyphs. DESIGN.md and .impeccable/design.json capture current foundation.

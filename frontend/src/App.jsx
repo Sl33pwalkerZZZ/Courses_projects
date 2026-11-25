@@ -1,3 +1,5 @@
+import GlassOptics from './components/GlassOptics'
+import LiquidEnvironment from './components/landing/LiquidEnvironment'
 import { lazy, Suspense, useLayoutEffect } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Header from './components/Header'
@@ -38,7 +40,8 @@ export default function App() {
   const isAuthPage = pathname === '/login' || pathname === '/register'
   const pageClassName = isAuthPage ? 'auth-container'
     : pathname === '/' ? 'catalog-container v2-home'
-      : pathname === '/profile' ? 'dashboard-container' : 'container'
+      : pathname === '/profile' ? 'dashboard-container'
+        : pathname.startsWith('/instructor') && !pathname.endsWith('/preview') ? 'studio-container' : 'container'
 
   // React Router preserves scroll by default; a catalog card may be far down the page.
   useLayoutEffect(() => {
@@ -51,6 +54,8 @@ export default function App() {
   return (
     <>
       <ScrollProgress studio />
+      <GlassOptics />
+      <LiquidEnvironment />
       <Header />
       <main id="main-content" tabIndex={-1} className={pageClassName}>
         <Reveal key={pathname} immediate>

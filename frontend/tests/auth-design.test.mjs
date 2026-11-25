@@ -66,10 +66,10 @@ for (const lang of ['en', 'ru', 'kk']) {
 
   test(`auth decoration remains local, nonblocking and decorative in ${lang}`, () => {
     const html = render(Login, {}, lang)
-    assert.match(html, /class="auth-illustration" aria-hidden="true"/)
-    assert.match(html, /class="ai-companion" aria-hidden="true"/)
-    assert.equal((html.match(/<image /g) || []).length, 9)
-    for (const size of [340, 208, 151, 36, 14]) assert.ok(html.includes(`width="${size}" height="${size}"`))
+    assert.match(html, /class="optical-companion"[^>]*aria-hidden="true"/)
+    assert.match(html, /class="optical-iris"/)
+    assert.equal((html.match(/class="optical-pupil"/g) || []).length, 2)
+    assert.doesNotMatch(html, /ai-companion|particle-field|<image /)
     assert.doesNotMatch(html, /https:\/\/www\.figma\.com|opacity:0|visibility:hidden/)
   })
 }
@@ -96,4 +96,15 @@ test('reused V2 footer links to actual homepage sections from auth routes', () =
   assert.doesNotMatch(html, /href="#/)
   const home = render(Footer, { authed: false })
   assert.match(home, /href="#course-library"/)
+})
+
+test('optical companion observes pointer geometry without reading form data and cleans up motion', async () => {
+  const source = await readFile(new URL('../src/components/OpticalCompanion.jsx', import.meta.url), 'utf8')
+  assert.match(source, /getBoundingClientRect/)
+  assert.match(source, /document.hidden/)
+  assert.match(source, /IntersectionObserver/)
+  assert.match(source, /cancelAnimationFrame/)
+  assert.match(source, /removeEventListener\('pointermove'/)
+  assert.match(source, /observer.disconnect/)
+  assert.doesNotMatch(source, /querySelector|\.value|onInput|onChange|setState/)
 })

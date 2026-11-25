@@ -1,0 +1,14 @@
+.optical-companion { --optic-x: 0px; --optic-y: 0px; --optic-float: 0px; position: relative; width: min(100%, 500px); height: 270px; margin: 22px 0 12px; pointer-events: none; isolation: isolate; }
+.optical-lens { position: absolute; top: 36px; width: 42%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(ellipse at 33% 22%, rgb(255 255 255 / 64%), transparent 33%), radial-gradient(ellipse at 70% 90%, rgb(49 159 172 / 32%), transparent 70%), rgb(145 203 216 / 12%); border: 1px solid rgb(148 199 214 / 65%); box-shadow: inset 0 2px 3px rgb(255 255 255 / 70%), inset 0 -8px 20px rgb(53 134 158 / 22%), 0 20px 32px rgb(10 35 55 / 16%); transform: translateY(var(--optic-float)); }
+.optical-lens--0 { left: 3%; transform: translateY(var(--optic-float)) rotate(-9deg); }
+.optical-lens--1 { right: 3%; transform: translateY(calc(var(--optic-float) * -1)) rotate(9deg); }
+.optical-lens-rim { position: absolute; inset: 9px; border: 1px solid rgb(216 246 250 / 48%); border-radius: inherit; box-shadow: inset 0 1px 10px rgb(74 172 186 / 12%); }
+.optical-iris { position: absolute; inset: 28%; display: grid; place-items: center; border-radius: 50%; background: radial-gradient(circle at 40% 33%, #ccf0f1, #68b5be 40%, #27616f 74%, #123c4d); border: 1px solid rgb(113 209 216 / 85%); box-shadow: 0 6px 12px rgb(10 39 58 / 22%); transform: translate(var(--optic-x), var(--optic-y)); }
+.optical-pupil { width: 43%; height: 43%; border-radius: 50%; background: #102a38; box-shadow: inset 0 2px 5px #071923; position: relative; }
+.optical-pupil::after { content: ''; position: absolute; top: 18%; left: 21%; width: 24%; height: 24%; border-radius: 50%; background: #edf9fa; }
+.optical-reflection { position: absolute; inset: 13% 22% 56% 15%; border-top: 3px solid rgb(255 255 255 / 73%); border-radius: 50%; transform: rotate(-27deg); }
+.optical-bridge { position: absolute; top: 40%; left: 39%; width: 22%; height: 18%; border-radius: 50%; border-top: 8px solid rgb(136 191 204 / 45%); }
+.optical-base { position: absolute; bottom: 0; left: 12%; width: 76%; height: 10px; border-radius: 50%; background: rgb(41 84 107 / 13%); filter: blur(7px); z-index: -1; }
+:root[data-theme='dark'] .optical-lens { background: radial-gradient(ellipse at 33% 22%, rgb(236 251 255 / 34%), transparent 33%), radial-gradient(ellipse at 70% 90%, rgb(85 218 218 / 22%), transparent 70%), rgb(100 170 192 / 10%); }
+@media (max-width: 800px) { .optical-companion { width: 190px; height: 106px; margin: 10px 0; } .optical-lens { top: 5px; } .optical-lens-rim { inset: 4px; } .optical-reflection { border-top-width: 2px; } .optical-bridge { border-top-width: 4px; } .optical-base { bottom: 2px; } }
+@media (prefers-reduced-motion: reduce) { .optical-lens, .optical-iris { transform: none; } }

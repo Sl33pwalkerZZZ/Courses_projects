@@ -1,0 +1,5 @@
+#root { position: relative; isolation: isolate; }
+.liquid-environment { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; background: var(--v2-canvas); contain: strict; }
+.liquid-environment canvas { display: block; width: 100%; height: 100%; opacity: .9; image-rendering: auto; }
+@media(max-width:767px) { .liquid-environment canvas { opacity: .78; } }
+@media(prefers-reduced-motion:reduce) { .liquid-environment { animation: none; } }

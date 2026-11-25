@@ -1,0 +1,66 @@
+/* D3.3 materials. A single backdrop per workspace; dense reading is deliberately quiet. */
+:root {
+ --material-a: rgb(18 28 40 / 38%);
+ --material-b: rgb(18 28 40 / 48%);
+ --material-c: rgb(18 28 40 / 28%);
+ --material-d: rgb(18 28 40 / 96%);
+ --material-edge: rgb(210 238 247 / 22%);
+ --material-specular: rgb(235 252 255 / 45%);
+ --material-muted: #C2D1DD;
+ --material-shadow: 0 14px 40px rgb(0 8 16 / 18%);
+ --glass-surface: var(--material-b);
+ --glass-floating: var(--material-c);
+ --glass-secondary: var(--material-a);
+ --glass-dense: var(--material-d);
+}
+:root[data-theme="light"] {
+ --material-a: rgb(250 252 254 / 38%);
+ --material-b: rgb(250 252 254 / 48%);
+ --material-c: rgb(255 255 255 / 28%);
+ --material-d: rgb(250 252 254 / 96%);
+ --material-edge: rgb(255 255 255 / 62%);
+ --material-specular: rgb(255 255 255 / 90%);
+ --material-muted: #344D60;
+ --material-shadow: 0 14px 40px rgb(29 59 79 / 12%);
+}
+.glass-optics-defs { position:absolute; pointer-events:none; }
+/* Fallback first: never require backdrop-filter to read or use a surface. */
+#root :is(.glass-workspace,.glass-panel,.glass-reading,.course-overview-hero,.profile-heading,.course-overview-access,.profile-course-card,.lesson-course-sidebar) { background:var(--v2-surface); }
+#root .glass-workspace { min-width:0; border-radius:20px; padding:24px; box-shadow:var(--material-shadow),inset 0 1px var(--material-specular); }
+#root .site-header { isolation:isolate; background:transparent; backdrop-filter:none; -webkit-backdrop-filter:none; border:0; box-shadow:var(--material-shadow),inset 0 1px var(--material-specular),inset 0 -1px var(--material-edge); }
+#root .site-header::before { content:''; position:absolute; inset:0; z-index:-1; border-radius:inherit; pointer-events:none; background:var(--v2-surface); }
+#root :is(.v2-dialog,.header-menu) { background:var(--v2-surface); box-shadow:var(--material-shadow),inset 0 1px var(--material-specular); }
+#root :is(.glass-panel,.auth-panel,.academic-course-card,.course-overview-hero,.course-overview-about,.course-overview-access,.profile-heading,.profile-course-card,.lesson-course-sidebar,.studio-command-shell .studio-project,.studio-command-shell .studio-metric-strip,.studio-command-shell .studio-command-bar) {
+ border-color:var(--material-edge); box-shadow:var(--material-shadow),inset 0 1px var(--material-specular); --v2-text-muted:var(--material-muted); --secondary:var(--material-muted);
+}
+#root :is(.lesson-reading-area,.lesson-quiz,.assignment-submission,.instructor-field input,.instructor-field textarea,.instructor-field select) { background:var(--v2-surface); }
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
+ #root :is(.glass-workspace,.glass-panel,.gl-hero-visual,.course-overview-hero,.profile-heading) { background:var(--material-a); backdrop-filter:blur(18px) saturate(118%); -webkit-backdrop-filter:blur(18px) saturate(118%); --v2-text-muted:var(--material-muted); --secondary:var(--material-muted); }
+ #root :is(.auth-panel,.academic-course-card,.course-overview-access,.profile-course-card,.lesson-course-sidebar,.studio-command-shell .studio-command-bar,.studio-footer) { background:var(--material-b); backdrop-filter:blur(14px) saturate(112%); -webkit-backdrop-filter:blur(14px) saturate(112%); }
+ #root .site-header::before { background:var(--material-c); backdrop-filter:blur(12px) saturate(125%); -webkit-backdrop-filter:blur(12px) saturate(125%); }
+ #root :is(.header-menu,.v2-dialog,.glass-reading,.course-overview-about,.profile-activity-calendar-card,.lesson-reading-area,.lesson-quiz,.assignment-submission) { background:var(--material-d); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+ /* Intentional B layers INSIDE A: tint and specular only, no repeated backdrop root. */
+ #root .studio-command-shell .glass-workspace :is(.instructor-panel,.studio-project,.studio-metric-strip,.v2-surface,.instructor-section-heading,.glass-panel) { background:var(--material-b); backdrop-filter:none; -webkit-backdrop-filter:none; border-color:var(--material-edge); box-shadow:inset 0 1px var(--material-specular); }
+ #root .studio-command-shell .glass-workspace .instructor-panel .instructor-panel { background:transparent; box-shadow:none; }
+ #root .studio-command-shell .glass-workspace :is(.instructor-field input,.instructor-field select,.instructor-field textarea) { background:var(--material-d); }
+ #root .gl-hero-visual { background:var(--material-a); backdrop-filter:blur(16px) saturate(118%); -webkit-backdrop-filter:blur(16px) saturate(118%); box-shadow:var(--material-shadow),inset 0 1px var(--material-specular); }
+ /* Chromium-tested enhancement. Firefox/mobile/reduced retain polished frosted backplate. */
+ :root[data-glass-optics="svg"] #root .site-header::before { backdrop-filter:url("#ai-glass-refraction") blur(10px) saturate(125%); }
+}
+#root .site-header :is(.header-nav a:not(.v2-button),.header-actions a:not(.v2-button),.language-switcher button,.theme-toggle) { color:var(--v2-text); }
+#root :is(.studio-command-navigation a.active,.instructor-tabs a.active,.theme-toggle) { box-shadow:inset 0 1px var(--material-specular),inset 0 -1px var(--material-edge); }
+#root .studio-command-shell .glass-workspace :is(table,fieldset) { border-color:var(--v2-border); }
+#root .lesson-reading-area :is(table,.lesson-objectives) { background:var(--v2-surface); }
+@media(max-width:767px) { #root .glass-workspace { padding:16px; border-radius:16px; } }
+@media(prefers-reduced-transparency:reduce) {
+ #root :is(.glass-workspace,.glass-panel,.auth-panel,.v2-surface,.academic-course-card,.course-overview-hero,.profile-heading,.lesson-course-sidebar,.site-header::before) { background:var(--v2-surface); backdrop-filter:none; -webkit-backdrop-filter:none; }
+}
+
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) { #root .studio-command-shell .studio-command-bar { background:var(--material-b); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); } }
+
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) { #root .header-menu { background:var(--material-b); backdrop-filter:blur(16px) saturate(120%); -webkit-backdrop-filter:blur(16px) saturate(120%); } }
+:root { --material-c-fallback:rgb(18 28 40 / 68%); }
+:root[data-theme="light"] { --material-c-fallback:rgb(250 252 254 / 64%); }
+:root[data-glass-optics="frost"] #root .site-header::before { background:var(--material-c-fallback); }
+#root .glass-workspace .glass-panel { background:var(--material-b); backdrop-filter:none; -webkit-backdrop-filter:none; }
+#root .lesson-reading-area :is(.v2-surface,.lesson-quiz,.assignment-submission) { backdrop-filter:none; -webkit-backdrop-filter:none; }

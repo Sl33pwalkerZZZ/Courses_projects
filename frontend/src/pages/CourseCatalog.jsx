@@ -1,20 +1,14 @@
 import { useEffect, useState } from 'react'
-import { Library } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
 import CatalogFilters from '../components/CatalogFilters'
 import CourseCard from '../components/CourseCard'
 import HomeHero from '../components/HomeHero'
-import Badge from '../components/ui/Badge'
 import { CatalogSkeleton, CatalogState } from '../components/CatalogState'
 import LearningWorkflow from '../components/LearningWorkflow'
-import SignalStory from '../components/motion/SignalStory'
-import DiscoveryDirections from '../components/motion/DiscoveryDirections'
-import AnimatedText from '../components/motion/AnimatedText'
-import LearningShowcase from '../components/landing/LearningShowcase'
 import ClosingInvitation from '../components/landing/ClosingInvitation'
 import './CourseCatalog.css'
-import '../styles/cinematic-landing.css'
+import '../styles/graphite-landing.css'
 
 export default function CourseCatalog() {
   const { t, i18n } = useTranslation()
@@ -58,16 +52,15 @@ export default function CourseCatalog() {
   }
 
   return (
-    <div className="catalog-page v2-scope cinematic-landing">
-      <HomeHero courses={courses} failed={Boolean(error)} />
-      <LearningShowcase courses={courses} failed={Boolean(error)} />
+    <div className="catalog-page v2-scope graphite-landing">
+      <HomeHero />
+      <LearningWorkflow />
       <section id="course-library" className="course-library" aria-labelledby="library-title" aria-busy={!courses && !error}>
-        <div className="library-heading studio-section-heading">
-          <div><p className="studio-eyebrow">{t('studio.libraryLabel')}</p><h2 id="library-title"><AnimatedText text={t('studio.libraryTitle')} /></h2>
-            <p className="studio-section-description">{t('studio.libraryDescription')}</p></div>
-          <Badge className="course-count"><Library size={16} aria-hidden="true" />{courses ? t('catalog.courseCount', { count: courses.length }) : t('header.catalog')}</Badge>
+        <div className="library-heading gl-library-heading">
+          <div><h2 id="library-title">{t('landing.libraryTitle')}</h2>
+            <p className="studio-section-description">{t('landing.libraryDescription')}</p></div>
+          <p className="gl-library-count">{courses ? t('catalog.courseCount', { count: courses.length }) : t('header.catalog')}</p>
         </div>
-        <DiscoveryDirections directions={directions} selected={direction} onSelect={setDirection} />
         <CatalogFilters search={search} onSearchChange={setSearch} level={level} onLevelChange={setLevel}
           direction={direction} onDirectionChange={setDirection} directions={directions}
           hasFilters={hasFilters} onReset={resetFilters} />
@@ -87,8 +80,6 @@ export default function CourseCatalog() {
           </div>
         )}
       </section>
-      <SignalStory />
-      <LearningWorkflow />
       <ClosingInvitation />
     </div>
   )

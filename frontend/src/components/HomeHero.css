@@ -1,43 +1,34 @@
-.signal-hero {
-  --v2-primary: var(--v2-hero-primary);
-  --v2-primary-hover: var(--v2-hero-primary-hover);
-  --v2-on-primary: var(--v2-hero-on-primary);
-  --v2-text: var(--v2-hero-text);
-  --v2-surface-raised: var(--v2-hero-surface-raised);
-  --v2-focus: var(--v2-hero-focus);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
-  align-items: center;
-  gap: 48px;
-  min-height: 495px;
-  padding: 48px;
-  border-radius: var(--v2-radius-hero);
-  background: var(--v2-hero-canvas);
-  color: var(--v2-hero-text);
-}
-.signal-hero-copy { min-width: 0; }
-.signal-hero-eyebrow { color: var(--v2-hero-focus); background: var(--v2-hero-surface-raised); letter-spacing: .06em; }
-.signal-hero h1 { margin: 28px 0 24px; font: 750 clamp(40px, 4.45vw, 64px)/1.125 var(--v2-font-ui); letter-spacing: -.04em; overflow-wrap: anywhere; }
-.signal-hero .signal-hero-title-accent { color: var(--v2-hero-link); }
-.signal-hero-description { max-width: 610px; margin: 0; color: var(--v2-hero-text-muted); font-size: 18px; line-height: 1.6; }
-.signal-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
-.signal-hero .v2-button { min-height: 52px; }
-@media (max-width: 1100px) and (min-width: 768px) {
-  .signal-hero { grid-template-columns: minmax(0, 1fr) 272px; gap: 24px; padding: 32px; }
-  .signal-hero h1 { font-size: 44px; }
-}
-@media (max-width: 900px) {
-  .signal-hero { grid-template-columns: minmax(0, 1fr); }
-  .signal-hero .signal-map { display: none; }
-}
-@media (max-width: 767px) {
-  .signal-hero { min-height: 0; padding: 28px 24px; gap: 24px; }
-  .signal-hero h1 { font-size: 36px; line-height: 42px; margin: 24px 0 20px; }
-  .signal-hero-description { font-size: 16px; line-height: 26px; }
-  .signal-hero-actions { margin-top: 24px; gap: 8px; }
-  .signal-hero-actions .v2-button { width: 100%; }
-}
-@media (max-width: 359px) {
-  .signal-hero { padding: 24px 20px; }
-  .signal-hero h1 { font-size: 32px; line-height: 38px; }
-}
+/* The landing thesis is text + an original glyph sculpture, not a course-card shell. */
+.gl-hero { position: relative; display: grid; grid-template-columns: 1.05fr 1fr; grid-template-rows: auto 1fr auto; column-gap: 5%; min-height: 1120px; padding-top: 66px; border-bottom: 1px solid var(--v2-border); }
+.gl-hero-heading { grid-column: 1; grid-row: 1; align-self: start; z-index: 1; }
+.gl-hero h1 { font: 600 clamp(3.5rem,6.5vw,6rem)/1.02 var(--v2-font-display); letter-spacing: -.04em; margin: 0; max-width: 9.6ch; text-wrap: balance; }
+.gl-hero h1 span { display: block; color: var(--v2-text-muted); }
+.gl-hero-visual { grid-column: 2; grid-row: 1 / 3; align-self: start; position: sticky; top: calc(var(--v2-header-height) + 24px); padding-top: 38px; min-width: 0; }
+.gl-hero-visual .gl-ascii { width: 100%; aspect-ratio: 1 / 1.12; }
+.gl-visual-caption { max-width: 36ch; margin: 0 auto; color: var(--v2-text-muted); font-size: .8125rem; text-align: center; line-height: 1.6; }
+.gl-hero-copy { grid-column: 1; grid-row: 2; padding: 36px 0 90px; max-width: 40ch; align-self: start; }
+.gl-hero-description { margin: 0; font-size: 1.125rem; line-height: 1.65; }
+.gl-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; margin-top: 30px; }
+.gl-hero-actions > a:not(.v2-button) { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: .875rem; color: var(--v2-link); }
+.gl-hero-note { margin: 22px 0 0; font-size: .8125rem; line-height: 1.6; color: var(--v2-text-muted); max-width: 38ch; }
+.gl-hero-stages { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 16px 40px; margin: 0; padding: 24px 0; list-style: none; color: var(--v2-text-muted); font-size: .875rem; }
+.gl-hero-stages li { display: flex; align-items: center; gap: 16px; }
+.gl-hero-stages li + li::before { content: ''; width: 32px; height: 1px; background: var(--v2-control-border); }
+@media(max-width:1100px) { .gl-hero { min-height: 1020px; gap: 32px; } .gl-hero h1 { font-size: clamp(3rem,6.8vw,5.5rem); } .gl-hero-copy { padding-bottom: 64px; } }
+@media(max-width:767px) { .gl-hero { display: flex; flex-direction: column; min-height: 0; gap: 0; padding-top: 44px; } .gl-hero h1 { font-size: clamp(2.75rem,10.7vw,4.6rem); max-width: 12ch; } .gl-hero-visual { position: static; order: 2; width: 100%; padding-top: 28px; } .gl-hero-visual .gl-ascii { aspect-ratio: 1.5; max-height: 340px; } .gl-hero-copy { order: 1; padding: 28px 0 0; max-width: 44ch; } .gl-hero-description { font-size: 1rem; } .gl-hero-actions { gap: 12px 20px; margin-top: 24px; } .gl-hero-note { margin-top: 16px; } .gl-hero-stages { order: 3; gap: 12px; padding-block: 24px; font-size: .75rem; } .gl-hero-stages li { gap: 10px; } .gl-hero-stages li + li::before { width: 16px; } }
+@media(prefers-reduced-motion:reduce) { .gl-hero { min-height: 0; } .gl-hero-visual { position: static; } .gl-hero-copy { padding-block: 40px 56px; } }
+/* D3.1: anchored sculpture and a floating glass plane; no pinned scroll stage. */
+.gl-hero { min-height: 790px; grid-template-columns: 1.04fr 1fr; gap: 0 7%; padding-top: 64px; }
+.gl-hero h1 { font-size: clamp(3rem,5.2vw,4.75rem); line-height: 1.08; max-width: 13ch; font-weight: 600; letter-spacing: -.035em; }
+.gl-hero h1 span { color: var(--v2-text-muted); }
+.gl-hero-visual { position: relative; top: auto; padding: 12px 20px 24px; margin-top: 18px; border: 1px solid var(--glass-border); border-radius: 28px; background: var(--v2-surface); box-shadow: var(--glass-shadow); transform: translate3d(0,var(--hero-depth,0px),0); }
+.gl-hero-visual .gl-ascii { aspect-ratio: 1; }
+.gl-visual-caption { max-width: 32ch; }
+.gl-hero-copy { max-width: 42ch; padding: 32px 0 48px; }
+.gl-hero-description { font-size: 1.0625rem; }
+.gl-hero-actions { gap: 12px 20px; }
+.gl-hero-stages { padding-block: 20px; font-size: .8125rem; }
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) { .gl-hero-visual { background: var(--glass-surface); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); } }
+@media(max-width:1023px) { .gl-hero { min-height: 720px; gap: 0 32px; } .gl-hero h1 { font-size: clamp(2.8rem,5.5vw,4rem); } .gl-hero-visual { padding: 8px 10px 20px; border-radius: 22px; } }
+@media(max-width:767px) { .gl-hero { min-height: 0; padding-top: 40px; } .gl-hero h1 { font-size: clamp(2.5rem,9.4vw,3.75rem); max-width: 15ch; } .gl-hero-copy { padding: 24px 0 0; } .gl-hero-visual { transform: none; margin-top: 32px; width: 100%; padding: 0 8px 20px; } .gl-hero-visual .gl-ascii { aspect-ratio: 1.15; max-height: 340px; } .gl-hero-stages { padding-top: 28px; } }
+@media(prefers-reduced-motion:reduce) { .gl-hero-visual { transform: none; } }

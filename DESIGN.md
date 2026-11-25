@@ -1,24 +1,26 @@
 ---
-name: AI Courses — Graphite & Lime
-description: "Многоязычный профессиональный интерфейс обучения"
+name: AI Courses — Obsidian Frost Aqua
+description: "Liquid Glass для профессионального обучения"
 colors:
-  graphite: "#101210"
-  carbon: "#1C211D"
-  dark-raised: "#29312B"
-  paper: "#F4F5F0"
-  white: "#FFFFFF"
-  light-raised: "#E8ECE2"
-  lime: "#C4F56A"
-  light-ink: "#182019"
-  light-link: "#355B16"
-  dark-muted: "#B0BAAA"
-  light-muted: "#4E5B4B"
+  obsidian: "#0B1017"
+  dark-surface: "#121C28"
+  dark-elevated: "#1C2A38"
+  dark-text: "#EDF3F7"
+  dark-muted: "#B1C0CE"
+  aqua: "#78DCD5"
+  frost: "#EEF2F5"
+  light-surface: "#FAFCFE"
+  light-elevated: "#DDE7EE"
+  light-text: "#17232E"
+  light-muted: "#435B6D"
+  light-action: "#156B73"
+  light-link: "#105F68"
 typography:
   heading:
     fontFamily: "Noto Sans, system-ui, sans-serif"
-    fontWeight: 700
-    lineHeight: 1.16
-    letterSpacing: "-0.025em"
+    fontWeight: 600
+    lineHeight: 1.12
+    letterSpacing: "-0.035em"
   body:
     fontFamily: "Noto Sans, system-ui, sans-serif"
     fontSize: "1rem"
@@ -29,19 +31,14 @@ typography:
     fontSize: "0.875rem"
     fontWeight: 600
     lineHeight: 1.45
-  caption:
-    fontFamily: "Noto Sans, system-ui, sans-serif"
-    fontSize: "0.8125rem"
-    fontWeight: 600
-    lineHeight: 1.45
   technical:
     fontFamily: "IBM Plex Mono, ui-monospace, monospace"
     fontWeight: 400
 rounded:
   small: "4px"
   control: "8px"
-  card: "12px"
-  dialog: "16px"
+  panel: "16px"
+  navigation: "18px"
 spacing:
   small: "8px"
   medium: "16px"
@@ -49,8 +46,8 @@ spacing:
   section: "40px"
 components:
   button-primary:
-    backgroundColor: "{colors.lime}"
-    textColor: "{colors.graphite}"
+    backgroundColor: "{colors.aqua}"
+    textColor: "{colors.obsidian}"
     rounded: "{rounded.control}"
     padding: "10px 18px"
     height: "44px"
@@ -58,84 +55,82 @@ components:
 
 ## Overview
 
-**Creative North Star: «Точность без тяжести».**
+**Creative North Star: «Глубина без шума».**
 
-Graphite & Lime — технологичный, спокойный визуальный язык профессионального обучения. Выразительность создают типографика, ясная иерархия и редкий акцент; учебный текст и рабочие формы остаются удобными для длительной работы. Это реализация D2 по направлению владельца, а не утверждение о завершённом редизайне всех страниц или пользовательском одобрении каждого пикселя.
+Владелец,2026-11-25: Obsidian / Frost / Aqua, управляемый Liquid Glass. D3 не одобрен. D3.2 развивает одобренную палитру и ожидает личной оценки владельца; архитектура сохранена. D3.3 отдельно усилит оптический материал по новым референсам.
 
-**Key Characteristics:** нейтральные поверхности, заметное основное действие, читаемые многоязычные подписи, различимые состояния, сдержанное движение.
+**Key Characteristics:** frosted-поверхности, спокойная глубина, крупная многоязычная типографика, непрерывная оригинальная ASCII-скульптура и отдельный лёгкий parallax. UI служит чтению и действию; эффект не скрывает материал.
 
-Источник значений — `frontend/src/styles/v2-tokens.css`; `--color-*` описывает семантику, существующие `--v2-*` и aliases в `index.css` сохраняют совместимость. Не удалять старые имена до переноса потребителей. PRODUCT.md определяет продуктовые ограничения. D3–D7 заменят композиции страниц отдельно; исторические CSS-файлы и оригинальные SVG сейчас сохраняются.
+Нормативные значения: `frontend/src/styles/v2-tokens.css`, иерархия поверхностей: `frontend/src/styles/liquid-surfaces.css`. `--v2-*` aliases сохранены. PRODUCT.md — продуктовые ограничения. D3.3 и D4–D8 не начаты; основная оболочка Studio перенесена вперёд из D7 в D3.2.
 
 ## Colors
 
 | Роль | Dark | Light |
 |---|---|---|
-| Background | #101210 | #F4F5F0 |
-| Surface / elevated | #1C211D / #29312B | #FFFFFF / #E8ECE2 |
-| Primary text | #F4F5F0 | #182019 |
-| Secondary text | #B0BAAA | #4E5B4B |
-| Accent fill / on accent | #C4F56A / #101210 | #C4F56A / #101210 |
-| Accent text / link | #C4F56A | #355B16 |
-| Hover / active fill | #D3FF86 / #B0DE57 | #B0E451 / #A0D344 |
-| Decorative border / control border | #3D493E / #82917E | #CAD2C3 / #66735E |
-| Focus | #C4F56A | #41691B |
-| Disabled background / text | #29312B / #B0BAAA | #E8ECE2 / #56634F |
-| Success | #81D4A6 | #23623B |
-| Warning | #F5CF87 | #81520C |
-| Error | #FFB4A9 | #A72F32 |
-| Info | #A7CBFA | #275D8A |
+| Canvas | #0B1017 | #EEF2F5 |
+| Surface / raised | #121C28 / #1C2A38 | #FAFCFE / #DDE7EE |
+| Text / secondary | #EDF3F7 / #B1C0CE | #17232E / #435B6D |
+| Action / on action | #78DCD5 / #0B1017 | #156B73 / #FFFFFF |
+| Link / focus | #90E1DC / #90E1DC | #105F68 / #146C76 |
+| Control border | #8199AC | #5D778A |
+| Glass surface | rgb(18 28 40 /68%) | rgb(250 252 254 /68%) |
+| Floating glass | rgb(28 42 56 /72%) | rgb(255 255 255 /72%) |
 
-Полные status backgrounds, hero compatibility и состояния находятся в CSS. `#929B90` исходного брифа заменён для второстепенного текста более контрастными оттенками. Декоративная граница не обязана иметь контраст интерактивного контрола: для input/button используйте отдельный control-border.
-
-**The Accent Rule.** Lime — заливка ключевого действия и dark-ссылки; обычный текст и ссылки на светлой поверхности используют тёмный зелёный. Не писать lime-текст на Paper/white. Успех, ошибка и предупреждение имеют подпись/контекст, а не только цвет. Текст ≥4.5:1, meaningful control/focus/progress ≥3:1 относительно соседней поверхности; проверять реальные пары с opacity и каскадом.
+**The Readability Rule.** Текст≥4.5:1, крупный текст≥3:1, meaningful control/focus≥3:1. Проверять composited background, а не только исходный цвет стекла. Для обычных light-ссылок — тёмный aqua. Цвета success/warning/error/info сохраняют смысл и подписи; они не заменяются акцентом. Lime/purple не являются активными brand colors.
 
 ## Typography
 
-Noto Sans локально: variable normal 400–800, WOFF2 latin/latin-ext/cyrillic/cyrillic-ext, `font-display: swap`. IBM Plex Mono Regular 400 локально для code/kbd/samp/pre, коротких технических обозначений и будущего ASCII. Моноширинный шрифт не заменяет основной учебный текст. OFL notices и exact-byte provenance в `frontend/public/fonts/`.
+Локальные OFL Noto Sans normal400–800 и IBM Plex Mono400 сохраняются. RU/KK/EN, включая ӘҒҚҢӨҰҮҺІ, проверены по реальным cmap. Бинарные шрифты неизменны. OFL/provenance/SHA: `frontend/public/fonts/`.
 
-Проверены реальные cmap: RU, EN, Әә Ғғ Ққ Ңң Өө Ұұ Үү Һһ Іі в обеих гарнитурах. Рассмотренная сборка Manrope не содержит Ә/Ғ/Қ/Ң/Ұ и не поставляется: системный fallback внутри казахского слова недопустим. При изменении файлов повторить проверку покрытия, не доверять одному ярлыку Cyrillic Extended.
-
-- Heading: 700, line-height 1.16, tracking −0.025em; конкретные размеры зависят от задачи страницы. В specimen h1 `clamp(2rem,4vw,3.5rem)`, h2 1.5rem, h3 1.125rem — это образец, не автоматический размер любого hero.
-- Body: 1rem/1.65, 400. Reading token: 1.0625rem. Рекомендуемая ширина читательской колонки 65–75ch, переносы и ограничения должны сохранять таблицы и media.
-- Labels/actions: .875rem/1.45, 600. Captions/status: .8125rem/1.45, 600.
-- Не использовать uppercase для длинных RU/KK подписей; технические имена и цифры допустимы. Все смысловые строки — существующая RU/KK/EN локализация.
+Body16px/1.65, рабочие labels15–16px/1.45, captions13–14px; reader token17px, рекомендуемый measure65–75ch. Hero48–76px desktop, mobile40–60px; конкретный responsive clamp — HomeHero.css. Auth intro38–58px. Mono — для символной скульптуры и технических данных, не всего учебного текста. Обычный регистр, без широкого tracking и длинных uppercase-подписей.
 
 ## Layout
 
-Ритм 4/8/12/16/20/24/32/40/48/64/80/96px. Controls min-height 44px, без жёсткой высоты для многострочных названий. Container token 1280px; поля и grid children имеют min-width:0. Specimen 1120px, padding32px desktop/16px mobile, без production route. Границы страниц и responsive sidebar не перепроектированы в D2.
+Ритм4/8/12/16/20/24/32/40/48/64/80/96px. Интерактивная область≥44px. Заголовки и controls могут переноситься; min-width:0 у grid children. Hero-скульптура закреплена в своей композиции, не сопровождает пользователя по всей странице. Mobile упрощает слои.
 
-Проверочная матрица:1440/1024/768/390/320px, обе темы, RU/KK/EN. Сохранять естественный скролл, видимый focus и порядок DOM. Для широких учебных таблиц — локальный keyboard-accessible скролл, не обрезка текста.
+Studio: единая боковая навигация248–264px на всех маршрутах, расширяемая оболочка до2240px; mobile использует существующий keyboard-friendly disclosure. Внутренние формы и редакторы наследуют общий масштаб16px и поверхности, без изменения save/guard/permission flow. D7 — оставшиеся уточнения и итоговая проверка, не повтор оболочки. Footer группирует только существующие учебные и account destinations; Studio доступен по реальной capability.
 
 ## Elevation & Depth
 
-Плоские поверхности по умолчанию: border и тональное различие вместо стекла/свечения. Card shadow:none. Отдельная modal elevation: `0 20px 64px rgb(0 0 0 / 38%)` dark / `0 20px 64px rgb(16 22 14 / 20%)` light. Overlay получает отдельный нейтральный scrim. Не накладывать тени на каждую вложенную карточку.
+Не каждое поле — стекло. D3.3 заменяет прежнюю68/72% иерархию четырьмя материалами: A workspace38%, B panels48%, C optical backplate28%, D reading/forms96%. Firefox/mobile/reduced C использует более плотный fallback64%light/68%dark. Подробные актуальные правила ниже; opaque fallback объявляется до `@supports`.
 
-Motion:120ms feedback,180ms обычный переход,260ms более заметный переход; ease-out `cubic-bezier(.2,.8,.2,1)`, ease-in-out `cubic-bezier(.4,0,.2,1)`, distance token4px. Новые shared buttons меняют цвет/границу, не подпрыгивают и не двигают иконку при hover. `prefers-reduced-motion` отключает переходы. Существующие MotionConfig и reduced-motion guard сохранены. ASCII Scroll и согласованный переход тем ещё не реализованы: D3/D4. Не добавлять циклы или motion вокруг учебного текста/видео.
+Shadow dark:`0 18px 56px rgb(0 6 14 /24%)`; light:`0 18px 56px rgb(43 70 91 /12%)`. Border — тонкий cool outline, не светящийся halo. LiquidEnvironment — оригинальное детерминированное Canvas2D поле деформируемых направленных волн и каустических бликов;160×100,target24fps desktop,96×72,target12fps mobile/≤4CPU. Без WebGL/внешних ассетов. Это целевые частоты, не обещание измеренногоFPS.
+
+Motion feedback120/180/260ms и существующие easing сохранены. ASCII30fpsdesktop/20fpsmobile и≤4CPU, DPR≤1.5/1; pause offscreen/hidden. Один ограниченный parallax−32..12px отдельно от idle-анимации; отключён mobile/reduced motion. Reduced motion статичен. D4 theme-transition choreography ещё не реализована.
 
 ## Shapes
 
-4px status/progress,8px controls,12px shared cards,16px dialogs. Полный border1px на контролах, focus outline3px offset3px. Pill999px остаётся compatibility token для действительно круглых элементов, не универсальная форма каждой карточки. Не вводить декоративные боковые полосы, неон или вложенный glass.
+Controls8px, основные панели/dialog16px, floating nav18px; hero visual28px/22px tablet. Focus3px offset3px. Без лишних вложенных cards, side stripes и multiple shadows.
 
 ## Components
 
-- **Button:** primary lime/dark ink; secondary surface+control-border; ghost transparent; danger semantic fill+контрастный текст. Hover/active отдельные; disabled читаем и без hover-feedback. Нативные button/link, disabled и обработчики не меняются.
-- **Input/Select/Textarea:** surface, border-control,8px, min44px; placeholder muted. Error `aria-invalid` красная граница и текст ошибки. Disabled отдельная поверхность/текст. Сохранять label/hint/required и server validation; стили не меняют логику.
-- **Surface:** base/elevated/inset; border и12px. Не создавать ещё одну карточку без смысловой группы.
-- **Dialog:** existing native dialog, ширинаmin(520px,viewport−32px), max-height viewport−48px с локальным скроллом,16px,20–32px padding. Сохранять Escape, focus-management и accessible name.
-- **Tabs/navigation:** состояние определяется существующими aria/current/router данными. Shared role=tab uses underline+foreground, focus3px. Роуты/handlers и отдельные page nav layouts остаются прежними до профильного этапа.
-- **Badge/Notice:** success/pending/error/info с фоновым тоном, текстом и нужным role; badge4px. Внешняя страница может иметь legacy override — проверять при её миграции.
-- **Progress:** native progress8px, dark lime / light dark-green fill. Значение всегда из реальных данных; specimen40% явно демонстрационное.
-- **Loading/empty/error:** существующие status/alert/retry; поверхность не подменяет состояния. Демо показывает образцы, не добавляет вымышленные данные в продукт.
-- **Theme toggle:** существующий ThemeProvider,44px hit-area, контрастные иконка/border. Смена persistence/auth не затрагивается.
+- **Buttons/fields:** прежние нативные semantics/validation/disabled, отдельные hover/active/focus/error. Читаемые opaque inputs в glass-form; password controls44px сохранены.
+- **Glass panels:** base/floating/opaque роли не смешивать. Не ставить blur на каждую вложенную строку или таблицу.
+- **Dialog/dropdowns:** прежние focus/Escape/roles и permission flow; surface fallback всегда доступен.
+- **Tabs/nav:** active aqua tint +foreground, реальные aria/current/router states; не выдумывать доступные actions.
+- **Badges/notices/progress:** реальные статусы и значения, подпись важнее цвета. Никакой фиктивной статистики.
+- **Auth:** открытый editorial intro +единая frosted-form, с парной оригинальной оптической скульптурой, idle/ограниченным pointer gaze; декоративный код не читает поля или пароли. Login/Register handlers и API неизменны.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** использовать semantic roles и проверять контраст в обеих темах.
-- **Do** оставлять primary-action заметным, а чтение спокойным.
-- **Do** проверять Kazakh glyphs, длинные переводы, focus, disabled/error и реальные экраны.
+- **Do** проверять оба режима, RU/KK/EN, реальные данные, focus и composited contrast.
+- **Do** ограничивать живое движение отдельным ambient layer и скульптурой, сохраняя спокойный текст.
+- **Do** сохранять opaque fallback и выключать ненужное движение.
 
 ### Don't:
-- **Don't** возвращать доминирующий purple, декоративные градиенты/glow или делать все поверхности одинаково скруглёнными.
-- **Don't** переносить hero-анимацию в формы/учебный текст или выдавать D2 за полный редизайн.
-- **Don't** менять API/auth, данные курса, прогресс, медиа/субтитры и сертификатные правила ради внешнего вида.
+- **Don't** превращать все контейнеры в прозрачное стекло или возвращать dominant purple/lime.
+- **Don't** применять blur/glow без иерархии, перехватывать scroll или скрывать content за animation.
+- **Don't** менять API/auth/access, прогресс, работы, медиа или сертификаты ради визуального эффекта.
+
+## D3.3 — A/B/C/D material hierarchy (2026-11-25)
+
+Композиция D3.2 сохранена. A: `rgb(18 28 40 /38%)` dark / `rgb(250 252 254 /38%)` light, blur18px. B: те же основы48%, blur14px для самостоятельных панелей. Внутри Studio A панели B имеют только tint/specular, без повторного backdrop-filter. C:28% backplate с отдельным псевдоэлементом; foreground не фильтруется. D:96%, спокойная плотная поверхность для чтения, таблиц, оценивания и полей.
+
+Muted на прозрачных материалах: dark `#C2D1DD`, light `#344D60`. Aqua и основные Obsidian/Frost токены сохранены. Края тонкие, верхний specular и мягкая тень; не добавлять glow.
+
+Оригинальная статическая128×128 edge-normal карта и SVG displacement14 используются только на backplate floating header. Центр нейтрален; R/G задают направление у края. Desktop Chromium с>4 logicalCPU и без reduced-motion допускает enhancement. Это проверенный visual allowlist, не универсальное определение поддержки. Firefox/mobile/reduced/остальные браузеры получают frost с blur12px там, где он фактически поддерживается, прозрачностью64%light/68%dark и бликом. Opaque fallback остаётся без backdrop support.
+
+Пиксельный A/B тест реального фильтра подтвердил искажение Chromium. Firefox143 headless SWGL не показал даже обычный backdrop blur в контрольном тесте: подтверждены читаемый tint/edge fallback и reduced-motion, не оптическая эквивалентность. Ручная проверка аппаратного Firefox владельца остаётся обязательной.
+
+Без новых зависимостей и заимствованного кода. Animated liquid/ASCII/auth sculpture сохранены. `createLiquidPixels`160×100: median2.70ms/p954.10ms в Chromium,100 samples; это вычисление, не итоговый FPS. D3.2 sustained24FPS не установлен; не обещать его. Отчёт: [D33](docs/design/D33_LIQUID_GLASS_MATERIALS.md). Визуальная приёмка владельцем ожидается; D4 не начат.

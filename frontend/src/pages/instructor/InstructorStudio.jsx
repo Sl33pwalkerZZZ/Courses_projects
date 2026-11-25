@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import useAuth from '../../hooks/useAuth'
 import useInstructor from '../../hooks/useInstructor'
@@ -7,6 +7,7 @@ import { canEnterStudio } from '../../utils/instructorIdentity'
 import StudioNavigation from '../../components/instructor/StudioNavigation'
 import './instructor.css'
 import './studio-command.css'
+import './studio-glass.css'
 
 export function StudioAccessGuard({ children, moderator = false }) {
   const { t } = useTranslation()
@@ -23,11 +24,12 @@ export default function InstructorStudio() {
   return <StudioAccessGuard><StudioLayout /></StudioAccessGuard>
 }
 function StudioLayout() {
+  const { pathname } = useLocation()
   const { t } = useTranslation()
   const { identity } = useInstructor()
-  return <section className="instructor-studio studio-command-shell" aria-labelledby="instructor-title">
+  return <section className={`instructor-studio studio-command-shell${pathname === '/instructor' ? ' studio-command-shell--overview' : ''}`} aria-labelledby="instructor-title">
     <header className="instructor-heading"><div><p className="eyebrow">AI Courses / Studio</p><h1 id="instructor-title">{t('instructorStudio.title')}</h1><p>{t('instructorStudio.intro')}</p><p className="instructor-badge">{t('instructorStudio.effectiveRole')}: {t(`instructorStudio.roles.${identity.effective_role}`)}{identity.authority_source === 'superuser' && ` · ${t('instructorStudio.superuserOverride')}`}</p></div></header>
     <StudioNavigation identity={identity} />
-    <Outlet context={{ identity }} />
+    <div className="studio-workspace glass-workspace"><Outlet context={{ identity }} /></div>
   </section>
 }

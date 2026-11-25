@@ -1,52 +1,52 @@
 @import "./fonts.css";
 
-/* Graphite & Lime foundations. Existing v2 names remain the compatibility API. */
+/* Obsidian / Frost / Aqua foundations. Existing v2 names remain the compatibility API. */
 :root {
-  --v2-canvas: #101210;
-  --v2-surface: #1C211D;
-  --v2-surface-raised: #29312B;
-  --v2-text: #F4F5F0;
-  --v2-text-muted: #B0BAAA;
-  --v2-border: #3D493E;
-  --v2-control-border: #82917E;
-  --v2-primary: #C4F56A;
-  --v2-primary-hover: #D3FF86;
-  --v2-primary-active: #B0DE57;
-  --v2-on-primary: #101210;
-  --v2-link: #C4F56A;
-  --v2-focus: #C4F56A;
-  --v2-accent: #C4F56A;
-  --v2-soft-accent: #283621;
+  --v2-canvas: #0B1017;
+  --v2-surface: #121C28;
+  --v2-surface-raised: #1C2A38;
+  --v2-text: #EDF3F7;
+  --v2-text-muted: #B1C0CE;
+  --v2-border: #344556;
+  --v2-control-border: #8199AC;
+  --v2-primary: #78DCD5;
+  --v2-primary-hover: #9CEAE4;
+  --v2-primary-active: #5DC5BF;
+  --v2-on-primary: #0B1017;
+  --v2-link: #90E1DC;
+  --v2-focus: #90E1DC;
+  --v2-accent: #90E1DC;
+  --v2-soft-accent: #1B3A43;
   --v2-success: #81D4A6;
   --v2-warning: #F5CF87;
   --v2-danger: #FFB4A9;
   --v2-danger-hover: #FFD0C8;
   --v2-on-danger: #241110;
   --v2-info: #A7CBFA;
-  --v2-disabled-bg: #29312B;
-  --v2-disabled-text: #B0BAAA;
-  --v2-progress: #C4F56A;
+  --v2-disabled-bg: #1C2A38;
+  --v2-disabled-text: #B1C0CE;
+  --v2-progress: #78DCD5;
   --v2-success-surface: #1B3225;
   --v2-warning-surface: #352D1E;
   --v2-danger-surface: #3A2523;
   --v2-info-surface: #20303E;
-  --v2-activity-0: #29312B;
-  --v2-activity-1: #7C965F;
-  --v2-activity-2: #95B975;
-  --v2-activity-3: #AEDC63;
-  --v2-activity-4: #C4F56A;
+  --v2-activity-0: #1C2A38;
+  --v2-activity-1: #648F9B;
+  --v2-activity-2: #70ADB5;
+  --v2-activity-3: #74C4C8;
+  --v2-activity-4: #78DCD5;
   --v2-danger-fill: #FFB4A9;
   --v2-danger-fill-hover: #FFD0C8;
-  --v2-hero-canvas: #1C211D;
-  --v2-hero-text: #F4F5F0;
-  --v2-hero-text-muted: #B0BAAA;
-  --v2-hero-primary: #C4F56A;
-  --v2-hero-link: #C4F56A;
-  --v2-hero-on-primary: #101210;
-  --v2-hero-focus: #C4F56A;
-  --v2-hero-border: #82917E;
-  --v2-hero-primary-hover: #D3FF86;
-  --v2-hero-surface-raised: #29312B;
+  --v2-hero-canvas: #121C28;
+  --v2-hero-text: #EDF3F7;
+  --v2-hero-text-muted: #B1C0CE;
+  --v2-hero-primary: #78DCD5;
+  --v2-hero-link: #90E1DC;
+  --v2-hero-on-primary: #0B1017;
+  --v2-hero-focus: #90E1DC;
+  --v2-hero-border: #8199AC;
+  --v2-hero-primary-hover: #9CEAE4;
+  --v2-hero-surface-raised: #1C2A38;
   --v2-overlay: rgb(8 12 9 / 76%);
   --v2-field-glow: rgb(196 245 106 / 0%);
   --v2-particle-line: rgb(196 245 106 / 16%);
@@ -107,51 +107,51 @@
   --color-info: var(--v2-info);
 }
 :root[data-theme="light"] {
-  --v2-canvas: #F4F5F0;
-  --v2-surface: #FFFFFF;
-  --v2-surface-raised: #E8ECE2;
-  --v2-text: #182019;
-  --v2-text-muted: #4E5B4B;
-  --v2-border: #CAD2C3;
-  --v2-control-border: #66735E;
-  --v2-primary: #C4F56A;
-  --v2-primary-hover: #B0E451;
-  --v2-primary-active: #A0D344;
-  --v2-on-primary: #101210;
-  --v2-link: #355B16;
-  --v2-focus: #41691B;
-  --v2-accent: #355B16;
-  --v2-soft-accent: #E4EDDA;
+  --v2-canvas: #EEF2F5;
+  --v2-surface: #FAFCFE;
+  --v2-surface-raised: #DDE7EE;
+  --v2-text: #17232E;
+  --v2-text-muted: #435B6D;
+  --v2-border: #BDCCD7;
+  --v2-control-border: #5D778A;
+  --v2-primary: #156B73;
+  --v2-primary-hover: #105B63;
+  --v2-primary-active: #0C4D55;
+  --v2-on-primary: #FFFFFF;
+  --v2-link: #105F68;
+  --v2-focus: #146C76;
+  --v2-accent: #105F68;
+  --v2-soft-accent: #D1E8EC;
   --v2-success: #23623B;
   --v2-warning: #81520C;
   --v2-danger: #A72F32;
   --v2-danger-hover: #8C2528;
   --v2-on-danger: #FFFFFF;
   --v2-info: #275D8A;
-  --v2-disabled-bg: #E8ECE2;
-  --v2-disabled-text: #56634F;
-  --v2-progress: #426920;
+  --v2-disabled-bg: #DDE7EE;
+  --v2-disabled-text: #435B6D;
+  --v2-progress: #156B73;
   --v2-success-surface: #E4F0E7;
   --v2-warning-surface: #FCF0D7;
   --v2-danger-surface: #FBE7E5;
   --v2-info-surface: #E5EFF8;
-  --v2-activity-0: #E8ECE2;
-  --v2-activity-1: #78905E;
-  --v2-activity-2: #627C45;
-  --v2-activity-3: #4C672D;
-  --v2-activity-4: #355B16;
+  --v2-activity-0: #DDE7EE;
+  --v2-activity-1: #648D98;
+  --v2-activity-2: #497A87;
+  --v2-activity-3: #2E6876;
+  --v2-activity-4: #156B73;
   --v2-danger-fill: #A72F32;
   --v2-danger-fill-hover: #8C2528;
-  --v2-hero-canvas: #FFFFFF;
-  --v2-hero-text: #182019;
-  --v2-hero-text-muted: #4E5B4B;
-  --v2-hero-primary: #C4F56A;
-  --v2-hero-link: #355B16;
-  --v2-hero-on-primary: #101210;
-  --v2-hero-focus: #41691B;
-  --v2-hero-border: #66735E;
-  --v2-hero-primary-hover: #B0E451;
-  --v2-hero-surface-raised: #E8ECE2;
+  --v2-hero-canvas: #FAFCFE;
+  --v2-hero-text: #17232E;
+  --v2-hero-text-muted: #435B6D;
+  --v2-hero-primary: #156B73;
+  --v2-hero-link: #105F68;
+  --v2-hero-on-primary: #FFFFFF;
+  --v2-hero-focus: #146C76;
+  --v2-hero-border: #5D778A;
+  --v2-hero-primary-hover: #105B63;
+  --v2-hero-surface-raised: #DDE7EE;
   --v2-overlay: rgb(16 22 14 / 46%);
   --v2-field-glow: rgb(53 91 22 / 0%);
   --v2-particle-line: rgb(53 91 22 / 12%);
@@ -161,3 +161,28 @@
 
 .v2-scope { font-family: var(--v2-font-ui); color: var(--v2-text); }
 @media (max-width: 1023px) { :root { --v2-header-height: 64px; } }
+
+/* Owner-directed D3.1 surface hierarchy. Opaque v2 surfaces remain fallback. */
+:root {
+  --glass-surface: rgb(18 28 40 / 68%);
+  --glass-floating: rgb(28 42 56 / 72%);
+  --glass-border: rgb(164 200 221 / 28%);
+  --glass-shadow: 0 18px 56px rgb(0 6 14 / 24%);
+  --glass-blur: 18px;
+  --liquid-core: #286775;
+  --liquid-edge: #164558;
+  --liquid-highlight: #3D9FAD;
+}
+:root[data-theme="light"] {
+  --glass-surface: rgb(250 252 254 / 68%);
+  --glass-floating: rgb(255 255 255 / 72%);
+  --glass-border: rgb(89 126 151 / 28%);
+  --glass-shadow: 0 18px 56px rgb(43 70 91 / 12%);
+  --liquid-core: #A1C9D7;
+  --liquid-edge: #BFD8E4;
+  --liquid-highlight: #A9DBD9;
+}
+
+/* D3.2 dense content retains a stronger material; atmospheric shells reveal flow. */
+:root { --glass-dense: rgb(18 28 40 / 94%); --glass-secondary: rgb(18 28 40 / 52%); --ui-motion: 200ms; --ui-ease: cubic-bezier(.2,.8,.2,1); }
+:root[data-theme="light"] { --glass-dense: rgb(250 252 254 / 94%); --glass-secondary: rgb(250 252 254 / 52%); }
