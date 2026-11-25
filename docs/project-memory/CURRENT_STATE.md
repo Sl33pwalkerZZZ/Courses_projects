@@ -1,5 +1,13 @@
 # Current Project State
 
+## D4 — finalization / manual acceptance pending (2026-11-25)
+
+- Continue existing implementation at HEADf18fda1, no redesign. Current patch fixes runtime native-failure fallback and filled-WAAPI release; source lifecycle assertion updated, theme-transition regression file preserved. Existing palette/glass/state/auth remain unchanged.
+- Current focused13PASS, lint/buildPASS; previous fullfrontend462PASS retained as historical result. File-backed Django TestCase response.close failure deterministically reproduced (pair1error, affectedalonePASS); standardisolatedmemory36PASS/check0. No backend fix/settings change made to conceal it.
+- Actual Chromium native reveal and Firefox143nativeBiDi fallback checked against isolatedAPI5204→8204. Firefox18normal+18reduced directional checks, form/rapid/persistence, realtabvisibility, protectedvideo115+captions, unsavedStudio textarea retained; stable7checksconsole0. Chromium37records/31uniquechecks: preserved assignmenttext, quizchoice, video115/captions andStudio draft; pageerrors0/forbidden8000requests0. Evidence in D4 report.
+- Explicit snapshot cancel/skip cleanup verified by actual finalDOM and state snapshots; independentfrontend reviewer accepts capturedlogin contour/boundary only, not aFPS guarantee. HeadlessRAF median83.3msidle/133.2mstransition; sustained24FPS notestablished. HardwareFirefox visual acceptance required.
+- Report docs/design/D4_THEME_TRANSITIONS.md; preview http://127.0.0.1:5204/ temporaryisolatedDjango8204. LiveSQLite/settings/media117hashesunchanged, integrityOK/FK0, Course10draft; Course8preserved; indexempty. No staging/commits/push/D5.
+
 ## D3.3 — materials verified, owner visual approval pending (2026-11-25)
 
 - Preserved D3/D3.1/D3.2 WIP and composition. A38/B48/C28/D96 material hierarchy, original static edge-normal SVG on header backplate only; nested Studio filters removed. Reading/forms remain dense. No API/auth/content changes.

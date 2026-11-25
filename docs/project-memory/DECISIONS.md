@@ -1,5 +1,13 @@
 # Architectural and Project Decisions
 
+## D4 — state-preserving theme reveal and snapshot lifecycle (2026-11-25)
+
+- Owner authorized D4 separately; preserve D3.3 materials/palette and all application state. ThemeProvider changes context/dataset only; no subtree cloning/remount/routes. Native reveal is runtime-enhancement, not a permission or session change.
+- Original48-point contour originates at actual toggle;720msdesktop/560mobile. Unsupported/rejected native snapshot or pseudo-animation uses420ms CSS color fallback +smallripple. Reduced/hidden immediate. Generations invalidate late callbacks; rapid parity retained via requestedTheme ref.
+- Explicitly cancel filled WAAPI effect and skip/release native snapshots on completion; finished cleanup is scoped to its own active transition. Preserve focus and live media. Pause liquid physics duringreveal; short blend duringfallback.
+- ClosedSQLite test error reproduced only with file-backed TestCase after response.close; request_finished closes atomic connection. AffectedtestalonePASS and standard isolatedmemory36PASS. No production code/settings change to suppress it.
+- Native motion reviewer unavailable: nativefrontend reviewer substituted; combined contour/boundary evidence accepted within1000x760login only, not a generalFPS guarantee. Owner hardwarebrowser visual acceptance remains separate.
+
 ## D3.3 — selective optics and explicit fallback (2026-11-25)
 
 - Owner confirmed transparent shells/cards/navigation and dense reading/assessment/forms; preserve composition. A workspace38%, B panels48%, C small floating backplate28%, D reading96%. Nested Studio B panels tint one shared A backdrop rather than repeating filters.

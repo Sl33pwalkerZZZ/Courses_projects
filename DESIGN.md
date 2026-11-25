@@ -96,7 +96,7 @@ Studio: единая боковая навигация248–264px на всех 
 
 Shadow dark:`0 18px 56px rgb(0 6 14 /24%)`; light:`0 18px 56px rgb(43 70 91 /12%)`. Border — тонкий cool outline, не светящийся halo. LiquidEnvironment — оригинальное детерминированное Canvas2D поле деформируемых направленных волн и каустических бликов;160×100,target24fps desktop,96×72,target12fps mobile/≤4CPU. Без WebGL/внешних ассетов. Это целевые частоты, не обещание измеренногоFPS.
 
-Motion feedback120/180/260ms и существующие easing сохранены. ASCII30fpsdesktop/20fpsmobile и≤4CPU, DPR≤1.5/1; pause offscreen/hidden. Один ограниченный parallax−32..12px отдельно от idle-анимации; отключён mobile/reduced motion. Reduced motion статичен. D4 theme-transition choreography ещё не реализована.
+Motion feedback120/180/260ms и существующие easing сохранены. ASCII30fpsdesktop/20fpsmobile и≤4CPU, DPR≤1.5/1; pause offscreen/hidden. Один ограниченный parallax−32..12px отдельно от idle-анимации; отключён mobile/reduced motion. Reduced motion статичен. D4 Liquid Reveal реализован; см. правила ниже и отчёт D4_THEME_TRANSITIONS.md.
 
 ## Shapes
 
@@ -133,4 +133,12 @@ Muted на прозрачных материалах: dark `#C2D1DD`, light `#34
 
 Пиксельный A/B тест реального фильтра подтвердил искажение Chromium. Firefox143 headless SWGL не показал даже обычный backdrop blur в контрольном тесте: подтверждены читаемый tint/edge fallback и reduced-motion, не оптическая эквивалентность. Ручная проверка аппаратного Firefox владельца остаётся обязательной.
 
-Без новых зависимостей и заимствованного кода. Animated liquid/ASCII/auth sculpture сохранены. `createLiquidPixels`160×100: median2.70ms/p954.10ms в Chromium,100 samples; это вычисление, не итоговый FPS. D3.2 sustained24FPS не установлен; не обещать его. Отчёт: [D33](docs/design/D33_LIQUID_GLASS_MATERIALS.md). Визуальная приёмка владельцем ожидается; D4 не начат.
+Без новых зависимостей и заимствованного кода. Animated liquid/ASCII/auth sculpture сохранены. `createLiquidPixels`160×100: median2.70ms/p954.10ms в Chromium,100 samples; это вычисление, не итоговый FPS. D3.2 sustained24FPS не установлен; не обещать его. Отчёт: [D33](docs/design/D33_LIQUID_GLASS_MATERIALS.md). Визуальная приёмка владельцем ожидается. Владелец отдельно разрешил реализацию D4; D5 не начат.
+
+## D4 — Liquid Reveal theme transition (2026-11-25)
+
+Смена темы не является навигацией: один постоянный ThemeProvider, существующий localStorage key/initialization, без cloneDOM/route keys/remount. Origin — центр настоящей кнопки, в том числе при Enter. Runtime-проверка View Transition API и clip-path: новая тема раскрывается оригинальным48-точечным контуром,720ms desktop/560ms mobile, `cubic-bezier(.16,1,.3,1)`. Оба направления раскрывают новую тему поверх старой, без полного opacity fade. Sun/Moon feedback360ms.
+
+Firefox143 без API использует420ms переход реальных цветов/границ/теней и небольшой декоративный ripple; при runtime-отказе snapshot/WAAPI применяется тот же fallback. Reduced motion и скрытый документ меняют тему сразу. Rapid toggle — latest request wins, старые callbacks инвалидируются. По окончании filled WAAPI явно cancel, native snapshot skip/release; все temporary attrs/ripples очищаются.
+
+Liquid field при reveal приостанавливает физическое движение; при fallback смешивает прошлые/новые пиксели420ms без нового full-screen filter. Фокус, scroll, медиаплееры и введённые данные остаются в живом DOM. Не обещать smooth60FPS/устойчивые24FPS по headless кадрам. Фактические проверки, ограничения и личная приёмка: [D4](docs/design/D4_THEME_TRANSITIONS.md).

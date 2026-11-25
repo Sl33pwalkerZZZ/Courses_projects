@@ -20,6 +20,6 @@ test('liquid renderer reuses its buffer and bounds work for mobile',()=>{
 })
 test('decorative liquid lifecycle cancels RAF and listens to visibility, preferences and theme',()=>{
  const source=readFileSync(new URL('../src/components/landing/LiquidEnvironment.jsx',import.meta.url),'utf8')
- for(const requirement of [/aria-hidden="true"/,/document.hidden/,/cancelAnimationFrame/,/reducedMode/,/removeEventListener\('visibilitychange'/,/attributeFilter: \['data-theme'\]/])assert.match(source,requirement)
+ for(const requirement of [/aria-hidden="true"/,/document.hidden/,/cancelAnimationFrame/,/reducedMode/,/removeEventListener\('visibilitychange'/,/attributeFilter: \['data-theme', 'data-theme-transition'\]/])assert.match(source,requirement)
  assert.doesNotMatch(source,/Math.random|getContext\(['"]webgl/)
 })

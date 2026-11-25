@@ -38,7 +38,7 @@ export function createThemeTransition(doc, win) {
     const finish = () => { if (current()) { active?.ripple?.remove(); active = null; delete root.dataset.themeTransition } }
     if (reduced() || doc.hidden) { apply(); return }
     const { x, y } = revealOrigin(rect, win.innerWidth, win.innerHeight)
-    const fallback = () => {
+    const fallback = (commit = apply) => {
       if (!current()) return
       root.dataset.themeTransition = 'fallback'
       const ripple = doc.createElement('div')
@@ -48,7 +48,7 @@ export function createThemeTransition(doc, win) {
       doc.body.append(ripple)
       // Establish old computed colors before changing the theme, including first use.
       void root.offsetWidth
-      apply()
+      commit()
       active = { ripple, timer: win.setTimeout(finish, FALLBACK_DURATION + 80) }
     }
     if (typeof doc.startViewTransition !== 'function' || !win.CSS?.supports('clip-path', 'polygon(0px 0px,1px 0px,0px 1px)')) { fallback(); return }
@@ -67,13 +67,19 @@ export function createThemeTransition(doc, win) {
         })), { duration: win.innerWidth < 768 ? 560 : REVEAL_DURATION, easing: REVEAL_EASING,
           pseudoElement: '::view-transition-new(root)', fill: 'both' })
         active.animation = animation
-        animation.finished.catch(() => {})
+        animation.finished.then(() => {
+          if (!current()) return
+          // Release filled snapshot effects explicitly; some engines otherwise retain them.
+          animation.cancel()
+          transition.skipTransition()
+        }).catch(() => {})
       }).catch(() => {
         if (!current()) return
         // A rejected enhancement must never prevent the requested theme update.
-        if (!applied) update()
+        transition.skipTransition()
+        fallback(() => { if (!applied) update() })
       })
-      transition.finished.catch(() => {}).finally(finish)
+      transition.finished.catch(() => {}).finally(() => { if (active?.transition === transition) finish() })
     } catch { fallback() }
   }
   const interrupt = () => {

@@ -8,7 +8,7 @@
 |---|---|
 | D3.2 | Завершить текущую UX/UI и motion реализацию и проверку; личная визуальная приёмка владельца |
 | D3.3 | Реализованы A/B/C/D материалы, выборочная оригинальная edge refraction Chromium и Firefox frost fallback; browser/tests завершены. Ожидается личная визуальная приёмка владельца; см. D33_LIQUID_GLASS_MATERIALS.md |
-| D4 | Анимированные light/dark transitions |
+| D4 | Liquid Reveal +Firefox fallback/reduced/cleanup реализованы; финальная проверка и личная приёмка владельца — docs/design/D4_THEME_TRANSITIONS.md. D5 не начат |
 | D5 | Каталог и страницы курсов |
 | D6 | Учебное пространство и профиль |
 | D7 | Оставшиеся Studio-specific уточнения и итоговая проверка; общая оболочка уже внедрена D3.2 |
