@@ -11,3 +11,11 @@ media/
 # Private course sources and local database safety copies
 course_sources/
 .local-course-backups/
+
+# Local environment secrets
+.env
+.env.*
+!.env.example
+
+# Vim swap files for the root secret buffer
+..env.sw?

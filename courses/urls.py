@@ -5,8 +5,10 @@ from reviews.views import CourseReviewsView, OwnReviewDetailView
 from .views import CourseDetailView, CourseListView, LessonDetailView, LessonImageView, InstructorCoursePreviewView, LessonAttachmentView
 
 from .video import PlaybackGrantView, PlaybackView
+from .ai_guide_views import AIGuideView
 
 urlpatterns = [
+    path("ai-guide/", AIGuideView.as_view(), name="ai-guide"),
     path('lesson-attachments/<int:pk>/playback-grant/', PlaybackGrantView.as_view(), name='lesson-playback-grant'),
     path('lesson-attachments/<int:pk>/playback/<int:grant_pk>/', PlaybackView.as_view(), name='lesson-playback-scoped'),
     # Read-only compatibility for previously issued, unexpired legacy cookies.

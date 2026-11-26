@@ -1,5 +1,15 @@
 # Current Project State
 
+## Urgent release — AI Guide implemented; credentials and push blocked (2026-11-26)
+
+- Owner paused design work and authorized the release branch, local commits and a push only after the safety audit. Created `release/ai-courses-v1` from `88a9b85`, preserving local work. D5 is committed as `1cd2f7f` with the exact 30 approved paths. D6–D8, RAG, embeddings and certificates were not started.
+- Added authenticated `POST /api/ai-guide/`. Existing `can_access_lesson` authorizes the server-loaded lesson title/text; no quiz keys, submissions or instructor-only records enter the prompt. Groq uses `openai/gpt-oss-20b`, a server-only key, stdlib HTTP, 25-second timeout, 16k context limit, 12 requests/min/user and private/no-store responses. The RU/KK/EN panel keeps chat in React state and cancels stale lesson/session requests.
+- Final checks: backend 23 PASS (15 new +8 existing); frontend 475 PASS; focused 51 PASS; lint/build/system check/whitespace PASS. Chromium checked RU/dark/1440, KK/light/375 and EN/dark/320 against isolated Django8210/Vite5210/SQLite/media. The provider adapter was explicitly synthetic: send, loading, failed-input retention, clear, pending cancellation, lesson reset, 401/403 and overflow checks passed; page/console errors0. This is not real Groq success.
+- Real Groq smoke used only synthetic, non-sensitive context. A standard User-Agent resolved the initial edge403, then Groq returned401 for the root.env credential. The key was not printed, changed or sent to the browser. A valid backend key is still required.
+- Push remains **BLOCKED**: the active literal Django/JWT signing key in tracked `config/settings.py:23` is already exposed in `origin/master`. Settings and history were not changed; no push occurred. External production settings and rotation require a separate owner decision. The history audit scanned 2562 blobs; a SQLite backup in unrelated refs is not reachable from release HEAD. Never use `--all` or `--mirror`.
+- Handoff: `docs/deploy/QUICK_DEPLOY_HANDOFF.md`. Vercel needs `VITE_API_URL=/api` and a same-origin API proxy for protected playback. Backend needs secure production settings, persistent DB/private media, shared cache and a production server. Nothing was deployed; certificates remain disabled and Course10 unpublished.
+- All 117 live SQLite/settings/media hashes are unchanged; integrityOK/FK0; Course8 preserved. The root env/editor swap are ignored. Unrelated local work is preserved. Only explicit D5/AI paths enter local commits; use `git log` for the final AI commit hash.
+
 ## D5 — implementation verified, owner visual acceptance next (2026-11-25)
 
 - D4 explicitly accepted by owner and committed as `88a9b85` on design/graphite-lime. D5 preserves its theme lifecycle and D3.3 Obsidian/Frost/Aqua materials. No D6 work or publication/certificate changes.

@@ -25,6 +25,7 @@ import { mediaLessonSections } from '../utils/mediaLessonPresentation'
 import PracticeCheck from '../components/learning/PracticeCheck'
 import LessonResources from '../components/learning/LessonResources'
 import AssignmentSubmission from '../components/learning/AssignmentSubmission'
+import AIGuide from '../components/learning/AIGuide'
 import './LessonView.css'
 
 export default function LessonView() {
@@ -209,6 +210,7 @@ function LessonWorkspace({ id, courseSlug, preview }) {
         <ReadingProgress />
         {preview && <p className="learning-source-note">{t('instructorPreview.notice')}</p>}
         <LessonMaterial lesson={lesson} preview={preview} />
+        <AIGuide lessonId={lesson.id} />
         {preview && <QuizPreviewNotice courseId={outline.data?.id} />}
         {progress.data && <LessonQuiz key={lesson.id} lessonId={lesson.id} />}
 

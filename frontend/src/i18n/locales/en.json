@@ -1088,5 +1088,23 @@
     "visualCaption": "Learn. Explore. Put it into practice.",
     "footerLearn": "Learning",
     "footerAccount": "Your account"
+  },
+  "aiGuide": {
+    "title": "AI Guide",
+    "close": "Close AI Guide",
+    "description": "Ask about this lesson. AI-generated answers may be inaccurate. Do not send personal or confidential information.",
+    "conversation": "Conversation with AI Guide",
+    "empty": "Ask for an explanation or a practical example. Your conversation stays only on this page.",
+    "you": "You",
+    "answer": "AI Guide",
+    "question": "Your question",
+    "placeholder": "What would you like to clarify about this lesson?",
+    "clear": "Clear conversation",
+    "loading": "Preparing an answer…",
+    "send": "Send",
+    "accessError": "Lesson access could not be confirmed. Sign in and reopen the lesson.",
+    "rateLimit": "Too many requests. Please wait a little and try again.",
+    "unavailable": "AI Guide is temporarily unavailable. Please try again later.",
+    "error": "Could not get an answer. Your question is preserved — please try sending it again."
   }
 }

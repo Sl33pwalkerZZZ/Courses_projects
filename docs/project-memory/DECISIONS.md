@@ -1,5 +1,11 @@
 # Architectural and Project Decisions
 
+## 2026-11-26 — bounded Groq guide and release safety gate
+
+- Owner prioritizes the minimal AI Guide and release over D6–D8. Reuse lesson authorization and a database title/text allowlist; never accept client lesson content or query quiz keys/submissions. Each question is a stateless Groq call; chat stays in React state. This is not RAG. Keep RU/KK/EN, omit reasoning, sanitize provider errors and prohibit response caching. The basic 12/min cache throttle is not a distributed cost quota; deployment needs shared cache and provider budget controls.
+- `/api/ai-guide/` avoids reserving a valid course slug. The guide needs no sibling lesson key because LessonWorkspace already resets by lesson/session. Identical Guide/Quiz keys caused real duplicate DOM and were fixed before committing.
+- Release push authorization depends on whole-history safety. The active tracked Django signing key is already origin-exposed: do not push, rewrite history or change settings silently. Production externalization/rotation needs a separate owner decision, and Groq needs valid backend credentials. Preserve private env files and backups outside Git.
+
 ## D5 — discovery and course information hierarchy (2026-11-25)
 
 - Owner approved preserving the landing hero/ASCII while replacing the catalog grid with horizontal discovery cards, an open course title, a separate access panel and a continuous curriculum. Preserve Obsidian/Frost/Aqua, D3.3 materials and D4 behavior; no new dependencies or theme implementation.
