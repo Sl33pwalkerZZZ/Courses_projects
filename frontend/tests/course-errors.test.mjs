@@ -46,7 +46,7 @@ for (const language of ['en', 'ru', 'kk']) {
     const html = renderError('notFound', language)
     assert.ok(html.includes(translations.get(language).t('course.notFound')))
     assert.match(html, /role="alert"/)
-    assert.match(html, /href="\/"/)
+    assert.match(html, /href="\/#course-library"/)
     assert.doesNotMatch(html, /<button|course\.[a-zA-Z]/)
   })
 
@@ -57,7 +57,7 @@ for (const language of ['en', 'ru', 'kk']) {
       assert.ok(html.includes(i18n.t(key)))
     }
     assert.match(html, /<button type="button" class="btn-primary">/)
-    assert.match(html, /href="\/"/)
+    assert.match(html, /href="\/#course-library"/)
     assert.ok(!html.includes(i18n.t('course.notFound')))
     assert.doesNotMatch(html, /course\.[a-zA-Z]/)
   })

@@ -55,7 +55,7 @@ export default function CourseCatalog() {
     <div className="catalog-page v2-scope graphite-landing">
       <HomeHero />
       <LearningWorkflow />
-      <section id="course-library" className="course-library" aria-labelledby="library-title" aria-busy={!courses && !error}>
+      <section id="course-library" className="course-library course-discovery" aria-labelledby="library-title" aria-busy={!courses && !error}>
         <div className="library-heading gl-library-heading">
           <div><h2 id="library-title">{t('landing.libraryTitle')}</h2>
             <p className="studio-section-description">{t('landing.libraryDescription')}</p></div>

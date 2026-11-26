@@ -8,8 +8,8 @@
 |---|---|
 | D3.2 | Завершить текущую UX/UI и motion реализацию и проверку; личная визуальная приёмка владельца |
 | D3.3 | Реализованы A/B/C/D материалы, выборочная оригинальная edge refraction Chromium и Firefox frost fallback; browser/tests завершены. Ожидается личная визуальная приёмка владельца; см. D33_LIQUID_GLASS_MATERIALS.md |
-| D4 | Liquid Reveal +Firefox fallback/reduced/cleanup реализованы; финальная проверка и личная приёмка владельца — docs/design/D4_THEME_TRANSITIONS.md. D5 не начат |
-| D5 | Каталог и страницы курсов |
+| D4 | Владелец принял; сохранён в `88a9b85` — `feat: finalize liquid reveal theme transitions`. Поведение и материалы сохранены в D5 |
+| D5 | Реализованы горизонтальная витрина, открытый hero курса, отдельная панель доступа и единая программа. Проверка и доказательства: `docs/design/D5_CATALOG_COURSE_REDESIGN.md`. Ожидается визуальная приёмка владельца; D6 не начат |
 | D6 | Учебное пространство и профиль |
 | D7 | Оставшиеся Studio-specific уточнения и итоговая проверка; общая оболочка уже внедрена D3.2 |
 | D8 | Полная проверка дизайна, accessibility, performance и regressions |
@@ -23,7 +23,7 @@
 
 Для F6 сначала оценить подходящие free tiers: лимиты, условия институционального использования, стоимость хранения/трафика, безопасность и надёжность. Провайдеры пока не выбраны. D3.2 не реализует D3.3/D4 или F1–F7; никаких публикаций и включения сертификатов в этом этапе.
 
-Дата: 2026-11-24. Ветка `design/graphite-lime`, исходный checkpoint D0 `888317e`. Основание: [PRODUCT.md](../../PRODUCT.md), [D1 audit](D1_VISUAL_AUDIT.md). **D1–D3 завершены; D4–D8 остаются планом. D2 implementation/evidence: [D2_DESIGN_SYSTEM.md](D2_DESIGN_SYSTEM.md), [DESIGN.md](../../DESIGN.md).**
+Дата: 2026-11-24. Ветка `design/graphite-lime`, исходный checkpoint D0 `888317e`. Основание: [PRODUCT.md](../../PRODUCT.md), [D1 audit](D1_VISUAL_AUDIT.md). **Актуализация2026-11-25: D1–D4 завершены, D4 принят владельцем и сохранён в88a9b85; D5 реализован и ожидает визуальной приёмки; D6–D8 остаются планом. D2 implementation/evidence: [D2_DESIGN_SYSTEM.md](D2_DESIGN_SYSTEM.md), [DESIGN.md](../../DESIGN.md).**
 
 ## D3.1 — уточнение перед D4
 

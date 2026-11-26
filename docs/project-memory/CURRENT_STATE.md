@@ -1,5 +1,13 @@
 # Current Project State
 
+## D5 — implementation verified, owner visual acceptance next (2026-11-25)
+
+- D4 explicitly accepted by owner and committed as `88a9b85` on design/graphite-lime. D5 preserves its theme lifecycle and D3.3 Obsidian/Frost/Aqua materials. No D6 work or publication/certificate changes.
+- Owner-approved horizontal catalog cards, open course title, independent access panel and continuous curriculum implemented using actual API fields. No invented covers/outcomes/progress; original decorative SVG only. Existing enrollment, draft access, review and protected lesson behavior preserved.
+- Focused43PASS, fullfrontend466PASS; final CSS follow-up55PASS, lint/buildPASS; Django check0 and whitespacePASS. Backend unchanged. Real isolated Chromium48layoutcases+4finalmobilecases and enrollment open/approval201; synthetic Course10 student6modules16lessons, outsider404, Studio preview works. Firefox143 nativeBiDi16reducedcases+2finalmobilechecks, nooverflow; focus-ring verification remains manual. No sustainedFPS claim.
+- Report/evidence/exact30-file proposed commit set: docs/design/D5_CATALOG_COURSE_REDESIGN.md. Preview http://127.0.0.1:5205/#course-library → isolatedDjango8205/SQLite/media only. QA enrollmentcourse hidden again. Do not treat temporary preview as deployment.
+- LiveSQLite/settings/media117hashes unchanged, integrityOK/FK0, Course10draft; Course8preserved; indexempty/HEAD88a9b85. Existing unrelated WIP/untracked preserved. D5 uncommitted pending owner visual acceptance; do not automatically startD6.
+
 ## D4 — finalization / manual acceptance pending (2026-11-25)
 
 - Continue existing implementation at HEADf18fda1, no redesign. Current patch fixes runtime native-failure fallback and filled-WAAPI release; source lifecycle assertion updated, theme-transition regression file preserved. Existing palette/glass/state/auth remain unchanged.

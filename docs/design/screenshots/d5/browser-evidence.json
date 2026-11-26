@@ -1,0 +1,836 @@
+{
+  "chromium": {
+    "evidence": [
+      {
+        "name": "catalog",
+        "width": 1440,
+        "theme": "light",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 1440,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 1440,
+        "theme": "light",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 1440,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 1440,
+        "theme": "light",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 1440,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 1440,
+        "theme": "light",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 1440,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 1440,
+        "theme": "light",
+        "lang": "en",
+        "language": "en",
+        "viewport": 1440,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 1440,
+        "theme": "light",
+        "lang": "en",
+        "language": "en",
+        "viewport": 1440,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 1440,
+        "theme": "dark",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 1440,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 1440,
+        "theme": "dark",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 1440,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 1440,
+        "theme": "dark",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 1440,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 1440,
+        "theme": "dark",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 1440,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 1440,
+        "theme": "dark",
+        "lang": "en",
+        "language": "en",
+        "viewport": 1440,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 1440,
+        "theme": "dark",
+        "lang": "en",
+        "language": "en",
+        "viewport": 1440,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 768,
+        "theme": "light",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 768,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 768,
+        "theme": "light",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 768,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 768,
+        "theme": "light",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 768,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 768,
+        "theme": "light",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 768,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 768,
+        "theme": "light",
+        "lang": "en",
+        "language": "en",
+        "viewport": 768,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 768,
+        "theme": "light",
+        "lang": "en",
+        "language": "en",
+        "viewport": 768,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 768,
+        "theme": "dark",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 768,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 768,
+        "theme": "dark",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 768,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 768,
+        "theme": "dark",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 768,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 768,
+        "theme": "dark",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 768,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 768,
+        "theme": "dark",
+        "lang": "en",
+        "language": "en",
+        "viewport": 768,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 768,
+        "theme": "dark",
+        "lang": "en",
+        "language": "en",
+        "viewport": 768,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 375,
+        "theme": "light",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 375,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 375,
+        "theme": "light",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 375,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 375,
+        "theme": "light",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 375,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 375,
+        "theme": "light",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 375,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 375,
+        "theme": "light",
+        "lang": "en",
+        "language": "en",
+        "viewport": 375,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 375,
+        "theme": "light",
+        "lang": "en",
+        "language": "en",
+        "viewport": 375,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 375,
+        "theme": "dark",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 375,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 375,
+        "theme": "dark",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 375,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 375,
+        "theme": "dark",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 375,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 375,
+        "theme": "dark",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 375,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 375,
+        "theme": "dark",
+        "lang": "en",
+        "language": "en",
+        "viewport": 375,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 375,
+        "theme": "dark",
+        "lang": "en",
+        "language": "en",
+        "viewport": 375,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 320,
+        "theme": "light",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 320,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 320,
+        "theme": "light",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 320,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 320,
+        "theme": "light",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 320,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 320,
+        "theme": "light",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 320,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 320,
+        "theme": "light",
+        "lang": "en",
+        "language": "en",
+        "viewport": 320,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 320,
+        "theme": "light",
+        "lang": "en",
+        "language": "en",
+        "viewport": 320,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 320,
+        "theme": "dark",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 320,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 320,
+        "theme": "dark",
+        "lang": "ru",
+        "language": "ru",
+        "viewport": 320,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 320,
+        "theme": "dark",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 320,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 320,
+        "theme": "dark",
+        "lang": "kk",
+        "language": "kk",
+        "viewport": 320,
+        "clipped": 0
+      },
+      {
+        "name": "catalog",
+        "width": 320,
+        "theme": "dark",
+        "lang": "en",
+        "language": "en",
+        "viewport": 320,
+        "clipped": 0
+      },
+      {
+        "name": "course8",
+        "width": 320,
+        "theme": "dark",
+        "lang": "en",
+        "language": "en",
+        "viewport": 320,
+        "clipped": 0
+      },
+      {
+        "interactions": "search,level-filter,reset,empty,theme-preserves-search,keyboard-accordion,theme-preserves-accordion,back-forward",
+        "pass": true
+      },
+      {
+        "reducedMotion": true,
+        "pass": true
+      },
+      {
+        "role": "student",
+        "draft": true,
+        "modules": 6,
+        "lessons": 16,
+        "pass": true
+      },
+      {
+        "role": "outsider",
+        "draftDetail": "notFound",
+        "pass": true
+      },
+      {
+        "role": "admin",
+        "draftDetail": "notFound",
+        "pass": true
+      },
+      {
+        "role": "admin",
+        "instructorPreview": true,
+        "pass": true
+      }
+    ],
+    "errors": [],
+    "forbidden": []
+  },
+  "chromium_fixture_states": [
+    {
+      "lang": "ru",
+      "actualDOM": true
+    },
+    {
+      "lang": "kk",
+      "actualDOM": true
+    },
+    {
+      "lang": "en",
+      "actualDOM": true
+    },
+    {
+      "catalogErrorRetry": true
+    },
+    {
+      "emptyCatalog": true
+    },
+    {
+      "loadingSkeleton": true
+    },
+    {
+      "reviewsAfterScroll": true
+    }
+  ],
+  "firefox": {
+    "cases": [
+      {
+        "name": "catalog",
+        "theme": "light",
+        "lang": "ru",
+        "url": "http://127.0.0.1:5205/?ffqa=1795624208578#course-library",
+        "width": 1440,
+        "scrollWidth": 1428,
+        "actualTheme": "light",
+        "actualLang": "ru",
+        "reduced": true,
+        "title": "Изучайте ИИ.Создавайте своё.",
+        "lessonLinks": 0,
+        "cards": 1,
+        "bodyError": false
+      },
+      {
+        "name": "course8",
+        "theme": "light",
+        "lang": "ru",
+        "url": "http://127.0.0.1:5205/courses/kak-vybrat-neyroset-pod-svoyu-zadachu?ffqa=1795624211952",
+        "width": 1440,
+        "scrollWidth": 1428,
+        "actualTheme": "light",
+        "actualLang": "ru",
+        "reduced": true,
+        "title": "Как выбрать нейросеть под свою задачу",
+        "lessonLinks": 0,
+        "cards": 0,
+        "bodyError": false
+      },
+      {
+        "name": "catalog",
+        "theme": "dark",
+        "lang": "ru",
+        "url": "http://127.0.0.1:5205/?ffqa=1795624215395#course-library",
+        "width": 1440,
+        "scrollWidth": 1428,
+        "actualTheme": "dark",
+        "actualLang": "ru",
+        "reduced": true,
+        "title": "Изучайте ИИ.Создавайте своё.",
+        "lessonLinks": 0,
+        "cards": 1,
+        "bodyError": false
+      },
+      {
+        "name": "course8",
+        "theme": "dark",
+        "lang": "ru",
+        "url": "http://127.0.0.1:5205/courses/kak-vybrat-neyroset-pod-svoyu-zadachu?ffqa=1795624218681",
+        "width": 1440,
+        "scrollWidth": 1428,
+        "actualTheme": "dark",
+        "actualLang": "ru",
+        "reduced": true,
+        "title": "Как выбрать нейросеть под свою задачу",
+        "lessonLinks": 0,
+        "cards": 0,
+        "bodyError": false
+      },
+      {
+        "name": "catalog",
+        "theme": "light",
+        "lang": "kk",
+        "url": "http://127.0.0.1:5205/?ffqa=1795624221976#course-library",
+        "width": 768,
+        "scrollWidth": 756,
+        "actualTheme": "light",
+        "actualLang": "kk",
+        "reduced": true,
+        "title": "ЖИ үйреніңіз.Өзіңіз жасаңыз.",
+        "lessonLinks": 0,
+        "cards": 1,
+        "bodyError": false
+      },
+      {
+        "name": "course8",
+        "theme": "light",
+        "lang": "kk",
+        "url": "http://127.0.0.1:5205/courses/kak-vybrat-neyroset-pod-svoyu-zadachu?ffqa=1795624224703",
+        "width": 768,
+        "scrollWidth": 756,
+        "actualTheme": "light",
+        "actualLang": "kk",
+        "reduced": true,
+        "title": "Как выбрать нейросеть под свою задачу",
+        "lessonLinks": 0,
+        "cards": 0,
+        "bodyError": false
+      },
+      {
+        "name": "catalog",
+        "theme": "dark",
+        "lang": "kk",
+        "url": "http://127.0.0.1:5205/?ffqa=1795624229217#course-library",
+        "width": 768,
+        "scrollWidth": 756,
+        "actualTheme": "dark",
+        "actualLang": "kk",
+        "reduced": true,
+        "title": "ЖИ үйреніңіз.Өзіңіз жасаңыз.",
+        "lessonLinks": 0,
+        "cards": 1,
+        "bodyError": false
+      },
+      {
+        "name": "course8",
+        "theme": "dark",
+        "lang": "kk",
+        "url": "http://127.0.0.1:5205/courses/kak-vybrat-neyroset-pod-svoyu-zadachu?ffqa=1795624235399",
+        "width": 768,
+        "scrollWidth": 756,
+        "actualTheme": "dark",
+        "actualLang": "kk",
+        "reduced": true,
+        "title": "Как выбрать нейросеть под свою задачу",
+        "lessonLinks": 0,
+        "cards": 0,
+        "bodyError": false
+      },
+      {
+        "name": "catalog",
+        "theme": "light",
+        "lang": "en",
+        "url": "http://127.0.0.1:5205/?ffqa=1795624242130#course-library",
+        "width": 375,
+        "scrollWidth": 363,
+        "actualTheme": "light",
+        "actualLang": "en",
+        "reduced": true,
+        "title": "Learn AI.Make it useful.",
+        "lessonLinks": 0,
+        "cards": 1,
+        "bodyError": false
+      },
+      {
+        "name": "course8",
+        "theme": "light",
+        "lang": "en",
+        "url": "http://127.0.0.1:5205/courses/kak-vybrat-neyroset-pod-svoyu-zadachu?ffqa=1795624247613",
+        "width": 375,
+        "scrollWidth": 363,
+        "actualTheme": "light",
+        "actualLang": "en",
+        "reduced": true,
+        "title": "Как выбрать нейросеть под свою задачу",
+        "lessonLinks": 0,
+        "cards": 0,
+        "bodyError": false
+      },
+      {
+        "name": "catalog",
+        "theme": "dark",
+        "lang": "en",
+        "url": "http://127.0.0.1:5205/?ffqa=1795624254724#course-library",
+        "width": 375,
+        "scrollWidth": 363,
+        "actualTheme": "dark",
+        "actualLang": "en",
+        "reduced": true,
+        "title": "Learn AI.Make it useful.",
+        "lessonLinks": 0,
+        "cards": 2,
+        "bodyError": false
+      },
+      {
+        "name": "course8",
+        "theme": "dark",
+        "lang": "en",
+        "url": "http://127.0.0.1:5205/courses/kak-vybrat-neyroset-pod-svoyu-zadachu?ffqa=1795624260783",
+        "width": 375,
+        "scrollWidth": 363,
+        "actualTheme": "dark",
+        "actualLang": "en",
+        "reduced": true,
+        "title": "Как выбрать нейросеть под свою задачу",
+        "lessonLinks": 0,
+        "cards": 0,
+        "bodyError": false
+      },
+      {
+        "name": "catalog",
+        "theme": "light",
+        "lang": "ru",
+        "url": "http://127.0.0.1:5205/?ffqa=1795624267155#course-library",
+        "width": 320,
+        "scrollWidth": 308,
+        "actualTheme": "light",
+        "actualLang": "ru",
+        "reduced": true,
+        "title": "Изучайте ИИ.Создавайте своё.",
+        "lessonLinks": 0,
+        "cards": 2,
+        "bodyError": false
+      },
+      {
+        "name": "course8",
+        "theme": "light",
+        "lang": "ru",
+        "url": "http://127.0.0.1:5205/courses/kak-vybrat-neyroset-pod-svoyu-zadachu?ffqa=1795624270944",
+        "width": 320,
+        "scrollWidth": 308,
+        "actualTheme": "light",
+        "actualLang": "ru",
+        "reduced": true,
+        "title": "Как выбрать нейросеть под свою задачу",
+        "lessonLinks": 0,
+        "cards": 0,
+        "bodyError": false
+      },
+      {
+        "name": "catalog",
+        "theme": "dark",
+        "lang": "ru",
+        "url": "http://127.0.0.1:5205/?ffqa=1795624274842#course-library",
+        "width": 320,
+        "scrollWidth": 308,
+        "actualTheme": "dark",
+        "actualLang": "ru",
+        "reduced": true,
+        "title": "Изучайте ИИ.Создавайте своё.",
+        "lessonLinks": 0,
+        "cards": 2,
+        "bodyError": false
+      },
+      {
+        "name": "course8",
+        "theme": "dark",
+        "lang": "ru",
+        "url": "http://127.0.0.1:5205/courses/kak-vybrat-neyroset-pod-svoyu-zadachu?ffqa=1795624278079",
+        "width": 320,
+        "scrollWidth": 308,
+        "actualTheme": "dark",
+        "actualLang": "ru",
+        "reduced": true,
+        "title": "Как выбрать нейросеть под свою задачу",
+        "lessonLinks": 0,
+        "cards": 0,
+        "bodyError": false
+      }
+    ],
+    "http_error_count": 0,
+    "cancelled_requests": 9,
+    "toggle": {
+      "before": {
+        "url": "http://127.0.0.1:5205/courses/kak-vybrat-neyroset-pod-svoyu-zadachu",
+        "expanded": [
+          "false"
+        ]
+      },
+      "after": {
+        "url": "http://127.0.0.1:5205/courses/kak-vybrat-neyroset-pod-svoyu-zadachu",
+        "expanded": [
+          "false"
+        ],
+        "theme": "dark"
+      }
+    },
+    "focus": {
+      "tag": "A",
+      "label": null,
+      "outline": "none",
+      "shadow": "none",
+      "focusVisible": false
+    },
+    "limitations": "Native Firefox143 BiDi; reduced-motion preference in isolated profile; manual focus-visible check needed. Raw network headers/logs deliberately excluded.",
+    "final_mobile_filters": [
+      {
+        "width": 375,
+        "scrollWidth": 363,
+        "theme": "light",
+        "lang": "ru",
+        "selects": [
+          {
+            "left": 20,
+            "right": 173.5,
+            "top": 541.3333129882812,
+            "width": 153.5
+          },
+          {
+            "left": 189.5,
+            "right": 343,
+            "top": 541.3333129882812,
+            "width": 153.5
+          }
+        ],
+        "firstCourseTop": 744.3333129882812
+      },
+      {
+        "width": 320,
+        "scrollWidth": 308,
+        "theme": "dark",
+        "lang": "ru",
+        "selects": [
+          {
+            "left": 16,
+            "right": 146,
+            "top": 541.3333129882812,
+            "width": 130
+          },
+          {
+            "left": 162,
+            "right": 292,
+            "top": 541.3333129882812,
+            "width": 130
+          }
+        ],
+        "firstCourseTop": 744.3333129882812
+      }
+    ]
+  },
+  "enrollment": {
+    "scope": "Synthetic QA course12 in isolated SQLite only",
+    "open_status": 201,
+    "approval_status": 201,
+    "enrollment_count": 1,
+    "pending_application_count": 1,
+    "qa_course_hidden_after_checks": true
+  },
+  "chromium_focus": [
+    {
+      "tag": "SELECT",
+      "visible": true,
+      "outline": "3px"
+    }
+  ],
+  "chromium_final_mobile_filters": {
+    "cases": 4,
+    "widths": [
+      375,
+      320
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "overflow": false
+  }
+}

@@ -122,3 +122,17 @@ test('module and lesson counts have correct Russian plural forms', () => {
   }
   assert.equal(instance.t('courseOverview.lessonCount', { count: 21 }), '21 урок')
 })
+
+test('complete authorized curriculum retains all modules and lesson links without fabricated progress', () => {
+  const complete = Array.from({ length: 6 }, (_, index) => ({ id: index + 1, order: index + 1,
+    title: `Module ${index + 1}`, lessons: Array.from({ length: index === 5 ? 1 : 3 }, (_, j) => ({
+      id: index * 3 + j + 1, title: `Lesson ${index * 3 + j + 1}`, order: j + 1,
+    })),
+  }))
+  const authorized = render(CourseCurriculum, { modules: complete, canAccessLessons: true })
+  const publicView = render(CourseCurriculum, { modules: complete, canAccessLessons: false })
+  assert.equal((authorized.match(/class="curriculum-module-toggle"/g) || []).length, 6)
+  assert.equal((authorized.match(/href="\/lessons\//g) || []).length, 16)
+  assert.doesNotMatch(publicView, /href="\/lessons\//)
+  assert.doesNotMatch(authorized + publicView, /aria-valuenow|0%|100%|completed/)
+})

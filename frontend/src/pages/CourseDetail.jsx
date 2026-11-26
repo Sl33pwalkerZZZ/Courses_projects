@@ -9,8 +9,6 @@ import CourseEnrollment from '../components/CourseEnrollment'
 import CourseCurriculum from '../components/CourseCurriculum'
 import { CourseCertificateStatus } from '../components/certificates/Certificates'
 import Reveal from '../components/Reveal'
-import AnimatedText from '../components/motion/AnimatedText'
-import CourseJourney from '../components/playground/CourseJourney'
 import { loadCourse } from '../utils/courseDetail'
 import { ContentLanguageNotice } from '../components/learning/LearningContent'
 import './CourseDetail.css'
@@ -24,7 +22,7 @@ export function CourseLoadError({ kind, onRetry }) {
       <p>{t('course.loadErrorDescription')}</p>
       <button type="button" className="btn-primary" onClick={onRetry}>{t('common.retry')}</button>
     </>}
-    <Link className="course-overview-back" to="/"><ArrowLeft size={17} aria-hidden="true" />{t('courseOverview.backToCatalog')}</Link>
+    <Link className="course-overview-back" to="/#course-library"><ArrowLeft size={17} aria-hidden="true" />{t('courseOverview.backToCatalog')}</Link>
   </div>
 }
 
@@ -81,18 +79,16 @@ function CourseContent({ slug, authed }) {
   return (
     <article className="course-overview" ref={pageRef} aria-labelledby="course-overview-title">
       <nav className="course-overview-breadcrumb" aria-label={t('courseOverview.breadcrumb')}>
-        <Link className="course-overview-back" to="/"><ArrowLeft size={16} aria-hidden="true" />{t('courseOverview.backToCatalog')}</Link>
+        <Link className="course-overview-back" to="/#course-library"><ArrowLeft size={16} aria-hidden="true" />{t('courseOverview.backToCatalog')}</Link>
         <span aria-hidden="true">/</span><span>{t('courseOverview.courseLabel')}</span>
       </nav>
 
-      <Reveal className="course-overview-hero" immediate>
+      <Reveal className="course-introduction" immediate>
         <header>
           <div className="course-overview-kicker">
-            <span className="eyebrow">{t('courseOverview.eyebrow')}</span>
             {course.direction?.name && <span className="course-overview-direction">{course.direction.name}</span>}
           </div>
-          <h1 id="course-overview-title" lang={course.content_language || undefined}><AnimatedText text={course.title} /></h1>
-          {course.description && <p className="course-overview-intro" lang={course.content_language || undefined}>{course.description}</p>}
+          <h1 id="course-overview-title" lang={course.content_language || undefined}>{course.title}</h1>
           <ContentLanguageNotice language={course.content_language} />
           <ul className="course-overview-meta" aria-label={t('courseOverview.summaryLabel')}>
             {course.level && <li><span className="course-overview-level">{t(`levels.${course.level}`, { defaultValue: course.level })}</span></li>}
@@ -105,7 +101,6 @@ function CourseContent({ slug, authed }) {
           </ul>
           {course.author && <p className="course-overview-author"><UserRound size={15} aria-hidden="true" />{t('course.author', { author: course.author })}</p>}
         </header>
-        <CourseJourney modules={modules} />
       </Reveal>
 
       <nav className="course-overview-sections" aria-label={t('courseOverview.sectionNavigation')}>
@@ -119,7 +114,6 @@ function CourseContent({ slug, authed }) {
           <Reveal immediate delay={0.1}>
             <div className="course-overview-access" id="course-access">
               <span className="course-overview-access-icon" aria-hidden="true"><BookOpen size={23} strokeWidth={1.4} /></span>
-              <p className="eyebrow">{t('courseOverview.accessEyebrow')}</p>
               <h2 id="course-access-title">{t('courseOverview.accessTitle')}</h2>
               <p className="course-overview-access-policy">{t(course.enrollment_mode === 'open' ? 'courseOverview.openAccess' : 'courseOverview.approvalAccess')}</p>
               <CourseEnrollment course={course} authed={authed} onEnrollmentChange={setEnrollment} />
@@ -130,7 +124,6 @@ function CourseContent({ slug, authed }) {
         <div className="course-overview-main">
           <Reveal immediate delay={0.05}>
             <section className="course-overview-about" id="course-about" aria-labelledby="course-about-title">
-              <p className="eyebrow">{t('courseOverview.aboutEyebrow')}</p>
               <h2 id="course-about-title">{t('courseOverview.about')}</h2>
               <div className="course-overview-description" lang={course.content_language || undefined}>
                 {course.description ? course.description.split(/\n\s*\n/).map((paragraph, index) => <p key={index}>{paragraph}</p>)

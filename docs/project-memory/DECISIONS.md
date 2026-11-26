@@ -1,5 +1,11 @@
 # Architectural and Project Decisions
 
+## D5 — discovery and course information hierarchy (2026-11-25)
+
+- Owner approved preserving the landing hero/ASCII while replacing the catalog grid with horizontal discovery cards, an open course title, a separate access panel and a continuous curriculum. Preserve Obsidian/Frost/Aqua, D3.3 materials and D4 behavior; no new dependencies or theme implementation.
+- The current public course API has no cover image or distinct learning-outcome fields. Use original, decorative SVG geometry and actual direction/title/description/counts, never invented thumbnails, progress, ratings or publication badges. Keep protected lesson links dependent on confirmed enrollment; instructor drafts still use Studio preview.
+- D4 was explicitly accepted and committed as88a9b85. D5 stays uncommitted for owner visual acceptance; D6 and publication/certificate changes require separate tasks. See docs/design/D5_CATALOG_COURSE_REDESIGN.md for exact evidence and limits.
+
 ## D4 — state-preserving theme reveal and snapshot lifecycle (2026-11-25)
 
 - Owner authorized D4 separately; preserve D3.3 materials/palette and all application state. ThemeProvider changes context/dataset only; no subtree cloning/remount/routes. Native reveal is runtime-enhancement, not a permission or session change.

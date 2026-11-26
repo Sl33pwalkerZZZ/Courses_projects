@@ -125,3 +125,18 @@ test('footer keeps authenticated destination and the deferred-route footer stays
   assert.match(legacy, /footer-decoration/)
   assert.doesNotMatch(legacy, /studio-footer/)
 })
+
+for (const lang of ['en', 'ru', 'kk']) {
+  test(`catalog cover is decorative while long API text remains available in ${lang}`, () => {
+    const longCourse = { ...course, title: 'ӘҒҚҢӨҰҮҺІ / Русский / English '.repeat(8),
+      description: 'Complete source description '.repeat(80), review_count: 0, average_rating: null }
+    const html = render(CourseCard, { course: longCourse }, lang)
+    assert.ok(html.includes(longCourse.title))
+    assert.ok(html.includes(longCourse.description))
+    assert.match(html, /class="course-card-cover [^"]+" aria-hidden="true"/)
+    assert.equal((html.match(/<h3 /g) || []).length, 1)
+    assert.equal((html.match(/<a /g) || []).length, 1)
+    assert.doesNotMatch(html, /<img|card-rating-value|aria-valuenow|enrolled|certificate/)
+    assert.ok(html.includes(translations.get(lang).t('card.open')))
+  })
+}

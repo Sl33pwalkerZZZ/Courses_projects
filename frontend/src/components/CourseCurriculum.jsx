@@ -26,7 +26,7 @@ export default function CourseCurriculum({ modules = [], canAccessLessons = fals
   return (
     <section className="course-curriculum" id="course-curriculum" aria-labelledby="course-curriculum-title">
       <div className="course-curriculum-heading">
-        <div><p className="eyebrow">{t('courseOverview.curriculumEyebrow')}</p><h2 id="course-curriculum-title">{t('course.curriculum')}</h2></div>
+        <div><h2 id="course-curriculum-title">{t('course.curriculum')}</h2></div>
         {modules.length > 1 && <button className="curriculum-expand-all" type="button"
           onClick={() => setExpanded(allExpanded ? new Set() : new Set(modules.map((module) => module.id)))}>
           {t(allExpanded ? 'courseOverview.collapseAll' : 'courseOverview.expandAll')}
