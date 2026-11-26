@@ -1,5 +1,11 @@
 # Architectural and Project Decisions
 
+## 2026-11-26 — owner-authorized release rotation and production-only beta
+
+- Supersedes the earlier active-key push blocker: remove the exposed signing key from current source, require a private production environment secret and never accept the historic key as fallback. Leave already-public history unchanged. Local development uses a stable private ignored mode600 key; preserve unrelated local settings changes outside the commit. Production entrypoint is config.production, fails closed, disables DEBUG/issuance, isolates private media and uses SMTP.
+- One release-branch push is authorized after security review. A revoked key in existing public history alone is not a release blocker. No all-ref/mirror/force push.
+- Course10 beta publication is authorized only after actual deployment, private database/media restoration and smoke tests, using existing manual Studio acknowledgements and admin approval. No local SQLite publication and no certificate activation. See deployment handoff for exact gates and known operational limitations.
+
 ## 2026-11-26 — bounded Groq guide and release safety gate
 
 - Owner prioritizes the minimal AI Guide and release over D6–D8. Reuse lesson authorization and a database title/text allowlist; never accept client lesson content or query quiz keys/submissions. Each question is a stateless Groq call; chat stays in React state. This is not RAG. Keep RU/KK/EN, omit reasoning, sanitize provider errors and prohibit response caching. The basic 12/min cache throttle is not a distributed cost quota; deployment needs shared cache and provider budget controls.

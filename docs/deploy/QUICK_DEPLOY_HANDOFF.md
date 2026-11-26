@@ -1,134 +1,98 @@
-# AI Courses — quick deployment handoff
+# AI Courses — release deployment handoff
 
-Дата: 2026-11-26. Repository: https://github.com/Sl33pwalkerZZZ/Courses_projects
+## Release status (2026-11-26)
 
-Release branch: `release/ai-courses-v1`. **Локально подготовлена; push заблокирован проверкой безопасности. Не считать ветку доступной на GitHub или deployment завершённым.**
+Branch: **release/ai-courses-v1**. Existing commits: `1cd2f7f` (D5), `9faa556` (AI Guide); the following security/handoff commit completes this release. Its exact hash is returned in the delivery report; obtain it with `git rev-parse origin/release/ai-courses-v1` after fetch. [Release history](https://github.com/Sl33pwalkerZZZ/Courses_projects/commits/release/ai-courses-v1).
 
-## Стоп-условия перед deployment
+Owner authorizes one branch push and **production-only Course10 beta publication after deployment and smoke tests**, not local database writes. Deployment and publication have **not** been performed. Course8 must remain unchanged. Certificate issuance stays disabled. The ASCII/theme inconsistency is a known nonblocking visual issue; D6–D8/RAG are out of scope.
 
-1. В старой Git-истории `config/settings.py:23` находится используемый literal Django `SECRET_KEY`; он уже присутствует в `origin/master`. Не печатать и не копировать его в production. Нужны отдельно разрешённые внешние production settings и новый случайный ключ. Ротация инвалидирует прежние JWT/сессии. История не переписывалась; удаление строки новым коммитом не устраняет прежнее раскрытие. По текущему заданию settings запрещено менять, поэтому release push остановлен.
-2. Реальный Groq smoke test с локальным ключом получил **HTTP401** после добавления нормального User-Agent. Нужен действующий GroqCloud API key в защищённом окружении backend. Не присылать ключ в чат/GitHub, не использовать `VITE_*` для секрета. Предыдущий запрос default Python urllib UA получил403; клиент теперь идентифицируется `AI-Courses-Guide/1.0`.
-3. Рабочая SQLite, защищённые файлы и production-конфигурация не входят в Git. До переноса владелец должен предоставить согласованный приватный backup и разрешить перенос. Без этого новый deployment будет пустым. Не создавать/публиковать Course10 автоматически.
+Real Groq smoke with the rotated root `.env` key returned **HTTP200**, using synthetic non-sensitive lesson text. No stale process-key override was present; the service sent Bearer authorization to the fixed Groq HTTPS endpoint. Only answer length was recorded, never a key or private course content. Previous401 was superseded by this successful test.
 
-## Проверенный стек и установка
+## Backend configuration — implemented, not hypothetical
 
-- Python: используйте совместимую с `Django==6.1` версию (локально Python3.13); зависимости точно в `requirements.txt`.
-- Node24 локально проверен; Vite8 требует поддерживаемый современный Node. Frontend lockfile уже в репозитории.
-- Runtime web server: Gunicorn не входит в текущие application requirements; hosting должен предоставить его или установить отдельно. Не считать Django runserver production server.
-
-После разрешённого push:
-
-```bash
-git clone --branch release/ai-courses-v1 https://github.com/Sl33pwalkerZZZ/Courses_projects.git
-cd Courses_projects
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-cd frontend
-npm ci
-VITE_API_URL=/api npm run build
-```
-
-Frontend output: `frontend/dist`. Секреты из root `.env` не нужны frontend build.
-
-## Vercel: frontend и same-origin API
-
-Project root: `frontend`, build: `npm run build`, output: `dist`, environment **`VITE_API_URL=/api`** (точное существующее имя). Изменение build variable требует rebuild.
-
-Настройте rewrite `/api/:path*` на `https://YOUR-BACKEND/api/:path*`, затем SPA fallback остальных маршрутов на `/index.html`. Это конфигурация hosting, не уже добавленный `vercel.json`. Реальный backend URL выбирает команда; не оставлять literal YOUR-BACKEND.
-
-**Важно:** защищённый video playback использует same-origin cookie. Прямой `VITE_API_URL=https://other-origin/...` не эквивалентен rewrite и может сломать playback. Proxy должен сохранять `Authorization`, `Set-Cookie`, `Range`, ответы206, `Content-Range`, `Content-Disposition`, `Vary` и private/no-store. Отключить shared/CDN caching для `/api/*`, включая AI Guide. Не открывать `MEDIA_ROOT` публичным static rewrite.
-
-## Backend settings и запуск
-
-`config/settings.py` — существующие dev settings, не безопасная production-конфигурация. Большинство значений сейчас **не читается из env**: простого добавления `DJANGO_SECRET_KEY`, `ALLOWED_HOSTS` или `DATABASE_URL` недостаточно. Их должен прочитать отдельный production settings module, создаваемый teammate после разрешения владельца. В этом релизе такой модуль не добавлен, local settings сохранены.
-
-Минимальные overrides этого модуля:
-
-| Параметр Django | Обязательное решение deployment |
-|---|---|
-| `SECRET_KEY` | Новый случайный секрет из secret manager/env; никогда старый tracked key |
-| `DEBUG` | `False` |
-| `ALLOWED_HOSTS` | Точные backend/frontend hostnames, без схемы и wildcard |
-| `DATABASES` | Persistent SQLite path или отдельно спланированный переход на PostgreSQL; `DATABASE_URL` сам не разбирается текущим кодом |
-| `MEDIA_ROOT` | Постоянный приватный каталог, совпадающий с восстановленными путями БД |
-| `PUBLIC_MEDIA_ROOT` | Отдельный постоянный публичный каталог; не пересекать с private root |
-| `STATIC_ROOT` | Каталог для `collectstatic`, подключённый hosting static delivery |
-| `CACHES` | Общий cache для нескольких workers, иначе guide throttle локален каждому процессу |
-| `CORS_ALLOWED_ORIGINS` | Точные HTTPS origins при реальных cross-origin запросах; не `allow all` |
-| `CSRF_TRUSTED_ORIGINS` | Точные HTTPS origins для Django admin/session flows |
-| HTTPS/cookies | Secure session/CSRF/playback transport, корректный доверенный proxy scheme; HSTS после проверки HTTPS |
-| `CERTIFICATES_ENABLED` | Оставить `False`; сертификаты не включать в этом задании |
-
-Названия env для production (`DJANGO_SECRET_KEY`, `DJANGO_ALLOWED_HOSTS`, `SQLITE_PATH`, `MEDIA_ROOT`, etc.) — договор deployment-модуля, **не уже поддерживаемые переменные текущих dev settings**. Не добавлять их молча и ожидать эффекта. Если используется `SECURE_PROXY_SSL_HEADER`, доверять только контролируемому ingress, который удаляет пользовательскую подделку forwarded headers.
-
-Команды после подготовки settings module (заменить `YOUR_PRODUCTION_SETTINGS` на реально созданный module):
-
-```bash
-DJANGO_SETTINGS_MODULE=YOUR_PRODUCTION_SETTINGS .venv/bin/python manage.py check --deploy
-DJANGO_SETTINGS_MODULE=YOUR_PRODUCTION_SETTINGS .venv/bin/python manage.py showmigrations
-# Перед migrate: consistent backup целевой БД + media, проверить реальный DB path.
-DJANGO_SETTINGS_MODULE=YOUR_PRODUCTION_SETTINGS .venv/bin/python manage.py migrate --plan
-DJANGO_SETTINGS_MODULE=YOUR_PRODUCTION_SETTINGS .venv/bin/python manage.py migrate --noinput
-DJANGO_SETTINGS_MODULE=YOUR_PRODUCTION_SETTINGS .venv/bin/python manage.py collectstatic --noinput
-DJANGO_SETTINGS_MODULE=YOUR_PRODUCTION_SETTINGS .venv/bin/gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 1 --timeout 60
-```
-
-Не выполнять эти шаблонные команды на рабочей локальной SQLite. Сначала rehearsal на изолированной копии. В production перенос существующего курса — восстановление согласованной БД/файлов, а не безусловный повторный importer/создание курса. Проверить integrity/FK и publication Course10=False. SQLite требует persistent writable volume, один экземпляр приложения и резервное копирование SQLite backup API; ephemeral filesystem hosting непригоден.
-
-Для локального development уже существует `.venv/bin/python manage.py runserver 127.0.0.1:8000`; текущий Vite dev proxy направляет `/api` туда. Он не является isolated test server.
-
-## Groq AI Guide
-
-Фактически поддерживаются backend env:
+Use **DJANGO_SETTINGS_MODULE=config.production**, not development `config.settings`. Required process environment:
 
 ```text
-GROQ_API_KEY
+DJANGO_SETTINGS_MODULE=config.production
+DJANGO_ENV=production
+DJANGO_DEBUG=false
+DJANGO_SECRET_KEY=<new private random key, at least 50 characters>
+DJANGO_ALLOWED_HOSTS=<exact API hostname, comma separated if needed>
+SQLITE_PATH=<absolute persistent path to restored database>
+DJANGO_MEDIA_ROOT=<absolute private attachment/media directory>
+DJANGO_PUBLIC_MEDIA_ROOT=<separate absolute public cover/image directory>
+DJANGO_STATIC_ROOT=<absolute collected-static directory>
+GROQ_API_KEY=<private rotated provider key>
 GROQ_MODEL=openai/gpt-oss-20b
-DJANGO_SETTINGS_MODULE  # стандартный Django выбор module
+DJANGO_CSRF_TRUSTED_ORIGINS=<exact HTTPS frontend origin>
+DJANGO_CORS_ALLOWED_ORIGINS=<exact HTTPS frontend origin, only if needed>
+DJANGO_EMAIL_HOST=<production SMTP server>
+DJANGO_EMAIL_PORT=587
+DJANGO_EMAIL_HOST_USER=<SMTP username>
+DJANGO_EMAIL_HOST_PASSWORD=<private SMTP credential>
+DJANGO_DEFAULT_FROM_EMAIL=<authorized sender>
 ```
 
-В dev allowlist loader читает только две GROQ переменные из root `.env`, если они не заданы в process env; без shell/interpolation. В production предпочтителен secret manager/process env. Пустой process env намеренно перекрывает `.env`. `.env`, `.env.*` игнорируются Git; `.env.example` исключение не содержит реального ключа. Editor swap `..env.swp` также нельзя добавлять/передавать.
+Generate the new signing key inside the hosting secret manager; never copy the historic public key. `config.security` rejects missing/weak/public-development keys in production and rejects DEBUG=true. `SECRET_KEY_FALLBACKS=[]`: old signed sessions/JWTs must be invalidated; users sign in again. The historic revoked key remains in already-public history by explicit owner decision; no history rewrite or force push.
 
-Endpoint: **POST `/api/ai-guide/`**, `Authorization: Bearer <current access JWT>`, JSON `{lesson_id, question, language}`. Question backend1–2000 chars, UI до1000; language ru/kk/en. Только существующий доступ к уроку (зачисление/владелец/модератор), не публичный catalog access. Контекст берётся сервером: title/text текущего урока до16000 chars. Никаких client lesson body, quiz keys, instructor notes, submissions или attachment credentials. Ответ `{answer}`; no-store; timeout25s; output bounded;12/min/user.
+For local development only, an absent process key generates a stable mode600 `.local-django-secret`, atomically and outside version control. **Do not deploy that file.** DJANGO_SECRET_KEY is read from process environment, not implicitly from root `.env`. The Groq client separately reads only GROQ_API_KEY/GROQ_MODEL from root `.env` when no process variable exists; production should use secret-manager environment. Restart workers after rotating either credential. Never log Authorization, prompts, learner responses or `.env`.
 
-Это **не RAG**, не multi-turn server memory, не проверка работ. История только React state до смены урока/сессии, до20 пар; не сохраняется в БД. Модель должна различать материал урока и общие знания, но её ответы могут ошибаться. Защита от выдачи настоящих quiz keys обеспечивается отсутствием ключей в запросе; абсолютной гарантии, что общая модель не решит учебную задачу сама, нет.
+Production settings force HTTPS redirect, secure cookies, DEBUG=false and certificate issuance=false. Only behind a trusted ingress which strips client-supplied forwarded headers, set `DJANGO_TRUST_PROXY_HTTPS=true`. HSTS is one year for this host. `check --deploy` intentionally retains W005/W021 until the domain owner explicitly approves all-subdomain HTTPS/preload; do not enable preload blindly. SMTP configuration is required operationally; no email delivery was tested.
 
-Smoke test после настройки:
-
-1. Войти синтетическим студентом на изолированном rehearsal, получить доступ к синтетическому уроку без персональных данных.
-2. Нажать AI-помощник → отправить короткий вопрос → увидеть ответ; в Network должен быть200 от `/api/ai-guide/`, без ключа.
-3. Проверить очистку, переход к другому уроку/выход, ошибки и лимит; чужой пользователь не должен получить контекст.
-4. Для внешнего Groq включить действующий backend key; не логировать Authorization, prompt, ответы студента или root.env. HTTP401 означает отклонённый ключ,429 — лимит провайдера,502/504 — безопасно обработанный сбой/timeout.
-
-## Медиа и курс
-
-Перенести приватно все файлы, на которые ссылаются restored DB attachments/images/submissions, сохраняя относительные пути и SHA-256. Module5 финальные9MP4/VTT не скачиваются из Git. Не использовать случайные previews вместо финалов. Проверить реальные Range/seek, captions, permissions после HTTPS proxy. Public assets выдавать отдельно; каталоги `lessons`/`submissions` не должны становиться публичными.
-
-Course8 не менять; Course10 остаётся draft. Publication acknowledgement/request/admin approval — отдельный авторизованный этап. Certificates остаются выключены; issuer/origin/policy не настраивались.
-
-## Результаты этого этапа
-
-- D5 сохранён локально: `1cd2f7f` — `feat: redesign course catalog and course details`, ровно30 путей из D5 плана.
-- AI Guide: backend23/23 (15 новых +8 существующих course authorization), frontend focused51/51, полныйfrontend475/475, lint/build/system check/whitespace — результаты финальной проверки. Поведение финального `/api/ai-guide/` дополнительно проверено отдельно; route не перехватывает course slug `ai-guide`.
-- Chromium с настоящими Django8210, Vite5210, изолированной пустой SQLite/media и синтетическими аккаунтами: RU dark1440, KK light375, EN dark320. External provider в этом браузерном окружении заменён явно синтетическим adapter; это проверка UI/API, **не успешный ответ Groq**. Loading, ответ, сохранение вопроса при502, очистка, отмена pending, reset при смене урока,401anonymous/403outsider и отсутствие overflow проверены. Финальные machine-readable результаты временно в `/tmp/ai-release-browser/results.json`.
-- Браузер выявил и помог исправить одинаковые sibling keys AI Guide/Quiz; лишний key убран, родительский reset по lesson/session сохранён, regression добавлен. Финальные прогоны выполнялись после полной загрузки, не на испорченном HMR DOM.
-- Реальный Groq запрос отправлял только синтетический несекретный контекст. Финальный HTTP401: локальный ключ из root.env присутствует и имеет ожидаемую форму, но провайдер его отклонил. Секрет не выводился, в browser/build не передаётся. End-to-end external LLM success **не подтверждён**.
-- Независимый security review: новых доступных auth/context утечек в AI пути не обнаружено. Push всё равно **BLOCKED** старым используемым tracked SECRET_KEY. Просмотрены2562 Git blobs всех refs; backup SQLite blob найден только в другом недостижимом из release ref, не включается в отправку. Нельзя использовать `--all`/`--mirror`.
-- Никаких новых моделей/миграций, изменений рабочей SQLite, настроек или publication/сертификатных правил. Все117 исходных защищаемых hash совпали; SQLite integrityOK/FK0, Course8published=True/Course10published=False. Итоговая проверка записана в project-memory. Локальные `.env` и swap исключены из Git; рабочие untracked материалы сохранены.
-
-Backend verification воспроизводится только с отдельными test settings/БД. В выполненном прогоне временный `ai_guide_test_settings` задавал SQLite `:memory:`, LocMem cache и `/tmp/ai-guide-test-media`:
+Use persistent writable SQLite with one application instance/worker initially. Requirements install Django/DRF; install a production WSGI server such as gunicorn in the deployment environment (not bundled in current requirements). Current LocMem throttle is per-process, not a global spending quota: multiple workers/instances require a shared cache via a reviewed deployment override and provider budget limits.
 
 ```bash
-PYTHONPATH=/tmp:$PWD .venv/bin/python manage.py test courses.test_ai_guide courses.tests --settings=ai_guide_test_settings --noinput
-cd frontend
-node --test tests/ai-guide.test.mjs tests/lesson-workspace.test.mjs
-node --test tests/*.test.mjs
-npm run lint
-npm run build
+# Environment variables above must already be set securely.
+.venv/bin/python manage.py check --deploy
+.venv/bin/python manage.py showmigrations
+.venv/bin/python manage.py migrate --plan
+# Only against the backed-up deployment DB after isolated rehearsal:
+.venv/bin/python manage.py migrate --noinput
+.venv/bin/python manage.py collectstatic --noinput
+.venv/bin/gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 1 --timeout 60
 ```
 
-Временный test module не входит в Git: teammate должен создать эквивалент вне репозитория прежде запуска, а не направлять команды на production settings. Адаптер использует только stdlib, новых Python/JS зависимостей нет.
+Never point these deployment commands at the working local SQLite. Do not expose Django's dev server publicly.
 
-Groq API/model параметры сверены с [официальной API reference](https://console.groq.com/docs/api-reference) и [GPT-OSS reasoning documentation](https://console.groq.com/docs/reasoning): отдаётся только `message.content`, `include_reasoning=false`, неподдерживаемый для20b `reasoning_format` не используется.
+## Frontend, reverse proxy and protected media
 
-Deployment не выполнен. Никакие секреты, рабочая SQLite, приватные uploads или backups не отправлены на GitHub.
+Build `frontend/` with `npm ci && npm run build`, `VITE_API_URL=/api`. On Vercel or equivalent, configure a **same-origin `/api` reverse proxy** to the HTTPS Django backend; a cross-origin base URL alone is insufficient for protected playback cookies. Preserve Authorization, Set-Cookie, Cookie, Range/If-Range, Content-Range,206 and streaming. Never cache personalized/private API/media responses or add CDN public caching to them. Serve collected static files and the separate public-media directory through the ingress; never serve the private media root as a public directory. Test actual proxy cookie behavior before launch.
+
+No secrets belong in VITE_* variables, build artifacts or Git. Groq endpoint is `POST /api/ai-guide/`, authenticated, with `{lesson_id, question, language}`. Lesson authorization is checked server-side; only lesson title/text enters the provider request, not quiz keys, student submissions or private attachments. Stateless calls,25s timeout,12/min/user, no-store. This is not RAG or automatic grading; answers can be wrong.
+
+## Authorized data/media transfer
+
+Git is **not** a database/media backup. Transfer a consistent private SQLite backup (SQLite backup API) plus all referenced protected media from the verified owner recovery archives over a private channel. Record SHA256, restore outside the repository, verify SQLite integrity/FK and every referenced file before starting the backend. Preserve attachment IDs, paths, question/choice IDs, quiz attempts and student records. Do not copy arbitrary previews instead of the approved nine Module5 final MP4 and corresponding VTT. Public images and private attachments have distinct roots.
+
+Prefer restoring the current verified database/media, not recreating courses or blindly reapplying create-only importers. Canonical module JSON/importers are source/recovery evidence, not a complete export of learner state; Module1 additionally needs the private source document. Module6 importer conflicts with an already-published Quiz5 by design. C1/C2 are already applied to the local source database. On the restored **still-unpublished Course10**, verify without changes:
+
+```bash
+.venv/bin/python manage.py correct_course10_editorial --dry-run
+.venv/bin/python manage.py reorder_course10_quiz5 --dry-run
+```
+
+Expect no C1 text changes and C2 already-applied/no changes. Stop on conflicts; do not rerun apply without a separate reviewed plan. Confirm Course10 six modules/16lessons, Course8 unchanged, Quiz5 published/15questions/70%, assignment rubric unchanged, certificate policy disabled.
+
+## Course10 beta publication — exact production-only Studio workflow
+
+After production HTTPS, DB/media restoration and access/playback smoke succeed:
+
+1. Author or authorized administrator opens `/instructor/courses/10/publication`; preview `/instructor/courses/ai-media-content/preview`.
+2. Manually review both acknowledgements: «Я проверил источник, факты, ссылки и материалы уроков» and «Я проверил каждый вопрос, правильный ответ и пояснение». Do not auto-check them. Existing nonblocking editorial note: verify the course description represents the whole course rather than only Module1.
+3. If desired, the owner may use the existing course editor to add a truthful localized beta notice after reviewing translations. No automatic beta flag or content edit was introduced in this release.
+4. «Отправить на проверку» and confirm. Existing API: POST `/api/studio/courses/10/publication/`, source_reviewed=true, assessment_reviewed=true.
+5. An active **admin role or superuser** opens `/instructor/reviews` (`is_staff` alone is insufficient), reviews course/source/test, checks «Я проверил источник, уроки, тест и требования публикации», then «Одобрить и опубликовать». Existing decision API: POST `/api/studio/reviews/{request_id}/decision/`, decision=approve.
+6. Confirm actual production Course10 becomes visible publicly and lessons remain enrollment-protected. Certificate issuance/policy must remain off. No such action has been taken locally.
+
+Existing server gates: title/description, lessons and no empty modules, each lesson title/content, at least one valid quiz, both acknowledgements; quiz pass score0–100, nonempty questions, at least two nonempty choices and valid correct-answer cardinality. Duplicate pending requests are rejected. Approval rechecks the content fingerprint atomically; changed content requires rejection/new submission. Approval publishes the course/quizzes and records source review, not certificate activation.
+
+## Minimal deployment smoke / verification evidence
+
+- Anonymous catalog and published-course detail; draft requests denied. Synthetic enrolled student sees all six modules/16lessons; unrelated account cannot read lessons/files/submissions.
+- All nine videos: play, Range seek, reopen, concurrent grants and113→114→113; correct captions can be enabled; audio and permitted downloads work. Check proxy preserves per-grant cookie paths and revocation.
+- Login/refresh/logout/account switch; lesson progress restoration, quiz/assignment and Studio preview. Use synthetic rehearsal data; do not mutate real learner progress.
+- Groq one non-sensitive authorized request returns200, no key in browser; unauthorized lesson access is denied. Check error and quota handling without flooding provider.
+- Existing certificate owner preview/download remains authenticated; no new issuance. Public verification stays unavailable until separately configured/authorized.
+- Verify SMTP delivery and persistent backup/restore operationally; neither is proven by a source push.
+
+This release verification:29 isolated Django tests (security6 + AI/authorization23), system check and whitespace checks. Production deployment check has zero errors and the two intentional HSTS warnings above. Earlier AI commit evidence remains backend23, frontend475,lint/build, isolated Chromium UI/API; those browser tests used a synthetic provider. The new real Groq200 is a separate server-client smoke, not production browser/deployment approval. Native security_reviewer reviewed the security implementation; final staged review excludes unrelated local settings, databases, credentials, backups and generated media.

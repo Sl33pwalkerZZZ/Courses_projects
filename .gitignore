@@ -19,3 +19,6 @@ course_sources/
 
 # Vim swap files for the root secret buffer
 ..env.sw?
+
+# Private local signing key; production always requires DJANGO_SECRET_KEY
+.local-django-secret*

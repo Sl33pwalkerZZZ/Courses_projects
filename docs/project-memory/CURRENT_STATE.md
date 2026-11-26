@@ -1,5 +1,12 @@
 # Current Project State
 
+## Release unblock — rotated credentials and production handoff (2026-11-26)
+
+- Supersedes the historical blocked entry below: owner explicitly authorizes removal of the public signing key, secure production settings and one release/ai-courses-v1 push. Existing D5/AI commits are preserved. No history rewrite.
+- Real Groq smoke with rotated root.env key: HTTP200, synthetic non-sensitive context, no stale process override or credential output. This is separate from previous synthetic browser evidence.
+- config.security provides private atomic/stable ignored local signing key; config.production requires a new environment secret, DEBUG=false, no fallbacks, private/public persistent media isolation, HTTPS/secure cookies and SMTP environment configuration. Existing unrelated local settings edits remain local. New signing key invalidates old sessions; users reauthenticate.
+- Owner authorizes Course10 beta publication only in actual production after restore/smoke and existing Studio author/admin workflow. No local database writes/publication, certificate activation or Course8 changes. Handoff: docs/deploy/QUICK_DEPLOY_HANDOFF.md. Deployment remains pending; SMTP, proxy behavior and global throttle require operational verification.
+
 ## Urgent release — AI Guide implemented; credentials and push blocked (2026-11-26)
 
 - Owner paused design work and authorized the release branch, local commits and a push only after the safety audit. Created `release/ai-courses-v1` from `88a9b85`, preserving local work. D5 is committed as `1cd2f7f` with the exact 30 approved paths. D6–D8, RAG, embeddings and certificates were not started.
